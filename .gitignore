@@ -87,3 +87,7 @@ CrizaVoise_Prompt.md
 
 # PDFs written by the test suite
 /output/
+
+# Brand tool deps and previews
+/tool/brand/node_modules/
+/tool/brand/preview/

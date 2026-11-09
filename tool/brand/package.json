@@ -1,0 +1,10 @@
+{
+  "name": "crizavoise-brand-tools",
+  "private": true,
+  "description": "Builds CrizaVoise logo SVGs, icons, the Windows .ico and the OG image. See docs/brand.md.",
+  "scripts": {
+    "build": "node build-brand.js ../.. ../../assets/fonts ../../docs/brand",
+    "preview": "node build-brand.js ../.. ../../assets/fonts ./preview --preview-only"
+  },
+  "dependencies": { "fontkit": "2.0.4", "sharp": "0.33.5" }
+}

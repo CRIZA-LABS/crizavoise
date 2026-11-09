@@ -23,7 +23,7 @@ dart run flutter_launcher_icons        # regenerate icons from assets/brand/icon
 
 ## Brand & tokens
 - Name **CrizaVoise** (capital C and V). The credit line is "CrizaVoise by Criza Labs". Never imply Criza Labs wrote the original codebase. Rules are in `docs/brand.md`.
-- Logo = **"Ribbon V"**: red short arm + blue long arm (Criza ribbons) folded at a mitred vertex, horizontal tip cuts (the Criza "A" inverted), on the Criza navy plate. Assets are in `assets/brand/` (paths in `lib/theme/brand_assets.dart`); the rules are in `docs/brand.md`. Use the compact lockup under 48px and `mark-small.svg` under 48px. The Windows `.ico` (14 sizes) and web icons come from the brand script, NOT flutter_launcher_icons.
+- Logo = **"Ribbon V"**: red short arm + blue long arm (Criza ribbons) folded at a mitred vertex, horizontal tip cuts (the Criza "A" inverted), on the Criza navy plate. Assets are in `assets/brand/` (paths in `lib/theme/brand_assets.dart`); the rules are in `docs/brand.md`. Use the compact lockup under 48px and `mark-small.svg` under 48px. The Windows `.ico` (14 sizes), web icons and OG image come from `tool/brand` (`npm install && npm run build`), NOT flutter_launcher_icons.
 - **Tokens: `lib/theme/tokens.dart` is the single source** (CvColors light/dark, CvType, CvSpace, CvRadius, CvElevation, CvMotion, CvZ, plus the `CrizaTokens` ThemeExtension). `lib/theme/app_theme.dart` builds ThemeData from them. Don't hard-code colors in widgets.
 - Fonts: Inter (body) and Bricolage Grotesque (headings) as variable TTFs, with Noto Devanagari/Tibetan fallbacks. All are OFL/permissive and listed in `THIRD_PARTY_NOTICES.md`.
 - Contrast is enforced by `test/theme_contrast_test.dart` (WCAG AA, both themes).
