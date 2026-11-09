@@ -1,5 +1,5 @@
-import 'package:invoiso/database/report_service.dart';
-import 'package:invoiso/repositories/report_repository.dart';
+import 'package:crizavoise/database/report_service.dart';
+import 'package:crizavoise/repositories/report_repository.dart';
 
 class SqliteReportRepository implements ReportRepository {
   @override

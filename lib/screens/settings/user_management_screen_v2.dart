@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/utils/password_utils.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/utils/password_utils.dart';
 
 class UserManagementScreenV2 extends ConsumerStatefulWidget {
   final User currentUser;

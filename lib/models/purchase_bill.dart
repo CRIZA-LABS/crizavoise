@@ -1,6 +1,6 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/domain/purchase_bill_calculator.dart';
-import 'package:invoiso/domain/purchase_bill_totals_calculator.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/domain/purchase_bill_calculator.dart';
+import 'package:crizavoise/domain/purchase_bill_totals_calculator.dart';
 import 'purchase_bill_item.dart';
 import 'supplier_payment.dart';
 

@@ -2,10 +2,10 @@
 // against the real schema on an in-memory sqflite_common_ffi database.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:invoiso/database/cash_ledger_service.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/models/cash_ledger_entry.dart';
-import 'package:invoiso/services/exchange_receipt_service.dart';
+import 'package:crizavoise/database/cash_ledger_service.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
+import 'package:crizavoise/services/exchange_receipt_service.dart';
 
 void main() {
   setUpAll(() {

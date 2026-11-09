@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/domain/purchase_bill_totals_calculator.dart';
+import 'package:crizavoise/domain/purchase_bill_totals_calculator.dart';
 
 class PurchaseBillItem {
   String id;

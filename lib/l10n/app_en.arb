@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "Invoiso",
+  "appTitle": "CrizaVoise",
   "@appTitle": {
     "description": "The application title"
   },
@@ -105,7 +105,6 @@
   "dashboardRoleAdmin": "Admin",
   "dashboardRoleUser": "User",
   "dashboardSupportTooltip": "Support",
-  "buyMeCoffeeLabel": "Buy me a coffee",
   "dashboardLogoutTooltip": "Logout",
   "dashboardTestBuildBadge": "TEST BUILD",
   "dashboardTestBadgeShort": "TEST",
@@ -129,10 +128,10 @@
       }
     }
   },
-  "dashboardSupportBannerReviewSubtitle": "Enjoying Invoiso? A quick review helps a lot.",
-  "dashboardSupportBannerSupportSubtitle": "Looks like Invoiso is part of your workflow. If it's been helpful, consider supporting the project — whenever it feels right.",
-  "dashboardReviewAction": "Review",
-  "dashboardSupportAction": "Support",
+  "dashboardSupportBannerReviewSubtitle": "Enjoying CrizaVoise? Tell us what's working and what isn't.",
+  "dashboardSupportBannerSupportSubtitle": "Looks like CrizaVoise is part of your workflow. Questions or ideas? We'd love to hear from you.",
+  "dashboardReviewAction": "Share feedback",
+  "dashboardSupportAction": "Contact us",
   "dashboardOverviewTitle": "Dashboard Overview",
   "actionRefresh": "Refresh",
   "helpSearchTooltip": "Search Help & Settings",
@@ -2291,28 +2290,14 @@
   "companyInfoHintExampleAccountLabel": "e.g. Main Account",
   "actionConfirm": "Confirm",
   "actionShare": "Share",
-  "appInfoTitle": "Software Information",
+  "appInfoTitle": "About CrizaVoise",
   "appInfoAppDetailsTitle": "APP DETAILS",
   "appInfoAppNameLabel": "App Name",
   "appInfoVersionLabel": "Version",
   "appInfoLicenseLabel": "License",
-  "appInfoDeveloperTitle": "DEVELOPER",
-  "appInfoDeveloperLabel": "Developer",
+  "appInfoDeveloperTitle": "MADE BY",
+  "appInfoDeveloperLabel": "Maker",
   "appInfoSupportEmailLabel": "Support Email",
-  "appInfoFooterCopyright": "© {year} {developer}  |  Released under the {license} License",
-  "@appInfoFooterCopyright": {
-    "placeholders": {
-      "year": {
-        "type": "int"
-      },
-      "developer": {
-        "type": "String"
-      },
-      "license": {
-        "type": "String"
-      }
-    }
-  },
   "appInfoCheckingLabel": "Checking...",
   "appInfoUpdateAvailableLabel": "Update Available",
   "appInfoUpToDateLabel": "Up to date",
@@ -2463,15 +2448,17 @@
   "settingsNavProductDetailsLabel": "Product Details",
   "settingsNavCustomizeLabel": "Customize",
   "settingsNavAccessibilityLabel": "Accessibility",
-  "settingsNavSoftwareInfoLabel": "Software Info",
+  "settingsNavSoftwareInfoLabel": "About",
   "companyMgmtTitle": "Manage Companies",
   "companyMgmtActiveBadge": "Active",
   "companyMgmtSwitchButton": "Switch",
   "companyMgmtSwitchConfirmTitle": "Switch Company?",
-  "companyMgmtSwitchConfirmBody": "Invoiso will restart to switch to \"{name}\".",
+  "companyMgmtSwitchConfirmBody": "CrizaVoise will restart to switch to \"{name}\".",
   "@companyMgmtSwitchConfirmBody": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "companyMgmtNewCompanyButton": "+ New Company",
@@ -2482,7 +2469,9 @@
   "companyMgmtDeleteConfirmTitle": "Delete \"{name}\"?",
   "@companyMgmtDeleteConfirmTitle": {
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
   "companyMgmtDeleteConfirmBody": "This permanently deletes all of this company's data and cannot be undone. Type the company name to confirm.",
@@ -2498,42 +2487,29 @@
     }
   },
   "companyMgmtSwitchRestartTitle": "Company Switched",
-  "companyMgmtSwitchRestartBody": "Invoiso needs to restart to finish switching companies. Please close and reopen the application.",
+  "companyMgmtSwitchRestartBody": "CrizaVoise needs to restart to finish switching companies. Please close and reopen the application.",
   "companyMgmtCreateRestartTitle": "Company Created",
   "companyMgmtCreateRestartBody": "Your new company is ready. Please close and reopen the application to continue.",
   "companyMgmtDeletedMessage": "Company deleted",
   "companyMgmtDeleteRestartTitle": "Company Deleted",
-  "companyMgmtDeleteRestartBody": "The company was deleted and Invoiso switched to another one. Please close and reopen the application to continue.",
+  "companyMgmtDeleteRestartBody": "The company was deleted and CrizaVoise switched to another one. Please close and reopen the application to continue.",
   "companyMgmtOnlyCompanyTooltip": "You need at least one other company before you can delete this one",
   "loginCompanyGearTooltip": "Manage companies",
   "loginCompanySelectorLabel": "Company",
   "customizationEyebrowLabel": "CUSTOMIZATION",
   "customizationHeadline": "Tailored just for your business",
-  "customizationSubtitle": "Pick what you need and send a request. We'll get back to you within 24 hours.",
+  "customizationSubtitle": "Pick what you need and send a request. We'll reply with a personal quote.",
   "customizationRecommendedBadge": "Recommended",
-  "customizationDeliveryLabel": "Delivery: {delivery}",
-  "@customizationDeliveryLabel": {
-    "placeholders": {
-      "delivery": {
-        "type": "String"
-      }
-    }
-  },
   "customizationRequestButton": "Request",
-  "customizationFormOpenErrorMessage": "Could not open the form. Please visit forms.gle/LyX6Z2kBNR2BpwVu7 in your browser.",
-  "customizationDisclaimerMessage": "Prices are indicative. Final quote may vary based on complexity. Payment is collected after scope agreement.",
+  "customizationDisclaimerMessage": "Every request gets a personal quote based on its scope. For anything else, write to {email}.",
   "customizationPdfTemplateTitle": "Custom PDF Template",
   "customizationPdfTemplateDescription": "Get an invoice template designed to match your brand — your colors, fonts, logo placement, and layout.",
-  "customizationPdfTemplateDelivery": "2–5 days",
   "customizationCustomFieldsTitle": "Custom Fields",
   "customizationCustomFieldsDescription": "Need extra fields on your invoices? (PO number, project code, department, etc.) We'll add them for you.",
-  "customizationCustomFieldsDelivery": "1–3 days",
   "customizationWhiteLabelTitle": "White-label / Remove Branding",
-  "customizationWhiteLabelDescription": "Remove all Invoiso branding from the app and PDF outputs, and replace it with your own company identity.",
-  "customizationWhiteLabelDelivery": "3–6 days",
+  "customizationWhiteLabelDescription": "Remove all CrizaVoise branding from the app and PDF outputs, and replace it with your own company identity.",
   "customizationIndustryBuildTitle": "Industry-specific Build",
   "customizationIndustryBuildDescription": "Need a version tailored to your industry? (construction, consulting, retail, etc.) We'll customise the workflow to fit your needs.",
-  "customizationIndustryBuildDelivery": "5–10 days",
   "accessibilityCreateInvoiceLayoutSectionTitle": "New Create Invoice Page Layout",
   "accessibilityClassicLayoutLabel": "Classic layout",
   "accessibilityNewLayoutLabel": "New layout",
@@ -2749,7 +2725,7 @@
   "customerInfoButtonTooltip": "View contact details",
   "customerInfoButtonNoContactMessage": "No contact details available.",
   "updateDialogTitle": "Update Available",
-  "updateDialogBodyMessage": "A new version of invoiso is available. Visit the download page to get the latest release.",
+  "updateDialogBodyMessage": "A new version of CrizaVoise is available. Visit the download page to get the latest release.",
   "pageSizeA4Label": "Standard A4",
   "pageSizeA5Label": "Standard A5",
   "pageSizeA6Label": "Standard A6",
@@ -2772,21 +2748,37 @@
   "shortcutPrintPdfDescription": "Generate / print invoice PDF",
   "supplierMgmtLoadErrorMessage": "Failed to load suppliers: {error}",
   "@supplierMgmtLoadErrorMessage": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "supplierMgmtAddedMessage": "Supplier added successfully!",
   "supplierMgmtUpdatedMessage": "Supplier updated successfully!",
   "supplierMgmtSaveErrorMessage": "Error saving supplier: {error}",
   "@supplierMgmtSaveErrorMessage": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "supplierMgmtOutstandingLabel": "Outstanding: {amount}",
   "@supplierMgmtOutstandingLabel": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "supplierMgmtMoveToTrashBody": "Move \"{name}\" to trash? Existing purchase bills keep showing their snapshotted supplier name.",
   "@supplierMgmtMoveToTrashBody": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "supplierMgmtMovedToTrashMessage": "Supplier moved to trash.",
   "supplierMgmtRestoredMessage": "Supplier restored.",
@@ -2798,7 +2790,11 @@
   "supplierMgmtColGstin": "GSTIN",
   "supplierMgmtTotalCountLabel": "Total: {count}",
   "@supplierMgmtTotalCountLabel": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "supplierMgmtNoSuppliersYetMessage": "No suppliers yet",
   "supplierMgmtNoSuppliersMatchMessage": "No suppliers match your search",
@@ -2808,12 +2804,20 @@
   "supplierMgmtTaxVatNumberLabel": "Tax/VAT Number (GSTIN)",
   "purchaseBillMgmtLoadErrorMessage": "Failed to load purchase bills: {error}",
   "@purchaseBillMgmtLoadErrorMessage": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "purchaseBillMgmtAlreadyFullyPaidMessage": "This bill is already fully paid.",
   "purchaseBillMgmtMoveToTrashBody": "Move bill \"{billNumber}\" to trash? Stock will be reversed.",
   "@purchaseBillMgmtMoveToTrashBody": {
-    "placeholders": { "billNumber": { "type": "String" } }
+    "placeholders": {
+      "billNumber": {
+        "type": "String"
+      }
+    }
   },
   "purchaseBillMgmtMovedToTrashMessage": "Purchase bill moved to trash.",
   "purchaseBillMgmtRestoredMessage": "Purchase bill restored.",
@@ -2832,7 +2836,11 @@
   "purchaseBillMgmtColBalance": "Balance",
   "purchaseBillMgmtTotalCountLabel": "Total: {count}",
   "@purchaseBillMgmtTotalCountLabel": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "purchaseBillMgmtNoBillsFoundTitle": "No purchase bills found",
   "purchaseBillMgmtCreateFirstMessage": "Create your first purchase bill to get started",
@@ -2862,7 +2870,11 @@
   "purchaseBillMgmtDraftSavedMessage": "Draft saved — stock not updated",
   "purchaseBillMgmtSaveErrorMessage": "Error saving purchase bill: {error}",
   "@purchaseBillMgmtSaveErrorMessage": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "purchaseBillMgmtEnterNameMessage": "Enter a name",
   "purchaseBillMgmtAddCustomItemTitle": "Add Custom Item",
@@ -2878,7 +2890,11 @@
   "purchaseBillMgmtNoItemsAddedMessage": "No items added yet",
   "purchaseBillMgmtLastCostLabel": "Last cost: {amount}",
   "@purchaseBillMgmtLastCostLabel": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "purchaseBillMgmtSearchProductsHint": "Search products to add...",
   "purchaseBillMgmtCustomBadgeLabel": "Custom",
@@ -2886,7 +2902,11 @@
   "purchaseBillMgmtUnitCostDetailLabel": "Unit Cost",
   "purchaseBillMgmtTaxInclusiveLabel": "{rate}% Inclusive",
   "@purchaseBillMgmtTaxInclusiveLabel": {
-    "placeholders": { "rate": { "type": "String" } }
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
   },
   "purchaseBillMgmtNetCostDetailLabel": "Net Cost",
   "purchaseBillMgmtEditPurchaseBillTitle": "Edit Purchase Bill",
@@ -3365,5 +3385,40 @@
   "amountSeparatorLabel": "Number format",
   "amountSeparatorNoneLabel": "No separator  (1234567.89)",
   "amountSeparatorInternationalLabel": "International  (1,234,567.89)",
-  "amountSeparatorIndianLabel": "Indian  (12,34,567.89)"
+  "amountSeparatorIndianLabel": "Indian  (12,34,567.89)",
+  "@customizationDisclaimerMessage": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "customizationQuoteBadge": "Get a quote",
+  "contactMailUnavailableMessage": "No mail app found. Write to us at {email}.",
+  "@contactMailUnavailableMessage": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutContactTitle": "CONTACT",
+  "aboutContactSupportLabel": "Support",
+  "aboutContactInfoLabel": "Info",
+  "aboutContactBusinessLabel": "Business",
+  "aboutOpenSourceLicensesTitle": "Open-source licenses",
+  "aboutOpenSourceLicensesSubtitle": "Notices for the software and fonts CrizaVoise is built on",
+  "aboutPackageLicensesButton": "Flutter package licenses",
+  "aboutRightsReserved": "© {year} {maker}. All rights reserved.",
+  "@aboutRightsReserved": {
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "maker": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLicensesLoadError": "Couldn't load the notices. Please reinstall CrizaVoise."
 }

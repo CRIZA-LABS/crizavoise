@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/domain/invoice_calculator.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_payment.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/services/payment_receipt_service.dart';
-import 'package:invoiso/utils/app_date.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/domain/invoice_calculator.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_payment.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/services/payment_receipt_service.dart';
+import 'package:crizavoise/utils/app_date.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 const paymentMethods = ['Cash', 'UPI', 'Bank Transfer', 'Check', 'Online', 'Other'];
 

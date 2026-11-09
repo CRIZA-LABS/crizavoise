@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/providers/app_config_provider.dart';
-import 'package:invoiso/services/update_service.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/screens/settings/licenses_screen.dart';
+import 'package:crizavoise/theme/brand_assets.dart';
+import 'package:crizavoise/utils/contact_links.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/providers/app_config_provider.dart';
+import 'package:crizavoise/services/update_service.dart';
 
 class AppInfoScreen extends ConsumerStatefulWidget {
   final UpdateInfo? updateInfo;
@@ -68,26 +71,23 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? 'assets/images/logo_dark.png'
-                              : 'assets/images/logo.png',
-                          width: 130,
-                          height: 52,
-                          fit: BoxFit.contain,
+                        SvgPicture.asset(
+                          BrandAssets.mark,
+                          width: 56,
+                          height: 56,
+                          semanticsLabel: AppConfig.name,
                         ),
                         const SizedBox(width: 24),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                cfg.name.toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: AppFontSize.xxlarge,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.2,
-                                ),
+                              SvgPicture.asset(
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? BrandAssets.wordmarkDark
+                                    : BrandAssets.wordmarkLight,
+                                height: 30,
+                                semanticsLabel: cfg.name,
                               ),
                               const SizedBox(height: 6),
                               Text(
@@ -137,25 +137,21 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                       flex: 2,
                       child: _infoCard(l10n.appInfoAppDetailsTitle, [
                         _infoRow(Icons.apps_rounded, l10n.appInfoAppNameLabel,
-                            cfg.name.toUpperCase()),
+                            cfg.name),
                         _infoRow(Icons.tag_rounded, l10n.appInfoVersionLabel,
                             cfg.version),
                         _infoRow(Icons.gavel_rounded, l10n.appInfoLicenseLabel,
-                            cfg.license.toUpperCase()),
+                            cfg.license),
                       ]),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
                       flex: 3,
                       child: _infoCard(l10n.appInfoDeveloperTitle, [
-                        _infoRow(
-                            Icons.person_rounded,
-                            l10n.appInfoDeveloperLabel,
-                            cfg.developer.toUpperCase()),
-                        _infoRow(Icons.email_rounded,
-                            l10n.appInfoSupportEmailLabel, cfg.supportEmail),
-                        _infoRow(Icons.language_rounded, l10n.fieldWebsiteLabel,
-                            cfg.website),
+                        _infoRow(Icons.business_rounded,
+                            l10n.appInfoDeveloperLabel, AppConfig.makerCredit),
+                        _linkRow(Icons.language_rounded, AppConfig.madeBy,
+                            AppConfig.websiteLabel, openCrizaWebsite),
                       ]),
                     ),
                   ],
@@ -163,24 +159,18 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
 
                 const SizedBox(height: 20),
 
-                // ── Buy me a coffee ──────────────────────────────────────
-                Center(
-                  child: FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFDD00),
-                      foregroundColor: Colors.black,
-                    ),
-                    icon: SvgPicture.asset('assets/images/bmc_logo.svg',
-                        height: 20),
-                    label: Text(l10n.buyMeCoffeeLabel,
-                        style: const TextStyle(
-                            fontFamily: 'Cookie', fontSize: 22)),
-                    onPressed: () => launchUrl(
-                      Uri.parse(AppConfig.buyMeCoffee),
-                      mode: LaunchMode.externalApplication,
-                    ),
-                  ),
-                ),
+                // ── Contact ──────────────────────────────────────────────
+                _infoCard(l10n.aboutContactTitle, [
+                  _linkRow(Icons.support_agent_rounded,
+                      l10n.aboutContactSupportLabel, AppConfig.supportEmail,
+                      () => _contact(ContactChannel.support)),
+                  _linkRow(Icons.info_outline_rounded,
+                      l10n.aboutContactInfoLabel, AppConfig.infoEmail,
+                      () => _contact(ContactChannel.info)),
+                  _linkRow(Icons.handshake_outlined,
+                      l10n.aboutContactBusinessLabel, AppConfig.businessEmail,
+                      () => _contact(ContactChannel.business)),
+                ]),
 
                 const SizedBox(height: 20),
 
@@ -189,10 +179,21 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
 
                 const SizedBox(height: 32),
 
+                // ── Open-source licenses (small, out of the main UI) ─────
+                Center(
+                  child: TextButton.icon(
+                    icon: const Icon(Icons.description_outlined, size: 16),
+                    label: Text(l10n.aboutOpenSourceLicensesTitle),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const LicensesScreen()),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+
                 // ── Footer ───────────────────────────────────────────────
                 Text(
-                  l10n.appInfoFooterCopyright(
-                      DateTime.now().year, cfg.developer, cfg.license),
+                  l10n.aboutRightsReserved(DateTime.now().year, AppConfig.maker),
                   style: TextStyle(
                     fontSize: AppFontSize.small,
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -400,7 +401,7 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                         icon: const Icon(Icons.download_rounded, size: 16),
                         label: Text(l10n.createInvoiceDownloadLabel),
                         onPressed: () => launchUrl(
-                          Uri.parse('https://invoiso.co.in/download.html'),
+                          Uri.parse(UpdateConfig.downloadUrl),
                           mode: LaunchMode.externalApplication,
                         ),
                       ),
@@ -450,6 +451,59 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                 .toList()
               ..removeLast(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _contact(ContactChannel channel) async {
+    final opened = await openContact(channel);
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context)!
+              .contactMailUnavailableMessage(channel.email))));
+    }
+  }
+
+  /// A row that opens a link; keyboard-focusable with a 48px target.
+  Widget _linkRow(
+      IconData icon, String label, String value, VoidCallback onTap) {
+    final scheme = Theme.of(context).colorScheme;
+    return Semantics(
+      button: true,
+      label: '$label, $value',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppBorderRadius.small),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+            child: Row(
+              children: [
+                Icon(icon, size: 20, color: scheme.primary),
+                const SizedBox(width: 14),
+                SizedBox(
+                  width: 90,
+                  child: Text(label,
+                      style: TextStyle(
+                          fontSize: AppFontSize.small,
+                          fontWeight: FontWeight.w600,
+                          color: scheme.onSurface)),
+                ),
+                Expanded(
+                  child: Text(value,
+                      style: TextStyle(
+                          fontSize: AppFontSize.small,
+                          color: scheme.primary,
+                          decoration: TextDecoration.underline,
+                          decorationColor: scheme.primary)),
+                ),
+                Icon(Icons.open_in_new_rounded,
+                    size: 16, color: scheme.onSurfaceVariant),
+              ],
+            ),
+          ),
         ),
       ),
     );

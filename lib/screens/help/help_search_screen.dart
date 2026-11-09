@@ -1,12 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/services/help_search/help_search_service.dart';
-import 'package:invoiso/services/help_search/highlight_util.dart';
-import 'package:invoiso/services/help_search/searchable_item.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/services/help_search/help_search_service.dart';
+import 'package:crizavoise/services/help_search/highlight_util.dart';
+import 'package:crizavoise/services/help_search/searchable_item.dart';
+import 'package:crizavoise/utils/contact_links.dart';
 
 /// Opens the Help & Settings search as a centered popup dialog.
 Future<void> showHelpSearchDialog(BuildContext context) {
@@ -18,7 +17,7 @@ Future<void> showHelpSearchDialog(BuildContext context) {
 }
 
 void _contactSupport() {
-  launchUrl(Uri.parse(AppConfig.supportForm), mode: LaunchMode.externalApplication);
+  openContact(ContactChannel.support);
 }
 
 class _HelpSearchDialog extends StatelessWidget {

@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/common/constants.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/common/constants.dart';
 
-import 'package:invoiso/common/supported_currencies.dart';
+import 'package:crizavoise/common/supported_currencies.dart';
 
 // Legacy screen (out of i18n scope) — these mirror the English text that
 // used to live in LogoSize/DateFormatOption/SignatureSize's `.label`

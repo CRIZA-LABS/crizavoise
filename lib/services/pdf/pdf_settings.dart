@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/customer_field_settings.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/customer_field_settings.dart';
 
 /// All per-session settings needed to render a PDF.
 /// Fetch once via [PDFService.fetchPdfSettings], reuse for every invoice in a batch.

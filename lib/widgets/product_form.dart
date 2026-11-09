@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 /// The "add product" form, shared by Product Management (side panel) and the
 /// "New product" dialog on the Create Invoice / Purchase Bill pages, so every

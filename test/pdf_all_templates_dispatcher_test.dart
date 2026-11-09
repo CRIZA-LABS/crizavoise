@@ -5,7 +5,7 @@
 // so a broken template fails loudly here with a full stack trace instead of
 // silently in production. To debug a fresh "Error previewing PDF: ..."
 // report: reproduce it by adding/adjusting a case below and reading the
-// first `package:invoiso/...` frame in the failure — that's the real bug
+// first `package:crizavoise/...` frame in the failure — that's the real bug
 // site, everything below it (package:pdf/, package:flutter/) is library
 // plumbing.
 import 'dart:io';
@@ -15,15 +15,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'test_pdf_font_service.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/services/pdf/pdf_service.dart';
-import 'package:invoiso/services/pdf/pdf_settings.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/services/pdf/pdf_service.dart';
+import 'package:crizavoise/services/pdf/pdf_settings.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 final _company = CompanyInfo(
   name: 'MADATHIL HARDWARE',
@@ -247,7 +247,7 @@ void main() {
         final bytes = await pdf.save();
         expect(bytes, isNotEmpty);
         final outputPath =
-            'output/all_pdfs_test/invoiso_${template.displayName}_${logoVariant.key}.pdf';
+            'output/all_pdfs_test/crizavoise_${template.displayName}_${logoVariant.key}.pdf';
         final outputFile = File(outputPath);
         await outputFile.parent.create(recursive: true);
         await outputFile.writeAsBytes(await pdf.save());

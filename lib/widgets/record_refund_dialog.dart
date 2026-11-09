@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:invoiso/domain/invoice_calculator.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/refund.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/services/refund_receipt_service.dart';
-import 'package:invoiso/widgets/return_l10n.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/domain/invoice_calculator.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/refund.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/services/refund_receipt_service.dart';
+import 'package:crizavoise/widgets/return_l10n.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 const _methods = <String>['Cash', 'Bank Transfer', 'Check', 'Online', 'Other'];
 

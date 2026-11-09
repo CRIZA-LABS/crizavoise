@@ -1,5 +1,5 @@
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_list_filter.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_list_filter.dart';
 
 abstract class InvoiceRepository {
   Future<void> insertInvoice(Invoice invoice);

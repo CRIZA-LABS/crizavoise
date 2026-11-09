@@ -4,13 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:qr/qr.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/customer_field_settings.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/utils/amount_in_words.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/customer_field_settings.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/utils/amount_in_words.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 /// Tracks how much table-row height has been painted so far, so the
 /// watermark image reads as one continuous strip running down the items

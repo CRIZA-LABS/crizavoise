@@ -4,8 +4,8 @@
 // product_description — falling back would print text on historical invoices
 // that was not on them when they were issued.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/product.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/product.dart';
 
 Product _product({String description = 'Portland cement, 50kg bag'}) => Product(
       id: 'p1',

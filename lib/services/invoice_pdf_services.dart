@@ -1,18 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:invoiso/services/backend_services.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/refund.dart';
-import 'package:invoiso/services/pdf_service.dart';
-import 'package:invoiso/services/thermal_printer_service_v1.dart';
+import 'package:crizavoise/services/backend_services.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/refund.dart';
+import 'package:crizavoise/services/pdf_service.dart';
+import 'package:crizavoise/services/thermal_printer_service_v1.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/utils/formatters.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/widgets/return_l10n.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/widgets/return_l10n.dart';
 
 class InvoicePdfServices {
   static Future<void> generatePDF(BuildContext context, Invoice invoice) async {

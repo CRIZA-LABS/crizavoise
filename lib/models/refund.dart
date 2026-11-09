@@ -1,4 +1,4 @@
-import 'package:invoiso/utils/app_date.dart';
+import 'package:crizavoise/utils/app_date.dart';
 
 /// One-shot payout details for an immediate refund handed back with a credit
 /// note (settlement `refund`) or recorded later against a stored credit.

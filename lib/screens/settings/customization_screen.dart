@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/utils/contact_links.dart';
 
 class CustomizationScreen extends StatefulWidget {
   final int? highlightIndex;
@@ -25,36 +26,26 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
     final primaryColor = Theme.of(context).primaryColor;
     final l10n = AppLocalizations.of(context)!;
 
-    const formUrl = 'https://forms.gle/LyX6Z2kBNR2BpwVu7';
-
     final options = [
       _CustomOption(
         icon: Icons.picture_as_pdf_rounded,
         title: l10n.customizationPdfTemplateTitle,
         description: l10n.customizationPdfTemplateDescription,
-        price: '\$30 – \$50',
-        delivery: l10n.customizationPdfTemplateDelivery,
       ),
       _CustomOption(
         icon: Icons.tune_rounded,
         title: l10n.customizationCustomFieldsTitle,
         description: l10n.customizationCustomFieldsDescription,
-        price: '\$25 – \$100',
-        delivery: l10n.customizationCustomFieldsDelivery,
       ),
       _CustomOption(
         icon: Icons.branding_watermark_rounded,
         title: l10n.customizationWhiteLabelTitle,
         description: l10n.customizationWhiteLabelDescription,
-        price: '\$100 – \$150',
-        delivery: l10n.customizationWhiteLabelDelivery,
       ),
       _CustomOption(
         icon: Icons.category_rounded,
         title: l10n.customizationIndustryBuildTitle,
         description: l10n.customizationIndustryBuildDescription,
-        price: '\$175 – \$200',
-        delivery: l10n.customizationIndustryBuildDelivery,
       ),
     ];
 
@@ -169,7 +160,7 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                opt.price,
+                                l10n.customizationQuoteBadge,
                                 style: TextStyle(
                                   fontSize: AppFontSize.xsmall,
                                   fontWeight: FontWeight.w700,
@@ -204,25 +195,7 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                            Icon(Icons.schedule_rounded,
-                                size: 13,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
-                            const SizedBox(width: 4),
-                            Expanded(
-                              child: Text(
-                                l10n.customizationDeliveryLabel(opt.delivery),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: AppFontSize.xsmall,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
+                            const Spacer(),
                             FilledButton(
                               style: FilledButton.styleFrom(
                                 backgroundColor: primaryColor,
@@ -235,18 +208,16 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                                 if (_highlightIndex != null) {
                                   setState(() => _highlightIndex = null);
                                 }
-                                final uri = Uri.parse(formUrl);
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri,
-                                      mode: LaunchMode.externalApplication);
-                                } else {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(l10n
-                                              .customizationFormOpenErrorMessage)),
-                                    );
-                                  }
+                                final opened = await openContact(
+                                    ContactChannel.business,
+                                    topic: opt.title);
+                                if (!opened && context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(l10n
+                                            .contactMailUnavailableMessage(
+                                                AppConfig.businessEmail))),
+                                  );
                                 }
                               },
                               child: Padding(
@@ -282,7 +253,8 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      l10n.customizationDisclaimerMessage,
+                      l10n.customizationDisclaimerMessage(
+                          AppConfig.businessEmail),
                       style: TextStyle(
                           fontSize: AppFontSize.xsmall,
                           color: Colors.amber.shade800),
@@ -302,14 +274,10 @@ class _CustomOption {
   final IconData icon;
   final String title;
   final String description;
-  final String price;
-  final String delivery;
 
   const _CustomOption({
     required this.icon,
     required this.title,
     required this.description,
-    required this.price,
-    required this.delivery,
   });
 }

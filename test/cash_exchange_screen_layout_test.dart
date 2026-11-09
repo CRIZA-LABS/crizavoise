@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/cash_ledger_entry.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/repositories/cash_ledger_repository.dart';
-import 'package:invoiso/repositories/settings_repository.dart';
-import 'package:invoiso/screens/cash_exchange_screen.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/repositories/cash_ledger_repository.dart';
+import 'package:crizavoise/repositories/settings_repository.dart';
+import 'package:crizavoise/screens/cash_exchange_screen.dart';
 
 class _Settings implements SettingsRepository {
   @override

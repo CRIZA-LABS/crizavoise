@@ -1,4 +1,4 @@
-import 'package:invoiso/models/purchase_bill.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
 
 abstract class PurchaseBillRepository {
   Future<void> insertPurchaseBill(PurchaseBill bill);

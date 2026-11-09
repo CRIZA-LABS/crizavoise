@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:invoiso/services/backend_services.dart';
+import 'package:crizavoise/services/backend_services.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -11,14 +11,14 @@ import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/customer_field_settings.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/database/return_service.dart';
-import 'package:invoiso/services/pdf/pdf_font_service.dart';
-import 'package:invoiso/services/thermal_printer_service_v1.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/customer_field_settings.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/database/return_service.dart';
+import 'package:crizavoise/services/pdf/pdf_font_service.dart';
+import 'package:crizavoise/services/thermal_printer_service_v1.dart';
 import 'pdf_settings.dart';
 import 'pdf_widgets.dart';
 import 'pdf_template_classic.dart';
@@ -28,7 +28,7 @@ import 'pdf_template_executive.dart';
 import 'pdf_template_compact.dart';
 import 'pdf_template_thermal.dart';
 import 'pdf_template_gridclassic.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 class PDFService {
   static Uint8List? _logoBytesCache;

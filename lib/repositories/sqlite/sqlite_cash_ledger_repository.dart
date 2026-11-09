@@ -1,6 +1,6 @@
-import 'package:invoiso/database/cash_ledger_service.dart';
-import 'package:invoiso/models/cash_ledger_entry.dart';
-import 'package:invoiso/repositories/cash_ledger_repository.dart';
+import 'package:crizavoise/database/cash_ledger_service.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
+import 'package:crizavoise/repositories/cash_ledger_repository.dart';
 
 class SqliteCashLedgerRepository implements CashLedgerRepository {
   @override

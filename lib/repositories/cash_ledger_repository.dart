@@ -1,4 +1,4 @@
-import 'package:invoiso/models/cash_ledger_entry.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
 
 abstract class CashLedgerRepository {
   Future<CashLedgerEntry> addExchange({

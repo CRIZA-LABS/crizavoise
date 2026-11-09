@@ -1,6 +1,6 @@
-import 'package:invoiso/models/customer_credit.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/refund.dart';
+import 'package:crizavoise/models/customer_credit.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/refund.dart';
 
 /// Return management — credit / debit notes, refunds, customer credit.
 abstract class ReturnRepository {

@@ -1,5 +1,5 @@
-import 'package:invoiso/models/purchase_bill.dart';
-import 'package:invoiso/models/supplier_payment.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
+import 'package:crizavoise/models/supplier_payment.dart';
 
 abstract class SupplierPaymentRepository {
   Future<SupplierPayment> addPayment({

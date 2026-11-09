@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/custom_field_def.dart';
-import 'package:invoiso/widgets/custom_field_defs_editor.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/widgets/custom_field_defs_editor.dart';
 
 void main() {
   late List<CustomFieldDef> defs;

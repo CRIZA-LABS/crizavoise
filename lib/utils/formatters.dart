@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/services/backend_services.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/services/backend_services.dart';
 
 /// Leading characters that make Excel/LibreOffice treat a cell as a formula.
 const _csvFormulaTriggers = ['=', '+', '-', '@', '\t', '\r'];

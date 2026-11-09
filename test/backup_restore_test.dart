@@ -10,8 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:invoiso/backup/backup_manager.dart';
-import 'package:invoiso/database/database_helper.dart';
+import 'package:crizavoise/backup/backup_manager.dart';
+import 'package:crizavoise/database/database_helper.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ void main() {
   setUpAll(() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
-    tmp = Directory.systemTemp.createTempSync('invoiso_restore_test');
+    tmp = Directory.systemTemp.createTempSync('crizavoise_restore_test');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
             const MethodChannel('plugins.flutter.io/path_provider'),

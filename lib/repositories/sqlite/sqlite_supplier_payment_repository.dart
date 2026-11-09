@@ -1,7 +1,7 @@
-import 'package:invoiso/database/supplier_payment_service.dart';
-import 'package:invoiso/models/purchase_bill.dart';
-import 'package:invoiso/models/supplier_payment.dart';
-import 'package:invoiso/repositories/supplier_payment_repository.dart';
+import 'package:crizavoise/database/supplier_payment_service.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
+import 'package:crizavoise/models/supplier_payment.dart';
+import 'package:crizavoise/repositories/supplier_payment_repository.dart';
 
 class SqliteSupplierPaymentRepository implements SupplierPaymentRepository {
   @override

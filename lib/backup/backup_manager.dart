@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/utils/fs_utils.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/utils/fs_utils.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,9 +11,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/backup_info.dart';
-import 'package:invoiso/models/backup_results.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/backup_info.dart';
+import 'package:crizavoise/models/backup_results.dart';
 
 class BackupManager {
   static const String _backupExtension = '.invoicedb';

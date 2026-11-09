@@ -1,18 +1,18 @@
-display_name: Invoiso
-package_name: invoiso-2.2.2
+display_name: CrizaVoise
+package_name: crizavoise
 maintainer:
-  name: ANOOP P
-  email: anooppkrishnan96@gmail.com
+  name: Criza Labs
+  email: info@criza.dev
 priority: optional
 section: x11
 installed_size: 6604
 essential: false
-icon: assets/deb/images/logo.png
+icon: assets/brand/icons/icon-1024.png
 
 postinstall_scripts:
-  - echo "Installed Invoiso"
+  - echo "Installed CrizaVoise"
 postuninstall_scripts:
-  - echo "Surprised Pickachu face"
+  - echo "Removed CrizaVoise"
 
 #keywords:
 #  - Hello

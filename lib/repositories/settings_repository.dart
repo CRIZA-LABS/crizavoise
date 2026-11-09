@@ -1,5 +1,5 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/custom_field_def.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
 
 abstract class SettingsRepository {
   Future<void> setSetting(SettingKey key, String value);

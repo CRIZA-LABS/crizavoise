@@ -16,18 +16,32 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Invoice generating desktop app built with Flutter">
+  <meta name="description" content="CrizaVoise by Criza Labs — simple invoicing and billing for small businesses.">
+  <meta name="author" content="Criza Labs">
+  <meta name="theme-color" content="#08090d" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)">
+  <meta property="og:title" content="CrizaVoise">
+  <meta property="og:description" content="Invoices made simple · by Criza Labs · criza.dev">
+  <meta property="og:image" content="og.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="invoiso">
+  <meta name="apple-mobile-web-app-title" content="CrizaVoise">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>invoiso</title>
+  <title>CrizaVoise</title>
+  <style>
+    /* Mirrors lib/theme/tokens.dart so the pre-boot page matches the theme. */
+    :root { --cv-bg: #f4efe6; --cv-ink: #12131a; color-scheme: light dark; }
+    @media (prefers-color-scheme: dark) { :root { --cv-bg: #08090d; --cv-ink: #f6f2ea; } }
+    html, body { margin: 0; background: var(--cv-bg); color: var(--cv-ink); }
+  </style>
   <link rel="manifest" href="manifest.json">
 
   <script>

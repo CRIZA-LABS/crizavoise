@@ -1,16 +1,20 @@
 [Setup]
-AppName=InvoiceApp
+AppName=CrizaVoise
 AppVersion=1.0.0
-DefaultDirName={pf}\InvoiceApp
-DefaultGroupName=InvoiceApp
+AppPublisher=Criza Labs
+AppPublisherURL=https://criza.dev
+DefaultDirName={autopf}CrizaVoise
+DefaultGroupName=CrizaVoise
 OutputDir=Output
-OutputBaseFilename=InvoiceAppSetup
+OutputBaseFilename=CrizaVoiseSetup
+SetupIconFile=windowsunneresourcesapp_icon.ico
+LicenseFile=LICENSE
 Compression=lzma
 SolidCompression=yes
 
 [Files]
-Source: "build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: recursesubdirs
+Source: "buildwindowsdunnerRelease*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [Icons]
-Name: "{group}\InvoiceApp"; Filename: "{app}\invoiso.exe"
-Name: "{commondesktop}\InvoiceApp"; Filename: "{app}\invoiso.exe"
+Name: "{group}CrizaVoise"; Filename: "{app}crizavoise.exe"
+Name: "{commondesktop}CrizaVoise"; Filename: "{app}crizavoise.exe"

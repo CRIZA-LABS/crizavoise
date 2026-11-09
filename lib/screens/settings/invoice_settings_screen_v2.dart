@@ -4,15 +4,15 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/supported_currencies.dart';
-import 'package:invoiso/models/custom_field_def.dart';
-import 'package:invoiso/widgets/custom_field_defs_editor.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/returns_settings_provider.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/supported_currencies.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/widgets/custom_field_defs_editor.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/returns_settings_provider.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 class InvoiceSettingsScreenV2 extends ConsumerStatefulWidget {
   final VoidCallback? onNavigateToCustomization;

@@ -2,7 +2,7 @@
 // (CashUpiExchangeImplementationPlan.md Phase 12): merging ledger days into the
 // invoice days, invoice / cash-exchange lines per day, and the CSV columns.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/database/report_service.dart';
+import 'package:crizavoise/database/report_service.dart';
 
 void main() {
   final rows = ReportService.mergeDailyCashUpi(

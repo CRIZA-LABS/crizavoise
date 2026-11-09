@@ -1,4 +1,4 @@
-import 'package:invoiso/models/supplier.dart';
+import 'package:crizavoise/models/supplier.dart';
 
 abstract class SupplierRepository {
   Future<void> insertSupplier(Supplier supplier);

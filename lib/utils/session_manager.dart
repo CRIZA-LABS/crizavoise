@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
-import 'package:invoiso/services/analytics/cloudflare_analytics_service.dart';
 
 class SessionManager {
   static Timer? _timer;
@@ -18,7 +17,6 @@ class SessionManager {
       onTimeout();
     };
     _sessionExpired = false;
-    unawaited(CloudflareAnalyticsService.sendHeartbeat());
     // App-wide hooks so any tap or key press counts as activity — including
     // dialogs, pushed screens and keyboard-only typing.
     if (!_hooksAdded) {
@@ -35,7 +33,6 @@ class SessionManager {
 
     if (_sessionExpired) {
       _sessionExpired = false;
-      unawaited(CloudflareAnalyticsService.sendHeartbeat());
     }
     _resetTimer();
   }

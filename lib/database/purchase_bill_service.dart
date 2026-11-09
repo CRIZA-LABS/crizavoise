@@ -1,10 +1,10 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/models/purchase_bill.dart';
-import 'package:invoiso/models/purchase_bill_item.dart';
-import 'package:invoiso/models/stock_transaction.dart';
-import 'package:invoiso/models/supplier_payment.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
+import 'package:crizavoise/models/purchase_bill_item.dart';
+import 'package:crizavoise/models/stock_transaction.dart';
+import 'package:crizavoise/models/supplier_payment.dart';
 import 'database_helper.dart';
 
 class PurchaseBillService {

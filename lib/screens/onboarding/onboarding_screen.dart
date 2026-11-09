@@ -5,19 +5,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as img;
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/screens/dashboard_screen.dart';
-import 'package:invoiso/screens/onboarding/onboarding_step_appearance.dart';
-import 'package:invoiso/screens/onboarding/onboarding_step_company.dart';
-import 'package:invoiso/screens/onboarding/onboarding_step_done.dart';
-import 'package:invoiso/screens/onboarding/onboarding_step_invoice.dart';
-import 'package:invoiso/screens/onboarding/onboarding_step_purchase_bills.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/screens/dashboard_screen.dart';
+import 'package:crizavoise/screens/onboarding/onboarding_step_appearance.dart';
+import 'package:crizavoise/screens/onboarding/onboarding_step_company.dart';
+import 'package:crizavoise/screens/onboarding/onboarding_step_done.dart';
+import 'package:crizavoise/screens/onboarding/onboarding_step_invoice.dart';
+import 'package:crizavoise/screens/onboarding/onboarding_step_purchase_bills.dart';
 
 /// One-time, skippable first-login setup wizard. Each step persists its own
 /// fields immediately on "Next" so progress survives even if the app is

@@ -1,8 +1,8 @@
 // AmountFormat.money: each Number format style, negatives, small values,
 // lakh / crore grouping and rounding.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 void main() {
   tearDown(() => AmountFormat.style = AmountSeparator.none);

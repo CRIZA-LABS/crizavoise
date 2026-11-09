@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/common/setting_key.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/database/user_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/company_profile.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/locale_provider.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/theme_provider.dart';
-import 'package:invoiso/utils/company_switch_navigation.dart';
-import 'package:invoiso/utils/window_title.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/common/setting_key.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/database/user_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/company_profile.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/locale_provider.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/theme_provider.dart';
+import 'package:crizavoise/utils/company_switch_navigation.dart';
+import 'package:crizavoise/utils/window_title.dart';
 
 /// Lists every company registered on this device, with actions to switch,
 /// create, or (self-only) rename/delete. Reused from two entry points:

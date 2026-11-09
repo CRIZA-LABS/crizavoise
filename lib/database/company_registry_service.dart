@@ -7,10 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/database/company_info_service.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/common/setting_key.dart';
-import 'package:invoiso/models/company_profile.dart';
+import 'package:crizavoise/database/company_info_service.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/common/setting_key.dart';
+import 'package:crizavoise/models/company_profile.dart';
 
 const defaultCompanyId = 'default';
 const _defaultDbFileName = 'invoice_manager.db';

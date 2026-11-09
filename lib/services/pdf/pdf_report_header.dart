@@ -1,5 +1,5 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/company_info.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/company_info.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 

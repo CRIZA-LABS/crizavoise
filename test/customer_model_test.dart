@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/models/custom_field_value.dart';
-import 'package:invoiso/models/customer.dart';
+import 'package:crizavoise/models/custom_field_value.dart';
+import 'package:crizavoise/models/customer.dart';
 
 void main() {
   test('toMap/fromMap round trip keeps shipping, personal and custom fields',

@@ -1,7 +1,7 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/settings_service.dart';
-import 'package:invoiso/models/custom_field_def.dart';
-import 'package:invoiso/repositories/settings_repository.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/settings_service.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/repositories/settings_repository.dart';
 
 class SqliteSettingsRepository implements SettingsRepository {
   @override

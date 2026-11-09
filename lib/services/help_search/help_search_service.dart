@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:fuzzywuzzy/fuzzywuzzy.dart' show extractAllSorted;
-import 'package:invoiso/services/faq_service.dart';
-import 'package:invoiso/services/help_search/searchable_item.dart';
+import 'package:crizavoise/services/faq_service.dart';
+import 'package:crizavoise/services/help_search/searchable_item.dart';
 
 class _Candidate {
   final SearchableItem item;

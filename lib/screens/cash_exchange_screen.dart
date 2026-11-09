@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/database/cash_ledger_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/cash_ledger_entry.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/services/exchange_receipt_service.dart';
-import 'package:invoiso/widgets/apply_payment_dialog.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/database/cash_ledger_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/services/exchange_receipt_service.dart';
+import 'package:crizavoise/widgets/apply_payment_dialog.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 /// Cash / UPI-Bank exchange ledger: balances, entry actions and history.
 class CashExchangeScreen extends ConsumerStatefulWidget {

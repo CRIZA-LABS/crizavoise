@@ -1,5 +1,5 @@
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/models/product_list_stats.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/models/product_list_stats.dart';
 
 abstract class ProductRepository {
   Future<void> insertProduct(Product product);

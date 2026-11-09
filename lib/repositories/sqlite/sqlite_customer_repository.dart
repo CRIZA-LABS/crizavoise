@@ -1,7 +1,7 @@
-import 'package:invoiso/database/customer_service.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/customer_list_stats.dart';
-import 'package:invoiso/repositories/customer_repository.dart';
+import 'package:crizavoise/database/customer_service.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/customer_list_stats.dart';
+import 'package:crizavoise/repositories/customer_repository.dart';
 
 class SqliteCustomerRepository implements CustomerRepository {
   @override

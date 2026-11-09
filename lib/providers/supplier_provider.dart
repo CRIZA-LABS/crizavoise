@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/models/supplier.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/models/supplier.dart';
 
 class SupplierNotifier extends AsyncNotifier<List<Supplier>> {
   @override

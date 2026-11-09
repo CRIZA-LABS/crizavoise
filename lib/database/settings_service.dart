@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
 
-import 'package:invoiso/common/common.dart';
+import 'package:crizavoise/common/common.dart';
 import '../common/supported_currencies.dart';
 import '../models/custom_field_def.dart';
 import 'database_helper.dart';

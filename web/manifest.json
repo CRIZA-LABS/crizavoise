@@ -1,11 +1,11 @@
 {
-    "name": "invoiso",
-    "short_name": "invoiso",
+    "name": "CrizaVoise",
+    "short_name": "CrizaVoise",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Invoice generating desktop app built with Flutter",
+    "background_color": "#08090d",
+    "theme_color": "#08090d",
+    "description": "CrizaVoise by Criza Labs — simple invoicing and billing for small businesses.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

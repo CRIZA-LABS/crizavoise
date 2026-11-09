@@ -2,54 +2,56 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/widgets/discovery_banner.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/widgets/discovery_banner.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/providers/app_config_provider.dart';
-import 'package:invoiso/providers/cash_exchange_settings_provider.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/returns_settings_provider.dart';
-import 'package:invoiso/services/update_service.dart';
-import 'package:invoiso/widgets/update_dialog.dart';
-import 'package:invoiso/domain/invoice_calculator.dart';
-import 'package:invoiso/domain/customer_identity.dart';
-import 'package:invoiso/common/invoiso_colors.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/models/company_profile.dart';
-import 'package:invoiso/screens/settings/company_management_screen.dart';
-import 'package:invoiso/utils/company_switch_navigation.dart';
-import 'package:invoiso/screens/help/help_search_screen.dart';
-import 'package:invoiso/screens/settings/settings_screen.dart';
-import 'package:invoiso/services/invoice_pdf_services.dart';
-import 'package:invoiso/services/pdf_service.dart';
-import 'package:invoiso/utils/formatters.dart';
-import 'package:invoiso/widgets/apply_payment_dialog.dart';
-import 'package:invoiso/widgets/customer_info_button.dart';
-import 'package:invoiso/utils/session_manager.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/theme/brand_assets.dart';
+import 'package:crizavoise/utils/contact_links.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:crizavoise/providers/app_config_provider.dart';
+import 'package:crizavoise/providers/cash_exchange_settings_provider.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/returns_settings_provider.dart';
+import 'package:crizavoise/services/update_service.dart';
+import 'package:crizavoise/widgets/update_dialog.dart';
+import 'package:crizavoise/domain/invoice_calculator.dart';
+import 'package:crizavoise/domain/customer_identity.dart';
+import 'package:crizavoise/theme/screen_colors.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/models/company_profile.dart';
+import 'package:crizavoise/screens/settings/company_management_screen.dart';
+import 'package:crizavoise/utils/company_switch_navigation.dart';
+import 'package:crizavoise/screens/help/help_search_screen.dart';
+import 'package:crizavoise/screens/settings/settings_screen.dart';
+import 'package:crizavoise/services/invoice_pdf_services.dart';
+import 'package:crizavoise/services/pdf_service.dart';
+import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/widgets/apply_payment_dialog.dart';
+import 'package:crizavoise/widgets/customer_info_button.dart';
+import 'package:crizavoise/utils/session_manager.dart';
 
-import 'package:invoiso/models/user.dart';
-// import 'package:invoiso/screens/customer_management_screen.dart';
-import 'package:invoiso/screens/customer_management_screen_v2.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/screens/create_invoice_screen_v2.dart';
-// import 'package:invoiso/screens/product_management_screen.dart';
-import 'package:invoiso/screens/product_management_screen_v2.dart';
-// import 'package:invoiso/screens/invoice_management_screen.dart';
-import 'package:invoiso/screens/invoice_management_screen_v2.dart';
-import 'package:invoiso/screens/cash_exchange_screen.dart';
-import 'package:invoiso/screens/auth/login_screen.dart';
-import 'package:invoiso/screens/reports_screen.dart';
-import 'package:invoiso/screens/purchase_bill_management_screen.dart';
-import 'package:invoiso/screens/supplier_management_screen.dart';
+import 'package:crizavoise/models/user.dart';
+// import 'package:crizavoise/screens/customer_management_screen.dart';
+import 'package:crizavoise/screens/customer_management_screen_v2.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/screens/create_invoice_screen_v2.dart';
+// import 'package:crizavoise/screens/product_management_screen.dart';
+import 'package:crizavoise/screens/product_management_screen_v2.dart';
+// import 'package:crizavoise/screens/invoice_management_screen.dart';
+import 'package:crizavoise/screens/invoice_management_screen_v2.dart';
+import 'package:crizavoise/screens/cash_exchange_screen.dart';
+import 'package:crizavoise/screens/auth/login_screen.dart';
+import 'package:crizavoise/screens/reports_screen.dart';
+import 'package:crizavoise/screens/purchase_bill_management_screen.dart';
+import 'package:crizavoise/screens/supplier_management_screen.dart';
 
 // invoice.type is a raw internal value ('Invoice'/'Quotation'/'Receipt') used
 // for comparisons throughout this file — only the displayed label is localized.
@@ -571,12 +573,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           Positioned(
                             left: 16,
                             right: 36,
-                            child: Image.asset(
+                            child: SvgPicture.asset(
                               Theme.of(context).brightness == Brightness.dark
-                                  ? 'assets/images/logo_dark.png'
-                                  : 'assets/images/logo.png',
-                              height: 36,
+                                  ? BrandAssets.lockupDark
+                                  : BrandAssets.lockupLight,
+                              height: 32,
                               fit: BoxFit.fitHeight,
+                              semanticsLabel: AppConfig.name,
                             ),
                           ),
                           Positioned(
@@ -731,13 +734,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       message: _companyName ?? '',
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? 'assets/images/logo_v_dark.png'
-                              : 'assets/images/logo_v.png',
+                        child: SvgPicture.asset(
+                          BrandAssets.mark,
                           width: 38,
                           height: 38,
-                          fit: BoxFit.cover,
+                          semanticsLabel: AppConfig.name,
                         ),
                       ),
                     ),
@@ -904,21 +905,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             ),
                             Tooltip(
                               message: AppLocalizations.of(context)!
-                                  .buyMeCoffeeLabel,
-                              child: InkWell(
-                                onTap: () => launchUrl(
-                                    Uri.parse(AppConfig.buyMeCoffee),
-                                    mode: LaunchMode.externalApplication),
-                                borderRadius: BorderRadius.circular(6),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(6),
-                                  child: Icon(Icons.coffee_outlined,
-                                      color: Color(0xFFD97706), size: 18),
-                                ),
-                              ),
-                            ),
-                            Tooltip(
-                              message: AppLocalizations.of(context)!
                                   .dashboardSupportTooltip,
                               child: InkWell(
                                 onTap: () => showHelpSearchDialog(context),
@@ -1008,24 +994,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                   color: primary,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Center(
-                        child: Tooltip(
-                          message: AppLocalizations.of(context)!
-                              .buyMeCoffeeLabel,
-                          child: InkWell(
-                            onTap: () => launchUrl(
-                                Uri.parse(AppConfig.buyMeCoffee),
-                                mode: LaunchMode.externalApplication),
-                            borderRadius: BorderRadius.circular(6),
-                            child: const Padding(
-                              padding: EdgeInsets.all(6),
-                              child: Icon(Icons.coffee_outlined,
-                                  color: Color(0xFFD97706), size: 18),
                             ),
                           ),
                         ),
@@ -1798,10 +1766,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           ? AppLocalizations.of(context)!.dashboardReviewAction
           : AppLocalizations.of(context)!.dashboardSupportAction,
       onAction: () async {
-        final uri = Uri.parse(isReviewMilestone
-            ? 'https://invoiso.co.in/review.html'
-            : 'https://buymeacoffee.com/anoopp');
-        if (await canLaunchUrl(uri)) await launchUrl(uri);
+        await openContact(ContactChannel.support,
+            topic: isReviewMilestone ? 'Feedback' : null);
       },
       actionColor: const Color(0xFF92400E),
       actionBackgroundColor: const Color(0xFFFDE68A),

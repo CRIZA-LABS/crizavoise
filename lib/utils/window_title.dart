@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:window_manager/window_manager.dart';
 
-import 'package:invoiso/database/company_registry_service.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
 
 /// Keeps the desktop window title showing which company is active — only
 /// meaningful once more than one company is registered (a single-company
@@ -19,5 +20,5 @@ Future<void> refreshWindowTitle() async {
   final active = companies.where((c) => c.id == activeId).firstOrNull;
   if (active == null) return;
 
-  await windowManager.setTitle('Invoiso — ${active.name}');
+  await windowManager.setTitle('${AppConfig.name} — ${active.name}');
 }

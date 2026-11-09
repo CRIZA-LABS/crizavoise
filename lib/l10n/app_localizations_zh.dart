@@ -9,7 +9,7 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get appTitle => 'Invoiso';
+  String get appTitle => 'CrizaVoise';
 
   @override
   String get actionSave => '保存';
@@ -240,9 +240,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dashboardSupportTooltip => '支持';
 
   @override
-  String get buyMeCoffeeLabel => 'Buy me a coffee';
-
-  @override
   String get dashboardLogoutTooltip => '退出登录';
 
   @override
@@ -296,17 +293,17 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dashboardSupportBannerReviewSubtitle =>
-      '喜欢 Invoiso 吗？一个简单的好评会有很大帮助。';
+      '喜欢 CrizaVoise 吗？告诉我们哪些好用、哪些不好用。';
 
   @override
   String get dashboardSupportBannerSupportSubtitle =>
-      '看起来 Invoiso 已成为您工作流程的一部分。如果它对您有帮助，欢迎在方便的时候支持这个项目。';
+      '看起来 CrizaVoise 已成为您工作的一部分。有问题或想法？欢迎联系我们。';
 
   @override
-  String get dashboardReviewAction => '评价';
+  String get dashboardReviewAction => '反馈';
 
   @override
-  String get dashboardSupportAction => '支持';
+  String get dashboardSupportAction => '联系我们';
 
   @override
   String get dashboardOverviewTitle => '仪表盘概览';
@@ -3934,7 +3931,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionShare => '分享';
 
   @override
-  String get appInfoTitle => '软件信息';
+  String get appInfoTitle => '关于 CrizaVoise';
 
   @override
   String get appInfoAppDetailsTitle => '应用详情';
@@ -3949,18 +3946,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appInfoLicenseLabel => '许可证';
 
   @override
-  String get appInfoDeveloperTitle => '开发者';
+  String get appInfoDeveloperTitle => '制作方';
 
   @override
-  String get appInfoDeveloperLabel => '开发者';
+  String get appInfoDeveloperLabel => '制作方';
 
   @override
   String get appInfoSupportEmailLabel => '支持邮箱';
-
-  @override
-  String appInfoFooterCopyright(int year, String developer, String license) {
-    return '© $year $developer  |  基于 $license 许可证发布';
-  }
 
   @override
   String get appInfoCheckingLabel => '检查中...';
@@ -4247,7 +4239,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsNavAccessibilityLabel => '无障碍';
 
   @override
-  String get settingsNavSoftwareInfoLabel => '软件信息';
+  String get settingsNavSoftwareInfoLabel => '关于';
 
   @override
   String get companyMgmtTitle => '管理公司';
@@ -4263,7 +4255,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String companyMgmtSwitchConfirmBody(String name) {
-    return 'Invoiso 将重启以切换到“$name”。';
+    return 'CrizaVoise 将重启以切换到“$name”。';
   }
 
   @override
@@ -4309,7 +4301,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get companyMgmtSwitchRestartBody =>
-      'Invoiso 需要重启才能完成公司切换。请关闭并重新打开应用程序。';
+      'CrizaVoise 需要重启才能完成公司切换。请关闭并重新打开应用程序。';
 
   @override
   String get companyMgmtCreateRestartTitle => '公司已创建';
@@ -4325,7 +4317,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get companyMgmtDeleteRestartBody =>
-      '该公司已被删除，Invoiso 已切换到另一家公司。请关闭并重新打开应用程序以继续。';
+      '该公司已被删除，CrizaVoise 已切换到另一家公司。请关闭并重新打开应用程序以继续。';
 
   @override
   String get companyMgmtOnlyCompanyTooltip => '删除此公司前，您至少需要另一家公司';
@@ -4343,26 +4335,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get customizationHeadline => '为您的业务量身定制';
 
   @override
-  String get customizationSubtitle => '选择您需要的内容并发送请求。我们将在24小时内回复您。';
+  String get customizationSubtitle => '选择您需要的服务并发送请求，我们会回复专属报价。';
 
   @override
   String get customizationRecommendedBadge => '推荐';
 
   @override
-  String customizationDeliveryLabel(String delivery) {
-    return '交付时间：$delivery';
-  }
-
-  @override
   String get customizationRequestButton => '申请';
 
   @override
-  String get customizationFormOpenErrorMessage =>
-      '无法打开表单。请在浏览器中访问 forms.gle/LyX6Z2kBNR2BpwVu7。';
-
-  @override
-  String get customizationDisclaimerMessage =>
-      '价格仅供参考。最终报价可能因复杂程度而异。付款将在确认范围后收取。';
+  String customizationDisclaimerMessage(String email) {
+    return '每个请求都会根据范围提供专属报价。其他事宜请发送邮件至 $email。';
+  }
 
   @override
   String get customizationPdfTemplateTitle => '定制PDF模板';
@@ -4372,9 +4356,6 @@ class AppLocalizationsZh extends AppLocalizations {
       '获取符合您品牌的发票模板——您的颜色、字体、徽标位置和布局。';
 
   @override
-  String get customizationPdfTemplateDelivery => '2–5 天';
-
-  @override
   String get customizationCustomFieldsTitle => '自定义字段';
 
   @override
@@ -4382,17 +4363,11 @@ class AppLocalizationsZh extends AppLocalizations {
       '需要在发票上添加额外字段吗？（采购订单号、项目代码、部门等）我们将为您添加。';
 
   @override
-  String get customizationCustomFieldsDelivery => '1–3 天';
-
-  @override
   String get customizationWhiteLabelTitle => '白标 / 移除品牌标识';
 
   @override
   String get customizationWhiteLabelDescription =>
-      '从应用和PDF输出中移除所有Invoiso品牌标识，替换为您自己的企业标识。';
-
-  @override
-  String get customizationWhiteLabelDelivery => '3–6 天';
+      '从应用和PDF输出中移除所有CrizaVoise品牌标识，替换为您自己的企业标识。';
 
   @override
   String get customizationIndustryBuildTitle => '行业定制版本';
@@ -4400,9 +4375,6 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get customizationIndustryBuildDescription =>
       '需要针对您行业定制的版本吗？（建筑、咨询、零售等）我们将根据您的需求定制工作流程。';
-
-  @override
-  String get customizationIndustryBuildDelivery => '5–10 天';
 
   @override
   String get accessibilityCreateInvoiceLayoutSectionTitle => '新建发票页面布局';
@@ -4757,7 +4729,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get updateDialogTitle => '有可用更新';
 
   @override
-  String get updateDialogBodyMessage => 'invoiso 有新版本可用。请访问下载页面获取最新版本。';
+  String get updateDialogBodyMessage => 'CrizaVoise 有新版本可用。请访问下载页面获取最新版本。';
 
   @override
   String get pageSizeA4Label => '标准 A4';
@@ -5677,4 +5649,43 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get amountSeparatorIndianLabel => '印度（12,34,567.89）';
+
+  @override
+  String get customizationQuoteBadge => 'Get a quote';
+
+  @override
+  String contactMailUnavailableMessage(String email) {
+    return 'No mail app found. Write to us at $email.';
+  }
+
+  @override
+  String get aboutContactTitle => 'CONTACT';
+
+  @override
+  String get aboutContactSupportLabel => 'Support';
+
+  @override
+  String get aboutContactInfoLabel => 'Info';
+
+  @override
+  String get aboutContactBusinessLabel => 'Business';
+
+  @override
+  String get aboutOpenSourceLicensesTitle => 'Open-source licenses';
+
+  @override
+  String get aboutOpenSourceLicensesSubtitle =>
+      'Notices for the software and fonts CrizaVoise is built on';
+
+  @override
+  String get aboutPackageLicensesButton => 'Flutter package licenses';
+
+  @override
+  String aboutRightsReserved(int year, String maker) {
+    return '© $year $maker. All rights reserved.';
+  }
+
+  @override
+  String get aboutLicensesLoadError =>
+      'Couldn\'t load the notices. Please reinstall CrizaVoise.';
 }

@@ -3,19 +3,19 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/database/invoice_service.dart';
-import 'package:invoiso/database/payment_service.dart';
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/database/report_service.dart';
-import 'package:invoiso/database/return_service.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/services/pdf/pdf_service.dart';
-import 'package:invoiso/services/pdf/pdf_widgets.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/database/invoice_service.dart';
+import 'package:crizavoise/database/payment_service.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/database/report_service.dart';
+import 'package:crizavoise/database/return_service.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/services/pdf/pdf_service.dart';
+import 'package:crizavoise/services/pdf/pdf_widgets.dart';
 
 Customer _cust({String id = 'c1', String name = 'Ramesh Stores'}) => Customer(
       id: id,

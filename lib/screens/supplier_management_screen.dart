@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/supplier.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/supplier_provider.dart';
-import 'package:invoiso/utils/error_handler.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/supplier.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/supplier_provider.dart';
+import 'package:crizavoise/utils/error_handler.dart';
 import 'package:uuid/uuid.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 class SupplierManagementScreen extends ConsumerStatefulWidget {
   final User user;

@@ -6,17 +6,17 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/database/report_service.dart';
-import 'package:invoiso/models/cash_ledger_entry.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/services/customer_statement_pdf_service.dart';
-import 'package:invoiso/providers/repositories.dart';
+import 'package:crizavoise/database/report_service.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/customer_statement_pdf_service.dart';
+import 'package:crizavoise/providers/repositories.dart';
 
 import '../common/supported_currencies.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 // ─── Date preset enum ─────────────────────────────────────────────────────────
 

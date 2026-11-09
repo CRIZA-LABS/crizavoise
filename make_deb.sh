@@ -5,9 +5,9 @@ set -x
 # -------------------------
 # DEFAULT CONFIG
 # -------------------------
-APP_NAME="invoiso"
+APP_NAME="crizavoise"
 APP_VERSION="1.0.0"
-MAINTAINER="Anoop P <anooppkrishnan96@gmail.com>"
+MAINTAINER="Criza Labs <info@criza.dev>"
 BUILD_NUMBER_FILE=".build_number"
 DEFAULT_BUILD_DIR="build/linux/x64/release/bundle"
 
@@ -172,7 +172,7 @@ EOF
 # -------------------------
 cat <<EOF > "$PKG_DIR/usr/share/applications/$APP_NAME.desktop"
 [Desktop Entry]
-Name=Invoiso
+Name=CrizaVoise
 Comment=Invoice generating desktop app built with Flutter
 Exec=$APP_NAME
 Icon=$APP_NAME
@@ -184,7 +184,7 @@ EOF
 # -------------------------
 # ICON (copy if exists)
 # -------------------------
-ICON_SRC="$ROOT_DIR/assets/deb/images/logo.png"
+ICON_SRC="$ROOT_DIR/assets/brand/icons/icon-1024.png"
 if [ -f "$ICON_SRC" ]; then
   cp "$ICON_SRC" "$PKG_DIR/usr/share/icons/hicolor/256x256/apps/$APP_NAME.png"
 else

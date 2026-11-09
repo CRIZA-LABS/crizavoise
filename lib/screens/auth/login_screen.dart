@@ -3,27 +3,29 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/common/setting_key.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/company_profile.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/locale_provider.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/theme_provider.dart';
-import 'package:invoiso/screens/auth/forgot_password_screen.dart';
-import 'package:invoiso/screens/auth/change_password_screen.dart';
-import 'package:invoiso/screens/help/help_search_screen.dart';
-import 'package:invoiso/screens/settings/company_management_screen.dart';
-import 'package:invoiso/screens/test_gate_screen.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/common/setting_key.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/company_profile.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/locale_provider.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/theme_provider.dart';
+import 'package:crizavoise/screens/auth/forgot_password_screen.dart';
+import 'package:crizavoise/screens/auth/change_password_screen.dart';
+import 'package:crizavoise/screens/help/help_search_screen.dart';
+import 'package:crizavoise/screens/settings/company_management_screen.dart';
+import 'package:crizavoise/screens/test_gate_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:crizavoise/theme/brand_assets.dart';
 
-import 'package:invoiso/providers/app_config_provider.dart';
-import 'package:invoiso/utils/post_auth_navigation.dart';
-import 'package:invoiso/utils/window_title.dart';
+import 'package:crizavoise/providers/app_config_provider.dart';
+import 'package:crizavoise/utils/post_auth_navigation.dart';
+import 'package:crizavoise/utils/window_title.dart';
 
 // Login Screen
 class LoginScreen extends ConsumerStatefulWidget {
@@ -180,13 +182,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   }
 
-  // Uses the existing analytics heartbeat endpoint's response Date header as a
+  // Uses the Criza Labs website response Date header as a
   // trusted clock — local device time is spoofable and would defeat this gate.
   Future<bool> _testGatePasses(AppEditionConfig cfg, User user) async {
     DateTime serverTime;
     try {
       final resp = await http
-          .head(Uri.parse(AnalyticsConfig.heartbeatUrl))
+          .head(Uri.parse(TestBuildConfig.clockUrl))
           .timeout(const Duration(seconds: 5));
       final dateHeader = resp.headers['date'];
       if (dateHeader == null) throw const HttpException('missing Date header');
@@ -242,64 +244,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (!cfg.isCloud)
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: cardWidth),
-                    child: MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () => launchUrl(
-                          Uri.parse('https://invoiso.co.in/customization.html'),
-                          mode: LaunchMode.externalApplication,
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 10),
-                          margin: const EdgeInsets.only(bottom: 16),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            spacing: 8,
-                            runSpacing: 4,
-                            children: [
-                              const Icon(Icons.cloud_outlined,
-                                  color: Colors.white, size: 24),
-                              Wrap(
-                                children: [
-                                  const Text(
-                                    'Need multi-device access? ',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
-                                  ),
-                                  const Text(
-                                    '"Invoiso Cloud Edition"',
-                                    style: TextStyle(
-                                        color: Colors.yellow, fontSize: 13),
-                                  ),
-                                  const Text(
-                                    ' is available.',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                'Learn more →',
-                                style: TextStyle(
-                                  color: Colors.blue[100],
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 Card(
                   elevation: 8,
                   color: Theme.of(context).colorScheme.surfaceContainer,
@@ -309,14 +253,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(
-                          // TODO: swap to a real dark-mode asset once available.
+                        SvgPicture.asset(
                           isDark
-                              ? 'assets/images/logo_dark.png'
-                              : 'assets/images/logo.png',
+                              ? BrandAssets.lockupDark
+                              : BrandAssets.lockupLight,
                           width: logoWidth,
-                          height: 100,
+                          height: 64,
                           fit: BoxFit.contain,
+                          semanticsLabel: AppConfig.name,
                         ),
                         AppSpacing.hSmall,
                         if (!cfg.isCloud && _showDefaultCredsHint) ...[
@@ -468,7 +412,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onTap: () => launchUrl(Uri.parse(AppConfig.website),
                                 mode: LaunchMode.externalApplication),
                             child: Text(
-                              AppConfig.website,
+                              '${AppConfig.madeBy} · ${AppConfig.websiteLabel}',
                               style: TextStyle(
                                   fontSize: 12,
                                   color: Theme.of(context)

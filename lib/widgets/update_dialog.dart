@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/services/update_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/services/update_service.dart';
 
 class UpdateDialog extends StatelessWidget {
   final UpdateInfo info;
@@ -77,7 +78,7 @@ class UpdateDialog extends StatelessWidget {
             await UpdateService.markNotified(info.latestVersion);
             if (context.mounted) Navigator.of(context).pop();
             await launchUrl(
-              Uri.parse('https://invoiso.co.in/download.html'),
+              Uri.parse(UpdateConfig.downloadUrl),
               mode: LaunchMode.externalApplication,
             );
           },

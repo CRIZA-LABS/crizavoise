@@ -1,8 +1,8 @@
-import 'package:invoiso/database/return_service.dart';
-import 'package:invoiso/models/customer_credit.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/refund.dart';
-import 'package:invoiso/repositories/return_repository.dart';
+import 'package:crizavoise/database/return_service.dart';
+import 'package:crizavoise/models/customer_credit.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/refund.dart';
+import 'package:crizavoise/repositories/return_repository.dart';
 
 class SqliteReturnRepository implements ReturnRepository {
   @override

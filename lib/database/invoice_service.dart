@@ -2,22 +2,22 @@ import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
 
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/invoice_item_service.dart';
-import 'package:invoiso/database/settings_service.dart';
-import 'package:invoiso/domain/invoice_calculator.dart';
-import 'package:invoiso/domain/invoice_totals_calculator.dart';
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/models/additional_cost.dart';
-import 'package:invoiso/models/custom_field_value.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/invoice_list_filter.dart';
-import 'package:invoiso/models/invoice_payment.dart';
-import 'package:invoiso/utils/app_date.dart';
-import 'package:invoiso/utils/app_logger.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/invoice_item_service.dart';
+import 'package:crizavoise/database/settings_service.dart';
+import 'package:crizavoise/domain/invoice_calculator.dart';
+import 'package:crizavoise/domain/invoice_totals_calculator.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/models/additional_cost.dart';
+import 'package:crizavoise/models/custom_field_value.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/invoice_list_filter.dart';
+import 'package:crizavoise/models/invoice_payment.dart';
+import 'package:crizavoise/utils/app_date.dart';
+import 'package:crizavoise/utils/app_logger.dart';
 import 'database_helper.dart';
 import 'payment_service.dart';
 

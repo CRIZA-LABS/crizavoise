@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
 
 /// Tells the user an action changed which database file is loaded (backup
 /// restore, company switch/create/delete) and the app needs a restart to

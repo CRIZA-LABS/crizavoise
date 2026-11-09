@@ -1,5 +1,5 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/domain/invoice_calculator.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/domain/invoice_calculator.dart';
 
 class PurchaseBillCalculator {
   const PurchaseBillCalculator._();

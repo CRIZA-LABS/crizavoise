@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/custom_field_def.dart';
-import 'package:invoiso/models/custom_field_value.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/customer_field_settings.dart';
-import 'package:invoiso/widgets/customer_extra_fields.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/models/custom_field_value.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/customer_field_settings.dart';
+import 'package:crizavoise/widgets/customer_extra_fields.dart';
 
 Customer _base() => Customer(
     id: 'c1', name: 'Asha', email: '', phone: '111', address: 'Bill St', gstin: '');

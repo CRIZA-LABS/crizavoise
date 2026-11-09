@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://invoiso.co.in/sitemap.xml

@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/models/cash_ledger_entry.dart';
-import 'package:invoiso/utils/app_date.dart';
-import 'package:invoiso/utils/app_logger.dart';
+import 'package:crizavoise/models/cash_ledger_entry.dart';
+import 'package:crizavoise/utils/app_date.dart';
+import 'package:crizavoise/utils/app_logger.dart';
 import 'database_helper.dart';
 
 const _tag = 'CashLedgerService';

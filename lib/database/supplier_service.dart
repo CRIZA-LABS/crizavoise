@@ -1,4 +1,4 @@
-import 'package:invoiso/models/supplier.dart';
+import 'package:crizavoise/models/supplier.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
 

@@ -1,6 +1,6 @@
-import 'package:invoiso/models/product.dart';
+import 'package:crizavoise/models/product.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:invoiso/models/product_list_stats.dart';
+import 'package:crizavoise/models/product_list_stats.dart';
 import 'database_helper.dart';
 
 class ProductService {

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/models/invoice.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/models/invoice.dart';
 
 class InvoiceNotifier extends AsyncNotifier<List<Invoice>> {
   @override

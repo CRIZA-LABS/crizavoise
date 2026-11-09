@@ -8,24 +8,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:invoiso/database/customer_service.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/database/invoice_service.dart';
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/providers/sqlite_repository_overrides.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_company_info_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_installation_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_invoice_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_payment_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_settings_repository.dart';
-import 'package:invoiso/services/backend_services.dart';
-import 'package:invoiso/services/invoice_pdf_services.dart';
-import 'package:invoiso/screens/create_invoice_screen_v2.dart';
+import 'package:crizavoise/database/customer_service.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/database/invoice_service.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/providers/sqlite_repository_overrides.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_company_info_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_installation_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_invoice_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_payment_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_settings_repository.dart';
+import 'package:crizavoise/services/backend_services.dart';
+import 'package:crizavoise/services/invoice_pdf_services.dart';
+import 'package:crizavoise/screens/create_invoice_screen_v2.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +34,7 @@ void main() {
   setUpAll(() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
-    tmp = Directory.systemTemp.createTempSync('invoiso_stock_check_test');
+    tmp = Directory.systemTemp.createTempSync('crizavoise_stock_check_test');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
             const MethodChannel('plugins.flutter.io/path_provider'),

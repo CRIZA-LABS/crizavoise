@@ -1,5 +1,5 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
 
 /// Shared label helpers for return management — maps the canonical (stored)
 /// English reason / payment-method strings to the localized display text.

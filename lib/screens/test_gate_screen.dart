@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
 
 enum TestGateReason { noInternet, expired }
 

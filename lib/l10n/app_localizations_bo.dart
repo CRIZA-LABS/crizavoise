@@ -9,7 +9,7 @@ class AppLocalizationsBo extends AppLocalizations {
   AppLocalizationsBo([String locale = 'bo']) : super(locale);
 
   @override
-  String get appTitle => 'Invoiso';
+  String get appTitle => 'CrizaVoise';
 
   @override
   String get actionSave => 'ཉར་ཚགས།';
@@ -249,9 +249,6 @@ class AppLocalizationsBo extends AppLocalizations {
   String get dashboardSupportTooltip => 'རོགས་སྐྱོར།';
 
   @override
-  String get buyMeCoffeeLabel => 'Buy me a coffee';
-
-  @override
   String get dashboardLogoutTooltip => 'ཕྱིར་འཐོན།';
 
   @override
@@ -308,17 +305,17 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String get dashboardSupportBannerReviewSubtitle =>
-      'Invoiso ལ་དགའ་བོ་ཡོད་དམ? མྱུར་བའི་བསྐྱར་ཞིབ་ཅིག་གིས་ཕན་ཐོགས་ཆེན་པོ་ཡོད།';
+      'Enjoying CrizaVoise? Tell us what\'s working and what isn\'t.';
 
   @override
   String get dashboardSupportBannerSupportSubtitle =>
-      'Invoiso ཁྱེད་ཀྱི་ལས་ཀའི་ཆ་ཤས་ཤིག་ཏུ་གྱུར་འདུག ཕན་ཐོགས་བྱུང་ན, དུས་ཚོད་འགྲིག་པའི་སྐབས་ལས་གཞི་ལ་རོགས་སྐྱོར་བསམ་བློ་གཏོང་རོགས།';
+      'Looks like CrizaVoise is part of your workflow. Questions or ideas? We\'d love to hear from you.';
 
   @override
-  String get dashboardReviewAction => 'བསྐྱར་ཞིབ།';
+  String get dashboardReviewAction => 'Share feedback';
 
   @override
-  String get dashboardSupportAction => 'རོགས་སྐྱོར།';
+  String get dashboardSupportAction => 'Contact us';
 
   @override
   String get dashboardOverviewTitle => 'ཚོད་ལྟའི་ངོས་སྤྱི་བཤད།';
@@ -4099,7 +4096,7 @@ class AppLocalizationsBo extends AppLocalizations {
   String get actionShare => 'མཉམ་སྤྱོད།';
 
   @override
-  String get appInfoTitle => 'མཉེན་ཆས་ཆ་འཕྲིན།';
+  String get appInfoTitle => 'About CrizaVoise';
 
   @override
   String get appInfoAppDetailsTitle => 'ཆེད་ལས་ཞིབ་ཕྲ།';
@@ -4114,18 +4111,13 @@ class AppLocalizationsBo extends AppLocalizations {
   String get appInfoLicenseLabel => 'ཆོག་མཆན།';
 
   @override
-  String get appInfoDeveloperTitle => 'འཕེལ་སྤེལ་བ།';
+  String get appInfoDeveloperTitle => 'MADE BY';
 
   @override
-  String get appInfoDeveloperLabel => 'འཕེལ་སྤེལ་བ།';
+  String get appInfoDeveloperLabel => 'Maker';
 
   @override
   String get appInfoSupportEmailLabel => 'རོགས་རམ་གློག་འཕྲིན།';
-
-  @override
-  String appInfoFooterCopyright(int year, String developer, String license) {
-    return '© $year $developer  |  $license ཆོག་མཆན་འོག་ཏུ་སྤེལ།';
-  }
 
   @override
   String get appInfoCheckingLabel => 'ཞིབ་བཤེར་བྱེད་བཞིན།';
@@ -4425,7 +4417,7 @@ class AppLocalizationsBo extends AppLocalizations {
   String get settingsNavAccessibilityLabel => 'ཐོབ་ཐང་།';
 
   @override
-  String get settingsNavSoftwareInfoLabel => 'མཉེན་ཆས་ཆ་འཕྲིན།';
+  String get settingsNavSoftwareInfoLabel => 'About';
 
   @override
   String get companyMgmtTitle => 'ཚོང་ལས་དོ་དམ།';
@@ -4441,7 +4433,7 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String companyMgmtSwitchConfirmBody(String name) {
-    return '\"$name\" ལ་བརྗེ་བར་ Invoiso ཡང་བསྐྱར་འགོ་འཛུགས་འགྲོ།';
+    return '\"$name\" ལ་བརྗེ་བར་ CrizaVoise ཡང་བསྐྱར་འགོ་འཛུགས་འགྲོ།';
   }
 
   @override
@@ -4487,7 +4479,7 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String get companyMgmtSwitchRestartBody =>
-      'ཚོང་ལས་བརྗེ་བ་མཇུག་སྐྱོང་ཆེད་ Invoiso ཡང་བསྐྱར་འགོ་འཛུགས་དགོས། ཐུགས་རྗེས་ཉར་ཚགས་ཁ་བརྒྱབ་ནས་ཡང་བསྐྱར་ཕྱེ་རོགས།';
+      'ཚོང་ལས་བརྗེ་བ་མཇུག་སྐྱོང་ཆེད་ CrizaVoise ཡང་བསྐྱར་འགོ་འཛུགས་དགོས། ཐུགས་རྗེས་ཉར་ཚགས་ཁ་བརྒྱབ་ནས་ཡང་བསྐྱར་ཕྱེ་རོགས།';
 
   @override
   String get companyMgmtCreateRestartTitle => 'ཚོང་ལས་གསར་བཟོས་ཟིན།';
@@ -4504,7 +4496,7 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String get companyMgmtDeleteRestartBody =>
-      'ཚོང་ལས་བསུབས་ཤིང་ Invoiso ཚོང་ལས་གཞན་ཞིག་ལ་བརྗེས་སོང་། མུ་མཐུད་ཆེད་ཐུགས་རྗེས་ཉར་ཚགས་ཁ་བརྒྱབ་ནས་ཡང་བསྐྱར་ཕྱེ་རོགས།';
+      'ཚོང་ལས་བསུབས་ཤིང་ CrizaVoise ཚོང་ལས་གཞན་ཞིག་ལ་བརྗེས་སོང་། མུ་མཐུད་ཆེད་ཐུགས་རྗེས་ཉར་ཚགས་ཁ་བརྒྱབ་ནས་ཡང་བསྐྱར་ཕྱེ་རོགས།';
 
   @override
   String get companyMgmtOnlyCompanyTooltip =>
@@ -4524,26 +4516,18 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String get customizationSubtitle =>
-      'ཁྱེད་ལ་དགོས་པ་འདེམས་ནས་ཞུ་ཡིག་སྐུར་རོགས། ང་ཚོས་ཆུ་ཚོད ༢༤ ནང་ལན་འདེབས་བྱེད་ངེས།';
+      'Pick what you need and send a request. We\'ll reply with a personal quote.';
 
   @override
   String get customizationRecommendedBadge => 'འོས་སྦྱོར།';
 
   @override
-  String customizationDeliveryLabel(String delivery) {
-    return 'སྤྲོད་དུས། $delivery';
-  }
-
-  @override
   String get customizationRequestButton => 'ཞུ་བ།';
 
   @override
-  String get customizationFormOpenErrorMessage =>
-      'ཐོ་འགོད་ཤོག་ངོས་ཁ་ཕྱེ་མ་ཐུབ། ཁྱེད་ཀྱི་བརའུ་ཟར་ནང་ forms.gle/LyX6Z2kBNR2BpwVu7 ལ་ལྟ་རོགས།';
-
-  @override
-  String get customizationDisclaimerMessage =>
-      'རིན་གོང་ནི་དཔེ་མཚོན་ཙམ་ཡིན། འདི་ནི་དཀའ་ཚེགས་ཀྱི་ཆེ་ཆུང་ལ་བརྟེན་ནས་འགྱུར་བ་འགྲོ་སྲིད། ཁྱབ་ཁོངས་མོས་མཐུན་བྱས་རྗེས་དངུལ་བསྡུ་བ་ཡིན།';
+  String customizationDisclaimerMessage(String email) {
+    return 'Every request gets a personal quote based on its scope. For anything else, write to $email.';
+  }
 
   @override
   String get customizationPdfTemplateTitle => 'སྒེར་སྒྲིག PDF དཔེ་གཞི།';
@@ -4553,9 +4537,6 @@ class AppLocalizationsBo extends AppLocalizations {
       'ཁྱེད་ཀྱི་མཚན་བརྗོད་དང་མཐུན་པའི་ཁྲལ་ཤོག་དཔེ་གཞི་ལེན་རོགས། — ཁྱེད་ཀྱི་ཚོན་མདོག ཡིག་གཟུགས མཚོན་རྟགས་གནས་ས་དང་བཀོད་པ།';
 
   @override
-  String get customizationPdfTemplateDelivery => 'ཉིན་ ༢–༥';
-
-  @override
   String get customizationCustomFieldsTitle => 'སྒེར་སྒྲིག་ཡིག་ཆ།';
 
   @override
@@ -4563,17 +4544,11 @@ class AppLocalizationsBo extends AppLocalizations {
       'ཁྱེད་ཀྱི་ཁྲལ་ཤོག་ལ་ཡིག་ཆ་གཞན་དགོས་སམ? (ཉོ་སྒྲིག་ཨང་གྲངས་ལས་གཞིའི་ཨང་གྲངས་ལས་ཁུངས་སོགས) ང་ཚོས་ཁྱེད་ལ་སྣོན་འཇུག་བྱེད་ངེས།';
 
   @override
-  String get customizationCustomFieldsDelivery => 'ཉིན་ ༡–༣';
-
-  @override
   String get customizationWhiteLabelTitle => 'དཀར་ཅག / མཚན་བརྗོད་བསུབ་པ།';
 
   @override
   String get customizationWhiteLabelDescription =>
-      'མཉེན་ཆས་དང PDF ནང་གི Invoiso མཚན་བརྗོད་ཡོངས་རྫོགས་བསུབ་ནས་ཁྱེད་རང་གི་ཚོང་ལས་ངོ་བོས་ཚབ་བྱེད།';
-
-  @override
-  String get customizationWhiteLabelDelivery => 'ཉིན་ ༣–༦';
+      'མཉེན་ཆས་དང PDF ནང་གི CrizaVoise མཚན་བརྗོད་ཡོངས་རྫོགས་བསུབ་ནས་ཁྱེད་རང་གི་ཚོང་ལས་ངོ་བོས་ཚབ་བྱེད།';
 
   @override
   String get customizationIndustryBuildTitle => 'ལས་སྡེའི་སྒེར་སྒྲིག';
@@ -4581,9 +4556,6 @@ class AppLocalizationsBo extends AppLocalizations {
   @override
   String get customizationIndustryBuildDescription =>
       'ཁྱེད་ཀྱི་ལས་སྡེ་ལ་སྒེར་སྒྲིག་བྱས་པའི་པར་གཞི་དགོས་སམ? (བརྒྱབ་སྐྲུན་བསམ་འཆར་ཚོང་ལས་སོགས) ང་ཚོས་ཁྱེད་ཀྱི་དགོས་མཁོ་ལྟར་ལས་འགུལ་སྒེར་སྒྲིག་བྱེད་ངེས།';
-
-  @override
-  String get customizationIndustryBuildDelivery => 'ཉིན་ ༥–༡༠';
 
   @override
   String get accessibilityCreateInvoiceLayoutSectionTitle =>
@@ -4947,7 +4919,7 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String get updateDialogBodyMessage =>
-      'invoiso གི་པར་གཞི་གསར་པ་ཐོན་ཡོད། གསར་ཤོས་བླང་ཆེད་ཕབ་ལེན་ཤོག་ངོས་སུ་གཟིགས་རོགས།';
+      'CrizaVoise གི་པར་གཞི་གསར་པ་ཐོན་ཡོད། གསར་ཤོས་བླང་ཆེད་ཕབ་ལེན་ཤོག་ངོས་སུ་གཟིགས་རོགས།';
 
   @override
   String get pageSizeA4Label => 'སྤྱི་ཚད་ A4';
@@ -5891,4 +5863,43 @@ class AppLocalizationsBo extends AppLocalizations {
 
   @override
   String get amountSeparatorIndianLabel => 'Indian  (12,34,567.89)';
+
+  @override
+  String get customizationQuoteBadge => 'Get a quote';
+
+  @override
+  String contactMailUnavailableMessage(String email) {
+    return 'No mail app found. Write to us at $email.';
+  }
+
+  @override
+  String get aboutContactTitle => 'CONTACT';
+
+  @override
+  String get aboutContactSupportLabel => 'Support';
+
+  @override
+  String get aboutContactInfoLabel => 'Info';
+
+  @override
+  String get aboutContactBusinessLabel => 'Business';
+
+  @override
+  String get aboutOpenSourceLicensesTitle => 'Open-source licenses';
+
+  @override
+  String get aboutOpenSourceLicensesSubtitle =>
+      'Notices for the software and fonts CrizaVoise is built on';
+
+  @override
+  String get aboutPackageLicensesButton => 'Flutter package licenses';
+
+  @override
+  String aboutRightsReserved(int year, String maker) {
+    return '© $year $maker. All rights reserved.';
+  }
+
+  @override
+  String get aboutLicensesLoadError =>
+      'Couldn\'t load the notices. Please reinstall CrizaVoise.';
 }

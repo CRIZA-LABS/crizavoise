@@ -9,15 +9,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/database/settings_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/sqlite_repository_overrides.dart';
-import 'package:invoiso/widgets/product_form.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/database/settings_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/sqlite_repository_overrides.dart';
+import 'package:crizavoise/widgets/product_form.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,7 @@ void main() {
   setUpAll(() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
-    tmp = Directory.systemTemp.createTempSync('invoiso_product_form_test');
+    tmp = Directory.systemTemp.createTempSync('crizavoise_product_form_test');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
             const MethodChannel('plugins.flutter.io/path_provider'),

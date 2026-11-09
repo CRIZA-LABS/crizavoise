@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/services/backend_services.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/services/backend_services.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:archive/archive.dart';
@@ -9,10 +9,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/services/pdf_service.dart';
-import 'package:invoiso/utils/formatters.dart';
-import 'package:invoiso/utils/fs_utils.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/services/pdf_service.dart';
+import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/utils/fs_utils.dart';
 
 class ExportService {
   /// Builds the invoice CSV, prompts the user for a save location (a native

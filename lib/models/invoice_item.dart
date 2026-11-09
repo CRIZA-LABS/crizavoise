@@ -1,8 +1,8 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/models/product.dart';
+import 'package:crizavoise/models/product.dart';
 
-import 'package:invoiso/domain/invoice_totals_calculator.dart';
+import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 
 class InvoiceItem {
   String id;

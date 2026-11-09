@@ -1,0 +1,56 @@
+# CLAUDE.md — CrizaVoise
+
+**CrizaVoise by Criza Labs**: offline invoicing/billing desktop app. This file is the context for future sessions. Read `CrizaVoise_Prompt.md` (local working brief, gitignored) for the full 3-phase plan.
+
+## Stack
+- **Flutter 3** desktop: Windows first, then Linux and macOS. The Android/iOS/web folders exist but aren't shipped.
+- **State:** Riverpod (`flutter_riverpod`). Repositories live in `lib/repositories/` (SQLite implementations in `sqlite/`), wired in `lib/providers/`.
+- **Data:** SQLite via `sqflite` + `sqflite_common_ffi`. Each company gets its own DB file (`invoice_manager*.db`) in the app-support dir. The company registry lives in SharedPreferences.
+- **PDF:** `pdf` + `printing`. Templates are in `lib/services/pdf/`. The viewer is `syncfusion_flutter_pdfviewer`, which needs a commercial license; flagged for Phase 3.
+- **i18n:** ARB files in `lib/l10n/` (en is the template; es, fr, hi, ne, zh, bo). Missing keys fall back to English.
+- **Desktop window:** `window_manager`.
+
+## Commands
+```bash
+export PATH="/c/flutter/bin:$PATH"     # Flutter SDK lives at C:\flutter
+flutter pub get
+flutter gen-l10n                       # after editing ARB files
+flutter analyze                        # baseline: 64 infos, 0 errors/warnings
+flutter test                           # 439 tests; product_form_test has one known flaky case
+flutter build windows                  # needs Windows Developer Mode ON
+dart run flutter_launcher_icons        # regenerate icons from assets/brand/icons/icon-1024.png
+```
+
+## Brand & tokens
+- Name **CrizaVoise** (capital C and V). The credit line is "CrizaVoise by Criza Labs". Never imply Criza Labs wrote the original codebase. Rules are in `docs/brand.md`.
+- Logos are in `assets/brand/` (paths in `lib/theme/brand_assets.dart`). The build script for SVGs/icons/OG lived in a session scratchpad: mark = gradient tile + invoice sheet + check-"V"; wordmark = outlined Bricolage Grotesque 800.
+- **Tokens: `lib/theme/tokens.dart` is the single source** (CvColors light/dark, CvType, CvSpace, CvRadius, CvElevation, CvMotion, CvZ, plus the `CrizaTokens` ThemeExtension). `lib/theme/app_theme.dart` builds ThemeData from them. Don't hard-code colors in widgets.
+- Fonts: Inter (body) and Bricolage Grotesque (headings) as variable TTFs, with Noto Devanagari/Tibetan fallbacks. All are OFL/permissive and listed in `THIRD_PARTY_NOTICES.md`.
+- Contrast is enforced by `test/theme_contrast_test.dart` (WCAG AA, both themes).
+
+## Decisions (don't revisit without asking the owner)
+- Version **1.0.0**. App ID **`dev.criza.crizavoise`**. Binary **`crizavoise.exe`**. Windows data dir **`%APPDATA%\Criza Labs\CrizaVoise\`** (it comes from `windows/runner/Runner.rc` CompanyName/ProductName; changing those moves user data).
+- **Legacy data migration:** `lib/migration/legacy_data_migration.dart`.
+  - `main()` runs `runCopyPhase()` before any DB or SharedPreferences access. It zips the old dir into `backups/` and then COPIES it.
+  - `SplashScreen` calls `finalizeAfterSuccessfulOpen()` after the DB opens, which deletes the old dir.
+  - The log is `migration.log` and the marker is `.cv_migration.json`, both in the data dir.
+  - `LegacyAppPaths` (with its test) is the **only** place old-product names may appear in code.
+- **License:** a proprietary `LICENSE` (Criza Labs + AbrarAli S). The upstream MIT notice is kept word for word in `THIRD_PARTY_NOTICES.md`. Both are bundled as Flutter assets and installed next to the exe via CMake.
+  - In the app: Settings → About → Open-source licenses (`lib/screens/settings/licenses_screen.dart`).
+- **Emails only in `lib/common/app_config.dart`:**
+  - `supportEmail` contact@ (support), `infoEmail` info@ (general/legal), `businessEmail` connect@ (business/licensing).
+  - Open them via `lib/utils/contact_links.dart` (mailto + subject; support also gets version/OS/installation ID).
+  - Packaging metadata (deb maintainer) is the one unavoidable exception.
+- **No network calls without the owner's OK.** The update check is disabled (`UpdateConfig`). The FAQ is bundled-only. Analytics, donate and review links were removed. The only remaining request is the test-build clock (`TestBuildConfig.clockUrl`), which runs only on CI test builds.
+- PDF credit is `AppConfig.pdfCredit` ("Powered by CrizaVoise · criza.dev"), hidden by `SettingKey.showInvoiceFooterBranding`.
+
+## Conventions
+- Package imports: `package:crizavoise/...`.
+- New UI strings go to `lib/l10n/app_en.arb` (with `@key` metadata when placeholders are used), then run `flutter gen-l10n`.
+- Keep business logic (invoice math, tax, numbering, storage, exports) unchanged during redesign work.
+- Git: work on branch `crizavoise`. The `upstream` remote is the original project, so **never push to it**.
+
+## Phase status
+- **Phase 1 (identity, theme, rebrand):** implemented. The Windows build is pending the owner enabling Developer Mode.
+- **Phase 2 (UI/UX, motion, performance):** not started.
+- **Phase 3 (features, polish, release):** not started.

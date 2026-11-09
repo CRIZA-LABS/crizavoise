@@ -1,6 +1,6 @@
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/domain/invoice_calculator.dart';
-import 'package:invoiso/domain/invoice_totals_calculator.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/domain/invoice_calculator.dart';
+import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 import 'additional_cost.dart';
 import 'custom_field_value.dart';
 import 'customer.dart';

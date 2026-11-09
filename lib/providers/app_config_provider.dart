@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show WidgetBuilder, IconData;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/common/constants.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/common/constants.dart';
 
 /// Edition-varying branding/config shared screens need to read. Each app's own
 /// main.dart overrides this provider with its own values instead of duplicating
@@ -46,7 +46,7 @@ class AppEditionConfig {
 final appEditionConfigProvider = Provider<AppEditionConfig>((ref) => const AppEditionConfig(
       name: AppConfig.name,
       version: AppConfig.version,
-      developer: AppConfig.developer,
+      developer: AppConfig.maker,
       supportEmail: AppConfig.supportEmail,
       website: AppConfig.website,
       license: AppConfig.license,

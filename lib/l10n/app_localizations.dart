@@ -111,7 +111,7 @@ abstract class AppLocalizations {
   /// The application title
   ///
   /// In en, this message translates to:
-  /// **'Invoiso'**
+  /// **'CrizaVoise'**
   String get appTitle;
 
   /// No description provided for @actionSave.
@@ -552,12 +552,6 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get dashboardSupportTooltip;
 
-  /// No description provided for @buyMeCoffeeLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Buy me a coffee'**
-  String get buyMeCoffeeLabel;
-
   /// No description provided for @dashboardLogoutTooltip.
   ///
   /// In en, this message translates to:
@@ -657,25 +651,25 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardSupportBannerReviewSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enjoying Invoiso? A quick review helps a lot.'**
+  /// **'Enjoying CrizaVoise? Tell us what\'s working and what isn\'t.'**
   String get dashboardSupportBannerReviewSubtitle;
 
   /// No description provided for @dashboardSupportBannerSupportSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Looks like Invoiso is part of your workflow. If it\'s been helpful, consider supporting the project — whenever it feels right.'**
+  /// **'Looks like CrizaVoise is part of your workflow. Questions or ideas? We\'d love to hear from you.'**
   String get dashboardSupportBannerSupportSubtitle;
 
   /// No description provided for @dashboardReviewAction.
   ///
   /// In en, this message translates to:
-  /// **'Review'**
+  /// **'Share feedback'**
   String get dashboardReviewAction;
 
   /// No description provided for @dashboardSupportAction.
   ///
   /// In en, this message translates to:
-  /// **'Support'**
+  /// **'Contact us'**
   String get dashboardSupportAction;
 
   /// No description provided for @dashboardOverviewTitle.
@@ -6933,7 +6927,7 @@ abstract class AppLocalizations {
   /// No description provided for @appInfoTitle.
   ///
   /// In en, this message translates to:
-  /// **'Software Information'**
+  /// **'About CrizaVoise'**
   String get appInfoTitle;
 
   /// No description provided for @appInfoAppDetailsTitle.
@@ -6963,13 +6957,13 @@ abstract class AppLocalizations {
   /// No description provided for @appInfoDeveloperTitle.
   ///
   /// In en, this message translates to:
-  /// **'DEVELOPER'**
+  /// **'MADE BY'**
   String get appInfoDeveloperTitle;
 
   /// No description provided for @appInfoDeveloperLabel.
   ///
   /// In en, this message translates to:
-  /// **'Developer'**
+  /// **'Maker'**
   String get appInfoDeveloperLabel;
 
   /// No description provided for @appInfoSupportEmailLabel.
@@ -6977,12 +6971,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Support Email'**
   String get appInfoSupportEmailLabel;
-
-  /// No description provided for @appInfoFooterCopyright.
-  ///
-  /// In en, this message translates to:
-  /// **'© {year} {developer}  |  Released under the {license} License'**
-  String appInfoFooterCopyright(int year, String developer, String license);
 
   /// No description provided for @appInfoCheckingLabel.
   ///
@@ -7509,7 +7497,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsNavSoftwareInfoLabel.
   ///
   /// In en, this message translates to:
-  /// **'Software Info'**
+  /// **'About'**
   String get settingsNavSoftwareInfoLabel;
 
   /// No description provided for @companyMgmtTitle.
@@ -7539,7 +7527,7 @@ abstract class AppLocalizations {
   /// No description provided for @companyMgmtSwitchConfirmBody.
   ///
   /// In en, this message translates to:
-  /// **'Invoiso will restart to switch to \"{name}\".'**
+  /// **'CrizaVoise will restart to switch to \"{name}\".'**
   String companyMgmtSwitchConfirmBody(String name);
 
   /// No description provided for @companyMgmtNewCompanyButton.
@@ -7617,7 +7605,7 @@ abstract class AppLocalizations {
   /// No description provided for @companyMgmtSwitchRestartBody.
   ///
   /// In en, this message translates to:
-  /// **'Invoiso needs to restart to finish switching companies. Please close and reopen the application.'**
+  /// **'CrizaVoise needs to restart to finish switching companies. Please close and reopen the application.'**
   String get companyMgmtSwitchRestartBody;
 
   /// No description provided for @companyMgmtCreateRestartTitle.
@@ -7647,7 +7635,7 @@ abstract class AppLocalizations {
   /// No description provided for @companyMgmtDeleteRestartBody.
   ///
   /// In en, this message translates to:
-  /// **'The company was deleted and Invoiso switched to another one. Please close and reopen the application to continue.'**
+  /// **'The company was deleted and CrizaVoise switched to another one. Please close and reopen the application to continue.'**
   String get companyMgmtDeleteRestartBody;
 
   /// No description provided for @companyMgmtOnlyCompanyTooltip.
@@ -7683,7 +7671,7 @@ abstract class AppLocalizations {
   /// No description provided for @customizationSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Pick what you need and send a request. We\'ll get back to you within 24 hours.'**
+  /// **'Pick what you need and send a request. We\'ll reply with a personal quote.'**
   String get customizationSubtitle;
 
   /// No description provided for @customizationRecommendedBadge.
@@ -7692,29 +7680,17 @@ abstract class AppLocalizations {
   /// **'Recommended'**
   String get customizationRecommendedBadge;
 
-  /// No description provided for @customizationDeliveryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Delivery: {delivery}'**
-  String customizationDeliveryLabel(String delivery);
-
   /// No description provided for @customizationRequestButton.
   ///
   /// In en, this message translates to:
   /// **'Request'**
   String get customizationRequestButton;
 
-  /// No description provided for @customizationFormOpenErrorMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not open the form. Please visit forms.gle/LyX6Z2kBNR2BpwVu7 in your browser.'**
-  String get customizationFormOpenErrorMessage;
-
   /// No description provided for @customizationDisclaimerMessage.
   ///
   /// In en, this message translates to:
-  /// **'Prices are indicative. Final quote may vary based on complexity. Payment is collected after scope agreement.'**
-  String get customizationDisclaimerMessage;
+  /// **'Every request gets a personal quote based on its scope. For anything else, write to {email}.'**
+  String customizationDisclaimerMessage(String email);
 
   /// No description provided for @customizationPdfTemplateTitle.
   ///
@@ -7728,12 +7704,6 @@ abstract class AppLocalizations {
   /// **'Get an invoice template designed to match your brand — your colors, fonts, logo placement, and layout.'**
   String get customizationPdfTemplateDescription;
 
-  /// No description provided for @customizationPdfTemplateDelivery.
-  ///
-  /// In en, this message translates to:
-  /// **'2–5 days'**
-  String get customizationPdfTemplateDelivery;
-
   /// No description provided for @customizationCustomFieldsTitle.
   ///
   /// In en, this message translates to:
@@ -7746,12 +7716,6 @@ abstract class AppLocalizations {
   /// **'Need extra fields on your invoices? (PO number, project code, department, etc.) We\'ll add them for you.'**
   String get customizationCustomFieldsDescription;
 
-  /// No description provided for @customizationCustomFieldsDelivery.
-  ///
-  /// In en, this message translates to:
-  /// **'1–3 days'**
-  String get customizationCustomFieldsDelivery;
-
   /// No description provided for @customizationWhiteLabelTitle.
   ///
   /// In en, this message translates to:
@@ -7761,14 +7725,8 @@ abstract class AppLocalizations {
   /// No description provided for @customizationWhiteLabelDescription.
   ///
   /// In en, this message translates to:
-  /// **'Remove all Invoiso branding from the app and PDF outputs, and replace it with your own company identity.'**
+  /// **'Remove all CrizaVoise branding from the app and PDF outputs, and replace it with your own company identity.'**
   String get customizationWhiteLabelDescription;
-
-  /// No description provided for @customizationWhiteLabelDelivery.
-  ///
-  /// In en, this message translates to:
-  /// **'3–6 days'**
-  String get customizationWhiteLabelDelivery;
 
   /// No description provided for @customizationIndustryBuildTitle.
   ///
@@ -7781,12 +7739,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Need a version tailored to your industry? (construction, consulting, retail, etc.) We\'ll customise the workflow to fit your needs.'**
   String get customizationIndustryBuildDescription;
-
-  /// No description provided for @customizationIndustryBuildDelivery.
-  ///
-  /// In en, this message translates to:
-  /// **'5–10 days'**
-  String get customizationIndustryBuildDelivery;
 
   /// No description provided for @accessibilityCreateInvoiceLayoutSectionTitle.
   ///
@@ -8439,7 +8391,7 @@ abstract class AppLocalizations {
   /// No description provided for @updateDialogBodyMessage.
   ///
   /// In en, this message translates to:
-  /// **'A new version of invoiso is available. Visit the download page to get the latest release.'**
+  /// **'A new version of CrizaVoise is available. Visit the download page to get the latest release.'**
   String get updateDialogBodyMessage;
 
   /// No description provided for @pageSizeA4Label.
@@ -10039,6 +9991,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Indian  (12,34,567.89)'**
   String get amountSeparatorIndianLabel;
+
+  /// No description provided for @customizationQuoteBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Get a quote'**
+  String get customizationQuoteBadge;
+
+  /// No description provided for @contactMailUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No mail app found. Write to us at {email}.'**
+  String contactMailUnavailableMessage(String email);
+
+  /// No description provided for @aboutContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTACT'**
+  String get aboutContactTitle;
+
+  /// No description provided for @aboutContactSupportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get aboutContactSupportLabel;
+
+  /// No description provided for @aboutContactInfoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get aboutContactInfoLabel;
+
+  /// No description provided for @aboutContactBusinessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get aboutContactBusinessLabel;
+
+  /// No description provided for @aboutOpenSourceLicensesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licenses'**
+  String get aboutOpenSourceLicensesTitle;
+
+  /// No description provided for @aboutOpenSourceLicensesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notices for the software and fonts CrizaVoise is built on'**
+  String get aboutOpenSourceLicensesSubtitle;
+
+  /// No description provided for @aboutPackageLicensesButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter package licenses'**
+  String get aboutPackageLicensesButton;
+
+  /// No description provided for @aboutRightsReserved.
+  ///
+  /// In en, this message translates to:
+  /// **'© {year} {maker}. All rights reserved.'**
+  String aboutRightsReserved(int year, String maker);
+
+  /// No description provided for @aboutLicensesLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the notices. Please reinstall CrizaVoise.'**
+  String get aboutLicensesLoadError;
 }
 
 class _AppLocalizationsDelegate

@@ -8,21 +8,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/database/invoice_service.dart';
-import 'package:invoiso/database/payment_service.dart';
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/utils/formatters.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/invoice_list_filter.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/providers/sqlite_repository_overrides.dart';
-import 'package:invoiso/screens/invoice_management_screen_v2.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/database/invoice_service.dart';
+import 'package:crizavoise/database/payment_service.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/invoice_list_filter.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/providers/sqlite_repository_overrides.dart';
+import 'package:crizavoise/screens/invoice_management_screen_v2.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +31,7 @@ void main() {
   setUpAll(() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
-    tmp = Directory.systemTemp.createTempSync('invoiso_status_test');
+    tmp = Directory.systemTemp.createTempSync('crizavoise_status_test');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
             const MethodChannel('plugins.flutter.io/path_provider'),

@@ -8,15 +8,15 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/database/product_service.dart';
-import 'package:invoiso/database/purchase_bill_service.dart';
-import 'package:invoiso/database/supplier_payment_service.dart';
-import 'package:invoiso/database/supplier_service.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/models/purchase_bill.dart';
-import 'package:invoiso/models/purchase_bill_item.dart';
-import 'package:invoiso/models/supplier.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/database/purchase_bill_service.dart';
+import 'package:crizavoise/database/supplier_payment_service.dart';
+import 'package:crizavoise/database/supplier_service.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
+import 'package:crizavoise/models/purchase_bill_item.dart';
+import 'package:crizavoise/models/supplier.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ void main() {
   setUpAll(() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
-    tmp = Directory.systemTemp.createTempSync('invoiso_purchase_draft_test');
+    tmp = Directory.systemTemp.createTempSync('crizavoise_purchase_draft_test');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
             const MethodChannel('plugins.flutter.io/path_provider'),

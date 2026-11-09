@@ -1,5 +1,5 @@
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/repositories/installation_repository.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/repositories/installation_repository.dart';
 
 class SqliteInstallationRepository implements InstallationRepository
 {

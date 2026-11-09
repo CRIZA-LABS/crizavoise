@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/providers/cash_exchange_settings_provider.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/returns_settings_provider.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/providers/cash_exchange_settings_provider.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/returns_settings_provider.dart';
 
 class AccessibilityScreen extends ConsumerStatefulWidget {
   const AccessibilityScreen({super.key});

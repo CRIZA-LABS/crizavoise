@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/screens/auth/login_screen.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/utils/app_logger.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/migration/legacy_data_migration.dart';
+import 'package:crizavoise/theme/brand_assets.dart';
+import 'package:crizavoise/theme/tokens.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/screens/auth/login_screen.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/utils/app_logger.dart';
 
 const _tag = 'SplashScreen';
 
@@ -47,6 +54,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     AppLogger.d(_tag, 'DB path: ${DatabaseHelper.path}');
 
+    // The database opened fine on this launch, so data imported from the
+    // pre-rename install is verified: the old folder can go.
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      await (await LegacyDataMigration.forCurrentPlatform())
+          .finalizeAfterSuccessfulOpen();
+    }
+
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
@@ -56,16 +70,39 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = MediaQuery.maybeDisableAnimationsOf(context) == true;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(AppLocalizations.of(context)!.splashInitializingMessage,
-                style: const TextStyle(fontSize: 18)),
-            AppSpacing.hXlarge,
-            const CircularProgressIndicator(),
-          ],
+        child: TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0, end: 1),
+          duration: reduceMotion ? CvMotion.fast : CvMotion.slow,
+          curve: CvMotion.standard,
+          builder: (context, t, child) => Opacity(
+            opacity: t,
+            child: Transform.scale(
+                scale: reduceMotion ? 1 : 0.94 + 0.06 * t, child: child),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                isDark ? BrandAssets.lockupDark : BrandAssets.lockupLight,
+                height: 56,
+                semanticsLabel: AppConfig.name,
+              ),
+              const SizedBox(height: CvSpace.xl),
+              Text(AppLocalizations.of(context)!.splashInitializingMessage,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+              AppSpacing.hLarge,
+              const SizedBox(
+                width: 28,
+                height: 28,
+                child: CircularProgressIndicator(strokeWidth: 3),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -4,15 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/additional_cost.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/services/pdf/pdf_template_gridclassic.dart';
-import 'package:invoiso/utils/amount_in_words.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/additional_cost.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/services/pdf/pdf_template_gridclassic.dart';
+import 'package:crizavoise/utils/amount_in_words.dart';
 
 final _company = CompanyInfo(
   name: 'MADATHIL HARDWARE',
@@ -108,7 +108,7 @@ void main() {
           expect(bytes, isNotEmpty);
           final name = pageFormat == PdfPageFormat.a4 ? 'a4' : pageFormat == PdfPageFormat.a5 ? "a5" : "a6";
           final orient = landscape ? '_landscape' : '';
-          final outputPath = 'output/invoiso_grid_pdf_$name$showQuantity$orient.pdf';
+          final outputPath = 'output/crizavoise_grid_pdf_$name$showQuantity$orient.pdf';
           final outputFile = File(outputPath);
           await outputFile.parent.create(recursive: true);
           await outputFile.writeAsBytes(await doc.save());
@@ -150,7 +150,7 @@ void main() {
     doc.addPage(p);
     final bytes = await doc.save();
     expect(bytes, isNotEmpty);
-    final outputPath = 'output/invoiso_grid_pdf.pdf';
+    final outputPath = 'output/crizavoise_grid_pdf.pdf';
     final outputFile = File(outputPath);
     await outputFile.parent.create(recursive: true);
     await outputFile.writeAsBytes(await doc.save());
@@ -177,7 +177,7 @@ void main() {
     doc.addPage(w);
     final bytes = await doc.save();
     expect(bytes, isNotEmpty);
-    final outputPath = 'output/invoiso_grid_pdf_watermark.pdf';
+    final outputPath = 'output/crizavoise_grid_pdf_watermark.pdf';
     final outputFile = File(outputPath);
     await outputFile.parent.create(recursive: true);
     await outputFile.writeAsBytes(await doc.save());
@@ -227,7 +227,7 @@ void main() {
       final bytes = await doc.save();
       expect(bytes, isNotEmpty);
       final f = File(
-          'output/invoiso_grid_pdf_metadata_${landscape ? 'landscape' : 'portrait'}.pdf');
+          'output/crizavoise_grid_pdf_metadata_${landscape ? 'landscape' : 'portrait'}.pdf');
       await f.parent.create(recursive: true);
       await f.writeAsBytes(bytes);
     });

@@ -1,7 +1,7 @@
 // Invoice.pdfNumberText: drafts preview with "DRAFT" in place of a number.
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/invoice.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/invoice.dart';
 
 void main() {
   Invoice doc({bool isDraft = false, bool hideNumber = false}) => Invoice(

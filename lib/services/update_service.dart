@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:invoiso/services/backend_services.dart';
+import 'package:crizavoise/services/backend_services.dart';
 import 'package:http/http.dart' as http;
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/app_config.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/common/constants.dart';
 
 class UpdateInfo {
   final String latestVersion;
@@ -30,14 +31,15 @@ class UpdateInfo {
 }
 
 class UpdateService {
-  static const _apiUrl =
-      'https://api.github.com/repos/Anooppandikashala/invoiso/releases/latest';
+  static const _apiUrl = UpdateConfig.releasesApiUrl;
   static const _checkIntervalHours = 24;
 
   /// Returns [UpdateInfo] if a check was performed (or cached).
   /// Returns null silently on network failure.
   /// Pass [force] to bypass the 24h cache and call the API immediately.
   static Future<UpdateInfo?> checkForUpdate({bool force = false}) async {
+    // No release feed configured yet: never report (or reuse a cached) update.
+    if (_apiUrl.isEmpty) return null;
     try {
       if (!force) {
         final lastCheck = await BackendServices.settings.getSetting(SettingKey.lastUpdateCheck);

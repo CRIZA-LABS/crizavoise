@@ -1,6 +1,6 @@
-import 'package:invoiso/models/customer.dart';
+import 'package:crizavoise/models/customer.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:invoiso/models/customer_list_stats.dart';
+import 'package:crizavoise/models/customer_list_stats.dart';
 import 'database_helper.dart';
 
 class CustomerService

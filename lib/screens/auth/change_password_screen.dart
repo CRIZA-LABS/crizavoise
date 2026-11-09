@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/utils/password_utils.dart';
-import 'package:invoiso/utils/post_auth_navigation.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/utils/password_utils.dart';
+import 'package:crizavoise/utils/post_auth_navigation.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
   final User user;

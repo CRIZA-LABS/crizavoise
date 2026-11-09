@@ -1,7 +1,7 @@
-name: invoiso
-description: "Invoice generating desktop app built with Flutter"
+name: crizavoise
+description: "CrizaVoise by Criza Labs — simple invoicing and billing for small businesses."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 4.5.1
+version: 1.0.0+1
 environment:
   sdk: '>=3.3.3 <4.0.0'
 
@@ -45,7 +45,6 @@ dependencies:
   flex_color_picker: ^3.6.0
   thermal_printer: ^1.0.5
   flutter_esc_pos_utils: ^1.0.1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,17 +56,20 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-   - assets/images/logo.png
-   - assets/images/logo_dark.png
-   - assets/images/logo.svg
-   - assets/images/bmc_logo.svg
-   - assets/images/logo_v.png
-   - assets/images/logo_v_dark.png
+   - assets/brand/
    - assets/images/grid_classic_additional_fields.png
    - assets/data/settings.json
    - assets/data/faq.json
    - assets/fonts/
+   - THIRD_PARTY_NOTICES.md
+   - LICENSE
   fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Variable.ttf
+    - family: BricolageGrotesque
+      fonts:
+        - asset: assets/fonts/BricolageGrotesque-Variable.ttf
     - family: NotoSansDevanagari
       fonts:
         - asset: assets/fonts/NotoSansDevanagari-Regular.ttf
@@ -78,28 +80,37 @@ flutter:
         - asset: assets/fonts/NotoSerifTibetan-Regular.ttf
         - asset: assets/fonts/NotoSerifTibetan-Bold.ttf
           weight: 700
-    - family: Cookie
-      fonts:
-        - asset: assets/fonts/Cookie-Regular.ttf
 
 flutter_launcher_icons:
+  image_path: "assets/brand/icons/icon-1024.png"
+  android: true
+  adaptive_icon_background: "assets/brand/icons/android-background.png"
+  adaptive_icon_foreground: "assets/brand/icons/android-foreground.png"
+  ios: true
+  remove_alpha_ios: true
+  windows:
+    generate: true
+    icon_size: 256
   macos:
     generate: true
-    image_path: "assets/images/logo_v.png"
+  web:
+    generate: true
+    background_color: "#08090d"
+    theme_color: "#08090d"
 
 package_rename_config:
   linux:
-    app_name: invoiso
-    package_name: invoiso
-    exe_name: invoiso
+    app_name: CrizaVoise
+    package_name: dev.criza.crizavoise
+    exe_name: crizavoise
 
   windows:
-    app_name: invoiso
-    organization: anoopp
-    copyright_notice: Copyright ©️ 2025 anoopp. All rights reserved.
-    exe_name: invoiso
+    app_name: CrizaVoise
+    organization: Criza Labs
+    copyright_notice: Copyright © 2026 Criza Labs. All rights reserved.
+    exe_name: crizavoise
 
   web:
-    app_name: invoiso
-    short_app_name: invoiso
-    description: Invoice generating desktop app built with Flutter
+    app_name: CrizaVoise
+    short_app_name: CrizaVoise
+    description: CrizaVoise by Criza Labs — simple invoicing and billing for small businesses.

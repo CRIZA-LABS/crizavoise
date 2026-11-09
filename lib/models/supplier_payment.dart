@@ -1,4 +1,4 @@
-import 'package:invoiso/utils/app_date.dart';
+import 'package:crizavoise/utils/app_date.dart';
 
 class SupplierPayment {
   final String id;

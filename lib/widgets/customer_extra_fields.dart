@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/custom_field_def.dart';
-import 'package:invoiso/models/custom_field_value.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/customer_field_settings.dart';
-import 'package:invoiso/utils/app_date.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/models/custom_field_value.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/customer_field_settings.dart';
+import 'package:crizavoise/utils/app_date.dart';
 
 /// Form state for [CustomerExtraFields]. [load] a customer (null = new), then
 /// [applyTo] the Customer built from the base form fields. Fields whose

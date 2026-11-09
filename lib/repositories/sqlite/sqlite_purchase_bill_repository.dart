@@ -1,6 +1,6 @@
-import 'package:invoiso/database/purchase_bill_service.dart';
-import 'package:invoiso/models/purchase_bill.dart';
-import 'package:invoiso/repositories/purchase_bill_repository.dart';
+import 'package:crizavoise/database/purchase_bill_service.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
+import 'package:crizavoise/repositories/purchase_bill_repository.dart';
 
 class SqlitePurchaseBillRepository implements PurchaseBillRepository {
   @override

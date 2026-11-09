@@ -1,9 +1,9 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:invoiso/domain/purchase_bill_calculator.dart';
-import 'package:invoiso/models/purchase_bill.dart';
-import 'package:invoiso/models/supplier_payment.dart';
-import 'package:invoiso/utils/app_logger.dart';
+import 'package:crizavoise/domain/purchase_bill_calculator.dart';
+import 'package:crizavoise/models/purchase_bill.dart';
+import 'package:crizavoise/models/supplier_payment.dart';
+import 'package:crizavoise/utils/app_logger.dart';
 import 'database_helper.dart';
 
 const _tag = 'SupplierPaymentService';

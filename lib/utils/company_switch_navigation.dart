@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/setting_key.dart';
-import 'package:invoiso/providers/invoice_provider.dart';
-import 'package:invoiso/providers/locale_provider.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/product_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/theme_provider.dart';
-import 'package:invoiso/screens/auth/login_screen.dart';
+import 'package:crizavoise/common/setting_key.dart';
+import 'package:crizavoise/providers/invoice_provider.dart';
+import 'package:crizavoise/providers/locale_provider.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/product_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/theme_provider.dart';
+import 'package:crizavoise/screens/auth/login_screen.dart';
 
 /// Call after switching, creating, or deleting a company post-login — the
 /// active database file has already changed underneath the running app, so

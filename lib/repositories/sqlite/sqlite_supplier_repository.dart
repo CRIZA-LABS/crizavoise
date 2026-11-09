@@ -1,6 +1,6 @@
-import 'package:invoiso/database/supplier_service.dart';
-import 'package:invoiso/models/supplier.dart';
-import 'package:invoiso/repositories/supplier_repository.dart';
+import 'package:crizavoise/database/supplier_service.dart';
+import 'package:crizavoise/models/supplier.dart';
+import 'package:crizavoise/repositories/supplier_repository.dart';
 
 class SqliteSupplierRepository implements SupplierRepository {
   @override

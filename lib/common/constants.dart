@@ -1,7 +1,8 @@
 // constants.dart
 import 'package:flutter/material.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
 
 class AppSpacing {
   static const baseValue = 8.0;
@@ -126,7 +127,11 @@ class PdfLayout {
 }
 
 class UpdateConfig {
-  static const enableUpdateCheck = true;
+  /// Off until Criza Labs publishes a CrizaVoise release feed. When it does,
+  /// set [releasesApiUrl] (GitHub-style "latest release" JSON) and turn this on.
+  static const enableUpdateCheck = false;
+  static const releasesApiUrl = '';
+  static const downloadUrl = AppConfig.website;
 }
 
 class TestBuildConfig {
@@ -138,9 +143,8 @@ class TestBuildConfig {
   static int get buildEpochSeconds => int.tryParse(_buildTimestampRaw) ?? 0;
 
   static const testExpiryDays = 7;
+
+  /// Any HTTPS endpoint whose Date header can serve as a trusted clock.
+  static const clockUrl = AppConfig.website;
 }
 
-class AnalyticsConfig {
-  static const heartbeatUrl =
-      "__HEARTBEAT_URL__"; // test https://www.google.com;
-}

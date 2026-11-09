@@ -3,18 +3,18 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_pdf_font_service.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/models/company_info.dart';
-import 'package:invoiso/models/custom_field_def.dart';
-import 'package:invoiso/models/custom_field_value.dart';
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/customer_field_settings.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_item.dart';
-import 'package:invoiso/models/product.dart';
-import 'package:invoiso/services/pdf/pdf_service.dart';
-import 'package:invoiso/services/pdf/pdf_settings.dart';
-import 'package:invoiso/services/pdf/pdf_widgets.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/models/company_info.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/models/custom_field_value.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/customer_field_settings.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_item.dart';
+import 'package:crizavoise/models/product.dart';
+import 'package:crizavoise/services/pdf/pdf_service.dart';
+import 'package:crizavoise/services/pdf/pdf_settings.dart';
+import 'package:crizavoise/services/pdf/pdf_widgets.dart';
 
 Customer _customer({bool sameAsBilling = false}) => Customer(
       id: 'c1',

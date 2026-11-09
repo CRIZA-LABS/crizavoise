@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/custom_field_def.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/custom_field_def.dart';
 
 /// Add / rename / reorder / delete list of [CustomFieldDef]s. Shared by the
 /// invoice custom fields and customer custom fields settings. Every change

@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/refund.dart';
-import 'package:invoiso/services/backend_services.dart';
-import 'package:invoiso/services/pdf/pdf_font_service.dart';
-import 'package:invoiso/services/pdf_service.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/refund.dart';
+import 'package:crizavoise/services/backend_services.dart';
+import 'package:crizavoise/services/pdf/pdf_font_service.dart';
+import 'package:crizavoise/services/pdf_service.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 /// Single-page "REFUND VOUCHER" — the money-out mirror of a payment receipt.
 /// [creditNote] is the `Invoice` row with `type == 'Credit Note'`.

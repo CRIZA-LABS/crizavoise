@@ -42,7 +42,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-*.md
 *.zsync
 *.disabled
 *.AppImage
@@ -82,3 +81,9 @@ lib/screens/test_old_screens/
 android/build/
 
 gh_actions_cleanup.py
+
+# Working brief for AI sessions (references the upstream project by name)
+CrizaVoise_Prompt.md
+
+# PDFs written by the test suite
+/output/

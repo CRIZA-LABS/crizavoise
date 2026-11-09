@@ -247,9 +247,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dashboardSupportTooltip => 'सहायता';
 
   @override
-  String get buyMeCoffeeLabel => 'Buy me a coffee';
-
-  @override
   String get dashboardLogoutTooltip => 'लॉगआउट';
 
   @override
@@ -305,17 +302,17 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dashboardSupportBannerReviewSubtitle =>
-      'Invoiso पसंद आ रहा है? एक त्वरित समीक्षा बहुत मदद करती है।';
+      'CrizaVoise पसंद आ रहा है? हमें बताइए क्या अच्छा है और क्या नहीं।';
 
   @override
   String get dashboardSupportBannerSupportSubtitle =>
-      'लगता है Invoiso आपके काम का हिस्सा बन गया है। अगर यह मददगार रहा हो, तो जब उचित लगे प्रोजेक्ट को सपोर्ट करने पर विचार करें।';
+      'लगता है CrizaVoise आपके काम का हिस्सा बन गया है। कोई सवाल या सुझाव? हमें आपसे सुनकर खुशी होगी।';
 
   @override
-  String get dashboardReviewAction => 'समीक्षा करें';
+  String get dashboardReviewAction => 'राय दें';
 
   @override
-  String get dashboardSupportAction => 'सहयोग करें';
+  String get dashboardSupportAction => 'संपर्क करें';
 
   @override
   String get dashboardOverviewTitle => 'डैशबोर्ड अवलोकन';
@@ -4111,7 +4108,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get actionShare => 'साझा करें';
 
   @override
-  String get appInfoTitle => 'सॉफ़्टवेयर जानकारी';
+  String get appInfoTitle => 'CrizaVoise के बारे में';
 
   @override
   String get appInfoAppDetailsTitle => 'ऐप विवरण';
@@ -4126,18 +4123,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get appInfoLicenseLabel => 'लाइसेंस';
 
   @override
-  String get appInfoDeveloperTitle => 'डेवलपर';
+  String get appInfoDeveloperTitle => 'निर्माता';
 
   @override
-  String get appInfoDeveloperLabel => 'डेवलपर';
+  String get appInfoDeveloperLabel => 'निर्माता';
 
   @override
   String get appInfoSupportEmailLabel => 'सहायता ईमेल';
-
-  @override
-  String appInfoFooterCopyright(int year, String developer, String license) {
-    return '© $year $developer  |  $license लाइसेंस के तहत जारी';
-  }
 
   @override
   String get appInfoCheckingLabel => 'जाँच हो रही है...';
@@ -4437,7 +4429,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settingsNavAccessibilityLabel => 'सुगम्यता';
 
   @override
-  String get settingsNavSoftwareInfoLabel => 'सॉफ़्टवेयर जानकारी';
+  String get settingsNavSoftwareInfoLabel => 'परिचय';
 
   @override
   String get companyMgmtTitle => 'कंपनियाँ प्रबंधित करें';
@@ -4453,7 +4445,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String companyMgmtSwitchConfirmBody(String name) {
-    return '\"$name\" पर स्विच करने के लिए Invoiso पुनः आरंभ होगा।';
+    return '\"$name\" पर स्विच करने के लिए CrizaVoise पुनः आरंभ होगा।';
   }
 
   @override
@@ -4499,7 +4491,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get companyMgmtSwitchRestartBody =>
-      'कंपनी स्विच पूरा करने के लिए Invoiso को पुनः आरंभ करना होगा। कृपया एप्लिकेशन बंद करके फिर से खोलें।';
+      'कंपनी स्विच पूरा करने के लिए CrizaVoise को पुनः आरंभ करना होगा। कृपया एप्लिकेशन बंद करके फिर से खोलें।';
 
   @override
   String get companyMgmtCreateRestartTitle => 'कंपनी बन गई';
@@ -4516,7 +4508,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get companyMgmtDeleteRestartBody =>
-      'कंपनी हटा दी गई और Invoiso दूसरी कंपनी में स्विच हो गया। जारी रखने के लिए कृपया एप्लिकेशन बंद करके फिर से खोलें।';
+      'कंपनी हटा दी गई और CrizaVoise दूसरी कंपनी में स्विच हो गया। जारी रखने के लिए कृपया एप्लिकेशन बंद करके फिर से खोलें।';
 
   @override
   String get companyMgmtOnlyCompanyTooltip =>
@@ -4536,26 +4528,18 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get customizationSubtitle =>
-      'जो चाहिए वह चुनें और अनुरोध भेजें। हम 24 घंटे के भीतर संपर्क करेंगे।';
+      'जो चाहिए वह चुनें और अनुरोध भेजें। हम आपको एक व्यक्तिगत कोटेशन भेजेंगे।';
 
   @override
   String get customizationRecommendedBadge => 'अनुशंसित';
 
   @override
-  String customizationDeliveryLabel(String delivery) {
-    return 'डिलीवरी: $delivery';
-  }
-
-  @override
   String get customizationRequestButton => 'अनुरोध करें';
 
   @override
-  String get customizationFormOpenErrorMessage =>
-      'फॉर्म नहीं खुल सका। कृपया अपने ब्राउज़र में forms.gle/LyX6Z2kBNR2BpwVu7 खोलें।';
-
-  @override
-  String get customizationDisclaimerMessage =>
-      'कीमतें सांकेतिक हैं। जटिलता के आधार पर अंतिम कोट भिन्न हो सकता है। दायरे पर सहमति के बाद भुगतान लिया जाता है।';
+  String customizationDisclaimerMessage(String email) {
+    return 'हर अनुरोध के लिए काम के दायरे के अनुसार अलग कोटेशन मिलता है। किसी और चीज़ के लिए $email पर लिखें।';
+  }
 
   @override
   String get customizationPdfTemplateTitle => 'कस्टम PDF टेम्पलेट';
@@ -4565,9 +4549,6 @@ class AppLocalizationsHi extends AppLocalizations {
       'अपने ब्रांड से मेल खाता इनवॉइस टेम्पलेट पाएं — आपके रंग, फ़ॉन्ट, लोगो प्लेसमेंट और लेआउट।';
 
   @override
-  String get customizationPdfTemplateDelivery => '2–5 दिन';
-
-  @override
   String get customizationCustomFieldsTitle => 'कस्टम फ़ील्ड्स';
 
   @override
@@ -4575,17 +4556,11 @@ class AppLocalizationsHi extends AppLocalizations {
       'अपने इनवॉइस पर अतिरिक्त फ़ील्ड चाहिए? (PO नंबर, प्रोजेक्ट कोड, विभाग, आदि) हम आपके लिए जोड़ देंगे।';
 
   @override
-  String get customizationCustomFieldsDelivery => '1–3 दिन';
-
-  @override
   String get customizationWhiteLabelTitle => 'व्हाइट-लेबल / ब्रांडिंग हटाएं';
 
   @override
   String get customizationWhiteLabelDescription =>
-      'ऐप और PDF आउटपुट से सारी Invoiso ब्रांडिंग हटाएं, और इसे अपनी कंपनी की पहचान से बदलें।';
-
-  @override
-  String get customizationWhiteLabelDelivery => '3–6 दिन';
+      'ऐप और PDF आउटपुट से सारी CrizaVoise ब्रांडिंग हटाएं, और इसे अपनी कंपनी की पहचान से बदलें।';
 
   @override
   String get customizationIndustryBuildTitle => 'उद्योग-विशिष्ट निर्माण';
@@ -4593,9 +4568,6 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get customizationIndustryBuildDescription =>
       'अपने उद्योग के लिए अनुकूलित संस्करण चाहिए? (निर्माण, परामर्श, खुदरा, आदि) हम आपकी ज़रूरत के अनुसार वर्कफ़्लो कस्टमाइज़ करेंगे।';
-
-  @override
-  String get customizationIndustryBuildDelivery => '5–10 दिन';
 
   @override
   String get accessibilityCreateInvoiceLayoutSectionTitle =>
@@ -4962,7 +4934,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get updateDialogBodyMessage =>
-      'invoiso का नया संस्करण उपलब्ध है। नवीनतम रिलीज़ पाने के लिए डाउनलोड पेज पर जाएं।';
+      'CrizaVoise का नया संस्करण उपलब्ध है। नवीनतम रिलीज़ पाने के लिए डाउनलोड पेज पर जाएं।';
 
   @override
   String get pageSizeA4Label => 'मानक A4';
@@ -5910,4 +5882,43 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get amountSeparatorIndianLabel => 'भारतीय  (12,34,567.89)';
+
+  @override
+  String get customizationQuoteBadge => 'कोटेशन पाएं';
+
+  @override
+  String contactMailUnavailableMessage(String email) {
+    return 'कोई मेल ऐप नहीं मिला। हमें $email पर लिखें।';
+  }
+
+  @override
+  String get aboutContactTitle => 'संपर्क';
+
+  @override
+  String get aboutContactSupportLabel => 'सहायता';
+
+  @override
+  String get aboutContactInfoLabel => 'जानकारी';
+
+  @override
+  String get aboutContactBusinessLabel => 'व्यापार';
+
+  @override
+  String get aboutOpenSourceLicensesTitle => 'ओपन-सोर्स लाइसेंस';
+
+  @override
+  String get aboutOpenSourceLicensesSubtitle =>
+      'CrizaVoise में इस्तेमाल सॉफ़्टवेयर और फ़ॉन्ट की सूचनाएं';
+
+  @override
+  String get aboutPackageLicensesButton => 'Flutter पैकेज लाइसेंस';
+
+  @override
+  String aboutRightsReserved(int year, String maker) {
+    return '© $year $maker। सर्वाधिकार सुरक्षित।';
+  }
+
+  @override
+  String get aboutLicensesLoadError =>
+      'सूचनाएं लोड नहीं हो सकीं। कृपया CrizaVoise फिर से इंस्टॉल करें।';
 }

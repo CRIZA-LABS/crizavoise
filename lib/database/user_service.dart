@@ -1,8 +1,8 @@
-import 'package:invoiso/models/user.dart';
-import 'package:invoiso/utils/session_manager.dart';
+import 'package:crizavoise/models/user.dart';
+import 'package:crizavoise/utils/session_manager.dart';
 import 'database_helper.dart';
-import 'package:invoiso/utils/app_logger.dart';
-import 'package:invoiso/utils/password_utils.dart';
+import 'package:crizavoise/utils/app_logger.dart';
+import 'package:crizavoise/utils/password_utils.dart';
 
 const _tag = 'UserService';
 

@@ -1,7 +1,7 @@
-import 'package:invoiso/database/invoice_service.dart';
-import 'package:invoiso/models/invoice.dart';
-import 'package:invoiso/models/invoice_list_filter.dart';
-import 'package:invoiso/repositories/invoice_repository.dart';
+import 'package:crizavoise/database/invoice_service.dart';
+import 'package:crizavoise/models/invoice.dart';
+import 'package:crizavoise/models/invoice_list_filter.dart';
+import 'package:crizavoise/repositories/invoice_repository.dart';
 
 class SqliteInvoiceRepository implements InvoiceRepository {
   @override

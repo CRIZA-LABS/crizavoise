@@ -4,25 +4,27 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/common/app_config.dart';
-import 'package:invoiso/common/setting_key.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/database/database_helper.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/providers/locale_provider.dart';
-import 'package:invoiso/providers/purchase_bills_settings_provider.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/providers/sqlite_repository_overrides.dart';
-import 'package:invoiso/providers/theme_provider.dart';
-import 'package:invoiso/theme/app_theme.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_company_info_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_installation_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_invoice_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_payment_repository.dart';
-import 'package:invoiso/repositories/sqlite/sqlite_settings_repository.dart';
-import 'package:invoiso/screens/splash_screen.dart';
-import 'package:invoiso/services/backend_services.dart';
-import 'package:invoiso/utils/window_title.dart';
+import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/common/setting_key.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/database/database_helper.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/providers/locale_provider.dart';
+import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/providers/sqlite_repository_overrides.dart';
+import 'package:crizavoise/providers/theme_provider.dart';
+import 'package:crizavoise/theme/app_theme.dart';
+import 'package:crizavoise/theme/tokens.dart';
+import 'package:crizavoise/migration/legacy_data_migration.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_company_info_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_installation_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_invoice_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_payment_repository.dart';
+import 'package:crizavoise/repositories/sqlite/sqlite_settings_repository.dart';
+import 'package:crizavoise/screens/splash_screen.dart';
+import 'package:crizavoise/services/backend_services.dart';
+import 'package:crizavoise/utils/window_title.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -41,23 +43,25 @@ Future<void> main() async {
   };
 
   ErrorWidget.builder = (FlutterErrorDetails details) {
+    final p = CvColors.of(PlatformDispatcher.instance.platformBrightness);
     return Material(
       child: Container(
-        color: Colors.white,
+        color: p.background,
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            Icon(Icons.error_outline, size: 64, color: p.danger),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'Something went wrong',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 22, fontWeight: FontWeight.bold, color: p.text),
             ),
             const SizedBox(height: 8),
             Text(
               kDebugMode ? details.exceptionAsString() : 'Please restart the app.',
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: p.textMuted),
               textAlign: TextAlign.center,
             ),
           ],
@@ -72,6 +76,11 @@ Future<void> main() async {
   }
   WidgetsFlutterBinding.ensureInitialized();
   registerFallbackNumberSymbols();
+  // Import data from the pre-rename install BEFORE anything opens the
+  // database or SharedPreferences (both live in the app-support dir).
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    await (await LegacyDataMigration.forCurrentPlatform()).runCopyPhase();
+  }
   await CompanyRegistryService.ensureDefaultCompanyRegistered();
   DatabaseHelper().setActiveFileNameBeforeFirstOpen(
       await CompanyRegistryService.getActiveCompanyDbFileName());
@@ -84,13 +93,23 @@ Future<void> main() async {
     installation: SqliteInstallationRepository()
   );
 
+  // Read the saved theme BEFORE the first frame so the window never flashes
+  // the wrong theme.
+  final initialThemeMode = await _loadInitialThemeMode();
+  final initialBrightness = switch (initialThemeMode) {
+    ThemeMode.light => Brightness.light,
+    ThemeMode.dark => Brightness.dark,
+    ThemeMode.system => PlatformDispatcher.instance.platformBrightness,
+  };
+
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
 
-    const WindowOptions options = WindowOptions(
-      minimumSize: Size(600, 400),
+    final WindowOptions options = WindowOptions(
+      title: AppConfig.name,
+      minimumSize: const Size(600, 400),
       center: true,
-      backgroundColor: Colors.white,
+      backgroundColor: CvColors.of(initialBrightness).background,
       titleBarStyle: TitleBarStyle.normal,
     );
 
@@ -104,9 +123,22 @@ Future<void> main() async {
   }
 
   runApp(ProviderScope(
-    overrides: sqliteRepositoryOverrides,
+    overrides: [
+      ...sqliteRepositoryOverrides,
+      themeModeProvider.overrideWith((ref) => initialThemeMode),
+    ],
     child: const MyApp()
   ));
+}
+
+/// Saved theme preference; falls back to following the system if the
+/// database can't be read yet (the splash screen reports DB errors).
+Future<ThemeMode> _loadInitialThemeMode() async {
+  try {
+    return themeModeFromKey(await SqliteSettingsRepository().getThemeMode());
+  } catch (_) {
+    return ThemeMode.system;
+  }
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -120,16 +152,10 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    _loadThemeMode();
     _loadAppLocale();
     _loadPurchaseBillsAndSuppliersEnabled();
   }
 
-  Future<void> _loadThemeMode() async {
-    final key = await ref.read(settingsRepositoryProvider).getThemeMode();
-    if (!mounted) return;
-    ref.read(themeModeProvider.notifier).state = themeModeFromKey(key);
-  }
 
   Future<void> _loadAppLocale() async {
     final key = await ref.read(settingsRepositoryProvider).getAppLocale();

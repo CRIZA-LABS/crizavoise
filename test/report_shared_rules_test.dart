@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/domain/customer_identity.dart';
-import 'package:invoiso/domain/invoice_totals_calculator.dart';
-import 'package:invoiso/domain/payment_receipt_numbers.dart';
-import 'package:invoiso/utils/app_date.dart';
-import 'package:invoiso/utils/formatters.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/domain/customer_identity.dart';
+import 'package:crizavoise/domain/invoice_totals_calculator.dart';
+import 'package:crizavoise/domain/payment_receipt_numbers.dart';
+import 'package:crizavoise/utils/app_date.dart';
+import 'package:crizavoise/utils/formatters.dart';
 
 void main() {
   group('InvoiceTotalsCalculator', () {

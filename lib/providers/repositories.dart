@@ -1,18 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/repositories/auth_repository.dart';
-import 'package:invoiso/repositories/cash_ledger_repository.dart';
-import 'package:invoiso/repositories/company_info_repository.dart';
-import 'package:invoiso/repositories/customer_repository.dart';
-import 'package:invoiso/repositories/invoice_item_repository.dart';
-import 'package:invoiso/repositories/invoice_repository.dart';
-import 'package:invoiso/repositories/payment_repository.dart';
-import 'package:invoiso/repositories/product_repository.dart';
-import 'package:invoiso/repositories/purchase_bill_repository.dart';
-import 'package:invoiso/repositories/report_repository.dart';
-import 'package:invoiso/repositories/return_repository.dart';
-import 'package:invoiso/repositories/settings_repository.dart';
-import 'package:invoiso/repositories/supplier_payment_repository.dart';
-import 'package:invoiso/repositories/supplier_repository.dart';
+import 'package:crizavoise/repositories/auth_repository.dart';
+import 'package:crizavoise/repositories/cash_ledger_repository.dart';
+import 'package:crizavoise/repositories/company_info_repository.dart';
+import 'package:crizavoise/repositories/customer_repository.dart';
+import 'package:crizavoise/repositories/invoice_item_repository.dart';
+import 'package:crizavoise/repositories/invoice_repository.dart';
+import 'package:crizavoise/repositories/payment_repository.dart';
+import 'package:crizavoise/repositories/product_repository.dart';
+import 'package:crizavoise/repositories/purchase_bill_repository.dart';
+import 'package:crizavoise/repositories/report_repository.dart';
+import 'package:crizavoise/repositories/return_repository.dart';
+import 'package:crizavoise/repositories/settings_repository.dart';
+import 'package:crizavoise/repositories/supplier_payment_repository.dart';
+import 'package:crizavoise/repositories/supplier_repository.dart';
 
 final customerRepositoryProvider = Provider<CustomerRepository>((ref) {
   throw UnimplementedError(
@@ -100,20 +100,20 @@ final supplierPaymentRepositoryProvider = Provider<SupplierPaymentRepository>((r
 
 
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:invoiso/repositories/company_info_repository.dart';
-// import 'package:invoiso/repositories/customer_repository.dart';
-// import 'package:invoiso/repositories/invoice_repository.dart';
-// import 'package:invoiso/repositories/payment_repository.dart';
-// import 'package:invoiso/repositories/product_repository.dart';
-// import 'package:invoiso/repositories/report_repository.dart';
-// import 'package:invoiso/repositories/settings_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_company_info_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_customer_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_invoice_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_payment_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_product_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_report_repository.dart';
-// import 'package:invoiso/repositories/sqlite/sqlite_settings_repository.dart';
+// import 'package:crizavoise/repositories/company_info_repository.dart';
+// import 'package:crizavoise/repositories/customer_repository.dart';
+// import 'package:crizavoise/repositories/invoice_repository.dart';
+// import 'package:crizavoise/repositories/payment_repository.dart';
+// import 'package:crizavoise/repositories/product_repository.dart';
+// import 'package:crizavoise/repositories/report_repository.dart';
+// import 'package:crizavoise/repositories/settings_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_company_info_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_customer_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_invoice_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_payment_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_product_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_report_repository.dart';
+// import 'package:crizavoise/repositories/sqlite/sqlite_settings_repository.dart';
 //
 // final customerRepositoryProvider = Provider<CustomerRepository>((ref) => SqliteCustomerRepository());
 // final invoiceRepositoryProvider = Provider<InvoiceRepository>((ref) => SqliteInvoiceRepository());

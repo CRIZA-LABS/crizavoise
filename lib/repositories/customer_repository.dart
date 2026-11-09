@@ -1,5 +1,5 @@
-import 'package:invoiso/models/customer.dart';
-import 'package:invoiso/models/customer_list_stats.dart';
+import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/models/customer_list_stats.dart';
 
 abstract class CustomerRepository {
   Future<void> insertCustomer(Customer customer);

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:invoiso/backup/backup_manager.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/database/company_registry_service.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
-import 'package:invoiso/models/backup_info.dart';
-import 'package:invoiso/widgets/restart_required_dialog.dart';
+import 'package:crizavoise/backup/backup_manager.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/database/company_registry_service.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/models/backup_info.dart';
+import 'package:crizavoise/widgets/restart_required_dialog.dart';
 
 class BackupManagementScreen extends StatefulWidget {
   const BackupManagementScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:invoiso/providers/repositories.dart';
-import 'package:invoiso/models/product.dart';
+import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/models/product.dart';
 
 class ProductNotifier extends AutoDisposeAsyncNotifier<List<Product>> {
   @override

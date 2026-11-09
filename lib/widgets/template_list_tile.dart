@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:invoiso/common/common.dart';
-import 'package:invoiso/common/constants.dart';
-import 'package:invoiso/l10n/app_localizations.dart';
+import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/common/constants.dart';
+import 'package:crizavoise/l10n/app_localizations.dart';
 
 /// Shared invoice-template catalog (template + thumbnail asset per
 /// InvoiceTemplate), used by both the PDF Settings screen and the
