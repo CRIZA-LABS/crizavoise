@@ -575,8 +575,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             right: 36,
                             child: SvgPicture.asset(
                               Theme.of(context).brightness == Brightness.dark
-                                  ? BrandAssets.lockupDark
-                                  : BrandAssets.lockupLight,
+                                  ? BrandAssets.lockupCompactDark
+                                  : BrandAssets.lockupCompactLight,
                               height: 32,
                               fit: BoxFit.fitHeight,
                               semanticsLabel: AppConfig.name,

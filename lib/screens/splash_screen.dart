@@ -88,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               SvgPicture.asset(
                 isDark ? BrandAssets.lockupDark : BrandAssets.lockupLight,
-                height: 56,
+                height: 72,
                 semanticsLabel: AppConfig.name,
               ),
               const SizedBox(height: CvSpace.xl),

@@ -85,18 +85,18 @@ flutter_launcher_icons:
   image_path: "assets/brand/icons/icon-1024.png"
   android: true
   adaptive_icon_background: "assets/brand/icons/android-background.png"
+  adaptive_icon_monochrome: "assets/brand/icons/android-foreground.png"
   adaptive_icon_foreground: "assets/brand/icons/android-foreground.png"
   ios: true
   remove_alpha_ios: true
+  # Windows .ico and web icons are built by the brand script (all 14 Windows
+  # target sizes, simplified mark below 48px), so they are not generated here.
   windows:
-    generate: true
-    icon_size: 256
+    generate: false
   macos:
     generate: true
   web:
-    generate: true
-    background_color: "#08090d"
-    theme_color: "#08090d"
+    generate: false
 
 package_rename_config:
   linux:
