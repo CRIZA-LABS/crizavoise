@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crizavoise/services/pdf/pdf_brand.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -163,7 +164,7 @@ class RefundReceiptService {
     required pw.MemoryImage? logoImage,
     required String dateFmt,
   }) {
-    const accent = PdfColors.indigo800;
+    const accent = CvPdfColors.ink;
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
@@ -285,7 +286,7 @@ class RefundReceiptService {
               if (refund.taxAmount > 0)
                 _row('Tax portion of this refund', '$sym ${_f(refund.taxAmount)}'),
               _row('Amount Refunded', '$sym ${_f(refund.amount)}',
-                  bold: true, highlight: PdfColors.indigo50),
+                  bold: true, highlight: CvPdfColors.paper),
               pw.Container(
                 padding:
                     const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 8),

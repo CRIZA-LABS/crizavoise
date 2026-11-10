@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crizavoise/services/pdf/pdf_brand.dart';
 import 'package:crizavoise/services/backend_services.dart';
 
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class PaymentReceiptService {
     required String dateFmt,
     required bool showLeadingZeros,
   }) {
-    const accentColor = PdfColors.indigo800;
+    const accentColor = CvPdfColors.ink;
     final isPaidInFull = payment.balanceAfter <= 0;
 
     return pw.Column(
@@ -249,7 +250,7 @@ class PaymentReceiptService {
               _summaryRow(
                   'Previously Paid', '$sym ${_fmt(payment.previouslyPaid)}'),
               _summaryRow('This Payment', '$sym ${_fmt(payment.amountPaid)}',
-                  bold: true, highlight: PdfColors.indigo50),
+                  bold: true, highlight: CvPdfColors.paper),
               // Final row: balance due or paid in full
               pw.Container(
                 padding:

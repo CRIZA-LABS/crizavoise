@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:crizavoise/services/pdf/pdf_brand.dart';
 
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
@@ -1037,8 +1038,8 @@ pw.Widget buildInvoiceTable(Invoice invoice,
                   style: pw.TextStyle(
                     fontSize: tableFontSize * 0.7,
                     color: item.product.type == 'service'
-                        ? PdfColors.purple700
-                        : PdfColors.indigo700,
+                        ? CvPdfColors.clay
+                        : CvPdfColors.inkGrey,
                   ),
                 ),
               if (showDiscount &&
@@ -1049,7 +1050,7 @@ pw.Widget buildInvoiceTable(Invoice invoice,
                   '(${AmountFormat.money(item.effectivePrice)} - ${AmountFormat.money(item.discount)} = ${AmountFormat.money(item.effectivePrice - item.discount)}/item)',
                   style: pw.TextStyle(
                       fontSize: tableFontSize * 0.7,
-                      color: PdfColors.teal700),
+                      color: CvPdfColors.olive),
                 ),
             ],
           ),

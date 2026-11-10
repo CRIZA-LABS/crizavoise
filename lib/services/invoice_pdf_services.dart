@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:crizavoise/theme/swatch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:crizavoise/services/backend_services.dart';
@@ -274,7 +275,7 @@ class InvoicePdfServices {
               '${isCredit ? '−' : '+'}${note.currencySymbol} ${AmountFormat.money(note.total)}',
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: isCredit ? Colors.brown : Colors.indigo)),
+                  color: isCredit ? CvSwatch.avatars[1] : CvSwatch.avatars[3])),
           // The note's own PDF — the only way to get it when the Credit /
           // Debit Notes tabs are hidden (returns toggle off).
           PopupMenuButton<String>(

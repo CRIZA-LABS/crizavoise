@@ -57,11 +57,12 @@ class _PdfSettingsScreenV2State extends ConsumerState<PdfSettingsScreenV2> {
   bool _isSaving = false;
 
   static const _presetThemeColors = [
-    Color(0xFF002E78),
-    Color(0xFF2563EB),
-    Color(0xFF047857),
-    Color(0xFF7C2D12),
-    Color(0xFF6D28D9),
+    Color(0xFFC8231C), // CrizaVoise Stamp red
+    Color(0xFF121316), // Ink
+    Color(0xFF1A7D4C), // forest
+    Color(0xFF9A5530), // clay
+    Color(0xFF7A3B5E), // plum
+    Color(0xFF8A6A12), // ochre
   ];
 
   @override
@@ -1141,10 +1142,10 @@ Color? _colorFromHex(String? hexColor) {
 
 Color _defaultThemeColor(InvoiceTemplate template) {
   return switch (template) {
-    InvoiceTemplate.classic => const Color(0xFF1A237E),
-    InvoiceTemplate.modern => const Color(0xFF1E88E5),
+    InvoiceTemplate.classic => const Color(0xFF121316),
+    InvoiceTemplate.modern => const Color(0xFFC8231C),
     InvoiceTemplate.minimal => const Color(0xFF616161),
-    InvoiceTemplate.executive => const Color(0xFF37474F),
+    InvoiceTemplate.executive => const Color(0xFF121316),
     InvoiceTemplate.compact => const Color(0xFF000000),
     InvoiceTemplate.thermal => const Color(0xFF000000),
     InvoiceTemplate.gridClassic => const Color(0xFF000000),

@@ -1434,8 +1434,8 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _legend(
-                              const Color(0xFF3B82F6), l10n.reportsBilledLabel),
+                          _legend(Theme.of(context).colorScheme.primary,
+                              l10n.reportsBilledLabel),
                           const SizedBox(width: 24),
                           _legend(const Color(0xFF22C55E),
                               l10n.dashboardCollectedLabel),
@@ -1649,7 +1649,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
         barRods: [
           BarChartRodData(
             toY: e.value.billed,
-            color: const Color(0xFF3B82F6),
+            color: Theme.of(context).colorScheme.primary,
             width: 8,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
           ),
@@ -2661,7 +2661,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> {
                                 child: Container(
                                   height: 20,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF3B82F6),
+                                    color: Theme.of(context).colorScheme.primary,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                 ),

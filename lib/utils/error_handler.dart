@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:crizavoise/theme/swatch.dart';
 import 'package:flutter/services.dart';
 
 class AppError {
@@ -30,7 +31,7 @@ class AppError {
               ),
           ],
         ),
-        backgroundColor: isError ? Colors.red[700] : Colors.blueGrey[700],
+        backgroundColor: isError ? CvSwatch.danger : CvSwatch.avatars[5],
         behavior: SnackBarBehavior.floating,
         showCloseIcon: true,
         closeIconColor: Colors.white,

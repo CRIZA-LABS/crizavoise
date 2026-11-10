@@ -1,4 +1,5 @@
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/services/pdf/pdf_brand.dart';
 import 'package:crizavoise/models/company_info.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -8,7 +9,7 @@ import 'package:pdf/widgets.dart' as pw;
 /// date on the right, under an accent divider. Callers append their own
 /// report-specific content (subject line, date range, ...) below it.
 class PdfReportHeader {
-  static const accentColor = PdfColors.indigo800;
+  static const accentColor = CvPdfColors.ink;
 
   static pw.Widget build({
     required CompanyInfo? company,

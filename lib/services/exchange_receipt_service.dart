@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crizavoise/services/pdf/pdf_brand.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -121,7 +122,7 @@ class ExchangeReceiptService {
     required pw.MemoryImage? logoImage,
     required String dateTime,
   }) {
-    const accentColor = PdfColors.indigo800;
+    const accentColor = CvPdfColors.ink;
     final upiToCash = e.entryType == CashLedgerEntry.upiToCash;
     final inAccount = upiToCash ? 'UPI/Bank' : 'Cash';
     final outAccount = upiToCash ? 'Cash' : 'UPI/Bank';
@@ -249,7 +250,7 @@ class ExchangeReceiptService {
                   '$sym ${_fmt(e.serviceFee)}'),
               _summaryRow('Total paid by customer',
                   '$sym ${_fmt(e.exchangeAmount + e.serviceFee)}',
-                  bold: true, highlight: PdfColors.indigo50),
+                  bold: true, highlight: CvPdfColors.paper),
               pw.Container(
                 padding:
                     const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 8),

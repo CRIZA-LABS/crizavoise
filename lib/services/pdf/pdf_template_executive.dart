@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:crizavoise/services/pdf/pdf_brand.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:crizavoise/common/app_config.dart';
@@ -75,7 +76,7 @@ pw.MultiPage buildExecutiveTemplate(
 }) {
   // User's PDF text size scales every font; paddings/gaps unchanged.
   final style = executivePdfStyle.scaled(fontSizeScale);
-  final accentColor = themeColor ?? PdfColors.blueGrey800;
+  final accentColor = themeColor ?? CvPdfColors.ink;
   final logoImage = logoBytes != null ? pw.MemoryImage(logoBytes) : null;
   final signatureImage =
       signatureBytes != null ? pw.MemoryImage(signatureBytes) : null;
