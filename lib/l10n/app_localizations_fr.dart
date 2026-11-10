@@ -6864,4 +6864,21 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get licenseRevokedBody =>
       'Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake.';
+
+  @override
+  String get quickActionQuickBill => 'Quick bill';
+
+  @override
+  String get quickBillCustomerName => 'Walk-in customer';
+
+  @override
+  String get successSoundTitle => 'Sound when saved';
+
+  @override
+  String get successSoundSubtitle =>
+      'Play a short sound when an invoice or other document is saved, so you know it worked without looking.';
+
+  @override
+  String get voiceTypingTooltip =>
+      'Speak instead of typing (Windows voice typing)';
 }

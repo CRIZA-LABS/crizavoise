@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/services/feedback_sounds.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/providers/motion_provider.dart';
@@ -345,6 +346,26 @@ class _AccessibilityScreenState extends ConsumerState<AccessibilityScreen> {
                       await ref.read(settingsRepositoryProvider)
                           .setSetting(SettingKey.reduceMotion, v.toString());
                       ref.read(reduceMotionProvider.notifier).state = v;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  child: SwitchListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    secondary: const Icon(Icons.volume_up_outlined),
+                    title: Text(l10n.successSoundTitle,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: Text(l10n.successSoundSubtitle,
+                        style: TextStyle(
+                            fontSize: AppFontSize.xsmall,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    value: ref.watch(successSoundProvider),
+                    onChanged: (v) async {
+                      await ref.read(settingsRepositoryProvider)
+                          .setSetting(SettingKey.successSound, v.toString());
+                      ref.read(successSoundProvider.notifier).state = v;
+                      if (v) playSavedSound(ref);
                     },
                   ),
                 ),

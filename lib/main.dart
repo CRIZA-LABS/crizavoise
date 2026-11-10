@@ -162,6 +162,9 @@ class _MyAppState extends ConsumerState<MyApp> {
     final v = await ref.read(settingsRepositoryProvider).getSetting(SettingKey.reduceMotion);
     if (!mounted) return;
     ref.read(reduceMotionProvider.notifier).state = v == 'true';
+    final snd = await ref.read(settingsRepositoryProvider).getSetting(SettingKey.successSound);
+    if (!mounted) return;
+    ref.read(successSoundProvider.notifier).state = snd == 'true';
   }
 
 

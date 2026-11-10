@@ -109,6 +109,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   // the "New {type}" button on each management screen. Reset to 'Invoice' by
   // the nav-rail New Invoice action.
   String _newInvoiceType = 'Invoice';
+  bool _quickBill = false;
   // Id of the quotation being converted to an invoice (drives the create
   // form's convert mode). Null unless a conversion is in flight.
   String? _convertSourceQuotationId;
@@ -298,6 +299,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             onEditInvoice: editInvoice,
             onCloneInvoice: cloneInvoice,
             onQuickAction: (a) => switch (a) {
+                  DashboardAction.quickBill =>
+                    _createDocumentOfType('Invoice', quickBill: true),
                   DashboardAction.newInvoice =>
                     _createDocumentOfType('Invoice'),
                   DashboardAction.newQuotation =>
@@ -312,7 +315,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       case 1:
         final isNewDoc = invoiceToEdit == null && _invoiceToClone == null;
         final createInvoiceKey = ValueKey(
-            'create_invoice_${invoiceToEdit?.id ?? 'new'}_${_invoiceToClone?.id ?? ''}_${isNewDoc ? _newInvoiceType : ''}_${_convertSourceQuotationId ?? ''}');
+            'create_invoice_${invoiceToEdit?.id ?? 'new'}_${_invoiceToClone?.id ?? ''}_${isNewDoc ? _newInvoiceType : ''}_${_convertSourceQuotationId ?? ''}_${isNewDoc && _quickBill}');
         void onCreateNewInvoice() {
           if (!mounted) return;
           setState(() {
@@ -320,6 +323,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             _invoiceToClone = null;
             _newInvoiceType = 'Invoice';
             _convertSourceQuotationId = null;
+            _quickBill = false;
           });
         }
         return CreateInvoiceScreenV2(
@@ -332,6 +336,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           guard: _invoiceFormGuard,
           onCreateNewInvoice: onCreateNewInvoice,
           user: _currentUser,
+          quickBill: isNewDoc && _quickBill,
         );
       case 2:
         return InvoiceManagementScreenV2(
@@ -461,7 +466,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   // "New {type}" button on the Invoice / Quotation / Receipt management screens
   // — opens the create form with that document type preselected.
-  Future<void> _createDocumentOfType(String type) async {
+  Future<void> _createDocumentOfType(String type, {bool quickBill = false}) async {
     if (!await _canLeaveInvoiceForm()) return;
     if (!mounted) return;
     setState(() {
@@ -470,6 +475,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       _invoiceToClone = null;
       _newInvoiceType = type;
       _convertSourceQuotationId = null;
+      _quickBill = quickBill;
     });
     _shortcutsFocusNode.unfocus();
   }
@@ -514,6 +520,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       } else {
         // Nav-rail "New Invoice" always means a plain, blank invoice.
         _newInvoiceType = 'Invoice';
+        _quickBill = false;
         _invoiceToClone = null;
         _convertSourceQuotationId = null;
       }
@@ -1524,6 +1531,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
 /// Big shortcut tiles on the dashboard home.
 enum DashboardAction {
+  quickBill,
   newInvoice,
   newQuotation,
   newReceipt,
@@ -2507,6 +2515,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     if (cb == null) return const SizedBox.shrink();
     final l10n = AppLocalizations.of(context)!;
     final tiles = <(IconData, String, String?, DashboardAction)>[
+      (Icons.bolt_rounded, l10n.quickActionQuickBill, null, DashboardAction.quickBill),
       (
         Icons.receipt_long_rounded,
         l10n.quickActionNewInvoice,
@@ -2547,7 +2556,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: LayoutBuilder(builder: (context, c) {
-        final perRow = c.maxWidth >= 900 ? 6 : (c.maxWidth >= 560 ? 3 : 2);
+        final perRow = c.maxWidth >= 1000 ? 7 : (c.maxWidth >= 560 ? 4 : 2);
         final w = (c.maxWidth - (perRow - 1) * 12) / perRow;
         return Wrap(
           spacing: 12,
@@ -2560,7 +2569,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                   icon: t.$1,
                   label: t.$2,
                   shortcut: t.$3,
-                  primary: t.$4 == DashboardAction.newInvoice,
+                  primary: t.$4 == DashboardAction.quickBill,
                   onTap: () => cb(t.$4),
                 ),
               ),

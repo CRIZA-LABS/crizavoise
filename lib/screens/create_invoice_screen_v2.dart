@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/services/feedback_sounds.dart';
+import 'package:crizavoise/services/voice_typing.dart';
 import 'package:crizavoise/widgets/product_photo.dart';
 import 'package:crizavoise/widgets/license_banner.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
@@ -82,6 +84,10 @@ class CreateInvoiceScreenV2 extends ConsumerStatefulWidget {
   /// non-admin rules.
   final User? user;
 
+  /// Quick bill: a walk-in customer is filled in and the cursor goes straight
+  /// to product search, so a counter sale is: type code, Enter, save.
+  final bool quickBill;
+
   const CreateInvoiceScreenV2({
     super.key,
     this.invoiceToEdit,
@@ -92,6 +98,7 @@ class CreateInvoiceScreenV2 extends ConsumerStatefulWidget {
     this.onCreateNewInvoice,
     this.guard,
     this.user,
+    this.quickBill = false,
   });
 
   @override
@@ -873,6 +880,12 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
         }
         isLoading = false;
       });
+      if (widget.quickBill && !isEditing && widget.cloneFrom == null && nameController.text.isEmpty) {
+        nameController.text = AppLocalizations.of(context)!.quickBillCustomerName;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _productSearchFocusNodeV2.requestFocus();
+        });
+      }
       // Edit/clone may have preloaded selectedCustomer from an invoice
       // snapshot whose id was never actually saved to the customers table
       // (see _resolveInvoiceCustomer). Confirm it still exists so the UI
@@ -1661,6 +1674,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
         }
       });
       _markFormClean();
+      playSavedSound(ref);
 
       final l10n = AppLocalizations.of(context)!;
       final convertedFromId = widget.convertFromQuotationId;
@@ -6065,7 +6079,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                           setState(() => _showProductDropdownV2 = false);
                         },
                       )
-                    : null,
+                    : VoiceTypingButton(focusNode: _productSearchFocusNodeV2),
               ),
             ),
           ),

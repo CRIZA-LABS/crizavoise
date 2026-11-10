@@ -11442,6 +11442,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake.'**
   String get licenseRevokedBody;
+
+  /// No description provided for @quickActionQuickBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick bill'**
+  String get quickActionQuickBill;
+
+  /// No description provided for @quickBillCustomerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk-in customer'**
+  String get quickBillCustomerName;
+
+  /// No description provided for @successSoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound when saved'**
+  String get successSoundTitle;
+
+  /// No description provided for @successSoundSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Play a short sound when an invoice or other document is saved, so you know it worked without looking.'**
+  String get successSoundSubtitle;
+
+  /// No description provided for @voiceTypingTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak instead of typing (Windows voice typing)'**
+  String get voiceTypingTooltip;
 }
 
 class _AppLocalizationsDelegate

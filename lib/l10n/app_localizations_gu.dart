@@ -6731,4 +6731,20 @@ class AppLocalizationsGu extends AppLocalizations {
   @override
   String get licenseRevokedBody =>
       'Criza Labs ના રેકોર્ડ મુજબ આ લાઇસન્સ બીજા કમ્પ્યુટર પર ખસેડાયું છે અથવા રદ થયું છે. તમારો ડેટા સુરક્ષિત છે અને તમે જોઈ, પ્રિન્ટ, એક્સપોર્ટ અને બેકઅપ કરી શકો છો. જો આ ભૂલ હોય તો અમારો સંપર્ક કરો.';
+
+  @override
+  String get quickActionQuickBill => 'ઝડપી બિલ';
+
+  @override
+  String get quickBillCustomerName => 'વૉક-ઇન ગ્રાહક';
+
+  @override
+  String get successSoundTitle => 'સાચવાય ત્યારે અવાજ';
+
+  @override
+  String get successSoundSubtitle =>
+      'ઇન્વૉઇસ કે બીજો દસ્તાવેજ સાચવાય ત્યારે નાનો અવાજ વગાડો, જેથી જોયા વિના ખબર પડે.';
+
+  @override
+  String get voiceTypingTooltip => 'લખવાને બદલે બોલો (Windows વૉઇસ ટાઇપિંગ)';
 }

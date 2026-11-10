@@ -3864,5 +3864,10 @@
   "productPhotoRemove": "Remove",
   "productPhotoHint": "Optional. Helps staff pick the right item. Any photo works; it's resized automatically (best: square, 400 × 400 px or larger).",
   "licenseStatusRevoked": "This licence is no longer active on this computer",
-  "licenseRevokedBody": "Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake."
+  "licenseRevokedBody": "Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake.",
+  "quickActionQuickBill": "Quick bill",
+  "quickBillCustomerName": "Walk-in customer",
+  "successSoundTitle": "Sound when saved",
+  "successSoundSubtitle": "Play a short sound when an invoice or other document is saved, so you know it worked without looking.",
+  "voiceTypingTooltip": "Speak instead of typing (Windows voice typing)"
 }

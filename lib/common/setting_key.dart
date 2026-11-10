@@ -119,6 +119,7 @@ enum SettingKey {
   customInvoiceNumberAccess, // who may type invoice numbers: 'off' | 'admins' | 'everyone' (CustomNumberAccess)
   reduceMotion, // 'true' = turn animations down (accessibility)
   rupeeSymbol, // INR display on new documents: 'rs' ("Rs.", default) | 'symbol' ("₹")
+  successSound, // 'true' = short system sound when a document is saved
 }
 
 extension SettingKeyExtension on SettingKey {
@@ -272,6 +273,8 @@ extension SettingKeyExtension on SettingKey {
         return 'reduce_motion';
       case SettingKey.rupeeSymbol:
         return 'rupee_symbol';
+      case SettingKey.successSound:
+        return 'success_sound';
       case SettingKey.showDescriptionInPdf:
         return 'show_description_in_pdf';
       case SettingKey.descriptionNewLineInPdf:
