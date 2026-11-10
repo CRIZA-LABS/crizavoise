@@ -3264,14 +3264,6 @@ class AppLocalizationsHi extends AppLocalizations {
       'इनवॉइस सेटिंग्स सफलतापूर्वक सहेजी गईं!';
 
   @override
-  String get invoiceSettingsSignatureTooLargeMessage =>
-      'हस्ताक्षर छवि 2 MB से कम होनी चाहिए।';
-
-  @override
-  String get invoiceSettingsWatermarkTooLargeMessage =>
-      'वॉटरमार्क छवि 2 MB से कम होनी चाहिए।';
-
-  @override
   String get invoiceSettingsSectionGeneral => 'सामान्य';
 
   @override
@@ -3738,9 +3730,6 @@ class AppLocalizationsHi extends AppLocalizations {
       'इनवॉइस पर अधिकृत हस्ताक्षर के रूप में मुद्रित';
 
   @override
-  String get invoiceSettingsImageFormatHint => 'PNG, JPG या JPEG — अधिकतम 2 MB';
-
-  @override
   String get invoiceSettingsChangeSignatureButton => 'हस्ताक्षर बदलें';
 
   @override
@@ -3977,10 +3966,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get companyInfoShowOnPdfLabel => 'PDF पर दिखाएं';
 
   @override
-  String get companyInfoLogoRequirementsHint =>
-      'अधिकतम 1080×1080 px · 2 MB\nकेवल PNG या JPG';
-
-  @override
   String get companyInfoLogoSectionLabel => 'कंपनी लोगो';
 
   @override
@@ -4085,15 +4070,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'कंपनी की जानकारी सफलतापूर्वक सहेजी गई';
 
   @override
-  String get companyInfoImageTooLargeMessage =>
-      'छवि फ़ाइल 2 MB से कम होनी चाहिए।';
-
-  @override
   String get companyInfoInvalidImageMessage => 'अमान्य छवि फ़ाइल।';
-
-  @override
-  String get companyInfoImageDimensionsMessage =>
-      'छवि अधिकतम 1080x1080 पिक्सेल होनी चाहिए।';
 
   @override
   String get companyInfoHintExampleBankName => 'जैसे HDFC बैंक';
@@ -5921,4 +5898,38 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get aboutLicensesLoadError =>
       'सूचनाएं लोड नहीं हो सकीं। कृपया CrizaVoise फिर से इंस्टॉल करें।';
+
+  @override
+  String get imageImportLogoHint =>
+      'कोई भी साइज़ चलेगा — हम इसे अपने-आप ठीक कर देंगे।\nसबसे अच्छा: पारदर्शी बैकग्राउंड वाला चौकोर PNG, कम से कम 600 × 600 px।';
+
+  @override
+  String get imageImportSignatureHint =>
+      'कोई भी साइज़ चलेगा — हम इसे अपने-आप ठीक कर देंगे। सबसे अच्छा: पारदर्शी बैकग्राउंड और गहरी स्याही वाला PNG, लगभग 600 × 200 px।';
+
+  @override
+  String get imageImportWatermarkHint =>
+      'कोई भी साइज़ चलेगा — हम इसे अपने-आप ठीक कर देंगे। सबसे अच्छा: पारदर्शी बैकग्राउंड वाला हल्का PNG, कम से कम 1200 px चौड़ा।';
+
+  @override
+  String get imageImportAddedMessage => 'इमेज जोड़ दी गई।';
+
+  @override
+  String imageImportResizedMessage(String from, String to) {
+    return 'इमेज जोड़ दी गई — $from से $to px कर दी गई, ताकि प्रिंट साफ़ आए और ऐप तेज़ चले।';
+  }
+
+  @override
+  String imageImportTooSmallMessage(String size, String min) {
+    return 'इमेज जोड़ दी गई, पर यह सिर्फ़ $size px है और प्रिंट में धुंधली दिख सकती है। अच्छे नतीजे के लिए कम से कम $min px इस्तेमाल करें।';
+  }
+
+  @override
+  String get imageImportUnreadableMessage =>
+      'यह इमेज खुल नहीं सकी। कृपया PNG या JPG फ़ाइल चुनें।';
+
+  @override
+  String imageImportFileTooLargeMessage(String max) {
+    return 'यह फ़ाइल $max MB से बड़ी है। कृपया छोटी इमेज चुनें।';
+  }
 }

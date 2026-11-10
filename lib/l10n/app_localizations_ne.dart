@@ -3277,14 +3277,6 @@ class AppLocalizationsNe extends AppLocalizations {
       'बीजक सेटिङहरू सफलतापूर्वक सुरक्षित भयो!';
 
   @override
-  String get invoiceSettingsSignatureTooLargeMessage =>
-      'हस्ताक्षर छवि २ MB भन्दा कम हुनुपर्छ।';
-
-  @override
-  String get invoiceSettingsWatermarkTooLargeMessage =>
-      'वाटरमार्क छवि २ MB भन्दा कम हुनुपर्छ।';
-
-  @override
   String get invoiceSettingsSectionGeneral => 'सामान्य';
 
   @override
@@ -3757,9 +3749,6 @@ class AppLocalizationsNe extends AppLocalizations {
       'अधिकृत हस्ताक्षरको रूपमा बीजकमा छापिन्छ';
 
   @override
-  String get invoiceSettingsImageFormatHint => 'PNG, JPG वा JPEG — अधिकतम 2 MB';
-
-  @override
   String get invoiceSettingsChangeSignatureButton =>
       'हस्ताक्षर परिवर्तन गर्नुहोस्';
 
@@ -4003,10 +3992,6 @@ class AppLocalizationsNe extends AppLocalizations {
   String get companyInfoShowOnPdfLabel => 'PDF मा देखाउनुहोस्';
 
   @override
-  String get companyInfoLogoRequirementsHint =>
-      'अधिकतम 1080×1080 px · 2 MB\nPNG वा JPG मात्र';
-
-  @override
   String get companyInfoLogoSectionLabel => 'कम्पनी लोगो';
 
   @override
@@ -4112,15 +4097,7 @@ class AppLocalizationsNe extends AppLocalizations {
       'कम्पनी जानकारी सफलतापूर्वक सुरक्षित भयो';
 
   @override
-  String get companyInfoImageTooLargeMessage =>
-      'छवि फाइल 2 MB भन्दा कम हुनुपर्छ।';
-
-  @override
   String get companyInfoInvalidImageMessage => 'अमान्य छवि फाइल।';
-
-  @override
-  String get companyInfoImageDimensionsMessage =>
-      'छवि अधिकतम 1080x1080 पिक्सेल हुनुपर्छ।';
 
   @override
   String get companyInfoHintExampleBankName => 'जस्तै HDFC बैंक';
@@ -5951,4 +5928,38 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get aboutLicensesLoadError =>
       'Couldn\'t load the notices. Please reinstall CrizaVoise.';
+
+  @override
+  String get imageImportLogoHint =>
+      'Any size works — we resize it for you.\nBest: square PNG with a transparent background, at least 600 × 600 px.';
+
+  @override
+  String get imageImportSignatureHint =>
+      'Any size works — we resize it for you. Best: PNG with a transparent background and dark ink, about 600 × 200 px.';
+
+  @override
+  String get imageImportWatermarkHint =>
+      'Any size works — we resize it for you. Best: a light PNG with a transparent background, at least 1200 px wide.';
+
+  @override
+  String get imageImportAddedMessage => 'Image added.';
+
+  @override
+  String imageImportResizedMessage(String from, String to) {
+    return 'Image added — resized from $from to $to px so it prints sharp and keeps the app fast.';
+  }
+
+  @override
+  String imageImportTooSmallMessage(String size, String min) {
+    return 'Image added, but it is only $size px and may look blurry when printed. For best results use at least $min px.';
+  }
+
+  @override
+  String get imageImportUnreadableMessage =>
+      'We couldn\'t read this image. Please choose a PNG or JPG file.';
+
+  @override
+  String imageImportFileTooLargeMessage(String max) {
+    return 'This file is larger than $max MB. Please choose a smaller image.';
+  }
 }

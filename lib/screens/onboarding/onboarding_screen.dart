@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image/image.dart' as img;
+import 'package:crizavoise/services/image_import_service.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/database/company_registry_service.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
@@ -117,24 +117,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     super.dispose();
   }
 
+  /// Any size/format is accepted (previously large images were silently
+  /// ignored): the image is resized and the user gets feedback.
   Future<void> _pickLogo() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg', 'jpeg'],
-    );
-    if (result == null || result.files.single.path == null) return;
-
-    final file = File(result.files.single.path!);
-    final bytes = await file.readAsBytes();
-    if (bytes.length > 2 * 1024 * 1024) return;
-
-    final decodedImage = img.decodeImage(bytes);
-    if (decodedImage == null) return;
-    if (decodedImage.width > 1080 || decodedImage.height > 1080) return;
-
+    final result = await ImageImportService.pickAndPrepare(context, ImageKind.logo);
+    if (result == null || !mounted) return;
     setState(() {
-      _logoFile = file;
-      _base64Logo = base64Encode(bytes);
+      _logoFile = null; // preview the processed image
+      _base64Logo = result.base64;
     });
   }
 

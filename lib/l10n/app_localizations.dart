@@ -5412,18 +5412,6 @@ abstract class AppLocalizations {
   /// **'Invoice settings saved successfully!'**
   String get invoiceSettingsSavedMessage;
 
-  /// No description provided for @invoiceSettingsSignatureTooLargeMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Signature image must be less than 2 MB.'**
-  String get invoiceSettingsSignatureTooLargeMessage;
-
-  /// No description provided for @invoiceSettingsWatermarkTooLargeMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Watermark image must be less than 2 MB.'**
-  String get invoiceSettingsWatermarkTooLargeMessage;
-
   /// No description provided for @invoiceSettingsSectionGeneral.
   ///
   /// In en, this message translates to:
@@ -6240,12 +6228,6 @@ abstract class AppLocalizations {
   /// **'Printed on invoices as Authorised Signature'**
   String get invoiceSettingsSignatureImageSubtitle;
 
-  /// No description provided for @invoiceSettingsImageFormatHint.
-  ///
-  /// In en, this message translates to:
-  /// **'PNG, JPG or JPEG — max 2 MB'**
-  String get invoiceSettingsImageFormatHint;
-
   /// No description provided for @invoiceSettingsChangeSignatureButton.
   ///
   /// In en, this message translates to:
@@ -6678,12 +6660,6 @@ abstract class AppLocalizations {
   /// **'Show on PDF'**
   String get companyInfoShowOnPdfLabel;
 
-  /// No description provided for @companyInfoLogoRequirementsHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Max 1080×1080 px · 2 MB\nPNG or JPG only'**
-  String get companyInfoLogoRequirementsHint;
-
   /// No description provided for @companyInfoLogoSectionLabel.
   ///
   /// In en, this message translates to:
@@ -6882,23 +6858,11 @@ abstract class AppLocalizations {
   /// **'Company info saved successfully'**
   String get companyInfoSavedSuccessMessage;
 
-  /// No description provided for @companyInfoImageTooLargeMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Image file must be less than 2 MB.'**
-  String get companyInfoImageTooLargeMessage;
-
   /// No description provided for @companyInfoInvalidImageMessage.
   ///
   /// In en, this message translates to:
   /// **'Invalid image file.'**
   String get companyInfoInvalidImageMessage;
-
-  /// No description provided for @companyInfoImageDimensionsMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Image must be max 1080x1080 pixels.'**
-  String get companyInfoImageDimensionsMessage;
 
   /// No description provided for @companyInfoHintExampleBankName.
   ///
@@ -10057,6 +10021,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load the notices. Please reinstall CrizaVoise.'**
   String get aboutLicensesLoadError;
+
+  /// No description provided for @imageImportLogoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any size works — we resize it for you.\nBest: square PNG with a transparent background, at least 600 × 600 px.'**
+  String get imageImportLogoHint;
+
+  /// No description provided for @imageImportSignatureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any size works — we resize it for you. Best: PNG with a transparent background and dark ink, about 600 × 200 px.'**
+  String get imageImportSignatureHint;
+
+  /// No description provided for @imageImportWatermarkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any size works — we resize it for you. Best: a light PNG with a transparent background, at least 1200 px wide.'**
+  String get imageImportWatermarkHint;
+
+  /// No description provided for @imageImportAddedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Image added.'**
+  String get imageImportAddedMessage;
+
+  /// No description provided for @imageImportResizedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Image added — resized from {from} to {to} px so it prints sharp and keeps the app fast.'**
+  String imageImportResizedMessage(String from, String to);
+
+  /// No description provided for @imageImportTooSmallMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Image added, but it is only {size} px and may look blurry when printed. For best results use at least {min} px.'**
+  String imageImportTooSmallMessage(String size, String min);
+
+  /// No description provided for @imageImportUnreadableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t read this image. Please choose a PNG or JPG file.'**
+  String get imageImportUnreadableMessage;
+
+  /// No description provided for @imageImportFileTooLargeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This file is larger than {max} MB. Please choose a smaller image.'**
+  String imageImportFileTooLargeMessage(String max);
 }
 
 class _AppLocalizationsDelegate

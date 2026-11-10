@@ -2010,8 +2010,6 @@
   "userMgmtThisIsYourAccountMessage": "This is your account",
   "invoiceSettingsAppBarTitle": "Invoice Settings",
   "invoiceSettingsSavedMessage": "Invoice settings saved successfully!",
-  "invoiceSettingsSignatureTooLargeMessage": "Signature image must be less than 2 MB.",
-  "invoiceSettingsWatermarkTooLargeMessage": "Watermark image must be less than 2 MB.",
   "invoiceSettingsSectionGeneral": "General",
   "invoiceSettingsSectionBranding": "Branding",
   "invoiceSettingsSectionTax": "Tax & GST",
@@ -2155,7 +2153,6 @@
   "commonRightLabel": "Right",
   "invoiceSettingsSignatureImageLabel": "Signature Image",
   "invoiceSettingsSignatureImageSubtitle": "Printed on invoices as Authorised Signature",
-  "invoiceSettingsImageFormatHint": "PNG, JPG or JPEG — max 2 MB",
   "invoiceSettingsChangeSignatureButton": "Change Signature",
   "invoiceSettingsUploadSignatureButton": "Upload Signature",
   "invoiceSettingsSignatureSizeLabel": "Signature Size",
@@ -2249,7 +2246,6 @@
   "companyInfoClickToBrowseLabel": "Click to browse",
   "companyInfoRemoveLogoButton": "Remove Logo",
   "companyInfoShowOnPdfLabel": "Show on PDF",
-  "companyInfoLogoRequirementsHint": "Max 1080×1080 px · 2 MB\nPNG or JPG only",
   "companyInfoLogoSectionLabel": "COMPANY LOGO",
   "companyInfoDetailsSectionLabel": "COMPANY DETAILS",
   "companyInfoBusinessTypeSectionLabel": "BUSINESS TYPE",
@@ -2283,9 +2279,7 @@
   "fieldBankAccountNameLabel": "Account Name",
   "tooltipShowOnInvoicePdf": "Show on invoice PDF",
   "companyInfoSavedSuccessMessage": "Company info saved successfully",
-  "companyInfoImageTooLargeMessage": "Image file must be less than 2 MB.",
   "companyInfoInvalidImageMessage": "Invalid image file.",
-  "companyInfoImageDimensionsMessage": "Image must be max 1080x1080 pixels.",
   "companyInfoHintExampleBankName": "e.g. HDFC Bank",
   "companyInfoHintExampleAccountLabel": "e.g. Main Account",
   "actionConfirm": "Confirm",
@@ -3420,5 +3414,40 @@
       }
     }
   },
-  "aboutLicensesLoadError": "Couldn't load the notices. Please reinstall CrizaVoise."
+  "aboutLicensesLoadError": "Couldn't load the notices. Please reinstall CrizaVoise.",
+  "imageImportLogoHint": "Any size works — we resize it for you.\nBest: square PNG with a transparent background, at least 600 × 600 px.",
+  "imageImportSignatureHint": "Any size works — we resize it for you. Best: PNG with a transparent background and dark ink, about 600 × 200 px.",
+  "imageImportWatermarkHint": "Any size works — we resize it for you. Best: a light PNG with a transparent background, at least 1200 px wide.",
+  "imageImportAddedMessage": "Image added.",
+  "imageImportResizedMessage": "Image added — resized from {from} to {to} px so it prints sharp and keeps the app fast.",
+  "@imageImportResizedMessage": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "imageImportTooSmallMessage": "Image added, but it is only {size} px and may look blurry when printed. For best results use at least {min} px.",
+  "@imageImportTooSmallMessage": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      },
+      "min": {
+        "type": "String"
+      }
+    }
+  },
+  "imageImportUnreadableMessage": "We couldn't read this image. Please choose a PNG or JPG file.",
+  "imageImportFileTooLargeMessage": "This file is larger than {max} MB. Please choose a smaller image.",
+  "@imageImportFileTooLargeMessage": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  }
 }

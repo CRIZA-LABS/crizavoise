@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/common/app_countries.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/image_import_service.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/theme_provider.dart';
 import 'package:crizavoise/widgets/language_picker.dart';
@@ -114,7 +115,7 @@ class OnboardingStepCompany extends ConsumerWidget {
           const SizedBox(height: 8),
           Center(
             child: Text(
-              l10n.companyInfoLogoRequirementsHint,
+              ImageImportService.recommendation(l10n, ImageKind.logo),
               style: TextStyle(
                   fontSize: 11,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,

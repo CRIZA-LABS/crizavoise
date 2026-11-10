@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image/image.dart' as img;
+import 'package:crizavoise/services/image_import_service.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
@@ -326,52 +326,14 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
     });
   }
 
+  /// Any size/format is accepted: the image is resized for invoices and the
+  /// user is told what happened (and the ideal size) — see ImageImportService.
   Future<void> _pickLogo() async {
-    final l10n = AppLocalizations.of(context)!;
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg', 'jpeg'],
-    );
-
-    if (result == null || result.files.single.path == null) return;
-
-    final file = File(result.files.single.path!);
-    final bytes = await file.readAsBytes();
-
-    // Validate file size (2MB limit)
-    if (bytes.length > 2 * 1024 * 1024) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.companyInfoImageTooLargeMessage)),
-        );
-      }
-      return;
-    }
-
-    final decodedImage = img.decodeImage(bytes);
-
-    if (decodedImage == null) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.companyInfoInvalidImageMessage)),
-      );
-      return;
-    }
-
-    // Validate dimensions
-    if (decodedImage.width > 1080 || decodedImage.height > 1080) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.companyInfoImageDimensionsMessage),
-        ),
-      );
-      return;
-    }
-
+    final result = await ImageImportService.pickAndPrepare(context, ImageKind.logo);
+    if (result == null || !mounted) return;
     setState(() {
-      _selectedLogoFile = file;
-      _base64Logo = base64Encode(bytes);
+      _selectedLogoFile = null; // preview the processed image, not the original file
+      _base64Logo = result.base64;
     });
   }
 
@@ -557,7 +519,7 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            l10n.companyInfoLogoRequirementsHint,
+                            ImageImportService.recommendation(l10n, ImageKind.logo),
                             style: TextStyle(
                               fontSize: AppFontSize.xsmall,
                               color:

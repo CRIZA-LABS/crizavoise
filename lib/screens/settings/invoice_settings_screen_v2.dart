@@ -9,6 +9,7 @@ import 'package:crizavoise/common/supported_currencies.dart';
 import 'package:crizavoise/models/custom_field_def.dart';
 import 'package:crizavoise/widgets/custom_field_defs_editor.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/image_import_service.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/returns_settings_provider.dart';
 import 'package:crizavoise/common/constants.dart';
@@ -406,23 +407,9 @@ class _InvoiceSettingsScreenV2State
   }
 
   Future<void> _pickSignature() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg', 'jpeg'],
-    );
-    if (result == null || result.files.single.path == null) return;
-    final bytes = await File(result.files.single.path!).readAsBytes();
-    if (bytes.length > 2 * 1024 * 1024) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(AppLocalizations.of(context)!
-                  .invoiceSettingsSignatureTooLargeMessage)),
-        );
-      }
-      return;
-    }
-    final base64Sig = base64Encode(bytes);
+    final result = await ImageImportService.pickAndPrepare(context, ImageKind.signature);
+    if (result == null) return;
+    final base64Sig = result.base64;
     await ref.read(settingsRepositoryProvider).setSignatureImage(base64Sig);
     if (mounted) {
       setState(() => _signatureBase64 = base64Sig);
@@ -436,23 +423,9 @@ class _InvoiceSettingsScreenV2State
   }
 
   Future<void> _pickWatermark() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg', 'jpeg'],
-    );
-    if (result == null || result.files.single.path == null) return;
-    final bytes = await File(result.files.single.path!).readAsBytes();
-    if (bytes.length > 2 * 1024 * 1024) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(AppLocalizations.of(context)!
-                  .invoiceSettingsWatermarkTooLargeMessage)),
-        );
-      }
-      return;
-    }
-    final base64Watermark = base64Encode(bytes);
+    final result = await ImageImportService.pickAndPrepare(context, ImageKind.watermark);
+    if (result == null) return;
+    final base64Watermark = result.base64;
     await ref
         .read(settingsRepositoryProvider)
         .setWatermarkImage(base64Watermark);
@@ -1201,7 +1174,7 @@ class _InvoiceSettingsScreenV2State
                   style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.onSurfaceVariant)),
-              Text(l10n.invoiceSettingsImageFormatHint,
+              Text(ImageImportService.recommendation(l10n, ImageKind.signature),
                   style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.onSurfaceVariant)),
@@ -1305,7 +1278,7 @@ class _InvoiceSettingsScreenV2State
                   style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.onSurfaceVariant)),
-              Text(l10n.invoiceSettingsImageFormatHint,
+              Text(ImageImportService.recommendation(l10n, ImageKind.watermark),
                   style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.onSurfaceVariant)),
