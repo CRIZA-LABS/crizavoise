@@ -50,4 +50,10 @@ class AppConfig {
   static const termsAsset = "TERMS.md";
   static const privacyAsset = "PRIVACY.md";
   static const termsVersion = "2026-11-10.2";
+
+  /// Online licence check (tool/license-admin `/api/v1/status`). null = off:
+  /// the app makes no licence network calls. Set to the hosted URL (e.g.
+  /// "https://licences.criza.dev/api/v1/status") only with the owner's OK,
+  /// and update PRIVACY.md at the same time.
+  static const String? licenseCheckUrl = null;
 }

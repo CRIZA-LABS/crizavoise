@@ -2,7 +2,10 @@ import 'package:cryptography/cryptography.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:crizavoise/licensing/license_codec.dart';
+import 'dart:convert';
+
 import 'package:crizavoise/licensing/license_service.dart';
+import 'package:crizavoise/licensing/online_check.dart';
 
 void main() {
   late SimpleKeyPair pair;
@@ -173,6 +176,57 @@ void main() {
       await service.activate(await key(LicensePlan.oneYear));
       await service.deactivate();
       expect((await service.load()).kind, LicenseKind.trial);
+    });
+  });
+
+  group('online check (dormant until a server URL is set)', () {
+    test('a moved licence becomes revoked; network silence changes nothing', () async {
+      final store = MemoryLicenseStore();
+      var answer = <String, dynamic>{};
+      var calls = 0;
+      var now = DateTime.utc(2026, 11, 10);
+      LicenseService make() => LicenseService(
+          stores: [store],
+          deviceCode: () async => device,
+          publicKey: pub,
+          clock: () => now,
+          statusFetcher: (id, dev) async {
+            calls++;
+            return answer.isEmpty ? null : {...answer, 'id': id};
+          });
+      await make().activate(await key(LicensePlan.oneYear));
+
+      expect(await make().checkOnline(), isFalse, reason: 'no answer (offline)');
+      answer = {'status': 'active'};
+      expect(await make().checkOnline(), isFalse);
+      final before = calls;
+      expect(await make().checkOnline(), isFalse, reason: 'checked recently: skipped');
+      expect(calls, before);
+
+      now = now.add(const Duration(days: 8));
+      answer = {'status': 'moved'};
+      expect(await make().checkOnline(), isTrue);
+      final s = await make().load();
+      expect(s.kind, LicenseKind.licenseRevoked);
+      expect(s.canCreateDocuments, isFalse);
+    });
+
+    test('signed status: genuine, forged and stale answers', () async {
+      String b64(List<int> b) => base64Url.encode(b).replaceAll('=', '');
+      Future<Map<String, dynamic>> signed(Map<String, dynamic> st, SimpleKeyPair k) async {
+        final body = b64(utf8.encode(jsonEncode(st)));
+        final sig = await Ed25519().sign(utf8.encode('CVSTAT1|$body'), keyPair: k);
+        return {'body': body, 'sig': b64(sig.bytes)};
+      }
+
+      final now = DateTime.utc(2026, 11, 10, 12);
+      final good = await signed({'id': 'X', 'status': 'revoked', 'ts': now.toIso8601String()}, pair);
+      expect((await verifySignedStatus(good, publicKey: pub, now: now))?['status'], 'revoked');
+      final other = await Ed25519().newKeyPairFromSeed(List.filled(32, 3));
+      expect(await verifySignedStatus(await signed({'id': 'X', 'ts': now.toIso8601String()}, other),
+          publicKey: pub, now: now), isNull);
+      expect(await verifySignedStatus(good, publicKey: pub, now: now.add(const Duration(days: 5))),
+          isNull, reason: 'replayed old answer');
     });
   });
 }

@@ -9,6 +9,7 @@ import 'package:crizavoise/database/company_registry_service.dart';
 import 'package:crizavoise/licensing/license_codec.dart';
 import 'package:crizavoise/licensing/license_keys.dart';
 import 'package:crizavoise/licensing/machine_id.dart';
+import 'package:crizavoise/licensing/online_check.dart';
 import 'package:win32/win32.dart' show HKEY_CURRENT_USER;
 
 /// Free trial length.
@@ -29,6 +30,10 @@ enum LicenseKind {
 
   /// A dated licence ran out: same limits as [trialEnded].
   licenseExpired,
+
+  /// The licence server said this licence was revoked or moved to another
+  /// computer (only with the online check on). Same limits as [trialEnded].
+  licenseRevoked,
 }
 
 class LicenseState {
@@ -132,7 +137,14 @@ class LicenseService {
     required this.deviceCode,
     this.publicKey = CrizaKeys.licensePublicKey,
     DateTime Function()? clock,
+    this.statusFetcher = fetchLicenceStatus,
   }) : clock = clock ?? DateTime.now;
+
+  /// Asks the licence server about a licence; null = no answer / check off.
+  final Future<Map<String, dynamic>?> Function(String id, String device) statusFetcher;
+
+  /// How often the online check runs (when it is switched on).
+  static const onlineCheckEvery = Duration(days: 7);
 
   static LicenseService? _instance;
   static LicenseService get instance => _instance ??= _defaultService();
@@ -142,7 +154,9 @@ class LicenseService {
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
       // Tests must never touch the real registry or files.
       return LicenseService(
-          stores: [MemoryLicenseStore()], deviceCode: () async => 'TEST-TEST-TEST-TEST');
+          stores: [MemoryLicenseStore()],
+          deviceCode: () async => 'TEST-TEST-TEST-TEST',
+          statusFetcher: (_, __) async => null);
     }
     final home = Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'] ?? '.';
     return LicenseService(
@@ -176,11 +190,18 @@ class LicenseService {
   static String _mac(String body) =>
       Hmac(sha256, utf8.encode(_macKey)).convert(utf8.encode(body)).toString().substring(0, 24);
 
-  static String encodeRecord({required DateTime trialStart, required DateTime seen, String? key}) {
+  static String encodeRecord(
+      {required DateTime trialStart,
+      required DateTime seen,
+      String? key,
+      Set<String> revoked = const {},
+      DateTime? checked}) {
     final body = jsonEncode({
       't': trialStart.toUtc().toIso8601String(),
       's': seen.toUtc().toIso8601String(),
       if (key != null) 'k': key,
+      if (revoked.isNotEmpty) 'rv': revoked.toList()..sort(),
+      if (checked != null) 'c': checked.toUtc().toIso8601String(),
     });
     return jsonEncode({'b': body, 'm': _mac(body)});
   }
@@ -234,10 +255,31 @@ class LicenseService {
   /// Removes the saved licence (e.g. before moving it to another computer).
   Future<void> deactivate() => _compute(clearKey: true);
 
-  Future<LicenseState> _compute({String? newKey, bool clearKey = false}) async {
+  /// The online licence check: at most every [onlineCheckEvery], and only
+  /// when a server is configured. Network trouble never changes anything.
+  /// Returns true when the state changed (the licence was revoked or moved).
+  Future<bool> checkOnline() async {
+    final s = await _compute();
+    final lic = s.license;
+    if (lic == null || s.kind == LicenseKind.licenseRevoked) return false;
+    if (_lastChecked != null && clock().toUtc().difference(_lastChecked!) < onlineCheckEvery) {
+      return false;
+    }
+    final status = await statusFetcher(lic.id, s.deviceCode);
+    if (status == null || status['id'] != lic.id) return false;
+    final blocked = blockingStatuses.contains(status['status']);
+    await _compute(checkedAt: clock(), revokeId: blocked ? lic.id : null);
+    return blocked;
+  }
+
+  DateTime? _lastChecked;
+
+  Future<LicenseState> _compute(
+      {String? newKey, bool clearKey = false, DateTime? checkedAt, String? revokeId}) async {
     final now = clock().toUtc();
-    DateTime? trialStart, seen;
+    DateTime? trialStart, seen, checked;
     String? key;
+    final revoked = <String>{};
     var tampered = false;
     for (final raw in await _readAll()) {
       try {
@@ -248,6 +290,9 @@ class LicenseService {
         if (t != null && (trialStart == null || t.isBefore(trialStart))) trialStart = t;
         if (sn != null && (seen == null || sn.isAfter(seen))) seen = sn;
         key ??= r['k'] as String?;
+        revoked.addAll(((r['rv'] as List?) ?? const []).cast<String>());
+        final c = DateTime.tryParse('${r['c']}');
+        if (c != null && (checked == null || c.isAfter(checked))) checked = c;
       } catch (_) {
         tampered = true;
       }
@@ -261,8 +306,12 @@ class LicenseService {
     final clockWrong = seen != null && now.isBefore(seen.subtract(const Duration(days: 1)));
     if (clearKey) key = null;
     if (newKey != null) key = newKey;
+    if (revokeId != null) revoked.add(revokeId);
+    if (checkedAt != null) checked = checkedAt.toUtc();
+    _lastChecked = checked;
 
-    await _writeAll(encodeRecord(trialStart: trialStart, seen: effective, key: key));
+    await _writeAll(encodeRecord(
+        trialStart: trialStart, seen: effective, key: key, revoked: revoked, checked: checked));
 
     final device = await deviceCode();
     if (key != null) {
@@ -270,7 +319,11 @@ class LicenseService {
       if (p != null && result != ActivationResult.invalid && result != ActivationResult.otherDevice) {
         final days = p.expires == null ? null : _daysUntil(effective, p.expires!);
         return LicenseState(
-          kind: result == ActivationResult.activated ? LicenseKind.licensed : LicenseKind.licenseExpired,
+          kind: revoked.contains(p.id)
+              ? LicenseKind.licenseRevoked
+              : result == ActivationResult.activated
+                  ? LicenseKind.licensed
+                  : LicenseKind.licenseExpired,
           deviceCode: device,
           trialStart: trialStart,
           daysLeft: days,

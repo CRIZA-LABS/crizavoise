@@ -6,7 +6,15 @@ import 'package:crizavoise/licensing/license_service.dart';
 /// activation; cheap (no network, a few small reads).
 class LicenseNotifier extends AsyncNotifier<LicenseState> {
   @override
-  Future<LicenseState> build() => LicenseService.instance.load();
+  Future<LicenseState> build() async {
+    final s = await LicenseService.instance.load();
+    // Online licence check (dormant until AppConfig.licenseCheckUrl is set).
+    // Runs in the background and never delays start-up.
+    LicenseService.instance.checkOnline().then((changed) {
+      if (changed) refresh();
+    }).catchError((_) {});
+    return s;
+  }
 
   Future<ActivationResult> activate(String key) async {
     final result = await LicenseService.instance.activate(key);

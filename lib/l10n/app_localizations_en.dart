@@ -6729,4 +6729,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get productPhotoHint =>
       'Optional. Helps staff pick the right item. Any photo works; it\'s resized automatically (best: square, 400 × 400 px or larger).';
+
+  @override
+  String get licenseStatusRevoked =>
+      'This licence is no longer active on this computer';
+
+  @override
+  String get licenseRevokedBody =>
+      'Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake.';
 }

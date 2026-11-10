@@ -3862,5 +3862,7 @@
   "productPhotoAdd": "Add photo",
   "productPhotoChange": "Change photo",
   "productPhotoRemove": "Remove",
-  "productPhotoHint": "Optional. Helps staff pick the right item. Any photo works; it's resized automatically (best: square, 400 × 400 px or larger)."
+  "productPhotoHint": "Optional. Helps staff pick the right item. Any photo works; it's resized automatically (best: square, 400 × 400 px or larger).",
+  "licenseStatusRevoked": "This licence is no longer active on this computer",
+  "licenseRevokedBody": "Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake."
 }

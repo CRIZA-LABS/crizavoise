@@ -159,6 +159,12 @@ class _LicenseScreenState extends ConsumerState<LicenseScreen> {
           l10n.licenseStatusExpired,
           l10n.licenseEndedBody
         ),
+      LicenseKind.licenseRevoked => (
+          Icons.gpp_bad_outlined,
+          scheme.error,
+          l10n.licenseStatusRevoked,
+          l10n.licenseRevokedBody
+        ),
     };
     final lic = s.license;
     return Container(

@@ -11430,6 +11430,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Optional. Helps staff pick the right item. Any photo works; it\'s resized automatically (best: square, 400 × 400 px or larger).'**
   String get productPhotoHint;
+
+  /// No description provided for @licenseStatusRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'This licence is no longer active on this computer'**
+  String get licenseStatusRevoked;
+
+  /// No description provided for @licenseRevokedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake.'**
+  String get licenseRevokedBody;
 }
 
 class _AppLocalizationsDelegate

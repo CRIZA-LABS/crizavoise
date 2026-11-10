@@ -19,6 +19,12 @@ CrizaVoise is free for **30 days** on each computer, then needs a licence: **6 m
 
 Offline licensing can't stop a determined cracker. It keeps honest customers honest and makes casual sharing pointless, because a key works on one computer only.
 
+## Licence admin app (recommended)
+`cd tool/license-admin && npm install && npm start`, then open http://127.0.0.1:8787. It covers customers, issuing, renewals, PC moves, revocation, reset codes, key rotation, an activity log and CSV export. Its data is in `.secrets/admin/`. See `tool/license-admin/README.md`. The command-line tool below still works, and both make identical keys.
+
+## Online licence check (dormant)
+The app can ask the licence server whether a licence was revoked or moved, at most weekly. Offline or no answer changes nothing. The answer is signed and must be fresh. It is **off** (`AppConfig.licenseCheckUrl = null`) until the admin app is hosted. Turning it on adds network calls, so update PRIVACY.md at the same time.
+
 ## Your private keys (`.secrets/`)
 - `license_signing_key.json` signs licence keys. `reset_signing_key.json` signs password-reset codes.
 - **Back up `.secrets/` offline now** (two USB drives, or a password manager). If you lose it, you can't issue keys that the shipped app versions accept.
