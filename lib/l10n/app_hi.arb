@@ -273,7 +273,7 @@
   "gstTitleCreditNoteLabel": "क्रेडिट नोट",
   "gstTitleDebitNoteLabel": "डेबिट नोट",
   "gstTitleRevisedInvoiceLabel": "संशोधित इनवॉइस",
-  "createInvoiceSearchProductLabel": "उत्पाद या सेवा खोजें और जोड़ें (Ctrl+F)",
+  "createInvoiceSearchProductLabel": "नाम या क्विक कोड से खोजें और जोड़ें (Ctrl+F)",
   "createInvoiceCustomItemButton": "कस्टम आइटम (Ctrl+M)",
   "createInvoiceNoProductsFoundMessage": "कोई उत्पाद नहीं मिला",
   "createInvoiceItemAlreadyInProductListMessage": "\"{name}\" पहले से उत्पाद सूची में मौजूद है",
@@ -627,7 +627,7 @@
   "productMgmtTitle": "उत्पाद प्रबंधन",
   "productMgmtSubtitle": "अपने उत्पाद और सेवाएं प्रबंधित करें",
   "productMgmtNewProductButton": "नया उत्पाद",
-  "productMgmtSearchHint": "नाम, उपनाम, HSN/SAC, SKU से उत्पाद खोजें…",
+  "productMgmtSearchHint": "नाम, क्विक कोड, उपनाम, HSN/SAC से खोजें…",
   "productMgmtFilterByStockStatusTooltip": "स्टॉक स्थिति के अनुसार फ़िल्टर करें",
   "productMgmtAllStockLevelsLabel": "सभी स्टॉक स्तर",
   "productMgmtLowStockLabel": "कम स्टॉक",
@@ -1537,5 +1537,12 @@
   "termsAgreeCheckbox": "मैंने उपयोग की शर्तें और गोपनीयता नीति पढ़ ली हैं और मैं सहमत हूँ",
   "termsContinueButton": "सहमत होकर आगे बढ़ें",
   "termsOfUseTitle": "उपयोग की शर्तें",
-  "privacyPolicyTitle": "गोपनीयता नीति"
+  "privacyPolicyTitle": "गोपनीयता नीति",
+  "productQuickCodeLabel": "क्विक कोड",
+  "productQuickCodeHelper": "बिल बनाते समय इस आइटम को जल्दी ढूँढने का छोटा कोड — जैसे R5 या 101",
+  "productQuickCodeSuggest": "कोड सुझाएँ",
+  "productQuickCodeInvalid": "12 तक अक्षर, अंक या \"-\" इस्तेमाल करें।",
+  "productQuickCodeTaken": "यह कोड किसी दूसरे आइटम में इस्तेमाल हो चुका है।",
+  "productMgmtCsvDescQuickCode": "जल्दी खोजने का वैकल्पिक छोटा कोड (अक्षर, अंक, -; अलग-अलग)। दूसरे आइटम में इस्तेमाल हो चुके कोड छोड़ दिए जाते हैं।",
+  "productSearchByCodeHint": "नाम, क्विक कोड या HSN"
 }

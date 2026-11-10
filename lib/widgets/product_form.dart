@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/widgets/quick_code_field.dart';
 import 'package:crizavoise/models/product.dart';
 import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/providers/repositories.dart';
@@ -64,6 +65,8 @@ class ProductFormState extends ConsumerState<ProductForm> {
   final _stockController = TextEditingController(text: '0');
   final _lowStockLimitController = TextEditingController();
   final _hsnCodeController = TextEditingController();
+  final _quickCodeController = TextEditingController();
+  String? _quickCodeError;
   final _taxRateController = TextEditingController(text: '18');
   final _customUnitController = TextEditingController();
   final _storageLocationController = TextEditingController();
@@ -149,6 +152,7 @@ class ProductFormState extends ConsumerState<ProductForm> {
       _stockController,
       _lowStockLimitController,
       _hsnCodeController,
+      _quickCodeController,
       _taxRateController,
       _customUnitController,
       _storageLocationController,
@@ -184,6 +188,14 @@ class ProductFormState extends ConsumerState<ProductForm> {
     final name = _nameController.text.trim();
     final productRepo = ref.read(productRepositoryProvider);
 
+    final quickCode = _quickCodeController.text.trim();
+    final codeError = quickCode.isEmpty
+        ? null
+        : await QuickCodeField.uniqueError(context, quickCode);
+    if (!mounted) return null;
+    setState(() => _quickCodeError = codeError);
+    if (codeError != null) return null;
+
     final duplicate = await productRepo.findDuplicateByName(name);
     if (!mounted) return null;
     if (duplicate != null && !await _confirmDuplicate(name)) return null;
@@ -213,6 +225,7 @@ class ProductFormState extends ConsumerState<ProductForm> {
             ? 0
             : int.parse(_stockController.text.trim()),
         hsncode: _hsnCodeController.text.trim(),
+        quickCode: quickCode.isEmpty ? null : quickCode,
         tax_rate: int.parse(_taxRateController.text.trim()),
         type: _newItemType,
         defaultDiscount:
@@ -270,6 +283,7 @@ class ProductFormState extends ConsumerState<ProductForm> {
       _purchasePriceController,
       _lowStockLimitController,
       _hsnCodeController,
+      _quickCodeController,
       _customUnitController,
       _storageLocationController,
       _containerNumberController,
@@ -329,6 +343,12 @@ class ProductFormState extends ConsumerState<ProductForm> {
           _sectionLabel(l10n.productMgmtSectionGeneral),
           _buildFormField(_nameController, l10n.fieldNameLabel, Icons.inventory_2,
               maxLength: 100, onSubmitted: widget.onSubmitted),
+          const SizedBox(height: 16),
+          QuickCodeField(
+            controller: _quickCodeController,
+            nameController: _nameController,
+            errorText: _quickCodeError,
+          ),
           if (_columnsConfig.aliasName) ...[
             const SizedBox(height: 16),
             _buildFormField(_aliasNameController,

@@ -6199,4 +6199,29 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get productQuickCodeLabel => 'Quick code';
+
+  @override
+  String get productQuickCodeHelper =>
+      'Short code to find this item fast when billing — e.g. R5 or 101';
+
+  @override
+  String get productQuickCodeSuggest => 'Suggest a code';
+
+  @override
+  String get productQuickCodeInvalid =>
+      'Use up to 12 letters, numbers or \"-\".';
+
+  @override
+  String get productQuickCodeTaken =>
+      'This code is already used by another item.';
+
+  @override
+  String get productMgmtCsvDescQuickCode =>
+      'Optional short code for fast search (letters, numbers, -; unique). Codes already used by another item are skipped.';
+
+  @override
+  String get productSearchByCodeHint => 'Name, quick code or HSN';
 }

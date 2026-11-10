@@ -997,7 +997,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get createInvoiceSearchProductLabel =>
-      'उत्पाद या सेवा खोजें और जोड़ें (Ctrl+F)';
+      'नाम या क्विक कोड से खोजें और जोड़ें (Ctrl+F)';
 
   @override
   String get createInvoiceCustomItemButton => 'कस्टम आइटम (Ctrl+M)';
@@ -2365,7 +2365,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get productMgmtSearchHint =>
-      'नाम, उपनाम, HSN/SAC, SKU से उत्पाद खोजें…';
+      'नाम, क्विक कोड, उपनाम, HSN/SAC से खोजें…';
 
   @override
   String get productMgmtFilterByStockStatusTooltip =>
@@ -6095,4 +6095,29 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get privacyPolicyTitle => 'गोपनीयता नीति';
+
+  @override
+  String get productQuickCodeLabel => 'क्विक कोड';
+
+  @override
+  String get productQuickCodeHelper =>
+      'बिल बनाते समय इस आइटम को जल्दी ढूँढने का छोटा कोड — जैसे R5 या 101';
+
+  @override
+  String get productQuickCodeSuggest => 'कोड सुझाएँ';
+
+  @override
+  String get productQuickCodeInvalid =>
+      '12 तक अक्षर, अंक या \"-\" इस्तेमाल करें।';
+
+  @override
+  String get productQuickCodeTaken =>
+      'यह कोड किसी दूसरे आइटम में इस्तेमाल हो चुका है।';
+
+  @override
+  String get productMgmtCsvDescQuickCode =>
+      'जल्दी खोजने का वैकल्पिक छोटा कोड (अक्षर, अंक, -; अलग-अलग)। दूसरे आइटम में इस्तेमाल हो चुके कोड छोड़ दिए जाते हैं।';
+
+  @override
+  String get productSearchByCodeHint => 'नाम, क्विक कोड या HSN';
 }

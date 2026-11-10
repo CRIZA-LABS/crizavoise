@@ -582,7 +582,7 @@
   "gstTitleCreditNoteLabel": "Credit Note",
   "gstTitleDebitNoteLabel": "Debit Note",
   "gstTitleRevisedInvoiceLabel": "Revised Invoice",
-  "createInvoiceSearchProductLabel": "Search & add a product or service (Ctrl+F)",
+  "createInvoiceSearchProductLabel": "Search by name or quick code & add (Ctrl+F)",
   "createInvoiceCustomItemButton": "Custom item (Ctrl+M)",
   "createInvoiceNoProductsFoundMessage": "No products found",
   "createInvoiceItemAlreadyInProductListMessage": "\"{name}\" already exists in product list",
@@ -1534,7 +1534,7 @@
   "productMgmtTitle": "Product Management",
   "productMgmtSubtitle": "Manage your products and services",
   "productMgmtNewProductButton": "New Product",
-  "productMgmtSearchHint": "Search products by name, alias, HSN/SAC, SKU…",
+  "productMgmtSearchHint": "Search by name, quick code, alias, HSN/SAC…",
   "productMgmtFilterByStockStatusTooltip": "Filter by stock status",
   "productMgmtAllStockLevelsLabel": "All stock levels",
   "productMgmtLowStockLabel": "Low stock",
@@ -3532,5 +3532,12 @@
   "termsAgreeCheckbox": "I have read and agree to the Terms of Use and Privacy Policy",
   "termsContinueButton": "Agree and continue",
   "termsOfUseTitle": "Terms of Use",
-  "privacyPolicyTitle": "Privacy Policy"
+  "privacyPolicyTitle": "Privacy Policy",
+  "productQuickCodeLabel": "Quick code",
+  "productQuickCodeHelper": "Short code to find this item fast when billing — e.g. R5 or 101",
+  "productQuickCodeSuggest": "Suggest a code",
+  "productQuickCodeInvalid": "Use up to 12 letters, numbers or \"-\".",
+  "productQuickCodeTaken": "This code is already used by another item.",
+  "productMgmtCsvDescQuickCode": "Optional short code for fast search (letters, numbers, -; unique). Codes already used by another item are skipped.",
+  "productSearchByCodeHint": "Name, quick code or HSN"
 }

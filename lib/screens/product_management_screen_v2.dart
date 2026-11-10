@@ -16,6 +16,8 @@ import 'package:csv/csv.dart';
 import 'package:intl/intl.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/database/product_service.dart';
+import 'package:crizavoise/widgets/quick_code_field.dart';
 import 'package:crizavoise/models/product.dart';
 import 'package:crizavoise/models/product_list_stats.dart';
 import 'package:crizavoise/models/user.dart';
@@ -91,6 +93,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
     'default_discount',
     'purchase_price',
     'alias_name',
+    'quick_code',
     'unit',
     'unlimited_stock',
     'price_includes_tax',
@@ -670,6 +673,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                     _csvRuleRow(context, 'default_discount', false, l10n.productMgmtCsvDescDefaultDiscount),
                     _csvRuleRow(context, 'purchase_price', false, l10n.productMgmtCsvDescPurchasePrice),
                     _csvRuleRow(context, 'alias_name', false, l10n.productMgmtCsvDescAliasName),
+                    _csvRuleRow(context, 'quick_code', false, l10n.productMgmtCsvDescQuickCode),
                     _csvRuleRow(context, 'unit', false, l10n.productMgmtCsvDescUnit),
                     _csvRuleRow(context, 'unlimited_stock', false, l10n.productMgmtCsvDescUnlimitedStock),
                     _csvRuleRow(context, 'price_includes_tax', false, l10n.productMgmtCsvDescPriceIncludesTax),
@@ -899,6 +903,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
         final discountStr = getField(row, 'default_discount');
         final purchasePriceStr = getField(row, 'purchase_price');
         final aliasNameStr = getField(row, 'alias_name');
+        final quickCodeRaw = getField(row, 'quick_code').trim().toUpperCase();
         final unitStr = getField(row, 'unit');
         final unlimitedStockStr = getField(row, 'unlimited_stock');
         final priceIncludesTaxStr = getField(row, 'price_includes_tax');
@@ -912,6 +917,14 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
         final type = (typeStr == 'service') ? 'service' : 'product';
 
         final existing = await ref.read(productRepositoryProvider).findDuplicateByName(name);
+        // Keep an imported quick code only if it's valid and not used by
+        // another item; otherwise keep the item's existing code.
+        String? quickCode = existing?.quickCode;
+        if (quickCodeRaw.isNotEmpty &&
+            ProductQuickCode.formatIssue(quickCodeRaw) == null &&
+            !await ProductQuickCode.isTaken(quickCodeRaw, excludeProductId: existing?.id)) {
+          quickCode = quickCodeRaw;
+        }
         final product = Product(
           id: existing?.id ?? const Uuid().v4(),
           name: name,
@@ -926,6 +939,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
               ? (existing?.purchasePrice ?? 0.0)
               : (purchasePrice < 0 ? 0.0 : purchasePrice),
           aliasName: aliasNameStr.isEmpty ? null : aliasNameStr,
+          quickCode: quickCode,
           unit: unitStr,
           unlimitedStock: unlimitedStock,
           priceIncludesTax: priceIncludesTax,
@@ -1198,7 +1212,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
       final allProducts = await repo.getAllProducts();
       final allMetadata = await repo.getAllProductMetadata();
       final List<List<dynamic>> rows = [
-        ['name', 'hsn_code', 'description', 'price', 'tax_rate', 'stock', 'type', 'default_discount', 'purchase_price', 'alias_name', 'unit', 'unlimited_stock', 'price_includes_tax', 'low_stock_limit', 'storage_location', 'container_number', 'batch_number', 'expiry_date', 'manufacture_date', 'manufacture_name', 'supplier_name', 'sku_code', 'notes'],
+        ['name', 'hsn_code', 'description', 'price', 'tax_rate', 'stock', 'type', 'default_discount', 'purchase_price', 'alias_name', 'quick_code', 'unit', 'unlimited_stock', 'price_includes_tax', 'low_stock_limit', 'storage_location', 'container_number', 'batch_number', 'expiry_date', 'manufacture_date', 'manufacture_name', 'supplier_name', 'sku_code', 'notes'],
         ...allProducts.map((p) {
           final meta = allMetadata[p.id];
           return [
@@ -1212,6 +1226,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
               p.defaultDiscount,
               _hidePurchasePrice ? '' : p.purchasePrice,
               p.aliasName ?? '',
+              p.quickCode ?? '',
               p.unit,
               p.unlimitedStock ? 1 : 0,
               p.priceIncludesTax ? 1 : 0,
@@ -2138,9 +2153,17 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(p.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                Row(children: [
+                  if ((p.quickCode ?? '').isNotEmpty) ...[
+                    QuickCodeBadge(p.quickCode!),
+                    const SizedBox(width: 8),
+                  ],
+                  Flexible(
+                    child: Text(p.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                  ),
+                ]),
                 if (_businessType == BusinessType.both && _columnsConfig.type)
                   Padding(
                     padding: const EdgeInsets.only(top: 2),
@@ -2508,6 +2531,8 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
 
     final nameCtrl = TextEditingController(text: product.name);
     final aliasCtrl = TextEditingController(text: product.aliasName ?? '');
+    final quickCtrl = TextEditingController(text: product.quickCode ?? '');
+    String? quickError;
     final descCtrl = TextEditingController(text: product.description);
     final hsnCtrl = TextEditingController(text: product.hsncode);
     final priceCtrl = TextEditingController(text: product.price.toString());
@@ -2543,6 +2568,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
     void disposeAll() {
       nameCtrl.dispose();
       aliasCtrl.dispose();
+      quickCtrl.dispose();
       descCtrl.dispose();
       hsnCtrl.dispose();
       priceCtrl.dispose();
@@ -2613,6 +2639,13 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
           Future<void> save() async {
             if (isSaving) return;
             if (!formKey.currentState!.validate()) return;
+            final quick = quickCtrl.text.trim();
+            final codeError = quick.isEmpty
+                ? null
+                : await QuickCodeField.uniqueError(dialogContext, quick,
+                    excludeProductId: product.id);
+            setDialogState(() => quickError = codeError);
+            if (codeError != null) return;
             final price = double.parse(priceCtrl.text.trim());
             final purchasePrice = double.tryParse(purchaseCtrl.text.trim()) ?? 0.0;
             if (!await _confirmIfSellingAtLoss(price, purchasePrice)) return;
@@ -2632,6 +2665,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                 defaultDiscount: double.tryParse(discountCtrl.text.trim()) ?? 0.0,
                 purchasePrice: purchasePrice,
                 aliasName: aliasCtrl.text.trim().isEmpty ? null : aliasCtrl.text.trim(),
+                quickCode: quick.isEmpty ? null : quick,
                 unit: unit.trim(),
                 unlimitedStock:
                     _stockLocked ? product.unlimitedStock : unlimitedStock,
@@ -2762,6 +2796,14 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                                   ),
                                 ],
                               ],
+                            ),
+                            const SizedBox(height: 16),
+                            QuickCodeField(
+                              controller: quickCtrl,
+                              nameController: nameCtrl,
+                              excludeProductId: product.id,
+                              readOnly: !isEdit,
+                              errorText: quickError,
                             ),
                             if (_columnsConfig.description) ...[
                               const SizedBox(height: 16),

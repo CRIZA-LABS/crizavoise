@@ -1809,7 +1809,7 @@ abstract class AppLocalizations {
   /// No description provided for @createInvoiceSearchProductLabel.
   ///
   /// In en, this message translates to:
-  /// **'Search & add a product or service (Ctrl+F)'**
+  /// **'Search by name or quick code & add (Ctrl+F)'**
   String get createInvoiceSearchProductLabel;
 
   /// No description provided for @createInvoiceCustomItemButton.
@@ -3909,7 +3909,7 @@ abstract class AppLocalizations {
   /// No description provided for @productMgmtSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search products by name, alias, HSN/SAC, SKU…'**
+  /// **'Search by name, quick code, alias, HSN/SAC…'**
   String get productMgmtSearchHint;
 
   /// No description provided for @productMgmtFilterByStockStatusTooltip.
@@ -10346,6 +10346,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get privacyPolicyTitle;
+
+  /// No description provided for @productQuickCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick code'**
+  String get productQuickCodeLabel;
+
+  /// No description provided for @productQuickCodeHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Short code to find this item fast when billing — e.g. R5 or 101'**
+  String get productQuickCodeHelper;
+
+  /// No description provided for @productQuickCodeSuggest.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest a code'**
+  String get productQuickCodeSuggest;
+
+  /// No description provided for @productQuickCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use up to 12 letters, numbers or \"-\".'**
+  String get productQuickCodeInvalid;
+
+  /// No description provided for @productQuickCodeTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is already used by another item.'**
+  String get productQuickCodeTaken;
+
+  /// No description provided for @productMgmtCsvDescQuickCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional short code for fast search (letters, numbers, -; unique). Codes already used by another item are skipped.'**
+  String get productMgmtCsvDescQuickCode;
+
+  /// No description provided for @productSearchByCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, quick code or HSN'**
+  String get productSearchByCodeHint;
 }
 
 class _AppLocalizationsDelegate

@@ -13,6 +13,9 @@ class Product {
   double defaultDiscount;
   double purchasePrice;
   String? aliasName; // local-language display name for PDFs
+  /// Short code typed at the counter to find this product fast ("R5", "101").
+  /// Optional; unique per company, case-insensitive (ProductQuickCode).
+  String? quickCode;
   String unit;
   bool unlimitedStock;
   bool priceIncludesTax;
@@ -32,6 +35,7 @@ class Product {
     this.defaultDiscount = 0.0,
     this.purchasePrice = 0.0,
     this.aliasName,
+    this.quickCode,
     this.unit = '',
     this.unlimitedStock = false,
     this.priceIncludesTax = false,
@@ -55,6 +59,7 @@ class Product {
       defaultDiscount: (map['default_discount'] as num?)?.toDouble() ?? 0.0,
       purchasePrice: (map['purchase_price'] as num?)?.toDouble() ?? 0.0,
       aliasName: map['alias_name'] as String?,
+      quickCode: map['quick_code'] as String?,
       unit: map['unit'] as String? ?? '',
       unlimitedStock: (map['unlimited_stock'] ?? 0) == 1,
       priceIncludesTax: (map['price_includes_tax'] ?? 0) == 1,
@@ -99,6 +104,7 @@ class Product {
       'default_discount': defaultDiscount,
       'purchase_price': purchasePrice,
       'alias_name': aliasName,
+      'quick_code': (quickCode?.trim().isEmpty ?? true) ? null : quickCode!.trim(),
       'unit': unit,
       'unlimited_stock': unlimitedStock ? 1 : 0,
       'price_includes_tax': priceIncludesTax ? 1 : 0,

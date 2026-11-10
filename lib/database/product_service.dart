@@ -93,15 +93,12 @@ class ProductService {
       );
       return result.map((e) => Product.fromMap(e)).toList();
     } else {
-      final queryLOwer = query.toLowerCase();
+      final m = ProductQuickCode.match(query);
       final result = await db.query(
         'products',
-        where: typeFilter != null
-            ? '(LOWER(name) LIKE ? OR LOWER(hsncode) LIKE ?) AND type = ?'
-            : 'LOWER(name) LIKE ? OR LOWER(hsncode) LIKE ?',
-        whereArgs: typeFilter != null
-            ? ['%$queryLOwer%', '%$queryLOwer%', typeFilter]
-            : ['%$queryLOwer%', '%$queryLOwer%'],
+        where: typeFilter != null ? '(${m.where}) AND type = ?' : m.where,
+        whereArgs: typeFilter != null ? [...m.args, typeFilter] : m.args,
+        orderBy: '${m.rank}, name COLLATE NOCASE',
       );
       return result.map((e) => Product.fromMap(e)).toList();
     }
@@ -121,13 +118,13 @@ class ProductService {
 
     String? where;
     List<dynamic>? whereArgs;
-    final queryLOwer = query.toLowerCase();
+    final m = ProductQuickCode.match(query, includeDescription: true);
     if (query.isNotEmpty && typeFilter != null) {
-      where = '(LOWER(name) LIKE ? OR LOWER(description) LIKE ? OR LOWER(hsncode) LIKE ?) AND type = ?';
-      whereArgs = ['%$queryLOwer%', '%$queryLOwer%', '%$queryLOwer%', typeFilter];
+      where = '(${m.where}) AND type = ?';
+      whereArgs = [...m.args, typeFilter];
     } else if (query.isNotEmpty) {
-      where = 'LOWER(name) LIKE ? OR LOWER(description) LIKE ? OR LOWER(hsncode) LIKE ?';
-      whereArgs = ['%$queryLOwer%', '%$queryLOwer%', '%$queryLOwer%'];
+      where = m.where;
+      whereArgs = m.args;
     } else if (typeFilter != null) {
       where = 'type = ?';
       whereArgs = [typeFilter];
@@ -137,7 +134,10 @@ class ProductService {
       'products',
       where: where,
       whereArgs: whereArgs,
-      orderBy: '$orderBy COLLATE NOCASE $order',
+      // Exact quick code first, then codes starting with the text, then names.
+      orderBy: query.isNotEmpty
+          ? '${m.rank}, $orderBy COLLATE NOCASE $order'
+          : '$orderBy COLLATE NOCASE $order',
       limit: limit,
       offset: offset,
     );
@@ -148,16 +148,16 @@ class ProductService {
   static Future<int> getProductCount([String query = '', String? type]) async {
     final db = await dbHelper.database;
     final typeFilter = (type != null && type != 'both') ? type : null;
-    final queryLOwer = query.toLowerCase();
+    final m = ProductQuickCode.match(query, includeDescription: true);
     if (query.isNotEmpty && typeFilter != null) {
       return Sqflite.firstIntValue(await db.rawQuery(
-        "SELECT COUNT(*) FROM products WHERE (LOWER(name) LIKE ? OR LOWER(description) LIKE ? OR LOWER(hsncode) LIKE ?) AND type = ?",
-        ['%$queryLOwer%', '%$queryLOwer%', '%$queryLOwer%', typeFilter],
+        "SELECT COUNT(*) FROM products WHERE (${m.where}) AND type = ?",
+        [...m.args, typeFilter],
       ))!;
     } else if (query.isNotEmpty) {
       return Sqflite.firstIntValue(await db.rawQuery(
-        "SELECT COUNT(*) FROM products WHERE LOWER(name) LIKE ? OR LOWER(description) LIKE ? OR LOWER(hsncode) LIKE ?",
-        ['%$queryLOwer%', '%$queryLOwer%', '%$queryLOwer%'],
+        "SELECT COUNT(*) FROM products WHERE ${m.where}",
+        m.args,
       ))!;
     } else if (typeFilter != null) {
       return Sqflite.firstIntValue(await db.rawQuery(
@@ -195,8 +195,8 @@ class ProductService {
           .replaceAll('%', r'\%')
           .replaceAll('_', r'\_');
       parts.add(r"(name LIKE ? ESCAPE '\' OR alias_name LIKE ? ESCAPE '\' "
-          r"OR hsncode LIKE ? ESCAPE '\')");
-      args.addAll(['%$q%', '%$q%', '%$q%']);
+          r"OR hsncode LIKE ? ESCAPE '\' OR quick_code LIKE ? ESCAPE '\')");
+      args.addAll(['%$q%', '%$q%', '%$q%', '%$q%']);
     }
     switch (tab) {
       case 'product':
@@ -397,5 +397,81 @@ class ProductService {
         }
       });
     }
+  }
+}
+
+
+/// Product quick codes: short codes typed at the counter ("R5", "101") to
+/// find a product fast in New Invoice, Purchase Bills and Products.
+class ProductQuickCode {
+  static const maxLength = 12;
+  static final _allowed = RegExp(r'^[A-Za-z0-9-]+$');
+
+  /// Format problem with [code], or null if it's fine (empty is allowed —
+  /// the code is optional).
+  static String? formatIssue(String code) {
+    final c = code.trim();
+    if (c.isEmpty) return null;
+    if (c.length > maxLength) return 'tooLong';
+    if (!_allowed.hasMatch(c)) return 'invalid';
+    return null;
+  }
+
+  /// Search clause matching quick code, name, alias and HSN (and optionally
+  /// description), plus an ORDER BY rank: exact code (0), code prefix (1),
+  /// name prefix (2), anything else (3). Wildcards in [query] are escaped.
+  static ({String where, List<Object?> args, String rank}) match(String query,
+      {bool includeDescription = false}) {
+    final q = query.trim().toLowerCase();
+    final esc = q.replaceAll(r'\', r'\\').replaceAll('%', r'\%').replaceAll('_', r'\_');
+    final like = '%$esc%';
+    final fields = [
+      'quick_code',
+      'name',
+      'alias_name',
+      'hsncode',
+      if (includeDescription) 'description',
+    ];
+    final where = fields.map((f) => "LOWER(COALESCE($f, '')) LIKE ? ESCAPE '\\'").join(' OR ');
+    // Rank uses literals (escaped quotes) so it can sit in ORDER BY without
+    // extra bind arguments.
+    final lit = q.replaceAll("'", "''");
+    final litEsc = esc.replaceAll("'", "''");
+    final rank = "CASE WHEN LOWER(COALESCE(quick_code, '')) = '$lit' THEN 0 "
+        "WHEN LOWER(COALESCE(quick_code, '')) LIKE '$litEsc%' ESCAPE '\\' THEN 1 "
+        "WHEN LOWER(name) LIKE '$litEsc%' ESCAPE '\\' THEN 2 ELSE 3 END";
+    return (where: where, args: List<Object?>.filled(fields.length, like), rank: rank);
+  }
+
+  /// Is [code] used by another product? Case-insensitive.
+  static Future<bool> isTaken(String code, {String? excludeProductId}) async {
+    final c = code.trim();
+    if (c.isEmpty) return false;
+    final db = await DatabaseHelper().database;
+    final rows = await db.rawQuery(
+        'SELECT id FROM products WHERE quick_code = ? COLLATE NOCASE', [c]);
+    return rows.any((r) => r['id'] != excludeProductId);
+  }
+
+  /// A free code suggestion from the product name: initials + a number
+  /// ("Basmati Rice 5 kg" -> "BR5K"), made unique with a numeric suffix.
+  static Future<String> suggest(String name, {String? excludeProductId}) async {
+    final words = name.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+    var base = words
+        .map((w) => RegExp(r'^\d').hasMatch(w)
+            ? RegExp(r'^\d+').firstMatch(w)!.group(0)!
+            : w[0])
+        .join()
+        .toUpperCase()
+        .replaceAll(RegExp(r'[^A-Z0-9]'), '');
+    if (base.isEmpty) base = 'P';
+    if (base.length > 8) base = base.substring(0, 8);
+    var candidate = base;
+    var n = 2;
+    while (await isTaken(candidate, excludeProductId: excludeProductId)) {
+      candidate = '$base$n';
+      n++;
+    }
+    return candidate;
   }
 }

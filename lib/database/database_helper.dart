@@ -19,7 +19,7 @@ class DatabaseHelper {
   static String? get path => _path;
   static Database? _database;
   static String _dbFileName = 'invoice_manager.db';
-  final dbVersion = 58;
+  final dbVersion = 59;
 
   /// Startup only, before anything has opened a connection yet — just points
   /// at the right file for the first `_initDB()` call. No close/reopen, so
@@ -105,9 +105,12 @@ class DatabaseHelper {
         unlimited_stock INTEGER DEFAULT 0,
         price_includes_tax INTEGER DEFAULT 0,
         last_purchase_date TEXT,
-        low_stock_limit INTEGER
+        low_stock_limit INTEGER,
+        quick_code TEXT
       )
     ''');
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_products_quick_code ON products(quick_code COLLATE NOCASE)');
 
     await db.execute('''
       CREATE TABLE product_metadata (
@@ -1355,6 +1358,22 @@ class DatabaseHelper {
         await db.execute(invoiceNumberLogTable);
         await db.execute(
             'CREATE INDEX IF NOT EXISTS idx_inv_num_log ON invoice_number_log(invoice_id)');
+      });
+    }
+
+    if (oldVersion < 59) {
+      // Product quick codes: short codes typed at the counter to find a
+      // product fast (e.g. "R5", "101"). Optional, unique per company.
+      final hasQuick = (await db.rawQuery('PRAGMA table_info(products)'))
+          .any((c) => c['name'] == 'quick_code');
+      if (!hasQuick) {
+        await _runMigrationStep(db, 59, 'add_quick_code_to_products', () async {
+          await db.execute('ALTER TABLE products ADD COLUMN quick_code TEXT');
+        });
+      }
+      await _runMigrationStep(db, 59, 'index_products_quick_code', () async {
+        await db.execute(
+            'CREATE INDEX IF NOT EXISTS idx_products_quick_code ON products(quick_code COLLATE NOCASE)');
       });
     }
   }

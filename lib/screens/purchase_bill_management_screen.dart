@@ -2541,8 +2541,14 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
     final filteredProducts = products.maybeWhen(
       data: (list) => list
           .where((p) => p.type == 'product')
-          .where((p) => _productQuery.isEmpty ||
-              p.name.toLowerCase().contains(_productQuery.toLowerCase()))
+          .where((p) {
+            if (_productQuery.isEmpty) return true;
+            final q = _productQuery.toLowerCase();
+            return p.name.toLowerCase().contains(q) ||
+                (p.quickCode ?? '').toLowerCase().contains(q) ||
+                (p.aliasName ?? '').toLowerCase().contains(q) ||
+                p.hsncode.toLowerCase().contains(q);
+          })
           .toList(),
       orElse: () => <Product>[],
     );

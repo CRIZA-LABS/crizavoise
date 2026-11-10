@@ -12,6 +12,7 @@ import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/widgets/quick_code_field.dart';
 import 'package:crizavoise/services/pdf/pdf_service.dart';
 import 'package:crizavoise/database/invoice_number_service.dart';
 import 'package:crizavoise/widgets/invoice_number_dialogs.dart';
@@ -6168,13 +6169,17 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       _columnsConfig.metaStorageLocation ? meta?.storageLocation : null;
                   final hasStorage = storageLocation != null && storageLocation.isNotEmpty;
 
-                  return Container(
-                    color: isHighlighted
-                        ? Theme.of(context).primaryColor.withValues(alpha: 0.08)
-                        : null,
+                  return Material(
+                    type: MaterialType.transparency,
                     child: ListTile(
                       dense: true,
                       selected: isHighlighted,
+                      tileColor: isHighlighted
+                          ? Theme.of(context).primaryColor.withValues(alpha: 0.08)
+                          : null,
+                      leading: (product.quickCode ?? '').isNotEmpty
+                          ? QuickCodeBadge(product.quickCode!)
+                          : null,
                       title: Text(
                         product.name,
                         overflow: TextOverflow.ellipsis,
