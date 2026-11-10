@@ -17,6 +17,7 @@ import 'package:crizavoise/providers/theme_provider.dart';
 import 'package:crizavoise/screens/auth/forgot_password_screen.dart';
 import 'package:crizavoise/screens/auth/change_password_screen.dart';
 import 'package:crizavoise/screens/help/help_search_screen.dart';
+import 'package:crizavoise/screens/legal/legal_document_screen.dart';
 import 'package:crizavoise/screens/settings/company_management_screen.dart';
 import 'package:crizavoise/screens/test_gate_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -423,7 +424,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                  minimumSize: const Size(0, 32),
+                                  textStyle: const TextStyle(fontSize: 12)),
+                              onPressed: () => LegalDocumentScreen.open(context,
+                                  title: AppLocalizations.of(context)!.termsOfUseTitle,
+                                  asset: AppConfig.termsAsset),
+                              child: Text(AppLocalizations.of(context)!.termsOfUseTitle),
+                            ),
+                            Text('·', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                  minimumSize: const Size(0, 32),
+                                  textStyle: const TextStyle(fontSize: 12)),
+                              onPressed: () => LegalDocumentScreen.open(context,
+                                  title: AppLocalizations.of(context)!.privacyPolicyTitle,
+                                  asset: AppConfig.privacyAsset),
+                              child: Text(AppLocalizations.of(context)!.privacyPolicyTitle),
+                            ),
+                          ],
+                        ),
                         Text(
                           AppConfig.version,
                           style: TextStyle(

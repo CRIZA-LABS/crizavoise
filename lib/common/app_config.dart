@@ -44,4 +44,10 @@ class AppConfig {
   /// Asset path of the third-party notice shown under
   /// Settings → About → Open-source licenses.
   static const thirdPartyNoticesAsset = "THIRD_PARTY_NOTICES.md";
+
+  /// Terms of Use / Privacy Policy, bundled as assets. Bump [termsVersion]
+  /// when either changes materially: users are asked to accept again.
+  static const termsAsset = "TERMS.md";
+  static const privacyAsset = "PRIVACY.md";
+  static const termsVersion = "2026-11-10";
 }

@@ -10256,6 +10256,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No changes yet.'**
   String get invoiceNumberHistoryNone;
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get termsTitle;
+
+  /// No description provided for @termsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Please read and accept the Terms of Use and Privacy Policy. The key points, in plain words:'**
+  String get termsIntro;
+
+  /// No description provided for @termsPointYourBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'CrizaVoise is a tool. You are responsible for your invoices, amounts, tax (GST) and following the law.'**
+  String get termsPointYourBusiness;
+
+  /// No description provided for @termsPointCheckDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Check every invoice before you give it to a customer.'**
+  String get termsPointCheckDocuments;
+
+  /// No description provided for @termsPointBackups.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data stays on this device. Take regular backups — we cannot recover lost data.'**
+  String get termsPointBackups;
+
+  /// No description provided for @termsPointNoWarranty.
+  ///
+  /// In en, this message translates to:
+  /// **'The software is provided \"as is\", without guarantees. Criza Labs is not liable for financial loss, data loss, tax penalties or crashes.'**
+  String get termsPointNoWarranty;
+
+  /// No description provided for @termsPointPricing.
+  ///
+  /// In en, this message translates to:
+  /// **'It is free for now. We will charge for CrizaVoise later, with at least 30 days\' notice.'**
+  String get termsPointPricing;
+
+  /// No description provided for @termsPointPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not collect, see or sell your business data. No tracking, no ads.'**
+  String get termsPointPrivacy;
+
+  /// No description provided for @termsPointTalkFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'If something goes wrong, write to us first at info@criza.dev and give us 30 days to fix it.'**
+  String get termsPointTalkFirst;
+
+  /// No description provided for @termsReadTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Terms of Use'**
+  String get termsReadTerms;
+
+  /// No description provided for @termsReadPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Privacy Policy'**
+  String get termsReadPrivacy;
+
+  /// No description provided for @termsAgreeCheckbox.
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and agree to the Terms of Use and Privacy Policy'**
+  String get termsAgreeCheckbox;
+
+  /// No description provided for @termsContinueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree and continue'**
+  String get termsContinueButton;
+
+  /// No description provided for @termsOfUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get termsOfUseTitle;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
 }
 
 class _AppLocalizationsDelegate

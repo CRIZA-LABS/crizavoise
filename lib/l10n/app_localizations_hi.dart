@@ -6041,4 +6041,58 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get invoiceNumberHistoryNone => 'अभी कोई बदलाव नहीं।';
+
+  @override
+  String get termsTitle => 'शुरू करने से पहले';
+
+  @override
+  String get termsIntro =>
+      'कृपया उपयोग की शर्तें और गोपनीयता नीति पढ़कर स्वीकार करें। मुख्य बातें, आसान शब्दों में:';
+
+  @override
+  String get termsPointYourBusiness =>
+      'CrizaVoise एक टूल है। आपके इनवॉइस, रकम, टैक्स (GST) और क़ानून का पालन आपकी ज़िम्मेदारी है।';
+
+  @override
+  String get termsPointCheckDocuments =>
+      'ग्राहक को देने से पहले हर इनवॉइस जाँच लें।';
+
+  @override
+  String get termsPointBackups =>
+      'आपका डेटा इसी डिवाइस पर रहता है। नियमित बैकअप लें — खोया डेटा हम वापस नहीं ला सकते।';
+
+  @override
+  String get termsPointNoWarranty =>
+      'सॉफ़्टवेयर \"जैसा है\" दिया जाता है, बिना किसी गारंटी के। आर्थिक नुक़सान, डेटा खोने, टैक्स पेनल्टी या क्रैश के लिए Criza Labs ज़िम्मेदार नहीं है।';
+
+  @override
+  String get termsPointPricing =>
+      'अभी यह मुफ़्त है। बाद में CrizaVoise के लिए शुल्क लिया जाएगा, कम से कम 30 दिन पहले सूचना के साथ।';
+
+  @override
+  String get termsPointPrivacy =>
+      'हम आपका व्यापार डेटा न इकट्ठा करते हैं, न देखते हैं, न बेचते हैं। कोई ट्रैकिंग नहीं, कोई विज्ञापन नहीं।';
+
+  @override
+  String get termsPointTalkFirst =>
+      'कुछ ग़लत हो तो पहले info@criza.dev पर लिखें और हमें इसे ठीक करने के लिए 30 दिन दें।';
+
+  @override
+  String get termsReadTerms => 'उपयोग की शर्तें पढ़ें';
+
+  @override
+  String get termsReadPrivacy => 'गोपनीयता नीति पढ़ें';
+
+  @override
+  String get termsAgreeCheckbox =>
+      'मैंने उपयोग की शर्तें और गोपनीयता नीति पढ़ ली हैं और मैं सहमत हूँ';
+
+  @override
+  String get termsContinueButton => 'सहमत होकर आगे बढ़ें';
+
+  @override
+  String get termsOfUseTitle => 'उपयोग की शर्तें';
+
+  @override
+  String get privacyPolicyTitle => 'गोपनीयता नीति';
 }

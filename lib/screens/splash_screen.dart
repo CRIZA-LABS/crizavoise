@@ -9,6 +9,8 @@ import 'package:crizavoise/theme/tokens.dart';
 import 'package:crizavoise/database/database_helper.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/screens/auth/login_screen.dart';
+import 'package:crizavoise/screens/legal/terms_acceptance_screen.dart';
+import 'package:crizavoise/services/terms_service.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/utils/app_logger.dart';
 
@@ -62,10 +64,22 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
+    // Terms of Use / Privacy Policy must be accepted (again when they change)
+    // before anyone can log in.
+    final accepted = await TermsService.isAccepted();
+    if (!mounted) return;
+    void toLogin(BuildContext ctx) => Navigator.pushReplacement(
+        ctx, MaterialPageRoute(builder: (_) => const LoginScreen()));
+    if (accepted) {
+      toLogin(context);
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (ctx) => TermsAcceptanceScreen(onAccepted: () => toLogin(ctx)),
+        ),
+      );
+    }
   }
 
   @override

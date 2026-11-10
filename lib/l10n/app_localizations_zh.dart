@@ -5812,4 +5812,58 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get invoiceNumberHistoryNone => 'No changes yet.';
+
+  @override
+  String get termsTitle => 'Before you start';
+
+  @override
+  String get termsIntro =>
+      'Please read and accept the Terms of Use and Privacy Policy. The key points, in plain words:';
+
+  @override
+  String get termsPointYourBusiness =>
+      'CrizaVoise is a tool. You are responsible for your invoices, amounts, tax (GST) and following the law.';
+
+  @override
+  String get termsPointCheckDocuments =>
+      'Check every invoice before you give it to a customer.';
+
+  @override
+  String get termsPointBackups =>
+      'Your data stays on this device. Take regular backups — we cannot recover lost data.';
+
+  @override
+  String get termsPointNoWarranty =>
+      'The software is provided \"as is\", without guarantees. Criza Labs is not liable for financial loss, data loss, tax penalties or crashes.';
+
+  @override
+  String get termsPointPricing =>
+      'It is free for now. We will charge for CrizaVoise later, with at least 30 days\' notice.';
+
+  @override
+  String get termsPointPrivacy =>
+      'We do not collect, see or sell your business data. No tracking, no ads.';
+
+  @override
+  String get termsPointTalkFirst =>
+      'If something goes wrong, write to us first at info@criza.dev and give us 30 days to fix it.';
+
+  @override
+  String get termsReadTerms => 'Read Terms of Use';
+
+  @override
+  String get termsReadPrivacy => 'Read Privacy Policy';
+
+  @override
+  String get termsAgreeCheckbox =>
+      'I have read and agree to the Terms of Use and Privacy Policy';
+
+  @override
+  String get termsContinueButton => 'Agree and continue';
+
+  @override
+  String get termsOfUseTitle => 'Terms of Use';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
 }

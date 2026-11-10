@@ -42,6 +42,7 @@ dart run flutter_launcher_icons        # regenerate icons from assets/brand/icon
   - Open them via `lib/utils/contact_links.dart` (mailto + subject; support also gets version/OS/installation ID).
   - Packaging metadata (deb maintainer) is the one unavoidable exception.
 - **No network calls without the owner's OK.** The update check is disabled (`UpdateConfig`). The FAQ is bundled-only. Analytics, donate and review links were removed. The only remaining request is the test-build clock (`TestBuildConfig.clockUrl`), which runs only on CI test builds.
+- **Legal:** `TERMS.md` + `PRIVACY.md` (bundled assets, installed next to the exe). `TermsAcceptanceScreen` gates login until `AppConfig.termsVersion` is accepted (stored per installation via `TermsService`); bump the version when either document changes materially. Have a lawyer review before charging.
 - PDF credit is `AppConfig.pdfCredit` ("Powered by CrizaVoise · criza.dev"), hidden by `SettingKey.showInvoiceFooterBranding`.
 
 ## Conventions

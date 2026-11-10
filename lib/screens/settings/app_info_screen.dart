@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/screens/legal/legal_document_screen.dart';
 import 'package:crizavoise/screens/settings/licenses_screen.dart';
 import 'package:crizavoise/theme/brand_assets.dart';
 import 'package:crizavoise/utils/contact_links.dart';
@@ -182,14 +183,30 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                 const SizedBox(height: 32),
 
                 // ── Open-source licenses (small, out of the main UI) ─────
-                Center(
-                  child: TextButton.icon(
-                    icon: const Icon(Icons.description_outlined, size: 16),
-                    label: Text(l10n.aboutOpenSourceLicensesTitle),
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const LicensesScreen()),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  children: [
+                    TextButton.icon(
+                      icon: const Icon(Icons.gavel_outlined, size: 16),
+                      label: Text(l10n.termsOfUseTitle),
+                      onPressed: () => LegalDocumentScreen.open(context,
+                          title: l10n.termsOfUseTitle, asset: AppConfig.termsAsset),
                     ),
-                  ),
+                    TextButton.icon(
+                      icon: const Icon(Icons.privacy_tip_outlined, size: 16),
+                      label: Text(l10n.privacyPolicyTitle),
+                      onPressed: () => LegalDocumentScreen.open(context,
+                          title: l10n.privacyPolicyTitle, asset: AppConfig.privacyAsset),
+                    ),
+                    TextButton.icon(
+                      icon: const Icon(Icons.description_outlined, size: 16),
+                      label: Text(l10n.aboutOpenSourceLicensesTitle),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const LicensesScreen()),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 8),
 

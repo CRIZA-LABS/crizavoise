@@ -3517,5 +3517,20 @@
       }
     }
   },
-  "invoiceNumberHistoryNone": "No changes yet."
+  "invoiceNumberHistoryNone": "No changes yet.",
+  "termsTitle": "Before you start",
+  "termsIntro": "Please read and accept the Terms of Use and Privacy Policy. The key points, in plain words:",
+  "termsPointYourBusiness": "CrizaVoise is a tool. You are responsible for your invoices, amounts, tax (GST) and following the law.",
+  "termsPointCheckDocuments": "Check every invoice before you give it to a customer.",
+  "termsPointBackups": "Your data stays on this device. Take regular backups — we cannot recover lost data.",
+  "termsPointNoWarranty": "The software is provided \"as is\", without guarantees. Criza Labs is not liable for financial loss, data loss, tax penalties or crashes.",
+  "termsPointPricing": "It is free for now. We will charge for CrizaVoise later, with at least 30 days' notice.",
+  "termsPointPrivacy": "We do not collect, see or sell your business data. No tracking, no ads.",
+  "termsPointTalkFirst": "If something goes wrong, write to us first at info@criza.dev and give us 30 days to fix it.",
+  "termsReadTerms": "Read Terms of Use",
+  "termsReadPrivacy": "Read Privacy Policy",
+  "termsAgreeCheckbox": "I have read and agree to the Terms of Use and Privacy Policy",
+  "termsContinueButton": "Agree and continue",
+  "termsOfUseTitle": "Terms of Use",
+  "privacyPolicyTitle": "Privacy Policy"
 }
