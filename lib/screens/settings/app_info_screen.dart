@@ -72,7 +72,7 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          BrandAssets.mark,
+                          BrandAssets.markFor(Theme.of(context).brightness),
                           width: 56,
                           height: 56,
                           semanticsLabel: AppConfig.name,

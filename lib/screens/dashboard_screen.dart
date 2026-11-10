@@ -737,7 +737,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SvgPicture.asset(
-                          BrandAssets.mark,
+                          BrandAssets.markFor(Theme.of(context).brightness, size: 38),
                           width: 38,
                           height: 38,
                           semanticsLabel: AppConfig.name,
