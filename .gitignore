@@ -94,3 +94,6 @@ CrizaVoise_Prompt.md
 
 # Criza Labs signing keys (licences, reset codes). NEVER commit.
 /.secrets/
+
+# Installers built by installer.iss
+/dist/
