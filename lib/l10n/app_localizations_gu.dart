@@ -6747,4 +6747,22 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get voiceTypingTooltip => 'લખવાને બદલે બોલો (Windows વૉઇસ ટાઇપિંગ)';
+
+  @override
+  String get a11yShowHidePassword => 'પાસવર્ડ બતાવો અથવા છુપાવો';
+
+  @override
+  String get a11yDecrease => 'ઘટાડો';
+
+  @override
+  String get a11yIncrease => 'વધારો';
+
+  @override
+  String get a11yFavourite => 'મનપસંદ બનાવો';
+
+  @override
+  String get a11yPickColour => 'રંગ પસંદ કરો';
+
+  @override
+  String get a11ySend => 'મોકલો';
 }

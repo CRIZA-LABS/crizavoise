@@ -6881,4 +6881,22 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get voiceTypingTooltip =>
       'Speak instead of typing (Windows voice typing)';
+
+  @override
+  String get a11yShowHidePassword => 'Show or hide password';
+
+  @override
+  String get a11yDecrease => 'Decrease';
+
+  @override
+  String get a11yIncrease => 'Increase';
+
+  @override
+  String get a11yFavourite => 'Mark as favourite';
+
+  @override
+  String get a11yPickColour => 'Pick a colour';
+
+  @override
+  String get a11ySend => 'Send';
 }

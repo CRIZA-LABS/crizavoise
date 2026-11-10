@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/common/app_config.dart';
 import 'package:crizavoise/services/backend_services.dart';
 import 'package:flutter/material.dart';
@@ -46,20 +47,22 @@ class ThermalPrinterService {
                 const Text('No USB printers found.')
               else
                 ...discovered.map((p) => ListTile(
-                  dense: true,
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(p.name),
-                  onTap: () async {
-                    Navigator.pop(dialogContext);
-                    final input = UsbPrinterInput(
-                      name: p.detail.name,
-                      vendorId: p.detail.vendorId,
-                      productId: p.detail.productId,
-                    );
-                    await _printToDevice(
-                        type: PrinterType.usb, model: input, invoice: invoice);
-                  },
-                )),
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(p.name),
+                      onTap: () async {
+                        Navigator.pop(dialogContext);
+                        final input = UsbPrinterInput(
+                          name: p.detail.name,
+                          vendorId: p.detail.vendorId,
+                          productId: p.detail.productId,
+                        );
+                        await _printToDevice(
+                            type: PrinterType.usb,
+                            model: input,
+                            invoice: invoice);
+                      },
+                    )),
               if (kDebugMode) ...[
                 const Divider(height: 24),
                 const Text('Test via network (e.g. local ESC/POS listener)',
@@ -101,13 +104,15 @@ class ThermalPrinterService {
   static Future<List<int>> _buildReceiptBytes(Invoice invoice) async {
     final dateFmt = await BackendServices.settings.getDateFormat();
     await AmountFormat.load(); // Number format setting
-    final settings = await PDFService.fetchPdfSettings(datePattern: dateFmt.key);
+    final settings =
+        await PDFService.fetchPdfSettings(datePattern: dateFmt.key);
     await PDFService.attachReturnInfo(invoice);
     final previousBalanceDue = settings.showPreviousBalance
-        ? await BackendServices.invoices.getPreviousBalanceDueForInvoice(invoice)
+        ? await BackendServices.invoices
+            .getPreviousBalanceDueForInvoice(invoice)
         : 0.0;
     final effectivePreviousBalance =
-    settings.showPreviousBalance ? previousBalanceDue : 0.0;
+        settings.showPreviousBalance ? previousBalanceDue : 0.0;
 
     final is58 = settings.pageSize == PageSize.thermal58;
 
@@ -115,16 +120,19 @@ class ThermalPrinterService {
     // physically clips the last column(s) on full-width lines. Adjustable
     // per-install via SettingKey.thermalWidthMargin since printer models vary
     // (e.g. WOOSIM WSP-R241 needed 1).
-    final marginStr = await BackendServices.settings.getSetting(SettingKey.thermalWidthMargin);
+    final marginStr = await BackendServices.settings
+        .getSetting(SettingKey.thermalWidthMargin);
     final margin = int.tryParse(marginStr ?? '') ?? 1;
-    final itemLayout =
-        await BackendServices.settings.getSetting(SettingKey.thermalItemLayout) ?? 'table';
-    if(kDebugMode) print(margin);
+    final itemLayout = await BackendServices.settings
+            .getSetting(SettingKey.thermalItemLayout) ??
+        'table';
+    if (kDebugMode) print(margin);
     final width = (is58 ? 32 : 48) - margin;
-    if(kDebugMode)  print(width);
+    if (kDebugMode) print(width);
     final enc = EscPosEncoder(lineChars: is58 ? 32 : 48);
     // Receipt printers' code pages have no ₹ glyph: print "Rs." instead.
-    final currency = invoice.currencySymbol == '₹' ? 'Rs.' : invoice.currencySymbol;
+    final currency =
+        invoice.currencySymbol == '₹' ? 'Rs.' : invoice.currencySymbol;
     final company = settings.company;
 
     final showItemTax =
@@ -135,7 +143,8 @@ class ThermalPrinterService {
 
     // ESC/POS only has fixed glyph sizes, so map the company-name size
     // setting onto them; 'medium' keeps the previous double-height default.
-    final nameSize = thermalCompanyNameSizeFromKey(settings.thermalCompanyNameSize);
+    final nameSize =
+        thermalCompanyNameSizeFromKey(settings.thermalCompanyNameSize);
     final headHeight = nameSize == ThermalCompanyNameSize.medium ||
             nameSize == ThermalCompanyNameSize.large
         ? 2
@@ -143,10 +152,17 @@ class ThermalPrinterService {
     final headWidth = nameSize == ThermalCompanyNameSize.large ? 2 : 1;
     final headFontB = nameSize == ThermalCompanyNameSize.xsmall;
 
-    void line(String text, {EscAlign align = EscAlign.left, bool bold = false,bool isHead = false})
-    {
-      if(isHead) {
-        enc.text(text, align: align, bold: bold, height: headHeight, width: headWidth, fontB: headFontB);
+    void line(String text,
+        {EscAlign align = EscAlign.left,
+        bool bold = false,
+        bool isHead = false}) {
+      if (isHead) {
+        enc.text(text,
+            align: align,
+            bold: bold,
+            height: headHeight,
+            width: headWidth,
+            fontB: headFontB);
       } else {
         enc.text(text, align: align, bold: bold);
       }
@@ -157,7 +173,6 @@ class ThermalPrinterService {
       final text = pad > 0 ? '$left${' ' * pad}$right' : '$left $right';
       line(text, bold: bold);
     }
-
 
     void hr() => enc.hr();
 
@@ -176,7 +191,7 @@ class ThermalPrinterService {
 
     // ── Business header ──
     if (settings.showCompanyName && (company?.name ?? '').isNotEmpty) {
-      line(company!.name, align: EscAlign.center, bold: true,isHead: true);
+      line(company!.name, align: EscAlign.center, bold: true, isHead: true);
     }
     if (settings.showAddress && (company?.address ?? '').isNotEmpty) {
       line(company!.address, align: EscAlign.center);
@@ -214,7 +229,8 @@ class ThermalPrinterService {
         'FSSAI: ${company!.fssaiCode}',
     ]);
     hr();
-    line((invoice.invoiceTitle ?? invoice.type).toUpperCase(), align: EscAlign.center, bold: true);
+    line((invoice.invoiceTitle ?? invoice.type).toUpperCase(),
+        align: EscAlign.center, bold: true);
     if (invoice.status == 'declined') {
       line('*** DECLINED ***', align: EscAlign.center, bold: true);
     }
@@ -227,7 +243,9 @@ class ThermalPrinterService {
         : dateFormatter.format(invoice.date);
     final numberText = invoice.pdfNumberText(settings.prefixFor(invoice.type),
         showLeadingZeros: settings.showLeadingZeros);
-    twoCol(numberText != null ? '${invoice.thermalNumberLabel}: $numberText' : '', 'Date: $dateStr');
+    twoCol(
+        numberText != null ? '${invoice.thermalNumberLabel}: $numberText' : '',
+        'Date: $dateStr');
     if (invoice.dueDate != null) {
       twoCol('Due:', dateFormatter.format(invoice.dueDate!));
     }
@@ -272,7 +290,9 @@ class ThermalPrinterService {
     // 58mm (31 chars) while leaving extra room for the name on 80mm.
     final slW = settings.showSlNo ? 2 : 0;
     final qtyW = settings.showQuantity ? 4 : 0;
-    final rates = [for (final i in invoice.items) AmountFormat.money(i.effectivePrice)];
+    final rates = [
+      for (final i in invoice.items) AmountFormat.money(i.effectivePrice)
+    ];
     final totals = [for (final i in invoice.items) AmountFormat.money(i.total)];
     // Widen rate/total to the longest amount: padLeft cuts from the left, so a
     // narrow column would silently drop leading digits (1,250.00 → ,250.00).
@@ -333,9 +353,11 @@ class ThermalPrinterService {
         line(singleLineRow('${i + 1}', item.product.name, qty, rate,
             showItemTax ? '${item.product.tax_rate}%' : null, total));
       } else {
-        line(settings.showSlNo
-            ? '${i + 1} ${item.product.name}'
-            : item.product.name, bold: true);
+        line(
+            settings.showSlNo
+                ? '${i + 1} ${item.product.name}'
+                : item.product.name,
+            bold: true);
         final detailParts = [
           if (settings.showQuantity) '$qtyLabel:$qty',
           'Rate:$rate',
@@ -366,7 +388,8 @@ class ThermalPrinterService {
         // empty, so a total wider than qtyW can overflow instead of truncating.
         final labelW = slW + (settings.showSlNo ? 1 : 0) + nameW;
         final totalLabel = 'Total $qtyLabel';
-        line('${padRight(labelW >= totalLabel.length ? totalLabel : 'Total', labelW)} '
+        line(
+            '${padRight(labelW >= totalLabel.length ? totalLabel : 'Total', labelW)} '
             '${totalQtyStr.length >= qtyW ? totalQtyStr : padCenter(totalQtyStr, qtyW)}',
             bold: true);
       } else {
@@ -376,12 +399,15 @@ class ThermalPrinterService {
     }
 
     // ── Totals ──
-    twoCol('Subtotal:', '$currency ${AmountFormat.money(invoice.grossSubtotal)}');
+    twoCol(
+        'Subtotal:', '$currency ${AmountFormat.money(invoice.grossSubtotal)}');
     if (invoice.totalDiscount > 0) {
-      twoCol('Discount:', '-$currency ${AmountFormat.money(invoice.taxableDiscount)}');
+      twoCol('Discount:',
+          '-$currency ${AmountFormat.money(invoice.taxableDiscount)}');
     }
     if (invoice.taxMode != TaxMode.none) {
-      twoCol(invoiceTaxLabel(invoice), '$currency ${AmountFormat.money(invoice.tax)}');
+      twoCol(invoiceTaxLabel(invoice),
+          '$currency ${AmountFormat.money(invoice.tax)}');
     }
     for (final c in invoice.additionalCosts) {
       twoCol(
@@ -411,7 +437,8 @@ class ThermalPrinterService {
     }
     if (settings.showRoundOff) {
       final netTotal = roundNetTotal(invoice.total + effectivePreviousBalance);
-      twoCol('Round off:', '$currency ${AmountFormat.money(netTotal.roundOff)}');
+      twoCol(
+          'Round off:', '$currency ${AmountFormat.money(netTotal.roundOff)}');
       twoCol('NET AMOUNT', '$currency ${AmountFormat.money(netTotal.rounded)}',
           bold: true);
       line(AmountInWords.amount(netTotal.rounded,
@@ -423,7 +450,8 @@ class ThermalPrinterService {
           company!.country.toLowerCase() == 'india';
       hr();
       line('=== TAX SUMMARY ===', align: EscAlign.center, bold: true);
-      twoCol('Taxable Amt:', '$currency ${AmountFormat.money(invoice.subtotal)}');
+      twoCol(
+          'Taxable Amt:', '$currency ${AmountFormat.money(invoice.subtotal)}');
       if (settings.showCgstSgst && isIndia && invoice.isInterState) {
         twoCol('IGST:', '$currency ${AmountFormat.money(invoice.tax)}');
       } else if (settings.showCgstSgst && isIndia) {
@@ -439,7 +467,8 @@ class ThermalPrinterService {
       if (invoice.outstandingBalance <= 0) {
         twoCol('PAID IN FULL', '', bold: true);
       } else {
-        twoCol('Balance Due', '$currency ${AmountFormat.money(invoice.outstandingBalance)}',
+        twoCol('Balance Due',
+            '$currency ${AmountFormat.money(invoice.outstandingBalance)}',
             bold: true);
       }
     }
@@ -476,7 +505,6 @@ class ThermalPrinterService {
     enc.cut();
     return enc.bytes;
   }
-
 }
 
 class _NetworkPrintRow extends StatefulWidget {
@@ -546,11 +574,12 @@ class _NetworkPrintRowState extends State<_NetworkPrintRow> {
         ),
         const SizedBox(width: 8),
         IconButton(
+          tooltip: AppLocalizations.of(context)!.a11ySend,
           icon: _sending
               ? const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(strokeWidth: 2))
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2))
               : const Icon(Icons.send),
           onPressed: _sending ? null : _send,
         ),

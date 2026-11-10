@@ -147,7 +147,9 @@ class _PdfSettingsScreenV2State extends ConsumerState<PdfSettingsScreenV2> {
               .read(settingsRepositoryProvider)
               .setPdfThemeColor(_previewedThemeColorHex!),
         ref.read(settingsRepositoryProvider).setPageSize(_previewedPageSize),
-        ref.read(settingsRepositoryProvider).setPdfLandscape(_previewedLandscape),
+        ref
+            .read(settingsRepositoryProvider)
+            .setPdfLandscape(_previewedLandscape),
         ref
             .read(settingsRepositoryProvider)
             .setShowTotalQuantity(_previewedShowTotalQuantity),
@@ -161,11 +163,13 @@ class _PdfSettingsScreenV2State extends ConsumerState<PdfSettingsScreenV2> {
         ref.read(settingsRepositoryProvider).setSetting(
             SettingKey.thermalCompanyNameSize,
             _previewedThermalCompanyNameSize),
-        ref.read(settingsRepositoryProvider).setSetting(
-            SettingKey.pdfFontSize, _previewedPdfFontSize),
+        ref
+            .read(settingsRepositoryProvider)
+            .setSetting(SettingKey.pdfFontSize, _previewedPdfFontSize),
         for (final key in _pdfSectionSizeKeys)
-          ref.read(settingsRepositoryProvider).setSetting(
-              key, _previewedPdfSectionSizes[key] ?? ''),
+          ref
+              .read(settingsRepositoryProvider)
+              .setSetting(key, _previewedPdfSectionSizes[key] ?? ''),
       ]);
       setState(() {
         _savedTemplate = _previewedTemplate;
@@ -319,8 +323,8 @@ class _PdfSettingsScreenV2State extends ConsumerState<PdfSettingsScreenV2> {
           _previewedThermalItemLayout != _savedThermalItemLayout ||
           _previewedThermalCompanyNameSize != _savedThermalCompanyNameSize ||
           _previewedPdfFontSize != _savedPdfFontSize ||
-          _pdfSectionSizeKeys.any((k) =>
-              _previewedPdfSectionSizes[k] != _savedPdfSectionSizes[k]));
+          _pdfSectionSizeKeys.any(
+              (k) => _previewedPdfSectionSizes[k] != _savedPdfSectionSizes[k]));
 
   void _resetToDefaultV2() {
     setState(() {
@@ -959,7 +963,8 @@ class _PdfSettingsScreenV2State extends ConsumerState<PdfSettingsScreenV2> {
               // Back to the default sizes (overall + sections) without
               // resetting the other options.
               if (_previewedPdfFontSize != PdfFontSize.medium.key ||
-                  _previewedPdfSectionSizes.values.any((v) => v.isNotEmpty)) ...[
+                  _previewedPdfSectionSizes.values
+                      .any((v) => v.isNotEmpty)) ...[
                 const SizedBox(width: 8),
                 TextButton(
                   onPressed: () => setState(() {
@@ -1410,6 +1415,7 @@ class _ThemeColorCard extends StatelessWidget {
               suffixIcon: Tooltip(
                 message: l10n.pdfSettingsPickColorTooltip,
                 child: IconButton(
+                  tooltip: AppLocalizations.of(context)!.a11yPickColour,
                   icon: const Icon(Icons.palette_outlined, size: 18),
                   onPressed: onPickColor,
                   padding: EdgeInsets.zero,

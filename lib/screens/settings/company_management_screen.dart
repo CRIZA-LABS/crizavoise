@@ -77,8 +77,8 @@ class _CompanyManagementScreenState
       await CompanyRegistryService.switchToCompany(id);
     } catch (e) {
       if (!mounted) return;
-      _showErrorDialog(
-          AppLocalizations.of(context)!.companyMgmtSwitchErrorMessage(e.toString()));
+      _showErrorDialog(AppLocalizations.of(context)!
+          .companyMgmtSwitchErrorMessage(e.toString()));
       return;
     }
     final themeKey = await ref.read(settingsRepositoryProvider).getThemeMode();
@@ -166,7 +166,8 @@ class _CompanyManagementScreenState
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setObscureState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -208,8 +209,9 @@ class _CompanyManagementScreenState
                         prefixIcon: const Icon(Icons.business_rounded),
                         border: OutlineInputBorder(borderRadius: fieldRadius),
                         filled: true,
-                        fillColor:
-                            Theme.of(context).colorScheme.surfaceContainerHighest,
+                        fillColor: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                       ),
                       validator: (v) {
                         final trimmed = v?.trim() ?? '';
@@ -228,10 +230,12 @@ class _CompanyManagementScreenState
                       children: [
                         Icon(Icons.admin_panel_settings_outlined,
                             size: 18,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant),
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                         const SizedBox(width: 6),
                         Text(l10n.companyMgmtAdminAccountSectionLabel,
-                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -242,8 +246,9 @@ class _CompanyManagementScreenState
                         prefixIcon: const Icon(Icons.person_outline),
                         border: OutlineInputBorder(borderRadius: fieldRadius),
                         filled: true,
-                        fillColor:
-                            Theme.of(context).colorScheme.surfaceContainerHighest,
+                        fillColor: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                       ),
                       validator: (v) => (v == null || v.trim().isEmpty)
                           ? l10n.userMgmtUsernameRequiredMessage
@@ -257,6 +262,8 @@ class _CompanyManagementScreenState
                         labelText: l10n.userMgmtPasswordRequiredLabel,
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
+                          tooltip: AppLocalizations.of(context)!
+                              .a11yShowHidePassword,
                           icon: Icon(obscurePassword
                               ? Icons.visibility_off
                               : Icons.visibility),
@@ -265,8 +272,9 @@ class _CompanyManagementScreenState
                         ),
                         border: OutlineInputBorder(borderRadius: fieldRadius),
                         filled: true,
-                        fillColor:
-                            Theme.of(context).colorScheme.surfaceContainerHighest,
+                        fillColor: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                       ),
                       validator: (v) => (v == null || v.isEmpty)
                           ? l10n.userMgmtPasswordRequiredMessage
@@ -319,7 +327,9 @@ class _CompanyManagementScreenState
     }
     final info = await ref.read(companyInfoRepositoryProvider).getCompanyInfo();
     if (info != null) {
-      await ref.read(companyInfoRepositoryProvider).updateCompanyInfo(CompanyInfo(
+      await ref
+          .read(companyInfoRepositoryProvider)
+          .updateCompanyInfo(CompanyInfo(
             id: info.id,
             name: name,
             address: info.address,
@@ -336,8 +346,10 @@ class _CompanyManagementScreenState
     if (!mounted) return;
 
     if (_isPreLogin) {
-      final themeKey = await ref.read(settingsRepositoryProvider).getThemeMode();
-      final localeKey = await ref.read(settingsRepositoryProvider).getAppLocale();
+      final themeKey =
+          await ref.read(settingsRepositoryProvider).getThemeMode();
+      final localeKey =
+          await ref.read(settingsRepositoryProvider).getAppLocale();
       final purchaseBills = await ref
           .read(settingsRepositoryProvider)
           .getSetting(SettingKey.enablePurchaseBillsAndSuppliers);
@@ -362,7 +374,8 @@ class _CompanyManagementScreenState
         title: Text(l10n.companyMgmtRenameTitle),
         content: TextField(
           controller: controller,
-          decoration: InputDecoration(labelText: l10n.onboardingCompanyNameLabel),
+          decoration:
+              InputDecoration(labelText: l10n.onboardingCompanyNameLabel),
           autofocus: true,
         ),
         actions: [
@@ -410,7 +423,8 @@ class _CompanyManagementScreenState
                 child: Text(l10n.actionCancel),
               ),
               TextButton(
-                onPressed: matches ? () => Navigator.of(context).pop(true) : null,
+                onPressed:
+                    matches ? () => Navigator.of(context).pop(true) : null,
                 child: Text(l10n.actionDelete,
                     style: const TextStyle(color: CvSwatch.danger)),
               ),
@@ -460,8 +474,9 @@ class _CompanyManagementScreenState
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final activeCardFill = isDark ? CvSwatch.success : CvSwatch.successTint;
     final activeCardBorder = isDark ? CvSwatch.success : CvSwatch.successSoft;
-    final activeBadgeBg =
-        isDark ? CvSwatch.success.withValues(alpha: 0.25) : CvSwatch.success.withValues(alpha: 0.12);
+    final activeBadgeBg = isDark
+        ? CvSwatch.success.withValues(alpha: 0.25)
+        : CvSwatch.success.withValues(alpha: 0.12);
     final activeBadgeBorder =
         isDark ? CvSwatch.success : CvSwatch.success.withValues(alpha: 0.4);
     final activeBadgeText = isDark ? CvSwatch.successSoft : CvSwatch.success;
@@ -501,7 +516,8 @@ class _CompanyManagementScreenState
                                     decoration: BoxDecoration(
                                       color: activeBadgeBg,
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: activeBadgeBorder),
+                                      border:
+                                          Border.all(color: activeBadgeBorder),
                                     ),
                                     child: Text(
                                       l10n.companyMgmtActiveBadge,

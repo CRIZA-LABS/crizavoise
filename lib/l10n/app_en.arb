@@ -3869,5 +3869,11 @@
   "quickBillCustomerName": "Walk-in customer",
   "successSoundTitle": "Sound when saved",
   "successSoundSubtitle": "Play a short sound when an invoice or other document is saved, so you know it worked without looking.",
-  "voiceTypingTooltip": "Speak instead of typing (Windows voice typing)"
+  "voiceTypingTooltip": "Speak instead of typing (Windows voice typing)",
+  "a11yShowHidePassword": "Show or hide password",
+  "a11yDecrease": "Decrease",
+  "a11yIncrease": "Increase",
+  "a11yFavourite": "Mark as favourite",
+  "a11yPickColour": "Pick a colour",
+  "a11ySend": "Send"
 }

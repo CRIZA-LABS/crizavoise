@@ -275,7 +275,8 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
       // non-active company's label is only ever as fresh as its last sync).
       final activeCompanyId = await CompanyRegistryService.getActiveCompanyId();
       if (activeCompanyId != null) {
-        await CompanyRegistryService.renameCompany(activeCompanyId, newInfo.name);
+        await CompanyRegistryService.renameCompany(
+            activeCompanyId, newInfo.name);
       }
 
       await refreshWindowTitle();
@@ -329,10 +330,12 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
   /// Any size/format is accepted: the image is resized for invoices and the
   /// user is told what happened (and the ideal size) — see ImageImportService.
   Future<void> _pickLogo() async {
-    final result = await ImageImportService.pickAndPrepare(context, ImageKind.logo);
+    final result =
+        await ImageImportService.pickAndPrepare(context, ImageKind.logo);
     if (result == null || !mounted) return;
     setState(() {
-      _selectedLogoFile = null; // preview the processed image, not the original file
+      _selectedLogoFile =
+          null; // preview the processed image, not the original file
       _base64Logo = result.base64;
     });
   }
@@ -519,7 +522,8 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            ImageImportService.recommendation(l10n, ImageKind.logo),
+                            ImageImportService.recommendation(
+                                l10n, ImageKind.logo),
                             style: TextStyle(
                               fontSize: AppFontSize.xsmall,
                               color:
@@ -551,7 +555,8 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                             : l10n.actionSave),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
-                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -648,7 +653,8 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                                   icon: Icons.verified_rounded,
                                   maxLength: 14,
                                   hint: '12345678901234',
-                                  trailing: _pdfVisibilityToggle(_showFssai,
+                                  trailing: _pdfVisibilityToggle(
+                                      _showFssai,
                                       (val) =>
                                           setState(() => _showFssai = val)),
                                 ),
@@ -853,6 +859,8 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                                       ? l10n.dashboardLayoutDefaultTitle
                                       : l10n.companyInfoSetAsDefaultTooltip,
                                   child: IconButton(
+                                    tooltip: AppLocalizations.of(context)!
+                                        .a11yFavourite,
                                     icon: Icon(
                                       isDefault
                                           ? Icons.star_rounded
@@ -979,122 +987,125 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               spacing: 8,
                               children: [
-                                  // Default star
-                                  Tooltip(
-                                    message: isDefault
-                                        ? l10n.dashboardLayoutDefaultTitle
-                                        : l10n.companyInfoSetAsDefaultTooltip,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        isDefault
-                                            ? Icons.star_rounded
-                                            : Icons.star_outline_rounded,
-                                        color: isDefault
-                                            ? CvSwatch.warning
-                                            : Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant,
-                                      ),
-                                      onPressed: () => setState(
-                                          () => _defaultBankIndex = index),
+                                // Default star
+                                Tooltip(
+                                  message: isDefault
+                                      ? l10n.dashboardLayoutDefaultTitle
+                                      : l10n.companyInfoSetAsDefaultTooltip,
+                                  child: IconButton(
+                                    tooltip: AppLocalizations.of(context)!
+                                        .a11yFavourite,
+                                    icon: Icon(
+                                      isDefault
+                                          ? Icons.star_rounded
+                                          : Icons.star_outline_rounded,
+                                      color: isDefault
+                                          ? CvSwatch.warning
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
                                     ),
+                                    onPressed: () => setState(
+                                        () => _defaultBankIndex = index),
                                   ),
-                                  Expanded(
-                                    flex: 13,
-                                    child: _buildField(
-                                      controller: row.label,
-                                      label: l10n.fieldBankAccountNameLabel,
-                                      icon: Icons.label_outline_rounded,
-                                      hint: l10n
-                                          .companyInfoHintExampleAccountLabel,
-                                      maxLength: 40,
-                                    ),
+                                ),
+                                Expanded(
+                                  flex: 13,
+                                  child: _buildField(
+                                    controller: row.label,
+                                    label: l10n.fieldBankAccountNameLabel,
+                                    icon: Icons.label_outline_rounded,
+                                    hint:
+                                        l10n.companyInfoHintExampleAccountLabel,
+                                    maxLength: 40,
                                   ),
-                                  Expanded(
-                                    flex: 14,
-                                    child: _buildField(
-                                      controller: row.bankName,
-                                      label: l10n.fieldBankNameLabel,
-                                      icon: Icons.account_balance_outlined,
-                                      hint: l10n.companyInfoHintExampleBankName,
-                                      maxLength: 60,
-                                    ),
+                                ),
+                                Expanded(
+                                  flex: 14,
+                                  child: _buildField(
+                                    controller: row.bankName,
+                                    label: l10n.fieldBankNameLabel,
+                                    icon: Icons.account_balance_outlined,
+                                    hint: l10n.companyInfoHintExampleBankName,
+                                    maxLength: 60,
                                   ),
-                                  Expanded(
-                                    flex: 18,
-                                    child: _buildField(
-                                      controller: row.accountNumber,
-                                      label: l10n.fieldAccountNumberLabel,
-                                      icon: Icons.numbers_outlined,
-                                      hint: '123456789012',
-                                      maxLength: 20,
-                                    ),
+                                ),
+                                Expanded(
+                                  flex: 18,
+                                  child: _buildField(
+                                    controller: row.accountNumber,
+                                    label: l10n.fieldAccountNumberLabel,
+                                    icon: Icons.numbers_outlined,
+                                    hint: '123456789012',
+                                    maxLength: 20,
                                   ),
-                                  // Bank code (IFSC / Sort Code / …) for every
-                                  // country; IBAN is added outside India.
+                                ),
+                                // Bank code (IFSC / Sort Code / …) for every
+                                // country; IBAN is added outside India.
+                                Expanded(
+                                  flex: 19,
+                                  child: _buildField(
+                                    controller: row.ifscCode,
+                                    label: row.codeLabel.value,
+                                    icon: Icons.code_outlined,
+                                    maxLength: 11,
+                                    trailing: _bankCodeLabelMenu(
+                                        row.codeLabel.value,
+                                        (v) => setState(
+                                            () => row.codeLabel.value = v)),
+                                  ),
+                                ),
+                                if (_selectedCountry != 'India' &&
+                                    _selectedCountry.isNotEmpty) ...[
                                   Expanded(
-                                    flex: 19,
+                                    flex: 20,
                                     child: _buildField(
-                                      controller: row.ifscCode,
-                                      label: row.codeLabel.value,
+                                      controller: row.iban,
+                                      label: l10n.fieldIbanLabel,
                                       icon: Icons.code_outlined,
-                                      maxLength: 11,
-                                      trailing: _bankCodeLabelMenu(
-                                          row.codeLabel.value,
-                                          (v) => setState(
-                                              () => row.codeLabel.value = v)),
+                                      hint: 'DE89370400440532013000',
+                                      maxLength: 34,
                                     ),
                                   ),
-                                  if (_selectedCountry != 'India' &&
-                                      _selectedCountry.isNotEmpty) ...[
-                                    Expanded(
-                                      flex: 20,
-                                      child: _buildField(
-                                        controller: row.iban,
-                                        label: l10n.fieldIbanLabel,
-                                        icon: Icons.code_outlined,
-                                        hint: 'DE89370400440532013000',
-                                        maxLength: 34,
-                                      ),
-                                    ),
-                                  ],
-                                  IconButton(
-                                    icon: const Icon(Icons.open_in_full, size: 18),
-                                    tooltip: l10n.tooltipEditInLargerView,
-                                    onPressed: () => _editBankAccountDialog(index),
-                                  ),
-                                  IconButton(
-                                    tooltip: l10n.tooltipRemove,
-                                    icon: const Icon(
-                                        Icons.remove_circle_outline,
-                                        color: CvSwatch.danger),
-                                    onPressed: () {
-                                      setState(() {
-                                        _bankControllers[index].label.dispose();
-                                        _bankControllers[index]
-                                            .bankName
-                                            .dispose();
-                                        _bankControllers[index]
-                                            .accountNumber
-                                            .dispose();
-                                        _bankControllers[index]
-                                            .ifscCode
-                                            .dispose();
-                                        _bankControllers[index]
-                                            .codeLabel
-                                            .dispose();
-                                        _bankControllers[index].iban.dispose();
-                                        _bankControllers.removeAt(index);
-                                        if (_defaultBankIndex == index) {
-                                          _defaultBankIndex = null;
-                                        } else if (_defaultBankIndex != null &&
-                                            _defaultBankIndex! > index) {
-                                          _defaultBankIndex =
-                                              _defaultBankIndex! - 1;
-                                        }
-                                      });
-                                    },
-                                  ),
+                                ],
+                                IconButton(
+                                  icon:
+                                      const Icon(Icons.open_in_full, size: 18),
+                                  tooltip: l10n.tooltipEditInLargerView,
+                                  onPressed: () =>
+                                      _editBankAccountDialog(index),
+                                ),
+                                IconButton(
+                                  tooltip: l10n.tooltipRemove,
+                                  icon: const Icon(Icons.remove_circle_outline,
+                                      color: CvSwatch.danger),
+                                  onPressed: () {
+                                    setState(() {
+                                      _bankControllers[index].label.dispose();
+                                      _bankControllers[index]
+                                          .bankName
+                                          .dispose();
+                                      _bankControllers[index]
+                                          .accountNumber
+                                          .dispose();
+                                      _bankControllers[index]
+                                          .ifscCode
+                                          .dispose();
+                                      _bankControllers[index]
+                                          .codeLabel
+                                          .dispose();
+                                      _bankControllers[index].iban.dispose();
+                                      _bankControllers.removeAt(index);
+                                      if (_defaultBankIndex == index) {
+                                        _defaultBankIndex = null;
+                                      } else if (_defaultBankIndex != null &&
+                                          _defaultBankIndex! > index) {
+                                        _defaultBankIndex =
+                                            _defaultBankIndex! - 1;
+                                      }
+                                    });
+                                  },
+                                ),
                               ],
                             ),
                           );
@@ -1351,7 +1362,8 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
     final row = _bankControllers[index];
     final labelCtrl = TextEditingController(text: row.label.text);
     final bankNameCtrl = TextEditingController(text: row.bankName.text);
-    final accountNumberCtrl = TextEditingController(text: row.accountNumber.text);
+    final accountNumberCtrl =
+        TextEditingController(text: row.accountNumber.text);
     final ifscCtrl = TextEditingController(text: row.ifscCode.text);
     var codeLabel = row.codeLabel.value;
     final ibanCtrl = TextEditingController(text: row.iban.text);
@@ -1361,71 +1373,71 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-        title: Text(l10n.companyInfoEditBankAccountTitle),
-        content: SizedBox(
-          width: 420,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildField(
-                  controller: labelCtrl,
-                  label: l10n.fieldBankAccountNameLabel,
-                  icon: Icons.label_outline_rounded,
-                  hint: l10n.companyInfoHintExampleAccountLabel,
-                  maxLength: 40,
-                ),
-                const SizedBox(height: 12),
-                _buildField(
-                  controller: bankNameCtrl,
-                  label: l10n.fieldBankNameLabel,
-                  icon: Icons.account_balance_outlined,
-                  hint: l10n.companyInfoHintExampleBankName,
-                  maxLength: 60,
-                ),
-                const SizedBox(height: 12),
-                _buildField(
-                  controller: accountNumberCtrl,
-                  label: l10n.fieldAccountNumberLabel,
-                  icon: Icons.numbers_outlined,
-                  hint: '123456789012',
-                  maxLength: 20,
-                ),
-                const SizedBox(height: 12),
-                _buildField(
-                  controller: ifscCtrl,
-                  label: codeLabel,
-                  icon: Icons.code_outlined,
-                  maxLength: 11,
-                  trailing: _bankCodeLabelMenu(
-                      codeLabel, (v) => setDialogState(() => codeLabel = v)),
-                ),
-                if (!isIndia) ...[
+          title: Text(l10n.companyInfoEditBankAccountTitle),
+          content: SizedBox(
+            width: 420,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildField(
+                    controller: labelCtrl,
+                    label: l10n.fieldBankAccountNameLabel,
+                    icon: Icons.label_outline_rounded,
+                    hint: l10n.companyInfoHintExampleAccountLabel,
+                    maxLength: 40,
+                  ),
                   const SizedBox(height: 12),
                   _buildField(
-                    controller: ibanCtrl,
-                    label: l10n.fieldIbanLabel,
-                    icon: Icons.code_outlined,
-                    hint: 'DE89370400440532013000',
-                    maxLength: 34,
+                    controller: bankNameCtrl,
+                    label: l10n.fieldBankNameLabel,
+                    icon: Icons.account_balance_outlined,
+                    hint: l10n.companyInfoHintExampleBankName,
+                    maxLength: 60,
                   ),
+                  const SizedBox(height: 12),
+                  _buildField(
+                    controller: accountNumberCtrl,
+                    label: l10n.fieldAccountNumberLabel,
+                    icon: Icons.numbers_outlined,
+                    hint: '123456789012',
+                    maxLength: 20,
+                  ),
+                  const SizedBox(height: 12),
+                  _buildField(
+                    controller: ifscCtrl,
+                    label: codeLabel,
+                    icon: Icons.code_outlined,
+                    maxLength: 11,
+                    trailing: _bankCodeLabelMenu(
+                        codeLabel, (v) => setDialogState(() => codeLabel = v)),
+                  ),
+                  if (!isIndia) ...[
+                    const SizedBox(height: 12),
+                    _buildField(
+                      controller: ibanCtrl,
+                      label: l10n.fieldIbanLabel,
+                      icon: Icons.code_outlined,
+                      hint: 'DE89370400440532013000',
+                      maxLength: 34,
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.actionCancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.actionSave),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.actionCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.actionSave),
-          ),
-        ],
-      ),
       ),
     );
 

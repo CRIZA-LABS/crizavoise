@@ -10,7 +10,14 @@ import 'package:crizavoise/utils/app_date.dart';
 import 'package:crizavoise/utils/formatters.dart';
 import 'package:crizavoise/theme/swatch.dart';
 
-const paymentMethods = ['Cash', 'UPI', 'Bank Transfer', 'Check', 'Online', 'Other'];
+const paymentMethods = [
+  'Cash',
+  'UPI',
+  'Bank Transfer',
+  'Check',
+  'Online',
+  'Other'
+];
 
 String paymentMethodLabel(AppLocalizations l10n, String method) {
   switch (method) {
@@ -227,6 +234,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
                     ),
                   ),
                   IconButton(
+                    tooltip: AppLocalizations.of(context)!.actionClose,
                     icon: const Icon(Icons.close, color: Colors.white),
                     onPressed: () => Navigator.pop(context),
                   ),

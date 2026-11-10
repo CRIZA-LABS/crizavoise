@@ -350,7 +350,8 @@ class ProductFormState extends ConsumerState<ProductForm> {
         children: [
           _sectionLabel(l10n.productMgmtSectionGeneral),
           ProductPhotoEditor(onPendingChanged: (b) => _pendingPhoto = b),
-          _buildFormField(_nameController, l10n.fieldNameLabel, Icons.inventory_2,
+          _buildFormField(
+              _nameController, l10n.fieldNameLabel, Icons.inventory_2,
               maxLength: 100, onSubmitted: widget.onSubmitted),
           const SizedBox(height: 16),
           QuickCodeField(
@@ -368,13 +369,14 @@ class ProductFormState extends ConsumerState<ProductForm> {
           ],
           if (_columnsConfig.description) ...[
             const SizedBox(height: 16),
-            _buildFormField(
-                _descriptionController, l10n.productMgmtDescriptionLabel, Icons.description,
+            _buildFormField(_descriptionController,
+                l10n.productMgmtDescriptionLabel, Icons.description,
                 maxLines: 3, maxLength: 500, required: false),
           ],
           if (_columnsConfig.hsncode) ...[
             const SizedBox(height: 16),
-            _buildFormField(_hsnCodeController, l10n.productMgmtHsnSacLabel, Icons.qr_code,
+            _buildFormField(
+                _hsnCodeController, l10n.productMgmtHsnSacLabel, Icons.qr_code,
                 maxLength: 100, required: false),
           ],
           const SizedBox(height: 20),
@@ -383,8 +385,10 @@ class ProductFormState extends ConsumerState<ProductForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: _buildFormField(_priceController, l10n.productMgmtSalePriceLabel, Icons.attach_money,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                child: _buildFormField(_priceController,
+                    l10n.productMgmtSalePriceLabel, Icons.attach_money,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     isPrice: true,
                     prefixText: '$_currencySymbol ',
                     onSubmitted: widget.onSubmitted),
@@ -393,8 +397,11 @@ class ProductFormState extends ConsumerState<ProductForm> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _buildFormField(
-                      _purchasePriceController, l10n.productMgmtPurchasePriceLabel, Icons.shopping_cart_outlined,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      _purchasePriceController,
+                      l10n.productMgmtPurchasePriceLabel,
+                      Icons.shopping_cart_outlined,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       isPrice: true,
                       required: _newItemType != 'service',
                       prefixText: '$_currencySymbol '),
@@ -404,9 +411,10 @@ class ProductFormState extends ConsumerState<ProductForm> {
           ),
           if (_columnsConfig.defaultDiscount) ...[
             const SizedBox(height: 16),
-            _buildFormField(
-                _defaultDiscountController, l10n.productMgmtDefaultDiscountLabel, Icons.discount,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            _buildFormField(_defaultDiscountController,
+                l10n.productMgmtDefaultDiscountLabel, Icons.discount,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 isPrice: true,
                 required: false,
                 prefixText: '$_currencySymbol '),
@@ -417,7 +425,8 @@ class ProductFormState extends ConsumerState<ProductForm> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: _buildFormField(_taxRateController, l10n.productMgmtTaxPercentLabel, Icons.percent,
+                  child: _buildFormField(_taxRateController,
+                      l10n.productMgmtTaxPercentLabel, Icons.percent,
                       keyboardType: TextInputType.number, isTaxRate: true),
                 ),
                 const SizedBox(width: 12),
@@ -458,14 +467,16 @@ class ProductFormState extends ConsumerState<ProductForm> {
               children: [
                 if (_columnsConfig.stock)
                   Expanded(
-                    child: _buildFormField(_stockController, l10n.labelStock, Icons.inventory,
+                    child: _buildFormField(
+                        _stockController, l10n.labelStock, Icons.inventory,
                         keyboardType: TextInputType.number,
                         isStock: true,
                         required: !_unlimitedStock && !_stockLocked,
                         enabled: !_unlimitedStock && !_stockLocked,
                         helperText: widget.stockHelperText),
                   ),
-                if (_columnsConfig.stock && _columnsConfig.unit) const SizedBox(width: 12),
+                if (_columnsConfig.stock && _columnsConfig.unit)
+                  const SizedBox(width: 12),
                 if (_columnsConfig.unit)
                   Expanded(
                     child: ProductUnitField(
@@ -495,8 +506,10 @@ class ProductFormState extends ConsumerState<ProductForm> {
                 subtitle: Text(l10n.productMgmtTrackInfiniteStockSubtitle),
               ),
             if (_columnsConfig.stock && !_unlimitedStock)
-              _buildFormField(_lowStockLimitController,
-                  l10n.productMgmtLowStockLimitLabel, Icons.notification_important_outlined,
+              _buildFormField(
+                  _lowStockLimitController,
+                  l10n.productMgmtLowStockLimitLabel,
+                  Icons.notification_important_outlined,
                   keyboardType: TextInputType.number,
                   isStock: true,
                   required: false,
@@ -533,18 +546,21 @@ class ProductFormState extends ConsumerState<ProductForm> {
             decoration: BoxDecoration(
               color: CvSwatch.warning.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-              border: Border.all(color: CvSwatch.warning.withValues(alpha: 0.3)),
+              border:
+                  Border.all(color: CvSwatch.warning.withValues(alpha: 0.3)),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.lightbulb_outline, size: 16, color: CvSwatch.warning),
+                const Icon(Icons.lightbulb_outline,
+                    size: 16, color: CvSwatch.warning),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(l10n.productMgmtTipEnableCustomFieldsMessage,
                       style: TextStyle(
                           fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant)),
                 ),
               ],
             ),
@@ -619,11 +635,15 @@ class ProductFormState extends ConsumerState<ProductForm> {
         }
         if (isPrice) {
           final price = double.tryParse(value);
-          if (price == null || price < 0) return l10n.fieldEnterValidPriceMessage;
+          if (price == null || price < 0) {
+            return l10n.fieldEnterValidPriceMessage;
+          }
         }
         if (isStock) {
           final stock = int.tryParse(value);
-          if (stock == null || stock < 0) return l10n.fieldEnterValidStockMessage;
+          if (stock == null || stock < 0) {
+            return l10n.fieldEnterValidStockMessage;
+          }
         }
         if (isTaxRate) {
           final tax = int.tryParse(value);
@@ -680,7 +700,8 @@ Future<Product?> showNewProductDialog(
                   ButtonSegment(
                       value: 'service',
                       label: Text(l10n.labelService),
-                      icon: const Icon(Icons.design_services_outlined, size: 14)),
+                      icon:
+                          const Icon(Icons.design_services_outlined, size: 14)),
                 ],
                 selected: {form!.itemType},
                 onSelectionChanged: (v) => form.setItemType(v.first),
@@ -808,15 +829,18 @@ class ProductMetadataSection extends StatelessWidget {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
             filled: readOnly,
-            fillColor:
-                readOnly ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+            fillColor: readOnly
+                ? Theme.of(context).colorScheme.surfaceContainerHighest
+                : null,
           ),
         ),
       );
     }
 
-    Widget dateField(String label, DateTime? value, ValueChanged<DateTime?> onChanged) {
-      final display = value == null ? '' : DateFormat(datePattern).format(value);
+    Widget dateField(
+        String label, DateTime? value, ValueChanged<DateTime?> onChanged) {
+      final display =
+          value == null ? '' : DateFormat(datePattern).format(value);
       return Padding(
         padding: const EdgeInsets.only(bottom: 16),
         child: TextFormField(
@@ -838,6 +862,7 @@ class ProductMetadataSection extends StatelessWidget {
             prefixIcon: const Icon(Icons.calendar_today_outlined),
             suffixIcon: (!readOnly && value != null)
                 ? IconButton(
+                    tooltip: AppLocalizations.of(context)!.actionClear,
                     icon: const Icon(Icons.clear, size: 18),
                     onPressed: () => onChanged(null),
                   )
@@ -845,8 +870,9 @@ class ProductMetadataSection extends StatelessWidget {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
             filled: readOnly,
-            fillColor:
-                readOnly ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+            fillColor: readOnly
+                ? Theme.of(context).colorScheme.surfaceContainerHighest
+                : null,
           ),
         ),
       );
@@ -862,23 +888,30 @@ class ProductMetadataSection extends StatelessWidget {
         childrenPadding: const EdgeInsets.only(top: 8),
         children: [
           if (config.metaStorageLocation)
-            field(storageLocationCtrl, l10n.productMgmtStorageLocationLabel, Icons.place_outlined),
+            field(storageLocationCtrl, l10n.productMgmtStorageLocationLabel,
+                Icons.place_outlined),
           if (config.metaContainerNumber)
-            field(containerNumberCtrl, l10n.productMgmtContainerNumberLabel, Icons.inventory_2_outlined),
+            field(containerNumberCtrl, l10n.productMgmtContainerNumberLabel,
+                Icons.inventory_2_outlined),
           if (config.metaBatchNumber)
             field(batchNumberCtrl, l10n.productMgmtBatchNumberLabel, Icons.tag),
           if (config.metaExpiryDate)
-            dateField(l10n.productMgmtExpiryDateLabel, expiryDate, onExpiryChanged),
+            dateField(
+                l10n.productMgmtExpiryDateLabel, expiryDate, onExpiryChanged),
           if (config.metaManufactureDate)
-            dateField(l10n.productMgmtManufactureDateLabel, manufactureDate, onManufactureChanged),
+            dateField(l10n.productMgmtManufactureDateLabel, manufactureDate,
+                onManufactureChanged),
           if (config.metaManufactureName)
-            field(manufactureNameCtrl, l10n.productMgmtManufactureNameLabel, Icons.factory_outlined),
+            field(manufactureNameCtrl, l10n.productMgmtManufactureNameLabel,
+                Icons.factory_outlined),
           if (config.metaSupplierName)
-            field(supplierNameCtrl, l10n.productMgmtSupplierNameLabel, Icons.local_shipping_outlined),
+            field(supplierNameCtrl, l10n.productMgmtSupplierNameLabel,
+                Icons.local_shipping_outlined),
           if (config.metaSkuCode)
             field(skuCodeCtrl, l10n.productMgmtSkuCodeLabel, Icons.qr_code_2),
           if (config.metaNotes)
-            field(notesCtrl, l10n.productMgmtNotesLabel, Icons.notes, maxLines: 3),
+            field(notesCtrl, l10n.productMgmtNotesLabel, Icons.notes,
+                maxLines: 3),
         ],
       ),
     );
@@ -930,13 +963,16 @@ class _ProductUnitFieldState extends State<ProductUnitField> {
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
             filled: widget.readOnly,
-            fillColor: widget.readOnly ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+            fillColor: widget.readOnly
+                ? Theme.of(context).colorScheme.surfaceContainerHighest
+                : null,
           ),
           items: [
             DropdownMenuItem(value: '', child: Text(l10n.commonNoneLabel)),
             for (final u in ProductUnits.presets)
               DropdownMenuItem(value: u, child: Text(u.toUpperCase())),
-            DropdownMenuItem(value: 'custom', child: Text(l10n.commonCustomEllipsisLabel)),
+            DropdownMenuItem(
+                value: 'custom', child: Text(l10n.commonCustomEllipsisLabel)),
           ],
           onChanged: widget.readOnly
               ? null
@@ -960,7 +996,9 @@ class _ProductUnitFieldState extends State<ProductUnitField> {
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
               filled: widget.readOnly,
-              fillColor: widget.readOnly ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+              fillColor: widget.readOnly
+                  ? Theme.of(context).colorScheme.surfaceContainerHighest
+                  : null,
             ),
             onChanged: widget.onUnitChanged,
           ),

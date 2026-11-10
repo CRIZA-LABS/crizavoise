@@ -43,6 +43,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
+
   /// Built-in admin/admin account still unclaimed: show "Create your account".
   User? _defaultAdmin;
   List<User> _pinUsers = [];
@@ -145,7 +146,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.pinQuickSignIn,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(color: scheme.onSurfaceVariant)),
+            style: Theme.of(context)
+                .textTheme
+                .labelLarge
+                ?.copyWith(color: scheme.onSurfaceVariant)),
         const SizedBox(height: 8),
         Wrap(
           spacing: 12,
@@ -184,7 +188,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const Expanded(child: Divider()),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(l10n.pinOrPassword, style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12)),
+            child: Text(l10n.pinOrPassword,
+                style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12)),
           ),
           const Expanded(child: Divider()),
         ]),
@@ -195,8 +200,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void _openCreateAccount() {
     final admin = _defaultAdmin;
     if (admin == null) return;
-    Navigator.push(context,
-        MaterialPageRoute(builder: (_) => CreateAccountScreen(defaultAdmin: admin)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => CreateAccountScreen(defaultAdmin: admin)));
   }
 
   Widget _buildSetupCard() {
@@ -240,7 +247,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _login(AppEditionConfig cfg) async {
-
     // for cloud the username will be email
     final username = _usernameController.text.trim();
     final password = _passwordController.text;
@@ -258,16 +264,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     setState(() => _isLoading = true);
 
-    final user = await ref.read(authRepositoryProvider).getUser(username, password);
+    final user =
+        await ref.read(authRepositoryProvider).getUser(username, password);
 
     if (!mounted) return;
     setState(() => _isLoading = false);
 
-    if(user == null)
-    {
+    if (user == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.loginInvalidCredentials)),
+        SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.loginInvalidCredentials)),
       );
       return;
     }
@@ -278,14 +286,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _afterLoginNavigate(AppEditionConfig cfg, User user) async {
-    if (TestBuildConfig.isTestBuild && !await _testGatePasses(cfg, user)) return;
+    if (TestBuildConfig.isTestBuild && !await _testGatePasses(cfg, user)) {
+      return;
+    }
 
-    if(cfg.isCloud)
-    {
+    if (cfg.isCloud) {
       if (!mounted) return;
       await navigateAfterAuth(context, ref, user);
-    }
-    else if (!user.passwordChanged && !cfg.isCloud) {
+    } else if (!user.passwordChanged && !cfg.isCloud) {
       // Force password change
       if (!mounted) return;
       Navigator.pushReplacement(
@@ -294,12 +302,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           builder: (context) => ChangePasswordScreen(user: user, forced: true),
         ),
       );
-    }
-    else{
+    } else {
       if (!mounted) return;
       await navigateAfterAuth(context, ref, user);
     }
-
   }
 
   // Uses the Criza Labs website response Date header as a
@@ -327,13 +333,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return false;
     }
 
-    final expiry = DateTime.fromMillisecondsSinceEpoch(TestBuildConfig.buildEpochSeconds * 1000)
+    final expiry = DateTime.fromMillisecondsSinceEpoch(
+            TestBuildConfig.buildEpochSeconds * 1000)
         .add(const Duration(days: TestBuildConfig.testExpiryDays));
     if (serverTime.isAfter(expiry)) {
       if (!mounted) return false;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const TestGateScreen(reason: TestGateReason.expired)),
+        MaterialPageRoute(
+            builder: (_) =>
+                const TestGateScreen(reason: TestGateReason.expired)),
       );
       return false;
     }
@@ -359,213 +368,234 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         children: [
           SafeArea(
             child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Card(
-                  elevation: 8,
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  child: Container(
-                    width: cardWidth,
-                    padding: EdgeInsets.all(cardPadding),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          isDark
-                              ? BrandAssets.lockupDark
-                              : BrandAssets.lockupLight,
-                          width: logoWidth,
-                          height: 56,
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.medium,
-                          semanticLabel: AppConfig.name,
-                        ),
-                        AppSpacing.hSmall,
-                        if (!cfg.isCloud && _defaultAdmin != null) ...[
-                          _buildSetupCard(),
-                          AppSpacing.hLarge,
-                        ],
-                        if (_companies.length > 1) ...[
-                          DropdownButtonFormField<String>(
-                            value: _activeCompanyId,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!
-                                  .loginCompanySelectorLabel,
-                              prefixIcon: const Icon(Icons.corporate_fare),
-                              border: const OutlineInputBorder(),
+              child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Card(
+                      elevation: 8,
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      child: Container(
+                        width: cardWidth,
+                        padding: EdgeInsets.all(cardPadding),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              isDark
+                                  ? BrandAssets.lockupDark
+                                  : BrandAssets.lockupLight,
+                              width: logoWidth,
+                              height: 56,
+                              fit: BoxFit.contain,
+                              filterQuality: FilterQuality.medium,
+                              semanticLabel: AppConfig.name,
                             ),
-                            items: [
-                              for (final company in _companies)
-                                DropdownMenuItem(
-                                  value: company.id,
-                                  child: Text(company.name),
-                                ),
+                            AppSpacing.hSmall,
+                            if (!cfg.isCloud && _defaultAdmin != null) ...[
+                              _buildSetupCard(),
+                              AppSpacing.hLarge,
                             ],
-                            onChanged: _onCompanySelected,
-                          ),
-                          AppSpacing.hMedium,
-                        ],
-                        if (!cfg.isCloud && _pinUsers.isNotEmpty) ...[
-                          _buildQuickSignIn(cfg),
-                          AppSpacing.hMedium,
-                        ],
-                        TextField(
-                          controller: _usernameController,
-                          decoration: InputDecoration(
-                            labelText: cfg.isCloud ? 'Email' : 'Username',
-                            prefixIcon: const Icon(Icons.person),
-                            border: const OutlineInputBorder(),
-                          ),
-                          keyboardType: cfg.isCloud
-                              ? TextInputType.emailAddress
-                              : TextInputType.text,
-                        ),
-                        AppSpacing.hMedium,
-                        TextField(
-                          controller: _passwordController,
-                          obscureText: _obscurePassword,
-                          onSubmitted: (_) => _login(cfg),
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            prefixIcon: const Icon(Icons.lock),
-                            border: const OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(_obscurePassword
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined),
-                              onPressed: () => setState(
-                                  () => _obscurePassword = !_obscurePassword),
-                            ),
-                          ),
-                        ),
-                        AppSpacing.hXlarge,
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _isLoading ? null : () => _login(cfg),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 50),
-                              backgroundColor: Theme.of(context).primaryColor,
-                              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                            child: _isLoading
-                                ? SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                      strokeWidth: 2,
+                            if (_companies.length > 1) ...[
+                              DropdownButtonFormField<String>(
+                                value: _activeCompanyId,
+                                decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(context)!
+                                      .loginCompanySelectorLabel,
+                                  prefixIcon: const Icon(Icons.corporate_fare),
+                                  border: const OutlineInputBorder(),
+                                ),
+                                items: [
+                                  for (final company in _companies)
+                                    DropdownMenuItem(
+                                      value: company.id,
+                                      child: Text(company.name),
                                     ),
-                                  )
-                                : const Text('Login'),
-                          ),
-                        ),
-                        AppSpacing.hSmall,
-                        if (!cfg.isCloud)
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotPasswordScreen()),
+                                ],
+                                onChanged: _onCompanySelected,
                               ),
-                              child: Text(AppLocalizations.of(context)!.loginForgotPassword),
+                              AppSpacing.hMedium,
+                            ],
+                            if (!cfg.isCloud && _pinUsers.isNotEmpty) ...[
+                              _buildQuickSignIn(cfg),
+                              AppSpacing.hMedium,
+                            ],
+                            TextField(
+                              controller: _usernameController,
+                              decoration: InputDecoration(
+                                labelText: cfg.isCloud ? 'Email' : 'Username',
+                                prefixIcon: const Icon(Icons.person),
+                                border: const OutlineInputBorder(),
+                              ),
+                              keyboardType: cfg.isCloud
+                                  ? TextInputType.emailAddress
+                                  : TextInputType.text,
                             ),
-                          ),
-                        AppSpacing.hLarge,
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () => launchUrl(Uri.parse(AppConfig.website),
-                                mode: LaunchMode.externalApplication),
-                            child: Text(
-                              '${AppConfig.madeBy} · ${AppConfig.websiteLabel}',
+                            AppSpacing.hMedium,
+                            TextField(
+                              controller: _passwordController,
+                              obscureText: _obscurePassword,
+                              onSubmitted: (_) => _login(cfg),
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                prefixIcon: const Icon(Icons.lock),
+                                border: const OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  tooltip: AppLocalizations.of(context)!
+                                      .a11yShowHidePassword,
+                                  icon: Icon(_obscurePassword
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined),
+                                  onPressed: () => setState(() =>
+                                      _obscurePassword = !_obscurePassword),
+                                ),
+                              ),
+                            ),
+                            AppSpacing.hXlarge,
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed:
+                                    _isLoading ? null : () => _login(cfg),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 50),
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  foregroundColor:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                                child: _isLoading
+                                    ? SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Text('Login'),
+                              ),
+                            ),
+                            AppSpacing.hSmall,
+                            if (!cfg.isCloud)
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ForgotPasswordScreen()),
+                                  ),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .loginForgotPassword),
+                                ),
+                              ),
+                            AppSpacing.hLarge,
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () => launchUrl(
+                                    Uri.parse(AppConfig.website),
+                                    mode: LaunchMode.externalApplication),
+                                child: Text(
+                                  '${AppConfig.madeBy} · ${AppConfig.websiteLabel}',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                      decoration: TextDecoration.underline),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      minimumSize: const Size(0, 32),
+                                      textStyle: const TextStyle(fontSize: 12)),
+                                  onPressed: () => LegalDocumentScreen.open(
+                                      context,
+                                      title: AppLocalizations.of(context)!
+                                          .termsOfUseTitle,
+                                      asset: AppConfig.termsAsset),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .termsOfUseTitle),
+                                ),
+                                Text('·',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant)),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                      minimumSize: const Size(0, 32),
+                                      textStyle: const TextStyle(fontSize: 12)),
+                                  onPressed: () => LegalDocumentScreen.open(
+                                      context,
+                                      title: AppLocalizations.of(context)!
+                                          .privacyPolicyTitle,
+                                      asset: AppConfig.privacyAsset),
+                                  child: Text(AppLocalizations.of(context)!
+                                      .privacyPolicyTitle),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              AppConfig.version,
                               style: TextStyle(
                                   fontSize: 12,
                                   color: Theme.of(context)
                                       .colorScheme
-                                      .onSurfaceVariant,
-                                  decoration: TextDecoration.underline),
+                                      .onSurfaceVariant),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                  minimumSize: const Size(0, 32),
-                                  textStyle: const TextStyle(fontSize: 12)),
-                              onPressed: () => LegalDocumentScreen.open(context,
-                                  title: AppLocalizations.of(context)!.termsOfUseTitle,
-                                  asset: AppConfig.termsAsset),
-                              child: Text(AppLocalizations.of(context)!.termsOfUseTitle),
-                            ),
-                            Text('·', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                  minimumSize: const Size(0, 32),
-                                  textStyle: const TextStyle(fontSize: 12)),
-                              onPressed: () => LegalDocumentScreen.open(context,
-                                  title: AppLocalizations.of(context)!.privacyPolicyTitle,
-                                  asset: AppConfig.privacyAsset),
-                              child: Text(AppLocalizations.of(context)!.privacyPolicyTitle),
+                            const SizedBox(height: 8),
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () => showHelpSearchDialog(context),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.support_agent_outlined,
+                                        size: 14,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant),
+                                    const SizedBox(width: 4),
+                                    Flexible(
+                                      child: Text(
+                                        'Need help? Contact Support',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                            decoration:
+                                                TextDecoration.underline),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        Text(
-                          AppConfig.version,
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant),
-                        ),
-                        const SizedBox(height: 8),
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () => showHelpSearchDialog(context),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.support_agent_outlined,
-                                    size: 14,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
-                                const SizedBox(width: 4),
-                                Flexible(
-                                  child: Text(
-                                    'Need help? Contact Support',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant,
-                                        decoration: TextDecoration.underline),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
           ),
           if (!cfg.isCloud)
             Positioned(

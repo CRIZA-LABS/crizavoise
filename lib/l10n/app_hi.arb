@@ -1724,5 +1724,11 @@
   "quickBillCustomerName": "वॉक-इन ग्राहक",
   "successSoundTitle": "सेव होने पर आवाज़",
   "successSoundSubtitle": "इनवॉइस या कोई दस्तावेज़ सेव होने पर छोटी आवाज़ बजाएँ, ताकि बिना देखे पता चल जाए।",
-  "voiceTypingTooltip": "लिखने की जगह बोलें (Windows वॉइस टाइपिंग)"
+  "voiceTypingTooltip": "लिखने की जगह बोलें (Windows वॉइस टाइपिंग)",
+  "a11yShowHidePassword": "पासवर्ड दिखाएँ या छिपाएँ",
+  "a11yDecrease": "घटाएँ",
+  "a11yIncrease": "बढ़ाएँ",
+  "a11yFavourite": "पसंदीदा बनाएँ",
+  "a11yPickColour": "रंग चुनें",
+  "a11ySend": "भेजें"
 }

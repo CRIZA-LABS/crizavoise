@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:crizavoise/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:crizavoise/common/constants.dart';
@@ -27,14 +28,18 @@ class _HelpSearchDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final isCompact = size.width < 700;
-    final width = isCompact ? size.width - 24 : math.min(1400.0, size.width * 0.92);
-    final height = isCompact ? size.height - 64 : math.min(900.0, size.height * 0.88);
+    final width =
+        isCompact ? size.width - 24 : math.min(1400.0, size.width * 0.92);
+    final height =
+        isCompact ? size.height - 64 : math.min(900.0, size.height * 0.88);
     return Dialog(
-      insetPadding:
-          EdgeInsets.symmetric(horizontal: isCompact ? 12 : 40, vertical: isCompact ? 32 : 40),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppBorderRadius.large)),
+      insetPadding: EdgeInsets.symmetric(
+          horizontal: isCompact ? 12 : 40, vertical: isCompact ? 32 : 40),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppBorderRadius.large)),
       clipBehavior: Clip.antiAlias,
-      child: SizedBox(width: width, height: height, child: const HelpSearchScreen()),
+      child: SizedBox(
+          width: width, height: height, child: const HelpSearchScreen()),
     );
   }
 }
@@ -65,7 +70,8 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
   List<ScoredSearchResult> _results = [];
   bool _loading = true;
 
-  SearchableItem? _selected; // wide layout: which result is shown in the detail pane
+  SearchableItem?
+      _selected; // wide layout: which result is shown in the detail pane
   String? _expandedId; // narrow layout: which result is expanded inline
 
   @override
@@ -83,7 +89,8 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
   Future<void> _load() async {
     final index = await HelpSearchService.buildIndex();
     if (!mounted) return;
-    final groups = index.map((i) => i.path.isNotEmpty ? i.path.first : 'Other').toSet();
+    final groups =
+        index.map((i) => i.path.isNotEmpty ? i.path.first : 'Other').toSet();
     final categories = [
       ..._categoryOrder.where(groups.contains),
       ...groups.where((g) => !_categoryOrder.contains(g)).toList()..sort(),
@@ -103,7 +110,9 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
 
   List<SearchableItem> get _scopedIndex {
     if (_selectedCategory == null) return _index;
-    return _index.where((i) => i.path.isNotEmpty && i.path.first == _selectedCategory).toList();
+    return _index
+        .where((i) => i.path.isNotEmpty && i.path.first == _selectedCategory)
+        .toList();
   }
 
   void _onQueryChanged(String query) => _refreshResults();
@@ -179,7 +188,9 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
                 onSelected: _onCategorySelected,
               ),
             ),
-          if ((_controller.text.trim().isNotEmpty || _selectedCategory != null) && !_loading)
+          if ((_controller.text.trim().isNotEmpty ||
+                  _selectedCategory != null) &&
+              !_loading)
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
               child: Text(
@@ -196,11 +207,16 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final isWide = constraints.maxWidth >= _wideBreakpoint;
-                if (_loading) return const Center(child: CircularProgressIndicator());
-                if (_results.isNotEmpty) {
-                  return isWide ? _buildMasterDetail(colors) : _buildAccordionList(colors);
+                if (_loading) {
+                  return const Center(child: CircularProgressIndicator());
                 }
-                return _controller.text.trim().isEmpty && _selectedCategory == null
+                if (_results.isNotEmpty) {
+                  return isWide
+                      ? _buildMasterDetail(colors)
+                      : _buildAccordionList(colors);
+                }
+                return _controller.text.trim().isEmpty &&
+                        _selectedCategory == null
                     ? _EmptyState(
                         icon: Icons.search,
                         text: 'Type to search, or pick a category to browse',
@@ -224,7 +240,8 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 720),
-                child: _SearchField(controller: _controller, onChanged: _onQueryChanged),
+                child: _SearchField(
+                    controller: _controller, onChanged: _onQueryChanged),
               ),
             ),
           ),
@@ -267,7 +284,8 @@ class _HelpSearchScreenState extends State<HelpSearchScreen> {
               : Padding(
                   padding: const EdgeInsets.fromLTRB(28, 24, 28, 24),
                   child: SingleChildScrollView(
-                    child: _AnswerContent(item: _selected!, queryWords: _queryWords),
+                    child: _AnswerContent(
+                        item: _selected!, queryWords: _queryWords),
                   ),
                 ),
         ),
@@ -321,7 +339,8 @@ class _CategoryChips extends StatelessWidget {
     );
   }
 
-  Widget _chip(BuildContext context, {required String label, required String? value}) {
+  Widget _chip(BuildContext context,
+      {required String label, required String? value}) {
     final isSelected = selected == value;
     return ChoiceChip(
       label: Text(label),
@@ -359,6 +378,7 @@ class _SearchField extends StatelessWidget {
               suffixIcon: controller.text.isEmpty
                   ? null
                   : IconButton(
+                      tooltip: AppLocalizations.of(context)!.actionClose,
                       icon: const Icon(Icons.close),
                       onPressed: () {
                         controller.clear();
@@ -418,7 +438,9 @@ class _ResultRow extends StatelessWidget {
                 Icon(
                   isFaq ? Icons.help_outline : Icons.settings_outlined,
                   size: 18,
-                  color: selected ? colors.onPrimaryContainer : colors.onSurfaceVariant,
+                  color: selected
+                      ? colors.onPrimaryContainer
+                      : colors.onSurfaceVariant,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -427,14 +449,16 @@ class _ResultRow extends StatelessWidget {
                     children: [
                       Text.rich(
                         highlightedTextSpan(item.question, queryWords,
-                            baseStyle: questionStyle, highlightColor: highlightColor),
+                            baseStyle: questionStyle,
+                            highlightColor: highlightColor),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 2),
                       Text.rich(
                         highlightedTextSpan(item.pathLabel, queryWords,
-                            baseStyle: pathStyle, highlightColor: highlightColor),
+                            baseStyle: pathStyle,
+                            highlightColor: highlightColor),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -468,15 +492,20 @@ class _ExpandableResultCard extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final isFaq = item.type == SearchableItemType.faq;
     final highlightColor = colors.primary.withValues(alpha: 0.28);
-    final questionStyle =
-        Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600);
-    final pathStyle =
-        Theme.of(context).textTheme.bodySmall?.copyWith(color: colors.onSurfaceVariant);
+    final questionStyle = Theme.of(context)
+        .textTheme
+        .bodyLarge
+        ?.copyWith(fontWeight: FontWeight.w600);
+    final pathStyle = Theme.of(context)
+        .textTheme
+        .bodySmall
+        ?.copyWith(color: colors.onSurfaceVariant);
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
       elevation: 0,
       color: colors.surfaceContainerHigh,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppBorderRadius.medium)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppBorderRadius.medium)),
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
@@ -489,11 +518,15 @@ class _ExpandableResultCard extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 18,
-                    backgroundColor: isFaq ? colors.primaryContainer : colors.secondaryContainer,
+                    backgroundColor: isFaq
+                        ? colors.primaryContainer
+                        : colors.secondaryContainer,
                     child: Icon(
                       isFaq ? Icons.help_outline : Icons.settings_outlined,
                       size: 18,
-                      color: isFaq ? colors.onPrimaryContainer : colors.onSecondaryContainer,
+                      color: isFaq
+                          ? colors.onPrimaryContainer
+                          : colors.onSecondaryContainer,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -503,12 +536,14 @@ class _ExpandableResultCard extends StatelessWidget {
                       children: [
                         Text.rich(
                           highlightedTextSpan(item.question, queryWords,
-                              baseStyle: questionStyle, highlightColor: highlightColor),
+                              baseStyle: questionStyle,
+                              highlightColor: highlightColor),
                         ),
                         const SizedBox(height: 4),
                         Text.rich(
                           highlightedTextSpan(item.pathLabel, queryWords,
-                              baseStyle: pathStyle, highlightColor: highlightColor),
+                              baseStyle: pathStyle,
+                              highlightColor: highlightColor),
                         ),
                       ],
                     ),
@@ -516,7 +551,8 @@ class _ExpandableResultCard extends StatelessWidget {
                   AnimatedRotation(
                     turns: expanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: Icon(Icons.expand_more, color: colors.onSurfaceVariant),
+                    child:
+                        Icon(Icons.expand_more, color: colors.onSurfaceVariant),
                   ),
                 ],
               ),
@@ -534,10 +570,11 @@ class _ExpandableResultCard extends StatelessWidget {
                         parseEmphasisSpans(
                           item.answer,
                           baseStyle: Theme.of(context).textTheme.bodyMedium,
-                          emphasisStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colors.primary,
-                              ),
+                          emphasisStyle:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: colors.primary,
+                                  ),
                         ),
                       ),
                     ),
@@ -581,7 +618,8 @@ class _AnswerContent extends StatelessWidget {
         Text.rich(
           parseEmphasisSpans(
             item.answer,
-            baseStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.5),
+            baseStyle:
+                Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.5),
             emphasisStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,
@@ -611,15 +649,20 @@ class _Breadcrumb extends StatelessWidget {
           if (i > 0)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Icon(Icons.chevron_right, size: 16, color: colors.onSurfaceVariant),
+              child: Icon(Icons.chevron_right,
+                  size: 16, color: colors.onSurfaceVariant),
             ),
           Text.rich(
             highlightedTextSpan(
               path[i],
               queryWords,
               baseStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: i == path.length - 1 ? colors.onSurface : colors.onSurfaceVariant,
-                    fontWeight: i == path.length - 1 ? FontWeight.w600 : FontWeight.w400,
+                    color: i == path.length - 1
+                        ? colors.onSurface
+                        : colors.onSurfaceVariant,
+                    fontWeight: i == path.length - 1
+                        ? FontWeight.w600
+                        : FontWeight.w400,
                   ),
               highlightColor: highlightColor,
             ),

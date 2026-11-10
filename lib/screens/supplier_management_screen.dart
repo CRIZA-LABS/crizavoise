@@ -91,15 +91,18 @@ class _SupplierManagementScreenState
         _suppliers = suppliers;
         _totalCount = count;
         _balances = {
-          for (int i = 0; i < suppliers.length; i++) suppliers[i].id: balances[i],
+          for (int i = 0; i < suppliers.length; i++)
+            suppliers[i].id: balances[i],
         };
         _isLoading = false;
       });
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        AppError.show(context,
-            AppLocalizations.of(context)!.supplierMgmtLoadErrorMessage(e.toString()),
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .supplierMgmtLoadErrorMessage(e.toString()),
             onRetry: _loadPage);
       }
     }
@@ -171,8 +174,11 @@ class _SupplierManagementScreenState
       setState(() => _showAddPanelV2 = false);
       await _loadPage();
       if (mounted) {
-        AppError.showSuccess(context,
-            wasAdding ? l10n.supplierMgmtAddedMessage : l10n.supplierMgmtUpdatedMessage);
+        AppError.showSuccess(
+            context,
+            wasAdding
+                ? l10n.supplierMgmtAddedMessage
+                : l10n.supplierMgmtUpdatedMessage);
       }
     } catch (e) {
       if (mounted) {
@@ -197,14 +203,16 @@ class _SupplierManagementScreenState
               backgroundColor: CvSwatch.success.withValues(alpha: 0.12),
               child: Text(
                 supplier.name.isNotEmpty ? supplier.name[0].toUpperCase() : '?',
-                style: const TextStyle(color: CvSwatch.success, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: CvSwatch.success, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(supplier.name,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -216,13 +224,16 @@ class _SupplierManagementScreenState
             children: [
               if (supplier.businessName.isNotEmpty)
                 _infoRowV2(Icons.business_center, supplier.businessName),
-              if (supplier.phone.isNotEmpty) _infoRowV2(Icons.phone, supplier.phone),
-              if (supplier.email.isNotEmpty) _infoRowV2(Icons.email, supplier.email),
+              if (supplier.phone.isNotEmpty)
+                _infoRowV2(Icons.phone, supplier.phone),
+              if (supplier.email.isNotEmpty)
+                _infoRowV2(Icons.email, supplier.email),
               if (supplier.gstin.isNotEmpty)
                 _infoRowV2(Icons.receipt_long, supplier.gstin),
               if (supplier.address.isNotEmpty)
                 _infoRowV2(Icons.location_on, supplier.address),
-              if (supplier.notes.isNotEmpty) _infoRowV2(Icons.notes, supplier.notes),
+              if (supplier.notes.isNotEmpty)
+                _infoRowV2(Icons.notes, supplier.notes),
               const SizedBox(height: 8),
               _infoRowV2(
                 Icons.account_balance_wallet_outlined,
@@ -248,7 +259,9 @@ class _SupplierManagementScreenState
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: color ?? Theme.of(context).colorScheme.onSurfaceVariant),
+          Icon(icon,
+              size: 16,
+              color: color ?? Theme.of(context).colorScheme.onSurfaceVariant),
           const SizedBox(width: 8),
           Expanded(child: Text(text, style: TextStyle(color: color))),
         ],
@@ -273,13 +286,15 @@ class _SupplierManagementScreenState
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
         counterText: '',
       ),
       validator: required
           ? (value) {
               if (value == null || value.trim().isEmpty) {
-                return AppLocalizations.of(context)!.fieldRequiredMessage(label);
+                return AppLocalizations.of(context)!
+                    .fieldRequiredMessage(label);
               }
               return null;
             }
@@ -301,11 +316,14 @@ class _SupplierManagementScreenState
     await ref.read(supplierRepositoryProvider).softDeleteSupplier(supplier.id);
     ref.read(suppliersProvider.notifier).refresh();
     await _loadPage();
-    if (mounted) AppError.showSuccess(context, l10n.supplierMgmtMovedToTrashMessage);
+    if (mounted) {
+      AppError.showSuccess(context, l10n.supplierMgmtMovedToTrashMessage);
+    }
   }
 
   void _showTrashDialog() async {
-    final deleted = await ref.read(supplierRepositoryProvider).getDeletedSuppliers();
+    final deleted =
+        await ref.read(supplierRepositoryProvider).getDeletedSuppliers();
     if (!mounted) return;
     showDialog(
       context: context,
@@ -375,9 +393,11 @@ class _SupplierManagementScreenState
                           color: Theme.of(context).colorScheme.onSurface)),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                      color:
+                          Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text('$_totalCount',
@@ -392,7 +412,8 @@ class _SupplierManagementScreenState
               Text(l10n.supplierMgmtSubtitle,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                      fontSize: 13,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
             ],
           ),
         ),
@@ -412,7 +433,9 @@ class _SupplierManagementScreenState
                 onPressed: _isLoading ? null : _loadPage,
                 icon: _isLoading
                     ? const SizedBox(
-                        width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.refresh),
                 tooltip: l10n.actionRefresh,
               ),
@@ -421,9 +444,11 @@ class _SupplierManagementScreenState
                 icon: const Icon(Icons.add, size: 18),
                 label: Text(l10n.supplierMgmtAddSupplierButton),
                 style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+                      borderRadius:
+                          BorderRadius.circular(AppBorderRadius.xsmall)),
                 ),
               ),
             ],
@@ -440,9 +465,11 @@ class _SupplierManagementScreenState
         hintText: AppLocalizations.of(context)!.supplierMgmtSearchHint,
         prefixIcon: const Icon(Icons.search, size: 20),
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         suffixIcon: _searchQuery.isNotEmpty
             ? IconButton(
+                tooltip: AppLocalizations.of(context)!.actionClear,
                 icon: const Icon(Icons.clear, size: 16),
                 onPressed: () {
                   _searchController.clear();
@@ -456,10 +483,12 @@ class _SupplierManagementScreenState
             : null,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant)),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant)),
       ),
       onChanged: (value) {
         setState(() {
@@ -483,15 +512,20 @@ class _SupplierManagementScreenState
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Theme.of(context).colorScheme.outlineVariant, width: 1.4),
+          bottom: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant, width: 1.4),
         ),
       ),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Text(l10n.supplierMgmtColSupplier, style: style)),
+          Expanded(
+              flex: 3, child: Text(l10n.supplierMgmtColSupplier, style: style)),
           Expanded(flex: 2, child: Text(l10n.fieldPhoneLabel, style: style)),
-          Expanded(flex: 2, child: Text(l10n.supplierMgmtColGstin, style: style)),
-          Expanded(flex: 2, child: Text(l10n.invoiceMgmtColOutstanding, style: style)),
+          Expanded(
+              flex: 2, child: Text(l10n.supplierMgmtColGstin, style: style)),
+          Expanded(
+              flex: 2,
+              child: Text(l10n.invoiceMgmtColOutstanding, style: style)),
           const SizedBox(width: 136, child: Text('')),
         ],
       ),
@@ -504,7 +538,9 @@ class _SupplierManagementScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+        border: Border(
+            bottom: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant)),
       ),
       child: Row(
         children: [
@@ -520,8 +556,11 @@ class _SupplierManagementScreenState
                     radius: 16,
                     backgroundColor: CvSwatch.success.withValues(alpha: 0.12),
                     child: Text(
-                      supplier.name.isNotEmpty ? supplier.name[0].toUpperCase() : '?',
-                      style: const TextStyle(color: CvSwatch.success, fontWeight: FontWeight.bold),
+                      supplier.name.isNotEmpty
+                          ? supplier.name[0].toUpperCase()
+                          : '?',
+                      style: const TextStyle(
+                          color: CvSwatch.success, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -536,14 +575,18 @@ class _SupplierManagementScreenState
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 12,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant)),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-          Expanded(flex: 2, child: Text(supplier.phone.isEmpty ? '—' : supplier.phone)),
+          Expanded(
+              flex: 2,
+              child: Text(supplier.phone.isEmpty ? '—' : supplier.phone)),
           Expanded(
               flex: 2,
               child: Text(supplier.gstin.isEmpty ? '—' : supplier.gstin,
@@ -601,7 +644,9 @@ class _SupplierManagementScreenState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+        border: Border(
+            top: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant)),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -611,7 +656,8 @@ class _SupplierManagementScreenState
           children: [
             Text(l10n.invoiceMgmtRowsPerPageLabel,
                 style: TextStyle(
-                    fontSize: 12.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    fontSize: 12.5,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
             const SizedBox(width: 8),
             DropdownButton<int>(
               value: _pageSize,
@@ -631,10 +677,13 @@ class _SupplierManagementScreenState
             const SizedBox(width: 16),
             Text(l10n.supplierMgmtTotalCountLabel(_totalCount),
                 style: TextStyle(
-                    fontSize: 12.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    fontSize: 12.5,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
             const SizedBox(width: 24),
             IconButton(
-              onPressed: _currentPage > 0 ? () => _changePage(_currentPage - 1) : null,
+              tooltip: AppLocalizations.of(context)!.actionPrevious,
+              onPressed:
+                  _currentPage > 0 ? () => _changePage(_currentPage - 1) : null,
               icon: const Icon(Icons.chevron_left),
               iconSize: 20,
               padding: EdgeInsets.zero,
@@ -648,14 +697,18 @@ class _SupplierManagementScreenState
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text('${_currentPage + 1}',
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(width: 4),
             Text(l10n.customerMgmtOfTotalPagesLabel(totalPages),
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
             IconButton(
-              onPressed:
-                  _currentPage < totalPages - 1 ? () => _changePage(_currentPage + 1) : null,
+              tooltip: AppLocalizations.of(context)!.actionNext,
+              onPressed: _currentPage < totalPages - 1
+                  ? () => _changePage(_currentPage + 1)
+                  : null,
               icon: const Icon(Icons.chevron_right),
               iconSize: 20,
               padding: EdgeInsets.zero,
@@ -684,7 +737,8 @@ class _SupplierManagementScreenState
           _tableHeaderRowV2(),
           _isLoading && _suppliers.isEmpty
               ? const SizedBox(
-                  height: 240, child: Center(child: CircularProgressIndicator()))
+                  height: 240,
+                  child: Center(child: CircularProgressIndicator()))
               : _suppliers.isEmpty
                   ? SizedBox(
                       height: 240,
@@ -693,14 +747,19 @@ class _SupplierManagementScreenState
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.local_shipping_outlined,
-                                size: 48, color: Theme.of(context).colorScheme.outlineVariant),
+                                size: 48,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .outlineVariant),
                             const SizedBox(height: 12),
                             Text(
                               _searchQuery.isEmpty
                                   ? l10n.supplierMgmtNoSuppliersYetMessage
                                   : l10n.supplierMgmtNoSuppliersMatchMessage,
                               style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant),
                             ),
                           ],
                         ),
@@ -710,7 +769,8 @@ class _SupplierManagementScreenState
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _suppliers.length,
-                      itemBuilder: (context, index) => _tableRowV2(_suppliers[index]),
+                      itemBuilder: (context, index) =>
+                          _tableRowV2(_suppliers[index]),
                     ),
           _paginationV2(),
         ],
@@ -732,10 +792,15 @@ class _SupplierManagementScreenState
             padding: const EdgeInsets.fromLTRB(18, 16, 10, 16),
             child: Row(
               children: [
-                Text(isAdding ? l10n.supplierMgmtAddNewTitle : l10n.supplierMgmtEditTitle,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                Text(
+                    isAdding
+                        ? l10n.supplierMgmtAddNewTitle
+                        : l10n.supplierMgmtEditTitle,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w800)),
                 const Spacer(),
                 IconButton(
+                  tooltip: AppLocalizations.of(context)!.actionClose,
                   icon: const Icon(Icons.close, size: 20),
                   onPressed: () {
                     _clearForm();
@@ -753,26 +818,44 @@ class _SupplierManagementScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    _buildFormField(_nameController, l10n.fieldNameLabel,
+                        Icons.person, true,
+                        maxLength: 50),
+                    const SizedBox(height: 16),
                     _buildFormField(
-                        _nameController, l10n.fieldNameLabel, Icons.person, true, maxLength: 50),
+                        _businessNameController,
+                        l10n.fieldBusinessNameLabel,
+                        Icons.business_center,
+                        false,
+                        maxLength: 100),
                     const SizedBox(height: 16),
-                    _buildFormField(_businessNameController, l10n.fieldBusinessNameLabel,
-                        Icons.business_center, false, maxLength: 100),
-                    const SizedBox(height: 16),
-                    _buildFormField(_phoneController, l10n.fieldPhoneLabel, Icons.phone, false,
+                    _buildFormField(_phoneController, l10n.fieldPhoneLabel,
+                        Icons.phone, false,
                         keyboardType: TextInputType.phone, maxLength: 15),
                     const SizedBox(height: 16),
-                    _buildFormField(_emailController, l10n.fieldEmailLabel, Icons.email, false,
-                        maxLength: 100, keyboardType: TextInputType.emailAddress),
+                    _buildFormField(_emailController, l10n.fieldEmailLabel,
+                        Icons.email, false,
+                        maxLength: 100,
+                        keyboardType: TextInputType.emailAddress),
                     const SizedBox(height: 16),
-                    _buildFormField(_gstinController, l10n.supplierMgmtTaxVatNumberLabel,
-                        Icons.receipt_long, false, maxLength: 50),
+                    _buildFormField(
+                        _gstinController,
+                        l10n.supplierMgmtTaxVatNumberLabel,
+                        Icons.receipt_long,
+                        false,
+                        maxLength: 50),
                     const SizedBox(height: 16),
                     _buildFormField(_addressController, l10n.fieldAddressLabel,
-                        Icons.location_on, false, maxLines: 3, maxLength: 150),
+                        Icons.location_on, false,
+                        maxLines: 3, maxLength: 150),
                     const SizedBox(height: 16),
-                    _buildFormField(_notesController, l10n.createInvoiceNotesOptionalLabel,
-                        Icons.notes, false, maxLines: 3, maxLength: 200),
+                    _buildFormField(
+                        _notesController,
+                        l10n.createInvoiceNotesOptionalLabel,
+                        Icons.notes,
+                        false,
+                        maxLines: 3,
+                        maxLength: 200),
                   ],
                 ),
               ),
@@ -781,7 +864,9 @@ class _SupplierManagementScreenState
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+              border: Border(
+                  top: BorderSide(
+                      color: Theme.of(context).colorScheme.outlineVariant)),
             ),
             child: Row(
               children: [
@@ -799,12 +884,14 @@ class _SupplierManagementScreenState
                   flex: 2,
                   child: FilledButton.icon(
                     onPressed: _isLoading ? null : _saveSupplierV2,
-                    style: FilledButton.styleFrom(backgroundColor: primaryColor),
+                    style:
+                        FilledButton.styleFrom(backgroundColor: primaryColor),
                     icon: _isLoading
                         ? const SizedBox(
                             width: 16,
                             height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2, color: Colors.white))
                         : Icon(isAdding ? Icons.add : Icons.check, size: 18),
                     label: Text(isAdding
                         ? l10n.supplierMgmtAddSupplierButton
@@ -861,7 +948,8 @@ class _SupplierManagementScreenState
                   Positioned.fill(
                     child: GestureDetector(
                       onTap: () => setState(() => _showAddPanelV2 = false),
-                      child: Container(color: Colors.black.withValues(alpha: 0.3)),
+                      child:
+                          Container(color: Colors.black.withValues(alpha: 0.3)),
                     ),
                   ),
                   Positioned(
@@ -887,10 +975,12 @@ class _SupplierTrashDialog extends ConsumerStatefulWidget {
   final List<Supplier> deletedSuppliers;
   final VoidCallback onRestored;
 
-  const _SupplierTrashDialog({required this.deletedSuppliers, required this.onRestored});
+  const _SupplierTrashDialog(
+      {required this.deletedSuppliers, required this.onRestored});
 
   @override
-  ConsumerState<_SupplierTrashDialog> createState() => _SupplierTrashDialogState();
+  ConsumerState<_SupplierTrashDialog> createState() =>
+      _SupplierTrashDialogState();
 }
 
 class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
@@ -909,7 +999,9 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
     widget.onRestored();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.supplierMgmtRestoredMessage), backgroundColor: CvSwatch.success),
+        SnackBar(
+            content: Text(l10n.supplierMgmtRestoredMessage),
+            backgroundColor: CvSwatch.success),
       );
     }
   }
@@ -938,9 +1030,13 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
                 ),
                 const SizedBox(width: 12),
                 Text(l10n.invoiceMgmtTrashLabel,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
                 const Spacer(),
-                IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+                IconButton(
+                    tooltip: AppLocalizations.of(context)!.actionClose,
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context)),
               ],
             ),
             const SizedBox(height: 16),
@@ -949,7 +1045,9 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
                 padding: const EdgeInsets.all(32),
                 child: Center(
                   child: Text(l10n.invoiceMgmtTrashIsEmptyLabel,
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16)),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 16)),
                 ),
               )
             else
@@ -963,14 +1061,18 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
                     final s = _suppliers[index];
                     return ListTile(
                       leading: Icon(Icons.local_shipping_outlined,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
                       title: Text(s.name),
-                      subtitle: Text(s.businessName.isNotEmpty ? s.businessName : (s.phone.isNotEmpty ? s.phone : '—')),
+                      subtitle: Text(s.businessName.isNotEmpty
+                          ? s.businessName
+                          : (s.phone.isNotEmpty ? s.phone : '—')),
                       trailing: TextButton.icon(
                         onPressed: () => _restore(s),
                         icon: const Icon(Icons.restore, size: 16),
                         label: Text(l10n.actionRestore),
-                        style: TextButton.styleFrom(foregroundColor: CvSwatch.success),
+                        style: TextButton.styleFrom(
+                            foregroundColor: CvSwatch.success),
                       ),
                     );
                   },
@@ -980,7 +1082,8 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                  onPressed: () => Navigator.pop(context), child: Text(l10n.actionClose)),
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l10n.actionClose)),
             ),
           ],
         ),

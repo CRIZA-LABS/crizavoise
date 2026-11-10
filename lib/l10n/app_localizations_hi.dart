@@ -6777,4 +6777,22 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get voiceTypingTooltip => 'लिखने की जगह बोलें (Windows वॉइस टाइपिंग)';
+
+  @override
+  String get a11yShowHidePassword => 'पासवर्ड दिखाएँ या छिपाएँ';
+
+  @override
+  String get a11yDecrease => 'घटाएँ';
+
+  @override
+  String get a11yIncrease => 'बढ़ाएँ';
+
+  @override
+  String get a11yFavourite => 'पसंदीदा बनाएँ';
+
+  @override
+  String get a11yPickColour => 'रंग चुनें';
+
+  @override
+  String get a11ySend => 'भेजें';
 }

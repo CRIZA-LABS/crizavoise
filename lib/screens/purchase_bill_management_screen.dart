@@ -101,7 +101,8 @@ class _PurchaseBillListView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<_PurchaseBillListView> createState() => _PurchaseBillListViewState();
+  ConsumerState<_PurchaseBillListView> createState() =>
+      _PurchaseBillListViewState();
 }
 
 class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
@@ -122,7 +123,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
 
   // Filter — payment status is the only meaningful dimension here (no
   // due-date concept on purchase bills, unlike invoices).
-  String _statusFilter = 'all'; // 'all' | 'paid' | 'partial' | 'unpaid' | 'draft'
+  String _statusFilter =
+      'all'; // 'all' | 'paid' | 'partial' | 'unpaid' | 'draft'
 
   static const List<Map<String, dynamic>> _statusFilterOptionsV2 = [
     {'value': 'all', 'color': Colors.grey},
@@ -141,7 +143,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     ('total_amount', true, Icons.trending_up_outlined),
   ];
 
-  static String _sortOptionLabel(AppLocalizations l10n, String field, bool asc) {
+  static String _sortOptionLabel(
+      AppLocalizations l10n, String field, bool asc) {
     return switch ((field, asc)) {
       ('bill_date', false) => l10n.purchaseBillMgmtSortDateNewest,
       ('bill_date', true) => l10n.purchaseBillMgmtSortDateOldest,
@@ -218,7 +221,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
             return _statusFilter == 'draft' && b.isDraft;
           }
           final paid = paidTotals[b.id] ?? 0.0;
-          final status = PurchaseBillCalculator.paymentStatus(total: b.total, paid: paid);
+          final status =
+              PurchaseBillCalculator.paymentStatus(total: b.total, paid: paid);
           switch (_statusFilter) {
             case 'paid':
               return status == PaymentStatus.paid;
@@ -241,8 +245,10 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        AppError.show(context,
-            AppLocalizations.of(context)!.purchaseBillMgmtLoadErrorMessage(e.toString()),
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .purchaseBillMgmtLoadErrorMessage(e.toString()),
             onRetry: _loadPage);
       }
     }
@@ -255,12 +261,17 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
   }
 
   Future<void> _editBill(PurchaseBill row) async {
-    final full = await ref.read(purchaseBillRepositoryProvider).getPurchaseBillById(row.id);
+    final full = await ref
+        .read(purchaseBillRepositoryProvider)
+        .getPurchaseBillById(row.id);
     widget.onEdit(full ?? row);
   }
 
   Future<void> _viewBill(PurchaseBill row) async {
-    final full = await ref.read(purchaseBillRepositoryProvider).getPurchaseBillById(row.id) ?? row;
+    final full = await ref
+            .read(purchaseBillRepositoryProvider)
+            .getPurchaseBillById(row.id) ??
+        row;
     if (!mounted) return;
     await showDialog(
       context: context,
@@ -277,11 +288,17 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
   }
 
   Future<void> _showApplyPaymentDialog(PurchaseBill row) async {
-    final full = await ref.read(purchaseBillRepositoryProvider).getPurchaseBillById(row.id) ?? row;
+    final full = await ref
+            .read(purchaseBillRepositoryProvider)
+            .getPurchaseBillById(row.id) ??
+        row;
     if (!mounted) return;
-    final paid = await ref.read(supplierPaymentRepositoryProvider).getTotalPaidForBill(full.id);
+    final paid = await ref
+        .read(supplierPaymentRepositoryProvider)
+        .getTotalPaidForBill(full.id);
     if (!mounted) return;
-    final outstanding = PurchaseBillCalculator.outstanding(total: full.total, paid: paid);
+    final outstanding =
+        PurchaseBillCalculator.outstanding(total: full.total, paid: paid);
     if (outstanding <= 0) {
       AppError.show(context,
           AppLocalizations.of(context)!.purchaseBillMgmtAlreadyFullyPaidMessage,
@@ -311,13 +328,19 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     );
     if (!confirmed) return;
 
-    await ref.read(purchaseBillRepositoryProvider).softDeletePurchaseBill(bill.id);
+    await ref
+        .read(purchaseBillRepositoryProvider)
+        .softDeletePurchaseBill(bill.id);
     await _loadPage();
-    if (mounted) AppError.showSuccess(context, l10n.purchaseBillMgmtMovedToTrashMessage);
+    if (mounted) {
+      AppError.showSuccess(context, l10n.purchaseBillMgmtMovedToTrashMessage);
+    }
   }
 
   void _showTrashDialog() async {
-    final deleted = await ref.read(purchaseBillRepositoryProvider).getDeletedPurchaseBills();
+    final deleted = await ref
+        .read(purchaseBillRepositoryProvider)
+        .getDeletedPurchaseBills();
     if (!mounted) return;
     showDialog(
       context: context,
@@ -344,17 +367,32 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
   List<PopupMenuEntry<String>> _rowActionMenuItemsV2(PurchaseBill bill) {
     final l10n = AppLocalizations.of(context)!;
     return [
-      PopupMenuItem(value: 'view', child: _MenuRow(Icons.visibility_outlined, l10n.actionView, CvSwatch.success)),
-      PopupMenuItem(value: 'edit', child: _MenuRow(Icons.edit_outlined, l10n.actionEdit, CvSwatch.neutral)),
+      PopupMenuItem(
+          value: 'view',
+          child: _MenuRow(
+              Icons.visibility_outlined, l10n.actionView, CvSwatch.success)),
+      PopupMenuItem(
+          value: 'edit',
+          child:
+              _MenuRow(Icons.edit_outlined, l10n.actionEdit, CvSwatch.neutral)),
       if (!bill.isDraft)
-        PopupMenuItem(value: 'pay', child: _MenuRow(Icons.payments_outlined, l10n.actionApplyPayment, CvSwatch.neutral)),
+        PopupMenuItem(
+            value: 'pay',
+            child: _MenuRow(Icons.payments_outlined, l10n.actionApplyPayment,
+                CvSwatch.neutral)),
       if (widget.user.isAdmin())
-        PopupMenuItem(value: 'delete', child: _MenuRow(Icons.delete_outline, l10n.invoiceMgmtMoveToTrashTitle, CvSwatch.danger)),
+        PopupMenuItem(
+            value: 'delete',
+            child: _MenuRow(Icons.delete_outline,
+                l10n.invoiceMgmtMoveToTrashTitle, CvSwatch.danger)),
     ];
   }
 
-  Widget _buildActionButton(IconData icon, Color color, String tooltip, VoidCallback? onPressed) {
-    final effectiveColor = onPressed != null ? color : Theme.of(context).colorScheme.onSurfaceVariant;
+  Widget _buildActionButton(
+      IconData icon, Color color, String tooltip, VoidCallback? onPressed) {
+    final effectiveColor = onPressed != null
+        ? color
+        : Theme.of(context).colorScheme.onSurfaceVariant;
     return Tooltip(
       message: tooltip,
       child: InkWell(
@@ -388,14 +426,21 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _buildActionButton(Icons.visibility_outlined, CvSwatch.success, l10n.actionView, () => _viewBill(bill)),
-        _buildActionButton(Icons.edit_outlined, CvSwatch.neutral, l10n.actionEdit, () => _editBill(bill)),
+        _buildActionButton(Icons.visibility_outlined, CvSwatch.success,
+            l10n.actionView, () => _viewBill(bill)),
+        _buildActionButton(Icons.edit_outlined, CvSwatch.neutral,
+            l10n.actionEdit, () => _editBill(bill)),
         if (!bill.isDraft)
-          _buildActionButton(Icons.payments_outlined,
-              status == PaymentStatus.paid ? CvSwatch.success : CvSwatch.neutral,
-              l10n.actionApplyPayment, () => _showApplyPaymentDialog(bill)),
+          _buildActionButton(
+              Icons.payments_outlined,
+              status == PaymentStatus.paid
+                  ? CvSwatch.success
+                  : CvSwatch.neutral,
+              l10n.actionApplyPayment,
+              () => _showApplyPaymentDialog(bill)),
         if (widget.user.isAdmin())
-          _buildActionButton(Icons.delete_outline, CvSwatch.danger, l10n.actionDelete, () => _softDelete(bill)),
+          _buildActionButton(Icons.delete_outline, CvSwatch.danger,
+              l10n.actionDelete, () => _softDelete(bill)),
       ],
     );
   }
@@ -426,7 +471,9 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: color.withValues(alpha: 0.4)),
       ),
-      child: Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: color)),
+      child: Text(label,
+          style: TextStyle(
+              fontSize: 11, fontWeight: FontWeight.w600, color: color)),
     );
   }
 
@@ -436,7 +483,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(l10n.purchaseBillMgmtSortByTitle),
           content: SizedBox(
             width: 340,
@@ -448,12 +496,16 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                 final primaryColor = Theme.of(context).primaryColor;
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: Icon(icon, size: 20, color: selected ? primaryColor : null),
+                  leading: Icon(icon,
+                      size: 20, color: selected ? primaryColor : null),
                   title: Text(_sortOptionLabel(l10n, field, asc),
                       style: TextStyle(
-                          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight:
+                              selected ? FontWeight.w700 : FontWeight.w500,
                           color: selected ? primaryColor : null)),
-                  trailing: selected ? Icon(Icons.check_circle, color: primaryColor, size: 20) : null,
+                  trailing: selected
+                      ? Icon(Icons.check_circle, color: primaryColor, size: 20)
+                      : null,
                   onTap: () {
                     Navigator.pop(dialogContext);
                     if (_sortField == field && _sortAscending == asc) return;
@@ -469,7 +521,9 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(dialogContext), child: Text(l10n.actionClose)),
+            TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: Text(l10n.actionClose)),
           ],
         );
       },
@@ -484,7 +538,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       builder: (dialogContext) {
         return StatefulBuilder(builder: (dialogContext, setDialogState) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             title: Text(l10n.purchaseBillMgmtFilterTitle),
             content: SizedBox(
               width: 340,
@@ -496,7 +551,9 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          color: Theme.of(dialogContext).colorScheme.onSurfaceVariant)),
+                          color: Theme.of(dialogContext)
+                              .colorScheme
+                              .onSurfaceVariant)),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8,
@@ -505,13 +562,17 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                       final selected = tempStatus == opt['value'];
                       final color = opt['color'] as Color;
                       return ChoiceChip(
-                        label: Text(_statusFilterLabel(AppLocalizations.of(context)!, opt['value'] as String)),
+                        label: Text(_statusFilterLabel(
+                            AppLocalizations.of(context)!,
+                            opt['value'] as String)),
                         selected: selected,
-                        onSelected: (_) => setDialogState(() => tempStatus = opt['value'] as String),
+                        onSelected: (_) => setDialogState(
+                            () => tempStatus = opt['value'] as String),
                         selectedColor: color.withValues(alpha: 0.18),
                         labelStyle: TextStyle(
                           color: selected ? color.withValues(alpha: 0.9) : null,
-                          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight:
+                              selected ? FontWeight.w700 : FontWeight.w500,
                         ),
                       );
                     }).toList(),
@@ -542,7 +603,9 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                       _loadPage();
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor, foregroundColor: Theme.of(context).colorScheme.onPrimary),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onPrimary),
                     child: Text(l10n.actionApply),
                   ),
                 ],
@@ -566,7 +629,10 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
         onPressed: _isLoading ? null : _loadPage,
         icon: _isLoading
             ? const SizedBox(
-                width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                    color: Colors.white, strokeWidth: 2))
             : const Icon(Icons.refresh),
         tooltip: l10n.actionRefresh,
       ),
@@ -581,9 +647,11 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
         hintText: l10n.purchaseBillMgmtSearchHint,
         prefixIcon: const Icon(Icons.search, size: 20),
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         suffixIcon: _searchQuery.isNotEmpty
             ? IconButton(
+                tooltip: AppLocalizations.of(context)!.actionClear,
                 icon: const Icon(Icons.clear, size: 18),
                 onPressed: () {
                   _searchController.clear();
@@ -595,14 +663,17 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                 },
               )
             : null,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-          borderSide: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+          borderSide:
+              BorderSide(color: Theme.of(context).primaryColor, width: 2),
         ),
       ),
       onChanged: (value) {
@@ -629,9 +700,14 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
             top: -6,
             child: Container(
               padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.circle),
               child: Text('$_activeFilterCountV2',
-                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold)),
             ),
           ),
       ],
@@ -652,7 +728,10 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     if (isWide) {
       return Row(
         children: [
-          Expanded(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 480), child: searchField)),
+          Expanded(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 480),
+                  child: searchField)),
           const SizedBox(width: 12),
           filterButton,
           const SizedBox(width: 12),
@@ -667,7 +746,11 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       children: [
         searchField,
         const SizedBox(height: 12),
-        Row(children: [Expanded(child: filterButton), const SizedBox(width: 12), Expanded(child: sortButton)]),
+        Row(children: [
+          Expanded(child: filterButton),
+          const SizedBox(width: 12),
+          Expanded(child: sortButton)
+        ]),
         const SizedBox(height: 12),
         newBillButton,
       ],
@@ -676,24 +759,37 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
 
   Widget _tableHeaderRowV2(bool isWide) {
     final l10n = AppLocalizations.of(context)!;
-    const style = TextStyle(color: Colors.white, fontSize: 12.5, fontWeight: FontWeight.w700, letterSpacing: 0.4);
+    const style = TextStyle(
+        color: Colors.white,
+        fontSize: 12.5,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.4);
     return Container(
       decoration: BoxDecoration(
-        gradient: PurchaseBillManagementScreenColors.topBarBackgroundGradientColor,
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+        gradient:
+            PurchaseBillManagementScreenColors.topBarBackgroundGradientColor,
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12), topRight: Radius.circular(12)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       child: Row(
         children: [
           SizedBox(width: 36, child: Text('#', style: style)),
-          Expanded(flex: 3, child: Text(l10n.purchaseBillMgmtColBill, style: style)),
+          Expanded(
+              flex: 3, child: Text(l10n.purchaseBillMgmtColBill, style: style)),
           if (isWide) ...[
-            Expanded(flex: 2, child: Text(l10n.supplierMgmtColSupplier, style: style)),
-            SizedBox(width: 100, child: Text(l10n.invoiceMgmtColDate, style: style)),
+            Expanded(
+                flex: 2,
+                child: Text(l10n.supplierMgmtColSupplier, style: style)),
+            SizedBox(
+                width: 100, child: Text(l10n.invoiceMgmtColDate, style: style)),
           ],
           Expanded(child: Text(l10n.fieldTotalLabel, style: style)),
-          SizedBox(width: 76, child: Text(l10n.invoiceMgmtColStatus, style: style)),
-          if (isWide) Expanded(child: Text(l10n.purchaseBillMgmtColBalance, style: style)),
+          SizedBox(
+              width: 76, child: Text(l10n.invoiceMgmtColStatus, style: style)),
+          if (isWide)
+            Expanded(
+                child: Text(l10n.purchaseBillMgmtColBalance, style: style)),
           SizedBox(width: isWide ? 180 : 48, child: const SizedBox()),
         ],
       ),
@@ -702,14 +798,18 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
 
   Widget _billRowV2(PurchaseBill bill, int index, bool isEven, bool isWide) {
     final paid = _paidTotals[bill.id] ?? 0.0;
-    final status = PurchaseBillCalculator.paymentStatus(total: bill.total, paid: paid);
-    final outstanding = PurchaseBillCalculator.outstanding(total: bill.total, paid: paid);
+    final status =
+        PurchaseBillCalculator.paymentStatus(total: bill.total, paid: paid);
+    final outstanding =
+        PurchaseBillCalculator.outstanding(total: bill.total, paid: paid);
     return Container(
       decoration: BoxDecoration(
         color: isEven
             ? Theme.of(context).colorScheme.surfaceContainerHighest
             : Theme.of(context).colorScheme.surfaceContainer,
-        border: Border(bottom: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+        border: Border(
+            bottom: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
@@ -725,7 +825,10 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
               ),
               child: Text('$index',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor)),
             ),
           ),
           Expanded(
@@ -738,13 +841,18 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                 children: [
                   Text(bill.billNumber ?? '#${bill.id}',
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w700)),
+                      style: const TextStyle(
+                          fontSize: 14.5, fontWeight: FontWeight.w700)),
                   if (!isWide) ...[
                     const SizedBox(height: 2),
                     Text(
                         '${bill.supplierName.isEmpty ? '—' : bill.supplierName}  ·  ${AppDate.format(bill.billDate)}',
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                        style: TextStyle(
+                            fontSize: 12.5,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant)),
                   ],
                 ],
               ),
@@ -755,30 +863,49 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
               flex: 2,
               child: Text(bill.supplierName.isEmpty ? '—' : bill.supplierName,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
             ),
-            SizedBox(width: 100, child: Text(AppDate.format(bill.billDate), style: const TextStyle(fontSize: 13))),
+            SizedBox(
+                width: 100,
+                child: Text(AppDate.format(bill.billDate),
+                    style: const TextStyle(fontSize: 13))),
           ],
           Expanded(
             child: Text('$_currencySymbol ${AmountFormat.money(bill.total)}',
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: CvSwatch.success)),
+                style: const TextStyle(
+                    fontSize: 14.5,
+                    fontWeight: FontWeight.bold,
+                    color: CvSwatch.success)),
           ),
-          SizedBox(width: 76, child: Align(alignment: Alignment.centerLeft, child: _buildStatusChip(status, isDraft: bill.isDraft))),
+          SizedBox(
+              width: 76,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: _buildStatusChip(status, isDraft: bill.isDraft))),
           if (isWide)
             Expanded(
               child: status == PaymentStatus.paid || bill.isDraft
-                  ? Text('—', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant))
+                  ? Text('—',
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant))
                   : Text(
                       '$_currencySymbol ${AmountFormat.money(outstanding)}',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: status == PaymentStatus.partial ? CvSwatch.warning : CvSwatch.danger),
+                          color: status == PaymentStatus.partial
+                              ? CvSwatch.warning
+                              : CvSwatch.danger),
                     ),
             ),
-          SizedBox(width: isWide ? 180 : 48, child: _rowActionsV2(bill, status, isWide)),
+          SizedBox(
+              width: isWide ? 180 : 48,
+              child: _rowActionsV2(bill, status, isWide)),
         ],
       ),
     );
@@ -790,12 +917,16 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     final left = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(l10n.invoiceMgmtRowsPerPageLabel, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13)),
+        Text(l10n.invoiceMgmtRowsPerPageLabel,
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface, fontSize: 13)),
         const SizedBox(width: 8),
         DropdownButton<int>(
           value: _pageSize,
           underline: const SizedBox(),
-          items: [10, 25, 50, 100].map((n) => DropdownMenuItem(value: n, child: Text('$n'))).toList(),
+          items: [10, 25, 50, 100]
+              .map((n) => DropdownMenuItem(value: n, child: Text('$n')))
+              .toList(),
           onChanged: (n) {
             if (n == null) return;
             setState(() {
@@ -806,7 +937,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
           },
         ),
         const SizedBox(width: 16),
-        Text(l10n.purchaseBillMgmtTotalCountLabel(_totalCount), style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+        Text(l10n.purchaseBillMgmtTotalCountLabel(_totalCount),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
       ],
     );
 
@@ -819,7 +951,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          onPressed: _currentPage > 0 ? () => _changePage(_currentPage - 1) : null,
+          onPressed:
+              _currentPage > 0 ? () => _changePage(_currentPage - 1) : null,
           icon: const Icon(Icons.chevron_left),
           tooltip: l10n.actionPrevious,
           iconSize: 20,
@@ -833,14 +966,20 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
+            border: Border.all(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
           ),
           child: Text(l10n.invoiceMgmtPageOfLabel(_currentPage + 1, totalPages),
-              style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor)),
+              style: TextStyle(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).primaryColor)),
         ),
         const SizedBox(width: 8),
         IconButton(
-          onPressed: _currentPage < totalPages - 1 ? () => _changePage(_currentPage + 1) : null,
+          onPressed: _currentPage < totalPages - 1
+              ? () => _changePage(_currentPage + 1)
+              : null,
           icon: const Icon(Icons.chevron_right),
           tooltip: l10n.actionNext,
           iconSize: 20,
@@ -881,16 +1020,20 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(Icons.receipt_long_outlined,
-                    size: 72, color: Theme.of(context).colorScheme.outlineVariant),
+                    size: 72,
+                    color: Theme.of(context).colorScheme.outlineVariant),
                 const SizedBox(height: 16),
                 Text(l10n.purchaseBillMgmtNoBillsFoundTitle,
-                    style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant)),
                 const SizedBox(height: 8),
                 Text(
                   _searchQuery.isEmpty && _statusFilter == 'all'
                       ? l10n.purchaseBillMgmtCreateFirstMessage
                       : l10n.purchaseBillMgmtTryAdjustingMessage,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
                 ),
               ],
             ),
@@ -905,11 +1048,13 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     return LayoutBuilder(builder: (context, outerConstraints) {
       final isWide = outerConstraints.maxWidth >= 900;
       return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? null : Colors.grey[50],
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? null
+            : Colors.grey[50],
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.purchaseBillMgmtTitle),
-          backgroundColor:
-              Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor ??
+              Theme.of(context).primaryColor,
           foregroundColor: Colors.white,
           elevation: 0,
           centerTitle: false,
@@ -924,7 +1069,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
             ),
             const SizedBox(height: 16),
             _isLoading
-                ? const Expanded(child: Center(child: CircularProgressIndicator()))
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: _bills.isEmpty
                         ? _buildEmptyState()
@@ -937,17 +1083,23 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                             child: SingleChildScrollView(
                               child: Card(
                                 elevation: 2,
-                                shadowColor: Colors.black.withValues(alpha: 0.1),
+                                shadowColor:
+                                    Colors.black.withValues(alpha: 0.1),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+                                    borderRadius: BorderRadius.circular(
+                                        AppBorderRadius.xsmall)),
                                 clipBehavior: Clip.antiAlias,
                                 child: Column(
                                   children: [
                                     _tableHeaderRowV2(isWide),
                                     ..._bills.asMap().entries.map((entry) {
                                       final index = entry.key;
-                                      final globalIndex = (_currentPage * _pageSize) + index + 1;
-                                      return _billRowV2(entry.value, globalIndex, index.isEven, isWide);
+                                      final globalIndex =
+                                          (_currentPage * _pageSize) +
+                                              index +
+                                              1;
+                                      return _billRowV2(entry.value,
+                                          globalIndex, index.isEven, isWide);
                                     }),
                                   ],
                                 ),
@@ -958,7 +1110,8 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
             if (_bills.isNotEmpty)
               Container(
                 color: Theme.of(context).colorScheme.surfaceContainer,
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                 child: _paginationV2(isWide),
               ),
           ],
@@ -993,13 +1146,16 @@ class _PurchaseBillTrashDialog extends ConsumerStatefulWidget {
   final List<PurchaseBill> deletedBills;
   final VoidCallback onRestored;
 
-  const _PurchaseBillTrashDialog({required this.deletedBills, required this.onRestored});
+  const _PurchaseBillTrashDialog(
+      {required this.deletedBills, required this.onRestored});
 
   @override
-  ConsumerState<_PurchaseBillTrashDialog> createState() => _PurchaseBillTrashDialogState();
+  ConsumerState<_PurchaseBillTrashDialog> createState() =>
+      _PurchaseBillTrashDialogState();
 }
 
-class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDialog> {
+class _PurchaseBillTrashDialogState
+    extends ConsumerState<_PurchaseBillTrashDialog> {
   late List<PurchaseBill> _bills;
 
   @override
@@ -1015,7 +1171,9 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
     widget.onRestored();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.purchaseBillMgmtRestoredMessage), backgroundColor: CvSwatch.success),
+        SnackBar(
+            content: Text(l10n.purchaseBillMgmtRestoredMessage),
+            backgroundColor: CvSwatch.success),
       );
     }
   }
@@ -1043,9 +1201,14 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
                   child: const Icon(Icons.delete_sweep, color: CvSwatch.danger),
                 ),
                 const SizedBox(width: 12),
-                Text(l10n.invoiceMgmtTrashLabel, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(l10n.invoiceMgmtTrashLabel,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
                 const Spacer(),
-                IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+                IconButton(
+                    tooltip: AppLocalizations.of(context)!.actionClose,
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context)),
               ],
             ),
             const SizedBox(height: 16),
@@ -1054,7 +1217,9 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
                 padding: const EdgeInsets.all(32),
                 child: Center(
                   child: Text(l10n.invoiceMgmtTrashIsEmptyLabel,
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16)),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 16)),
                 ),
               )
             else
@@ -1067,14 +1232,18 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
                   itemBuilder: (ctx, index) {
                     final b = _bills[index];
                     return ListTile(
-                      leading: Icon(Icons.receipt_long, color: Theme.of(context).colorScheme.onSurfaceVariant),
-                      title: Text('#${b.billNumber ?? b.id} — ${b.supplierName.isEmpty ? l10n.purchaseBillMgmtUnknownSupplierLabel : b.supplierName}'),
+                      leading: Icon(Icons.receipt_long,
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      title: Text(
+                          '#${b.billNumber ?? b.id} — ${b.supplierName.isEmpty ? l10n.purchaseBillMgmtUnknownSupplierLabel : b.supplierName}'),
                       subtitle: Text(AppDate.format(b.billDate)),
                       trailing: TextButton.icon(
                         onPressed: () => _restore(b),
                         icon: const Icon(Icons.restore, size: 16),
                         label: Text(l10n.actionRestore),
-                        style: TextButton.styleFrom(foregroundColor: CvSwatch.success),
+                        style: TextButton.styleFrom(
+                            foregroundColor: CvSwatch.success),
                       ),
                     );
                   },
@@ -1083,7 +1252,9 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
-              child: TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.actionClose)),
+              child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(l10n.actionClose)),
             ),
           ],
         ),
@@ -1122,8 +1293,9 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
   }
 
   Future<void> _loadPayments() async {
-    final payments =
-        await ref.read(supplierPaymentRepositoryProvider).getPaymentsForBill(widget.bill.id);
+    final payments = await ref
+        .read(supplierPaymentRepositoryProvider)
+        .getPaymentsForBill(widget.bill.id);
     if (mounted) {
       setState(() {
         _payments = payments;
@@ -1133,8 +1305,8 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
   }
 
   double get _totalPaid => _payments.fold(0.0, (s, p) => s + p.amountPaid);
-  double get _outstanding =>
-      PurchaseBillCalculator.outstanding(total: widget.bill.total, paid: _totalPaid);
+  double get _outstanding => PurchaseBillCalculator.outstanding(
+      total: widget.bill.total, paid: _totalPaid);
 
   Future<void> _showRecordPaymentDialog() async {
     await showDialog(
@@ -1167,8 +1339,11 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
             Container(
               padding: const EdgeInsets.fromLTRB(20, 18, 12, 18),
               decoration: BoxDecoration(
-                color: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                color: Theme.of(context).appBarTheme.backgroundColor ??
+                    Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
               ),
               child: Row(
                 children: [
@@ -1179,10 +1354,14 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('#${bill.billNumber ?? bill.id}',
-                            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold)),
                         Text(
                           '${bill.supplierName.isEmpty ? l10n.purchaseBillMgmtUnknownSupplierLabel : bill.supplierName} · ${AppDate.format(bill.billDate)}${bill.isDraft ? ' · ${l10n.quotationStatusDraft}' : ''}',
-                          style: const TextStyle(color: Colors.white70, fontSize: 13),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 13),
                         ),
                       ],
                     ),
@@ -1193,6 +1372,7 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
                     onPressed: widget.onEdit,
                   ),
                   IconButton(
+                    tooltip: AppLocalizations.of(context)!.actionClose,
                     icon: const Icon(Icons.close, color: Colors.white),
                     onPressed: () => Navigator.pop(context),
                   ),
@@ -1205,13 +1385,26 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (bill.notes != null && bill.notes!.trim().isNotEmpty) ...[
-                      Text(l10n.purchaseBillMgmtNotesSectionLabel, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    if (bill.notes != null &&
+                        bill.notes!.trim().isNotEmpty) ...[
+                      Text(l10n.purchaseBillMgmtNotesSectionLabel,
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant)),
                       const SizedBox(height: 4),
                       Text(bill.notes!.trim()),
                       const SizedBox(height: 16),
                     ],
-                    Text(l10n.purchaseBillMgmtItemsSectionLabel, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    Text(l10n.purchaseBillMgmtItemsSectionLabel,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant)),
                     const SizedBox(height: 8),
                     _buildItemsTable(bill, sym),
                     const SizedBox(height: 12),
@@ -1220,43 +1413,69 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('${l10n.fieldSubtotalLabel}: $sym ${AmountFormat.money(bill.subtotal)}'),
-                          Text('${l10n.fieldTaxLabel}: $sym ${AmountFormat.money(bill.tax)}'),
-                          Text('${l10n.fieldTotalLabel}: $sym ${AmountFormat.money(bill.total)}',
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          Text(
+                              '${l10n.fieldSubtotalLabel}: $sym ${AmountFormat.money(bill.subtotal)}'),
+                          Text(
+                              '${l10n.fieldTaxLabel}: $sym ${AmountFormat.money(bill.tax)}'),
+                          Text(
+                              '${l10n.fieldTotalLabel}: $sym ${AmountFormat.money(bill.total)}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
                         ],
                       ),
                     ),
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        PaymentSummaryTile(label: l10n.fieldTotalLabel, value: '$sym ${AmountFormat.money(bill.total)}', color: CvSwatch.neutral),
+                        PaymentSummaryTile(
+                            label: l10n.fieldTotalLabel,
+                            value: '$sym ${AmountFormat.money(bill.total)}',
+                            color: CvSwatch.neutral),
                         const SizedBox(width: 12),
-                        PaymentSummaryTile(label: l10n.paymentDialogAmountPaidLabel, value: '$sym ${AmountFormat.money(_totalPaid)}', color: CvSwatch.success),
+                        PaymentSummaryTile(
+                            label: l10n.paymentDialogAmountPaidLabel,
+                            value: '$sym ${AmountFormat.money(_totalPaid)}',
+                            color: CvSwatch.success),
                         const SizedBox(width: 12),
                         PaymentSummaryTile(
                           label: l10n.invoiceMgmtColOutstanding,
                           value: '$sym ${AmountFormat.money(_outstanding)}',
-                          color: _outstanding <= 0 ? CvSwatch.success : CvSwatch.warning,
+                          color: _outstanding <= 0
+                              ? CvSwatch.success
+                              : CvSwatch.warning,
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Text(l10n.paymentDialogHistoryTitle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    Text(l10n.paymentDialogHistoryTitle,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant)),
                     const SizedBox(height: 8),
                     if (_isLoadingPayments)
-                      const Center(child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator(strokeWidth: 2)))
+                      const Center(
+                          child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: CircularProgressIndicator(strokeWidth: 2)))
                     else if (_payments.isEmpty)
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Center(
                           child: Text(l10n.paymentDialogNoPaymentsMessage,
-                              style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant)),
                         ),
                       )
                     else
@@ -1270,16 +1489,23 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.actionClose)),
-                  if (!bill.isDraft && !_isLoadingPayments && _outstanding > 0) ...[
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(l10n.actionClose)),
+                  if (!bill.isDraft &&
+                      !_isLoadingPayments &&
+                      _outstanding > 0) ...[
                     const SizedBox(width: 12),
                     ElevatedButton.icon(
                       onPressed: _showRecordPaymentDialog,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onPrimary,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
                       ),
                       icon: const Icon(Icons.payments_outlined, size: 18),
                       label: Text(l10n.actionRecordPayment),
@@ -1308,28 +1534,55 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8), topRight: Radius.circular(8)),
             ),
             child: Row(
               children: [
-                Expanded(flex: 3, child: Text(l10n.purchaseBillMgmtColItem, style: headerStyle)),
-                Expanded(child: Text(l10n.purchaseBillMgmtQtyDetailLabel, style: headerStyle)),
-                Expanded(child: Text(l10n.purchaseBillMgmtColCost, style: headerStyle)),
-                Expanded(child: Text(l10n.purchaseBillMgmtColTaxPercent, style: headerStyle)),
+                Expanded(
+                    flex: 3,
+                    child:
+                        Text(l10n.purchaseBillMgmtColItem, style: headerStyle)),
+                Expanded(
+                    child: Text(l10n.purchaseBillMgmtQtyDetailLabel,
+                        style: headerStyle)),
+                Expanded(
+                    child:
+                        Text(l10n.purchaseBillMgmtColCost, style: headerStyle)),
+                Expanded(
+                    child: Text(l10n.purchaseBillMgmtColTaxPercent,
+                        style: headerStyle)),
                 Expanded(child: Text(l10n.fieldTotalLabel, style: headerStyle)),
               ],
             ),
           ),
           ...bill.items.map((item) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                decoration: BoxDecoration(border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant))),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(
+                            color:
+                                Theme.of(context).colorScheme.outlineVariant))),
                 child: Row(
                   children: [
-                    Expanded(flex: 3, child: Text(item.productName, style: const TextStyle(fontSize: 13))),
-                    Expanded(child: Text(item.quantity.toString(), style: const TextStyle(fontSize: 13))),
-                    Expanded(child: Text(AmountFormat.money(item.costPerUnit), style: const TextStyle(fontSize: 13))),
-                    Expanded(child: Text(item.taxRate.toStringAsFixed(0), style: const TextStyle(fontSize: 13))),
-                    Expanded(child: Text('$sym ${AmountFormat.money(item.total)}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500))),
+                    Expanded(
+                        flex: 3,
+                        child: Text(item.productName,
+                            style: const TextStyle(fontSize: 13))),
+                    Expanded(
+                        child: Text(item.quantity.toString(),
+                            style: const TextStyle(fontSize: 13))),
+                    Expanded(
+                        child: Text(AmountFormat.money(item.costPerUnit),
+                            style: const TextStyle(fontSize: 13))),
+                    Expanded(
+                        child: Text(item.taxRate.toStringAsFixed(0),
+                            style: const TextStyle(fontSize: 13))),
+                    Expanded(
+                        child: Text('$sym ${AmountFormat.money(item.total)}',
+                            style: const TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.w500))),
                   ],
                 ),
               )),
@@ -1341,23 +1594,36 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
   Widget _buildPaymentRow(SupplierPayment p, String sym) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant))),
+      decoration: BoxDecoration(
+          border: Border(
+              top: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant))),
       child: Row(
         children: [
-          SizedBox(width: 90, child: Text(AppDate.format(p.datePaid), style: const TextStyle(fontSize: 13))),
+          SizedBox(
+              width: 90,
+              child: Text(AppDate.format(p.datePaid),
+                  style: const TextStyle(fontSize: 13))),
           Expanded(
             child: Text('$sym ${AmountFormat.money(p.amountPaid)}',
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: CvSwatch.success)),
+                style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: CvSwatch.success)),
           ),
           Expanded(
             child: Text(p.paymentMethod ?? '—',
-                style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
           ),
           Expanded(
             flex: 2,
             child: Text(p.notes ?? '—',
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)),
           ),
         ],
       ),
@@ -1370,7 +1636,11 @@ class PaymentSummaryTile extends StatelessWidget {
   final String value;
   final Color color;
 
-  const PaymentSummaryTile({super.key, required this.label, required this.value, required this.color});
+  const PaymentSummaryTile(
+      {super.key,
+      required this.label,
+      required this.value,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -1385,9 +1655,15 @@ class PaymentSummaryTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+            Text(label,
+                style: TextStyle(
+                    fontSize: 11,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500)),
             const SizedBox(height: 4),
-            Text(value, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: color)),
+            Text(value,
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold, color: color)),
           ],
         ),
       ),
@@ -1429,7 +1705,8 @@ class _RecordPaymentDialog extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<_RecordPaymentDialog> createState() => _RecordPaymentDialogState();
+  ConsumerState<_RecordPaymentDialog> createState() =>
+      _RecordPaymentDialogState();
 }
 
 class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
@@ -1474,19 +1751,24 @@ class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
             amountPaid: double.parse(_amountController.text.trim()),
             datePaid: _selectedDate,
             paymentMethod: _selectedMethod,
-            notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
+            notes: _notesController.text.trim().isEmpty
+                ? null
+                : _notesController.text.trim(),
           );
       widget.onPaymentRecorded();
       if (mounted) {
         final l10n = AppLocalizations.of(context)!;
         Navigator.pop(context);
-        AppError.showSuccess(context, l10n.purchaseBillMgmtPaymentRecordedMessage);
+        AppError.showSuccess(
+            context, l10n.purchaseBillMgmtPaymentRecordedMessage);
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isSaving = false);
-        AppError.show(context,
-            AppLocalizations.of(context)!.paymentDialogRecordFailedMessage(e.toString()));
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .paymentDialogRecordFailedMessage(e.toString()));
       }
     }
   }
@@ -1515,14 +1797,21 @@ class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
                 controller: _amountController,
                 decoration: InputDecoration(
                   labelText: l10n.paymentDialogAmountFieldLabel(sym),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                  helperText: l10n.paymentDialogMaxHelperText(sym, AmountFormat.money(widget.outstanding)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  helperText: l10n.paymentDialogMaxHelperText(
+                      sym, AmountFormat.money(widget.outstanding)),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                ],
                 validator: (v) {
                   final n = double.tryParse(v?.trim() ?? '');
-                  if (n == null || n <= 0) return l10n.paymentDialogInvalidAmountError;
+                  if (n == null || n <= 0) {
+                    return l10n.paymentDialogInvalidAmountError;
+                  }
                   if (n > widget.outstanding + InvoiceCalculator.moneyEpsilon) {
                     return l10n.paymentDialogExceedsOutstandingError;
                   }
@@ -1535,10 +1824,12 @@ class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
                 child: InputDecorator(
                   decoration: InputDecoration(
                     labelText: l10n.invoiceMgmtColDate,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
                     suffixIcon: const Icon(Icons.calendar_today, size: 18),
                   ),
-                  child: Text(AppDate.dateKey(_selectedDate), style: const TextStyle(fontSize: 16)),
+                  child: Text(AppDate.dateKey(_selectedDate),
+                      style: const TextStyle(fontSize: 16)),
                 ),
               ),
               const SizedBox(height: 12),
@@ -1546,11 +1837,13 @@ class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
                 value: _selectedMethod,
                 decoration: InputDecoration(
                   labelText: l10n.paymentDialogMethodFieldLabel,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                 ),
                 hint: Text(l10n.paymentDialogSelectMethodHint),
                 items: _methods
-                    .map((m) => DropdownMenuItem(value: m, child: Text(_paymentMethodLabel(l10n, m))))
+                    .map((m) => DropdownMenuItem(
+                        value: m, child: Text(_paymentMethodLabel(l10n, m))))
                     .toList(),
                 onChanged: (v) => setState(() => _selectedMethod = v),
               ),
@@ -1559,7 +1852,8 @@ class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
                 controller: _notesController,
                 decoration: InputDecoration(
                   labelText: l10n.createInvoiceNotesOptionalLabel,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
                 ),
                 maxLines: 2,
               ),
@@ -1568,13 +1862,21 @@ class _RecordPaymentDialogState extends ConsumerState<_RecordPaymentDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.actionCancel)),
+        TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.actionCancel)),
         FilledButton.icon(
           onPressed: _isSaving ? null : _save,
           icon: _isSaving
-              ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+              ? const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: Colors.white))
               : const Icon(Icons.check),
-          label: Text(_isSaving ? l10n.createInvoiceSavingEllipsisLabel : l10n.actionRecordPayment),
+          label: Text(_isSaving
+              ? l10n.createInvoiceSavingEllipsisLabel
+              : l10n.actionRecordPayment),
         ),
       ],
     );
@@ -1590,13 +1892,18 @@ class _PurchaseBillFormScreen extends ConsumerStatefulWidget {
   final User user;
 
   const _PurchaseBillFormScreen(
-      {super.key, required this.billToEdit, required this.onDone, required this.user});
+      {super.key,
+      required this.billToEdit,
+      required this.onDone,
+      required this.user});
 
   @override
-  ConsumerState<_PurchaseBillFormScreen> createState() => _PurchaseBillFormScreenState();
+  ConsumerState<_PurchaseBillFormScreen> createState() =>
+      _PurchaseBillFormScreenState();
 }
 
-class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen> {
+class _PurchaseBillFormScreenState
+    extends ConsumerState<_PurchaseBillFormScreen> {
   final _billNumberController = TextEditingController();
   final _notesController = TextEditingController();
   final _productSearchController = TextEditingController();
@@ -1687,11 +1994,13 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       labelText: l10n.purchaseBillMgmtQuantityLabel,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       prefixIcon: IconButton(
+        tooltip: AppLocalizations.of(context)!.a11yDecrease,
         icon: const Icon(Icons.remove_circle_outline, size: 20),
         visualDensity: VisualDensity.compact,
         onPressed: () => step(-1),
       ),
       suffixIcon: IconButton(
+        tooltip: AppLocalizations.of(context)!.a11yIncrease,
         icon: const Icon(Icons.add_circle_outline, size: 20),
         visualDensity: VisualDensity.compact,
         onPressed: () => step(1),
@@ -1703,8 +2012,10 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
     final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(text: item.productName);
     final descController = TextEditingController(text: item.productDescription);
-    final quantityController = TextEditingController(text: item.quantity.toString());
-    final costController = TextEditingController(text: item.costPerUnit.toString());
+    final quantityController =
+        TextEditingController(text: item.quantity.toString());
+    final costController =
+        TextEditingController(text: item.costPerUnit.toString());
     final taxController = TextEditingController(text: item.taxRate.toString());
     final formKey = GlobalKey<FormState>();
     final isCustom = item.productId == null;
@@ -1714,7 +2025,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       context: context,
       builder: (ctx) => StatefulBuilder(builder: (ctx, setDialogState) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           // Catalog items have no name field below, so name them here
           // (same title as the add dialog).
           title: isCustom
@@ -1730,13 +2042,22 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   if (isCustom) ...[
                     TextFormField(
                       controller: nameController,
-                      decoration: InputDecoration(labelText: l10n.fieldItemNameLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                      validator: (v) => (v == null || v.trim().isEmpty) ? l10n.purchaseBillMgmtEnterItemNameMessage : null,
+                      decoration: InputDecoration(
+                          labelText: l10n.fieldItemNameLabel,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8))),
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? l10n.purchaseBillMgmtEnterItemNameMessage
+                          : null,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: descController,
-                      decoration: InputDecoration(labelText: l10n.purchaseBillMgmtDescriptionOptionalLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+                      decoration: InputDecoration(
+                          labelText:
+                              l10n.purchaseBillMgmtDescriptionOptionalLabel,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8))),
                     ),
                     const SizedBox(height: 12),
                   ],
@@ -1746,20 +2067,34 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                         child: TextFormField(
                           controller: quantityController,
                           textAlign: TextAlign.center,
-                          decoration: _quantityDecoration(l10n, quantityController),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                          validator: (v) => (double.tryParse(v ?? '') ?? 0) <= 0 ? l10n.purchaseBillMgmtInvalidValueMessage : null,
+                          decoration:
+                              _quantityDecoration(l10n, quantityController),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                          ],
+                          validator: (v) => (double.tryParse(v ?? '') ?? 0) <= 0
+                              ? l10n.purchaseBillMgmtInvalidValueMessage
+                              : null,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller: costController,
-                          decoration: InputDecoration(labelText: l10n.purchaseBillMgmtCostPerUnitLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                          validator: (v) => double.tryParse(v ?? '') == null ? l10n.purchaseBillMgmtInvalidValueMessage : null,
+                          decoration: InputDecoration(
+                              labelText: l10n.purchaseBillMgmtCostPerUnitLabel,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                          ],
+                          validator: (v) => double.tryParse(v ?? '') == null
+                              ? l10n.purchaseBillMgmtInvalidValueMessage
+                              : null,
                         ),
                       ),
                     ],
@@ -1767,23 +2102,32 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: taxController,
-                    decoration: InputDecoration(labelText: l10n.fieldTaxRateLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                    decoration: InputDecoration(
+                        labelText: l10n.fieldTaxRateLabel,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                    ],
                   ),
                   CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(l10n.purchaseBillMgmtCostIncludesTaxLabel),
                     value: costIncludesTax,
-                    onChanged: (v) => setDialogState(() => costIncludesTax = v ?? false),
+                    onChanged: (v) =>
+                        setDialogState(() => costIncludesTax = v ?? false),
                   ),
                 ],
               ),
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.actionCancel)),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(l10n.actionCancel)),
             ElevatedButton(
               onPressed: () {
                 if (!formKey.currentState!.validate()) return;
@@ -1792,9 +2136,12 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                     item.productName = nameController.text.trim();
                     item.productDescription = descController.text.trim();
                   }
-                  item.quantity = double.tryParse(quantityController.text) ?? item.quantity;
-                  item.costPerUnit = double.tryParse(costController.text) ?? item.costPerUnit;
-                  item.taxRate = double.tryParse(taxController.text) ?? item.taxRate;
+                  item.quantity =
+                      double.tryParse(quantityController.text) ?? item.quantity;
+                  item.costPerUnit =
+                      double.tryParse(costController.text) ?? item.costPerUnit;
+                  item.taxRate =
+                      double.tryParse(taxController.text) ?? item.taxRate;
                   item.costIncludesTax = costIncludesTax;
                 });
                 Navigator.pop(ctx);
@@ -1831,9 +2178,13 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
         id: widget.billToEdit?.id ?? const Uuid().v4(),
         supplierId: _useExistingSupplier ? _supplierId : null,
         supplierName: _supplierNameController.text.trim(),
-        billNumber: _billNumberController.text.trim().isEmpty ? null : _billNumberController.text.trim(),
+        billNumber: _billNumberController.text.trim().isEmpty
+            ? null
+            : _billNumberController.text.trim(),
         billDate: _billDate,
-        notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
+        notes: _notesController.text.trim().isEmpty
+            ? null
+            : _notesController.text.trim(),
         items: _items,
         payments: widget.billToEdit?.payments ?? const [],
         createdAt: widget.billToEdit?.createdAt,
@@ -1848,16 +2199,20 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       }
 
       if (mounted) {
-        AppError.showSuccess(context,
+        AppError.showSuccess(
+            context,
             asDraft
                 ? l10n.purchaseBillMgmtDraftSavedMessage
-                : _isEditing ? l10n.purchaseBillMgmtUpdatedMessage : l10n.purchaseBillMgmtCreatedMessage);
+                : _isEditing
+                    ? l10n.purchaseBillMgmtUpdatedMessage
+                    : l10n.purchaseBillMgmtCreatedMessage);
         widget.onDone();
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isSaving = false);
-        AppError.show(context, l10n.purchaseBillMgmtSaveErrorMessage(e.toString()));
+        AppError.show(
+            context, l10n.purchaseBillMgmtSaveErrorMessage(e.toString()));
       }
     }
   }
@@ -1883,18 +2238,29 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               children: [
                 TextFormField(
                   controller: nameCtrl,
-                  decoration: InputDecoration(labelText: l10n.fieldNameLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                  validator: (v) => (v == null || v.trim().isEmpty) ? l10n.purchaseBillMgmtEnterNameMessage : null,
+                  decoration: InputDecoration(
+                      labelText: l10n.fieldNameLabel,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8))),
+                  validator: (v) => (v == null || v.trim().isEmpty)
+                      ? l10n.purchaseBillMgmtEnterNameMessage
+                      : null,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: businessNameCtrl,
-                  decoration: InputDecoration(labelText: l10n.fieldBusinessNameLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+                  decoration: InputDecoration(
+                      labelText: l10n.fieldBusinessNameLabel,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8))),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: phoneCtrl,
-                  decoration: InputDecoration(labelText: l10n.fieldPhoneLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+                  decoration: InputDecoration(
+                      labelText: l10n.fieldPhoneLabel,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8))),
                   keyboardType: TextInputType.phone,
                 ),
               ],
@@ -1902,7 +2268,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.actionCancel)),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.actionCancel)),
           FilledButton(
             onPressed: () async {
               if (!formKey.currentState!.validate()) return;
@@ -1912,7 +2280,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                 businessName: businessNameCtrl.text.trim(),
                 phone: phoneCtrl.text.trim(),
               );
-              await ref.read(supplierRepositoryProvider).insertSupplier(supplier);
+              await ref
+                  .read(supplierRepositoryProvider)
+                  .insertSupplier(supplier);
               ref.read(suppliersProvider.notifier).refresh();
               if (ctx.mounted) Navigator.pop(ctx, supplier);
             },
@@ -1962,7 +2332,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       context: context,
       builder: (ctx) => StatefulBuilder(builder: (ctx, setDialogState) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
               const Icon(Icons.add_box, color: CvSwatch.neutral),
@@ -1979,13 +2350,22 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                 children: [
                   TextFormField(
                     controller: nameController,
-                    decoration: InputDecoration(labelText: l10n.fieldItemNameLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                    validator: (v) => (v == null || v.trim().isEmpty) ? l10n.purchaseBillMgmtEnterItemNameMessage : null,
+                    decoration: InputDecoration(
+                        labelText: l10n.fieldItemNameLabel,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? l10n.purchaseBillMgmtEnterItemNameMessage
+                        : null,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: descController,
-                    decoration: InputDecoration(labelText: l10n.purchaseBillMgmtDescriptionOptionalLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
+                    decoration: InputDecoration(
+                        labelText:
+                            l10n.purchaseBillMgmtDescriptionOptionalLabel,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8))),
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -1994,20 +2374,34 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                         child: TextFormField(
                           controller: quantityController,
                           textAlign: TextAlign.center,
-                          decoration: _quantityDecoration(l10n, quantityController),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                          validator: (v) => (double.tryParse(v ?? '') ?? 0) <= 0 ? l10n.purchaseBillMgmtInvalidValueMessage : null,
+                          decoration:
+                              _quantityDecoration(l10n, quantityController),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                          ],
+                          validator: (v) => (double.tryParse(v ?? '') ?? 0) <= 0
+                              ? l10n.purchaseBillMgmtInvalidValueMessage
+                              : null,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller: costController,
-                          decoration: InputDecoration(labelText: l10n.purchaseBillMgmtCostPerUnitLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                          validator: (v) => double.tryParse(v ?? '') == null ? l10n.purchaseBillMgmtInvalidValueMessage : null,
+                          decoration: InputDecoration(
+                              labelText: l10n.purchaseBillMgmtCostPerUnitLabel,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                          ],
+                          validator: (v) => double.tryParse(v ?? '') == null
+                              ? l10n.purchaseBillMgmtInvalidValueMessage
+                              : null,
                         ),
                       ),
                     ],
@@ -2015,25 +2409,35 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: taxController,
-                    decoration: InputDecoration(labelText: l10n.fieldTaxRateLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                    decoration: InputDecoration(
+                        labelText: l10n.fieldTaxRateLabel,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                    ],
                   ),
                   CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(l10n.purchaseBillMgmtCostIncludesTaxLabel),
                     value: costIncludesTax,
-                    onChanged: (v) => setDialogState(() => costIncludesTax = v ?? false),
+                    onChanged: (v) =>
+                        setDialogState(() => costIncludesTax = v ?? false),
                   ),
                 ],
               ),
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.actionCancel)),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(l10n.actionCancel)),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: CvSwatch.neutral),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: CvSwatch.neutral),
               onPressed: () {
                 if (!formKey.currentState!.validate()) return;
                 _addItem(PurchaseBillItem(
@@ -2047,7 +2451,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                 ));
                 Navigator.pop(ctx);
               },
-              child: Text(l10n.actionAdd, style: const TextStyle(color: Colors.white)),
+              child: Text(l10n.actionAdd,
+                  style: const TextStyle(color: Colors.white)),
             ),
           ],
         );
@@ -2059,8 +2464,11 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
     final l10n = AppLocalizations.of(context)!;
     final quantityController = TextEditingController(text: '1');
     final costController = TextEditingController(
-        text: (product.purchasePrice > 0 ? product.purchasePrice : product.price).toStringAsFixed(2));
-    final taxController = TextEditingController(text: product.tax_rate.toString());
+        text:
+            (product.purchasePrice > 0 ? product.purchasePrice : product.price)
+                .toStringAsFixed(2));
+    final taxController =
+        TextEditingController(text: product.tax_rate.toString());
     final formKey = GlobalKey<FormState>();
     bool costIncludesTax = false;
 
@@ -2068,7 +2476,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       context: context,
       builder: (ctx) => StatefulBuilder(builder: (ctx, setDialogState) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(product.name, style: const TextStyle(fontSize: 18)),
           content: SizedBox(
             width: 380,
@@ -2083,20 +2492,34 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                         child: TextFormField(
                           controller: quantityController,
                           textAlign: TextAlign.center,
-                          decoration: _quantityDecoration(l10n, quantityController),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                          validator: (v) => (double.tryParse(v ?? '') ?? 0) <= 0 ? l10n.purchaseBillMgmtInvalidValueMessage : null,
+                          decoration:
+                              _quantityDecoration(l10n, quantityController),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                          ],
+                          validator: (v) => (double.tryParse(v ?? '') ?? 0) <= 0
+                              ? l10n.purchaseBillMgmtInvalidValueMessage
+                              : null,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
                           controller: costController,
-                          decoration: InputDecoration(labelText: l10n.purchaseBillMgmtCostPerUnitLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-                          validator: (v) => double.tryParse(v ?? '') == null ? l10n.purchaseBillMgmtInvalidValueMessage : null,
+                          decoration: InputDecoration(
+                              labelText: l10n.purchaseBillMgmtCostPerUnitLabel,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8))),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                          ],
+                          validator: (v) => double.tryParse(v ?? '') == null
+                              ? l10n.purchaseBillMgmtInvalidValueMessage
+                              : null,
                         ),
                       ),
                     ],
@@ -2104,23 +2527,32 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: taxController,
-                    decoration: InputDecoration(labelText: l10n.fieldTaxRateLabel, border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                    decoration: InputDecoration(
+                        labelText: l10n.fieldTaxRateLabel,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))
+                    ],
                   ),
                   CheckboxListTile(
                     contentPadding: EdgeInsets.zero,
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(l10n.purchaseBillMgmtCostIncludesTaxLabel),
                     value: costIncludesTax,
-                    onChanged: (v) => setDialogState(() => costIncludesTax = v ?? false),
+                    onChanged: (v) =>
+                        setDialogState(() => costIncludesTax = v ?? false),
                   ),
                 ],
               ),
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.actionCancel)),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(l10n.actionCancel)),
             ElevatedButton(
               onPressed: () {
                 if (!formKey.currentState!.validate()) return;
@@ -2169,7 +2601,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               children: [
                 Expanded(flex: 3, child: _buildItemsCard(true)),
                 const SizedBox(width: 16),
-                Expanded(flex: 1, child: SingleChildScrollView(child: _buildDetailsCard())),
+                Expanded(
+                    flex: 1,
+                    child: SingleChildScrollView(child: _buildDetailsCard())),
               ],
             ),
           );
@@ -2181,7 +2615,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
   PreferredSizeWidget _buildFormAppBar(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return AppBar(
-      backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor ??
+          Theme.of(context).primaryColor,
       foregroundColor: Colors.white,
       elevation: 0,
       centerTitle: false,
@@ -2190,6 +2625,7 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       leading: Padding(
         padding: const EdgeInsets.only(left: 8),
         child: IconButton(
+          tooltip: AppLocalizations.of(context)!.actionBack,
           onPressed: widget.onDone,
           icon: const Icon(Icons.arrow_back),
           style: IconButton.styleFrom(
@@ -2202,10 +2638,18 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_isEditing ? l10n.purchaseBillMgmtEditPurchaseBillTitle : l10n.purchaseBillMgmtNewBillButton,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
           Text(
-            _isEditing ? l10n.purchaseBillMgmtUpdateSubtitle : l10n.purchaseBillMgmtCreateSubtitle,
+              _isEditing
+                  ? l10n.purchaseBillMgmtEditPurchaseBillTitle
+                  : l10n.purchaseBillMgmtNewBillButton,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+          Text(
+            _isEditing
+                ? l10n.purchaseBillMgmtUpdateSubtitle
+                : l10n.purchaseBillMgmtCreateSubtitle,
             style: const TextStyle(fontSize: 12, color: Colors.white70),
           ),
         ],
@@ -2236,9 +2680,17 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               TextButton.icon(
                 onPressed: _isSaving ? null : () => _save(asDraft: false),
                 icon: _isSaving
-                    ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                    ? const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white))
                     : const Icon(Icons.save, size: 16, color: Colors.white),
-                label: Text(_isSaving ? l10n.createInvoiceSavingEllipsisLabel : l10n.purchaseBillMgmtSavePurchaseBillButton, style: const TextStyle(color: Colors.white)),
+                label: Text(
+                    _isSaving
+                        ? l10n.createInvoiceSavingEllipsisLabel
+                        : l10n.purchaseBillMgmtSavePurchaseBillButton,
+                    style: const TextStyle(color: Colors.white)),
               ),
             ],
           ),
@@ -2272,9 +2724,12 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
         children: [
           Row(
             children: [
-              Icon(Icons.description_outlined, size: 20, color: Theme.of(context).primaryColor),
+              Icon(Icons.description_outlined,
+                  size: 20, color: Theme.of(context).primaryColor),
               const SizedBox(width: 8),
-              Text(l10n.purchaseBillMgmtBillDetailsTitle, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(l10n.purchaseBillMgmtBillDetailsTitle,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 16),
@@ -2291,7 +2746,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   tooltip: l10n.supplierMgmtAddSupplierButton,
                   onPressed: _showAddSupplierDialog,
                   style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                    backgroundColor:
+                        Theme.of(context).primaryColor.withValues(alpha: 0.1),
                     foregroundColor: Theme.of(context).primaryColor,
                     shape: const CircleBorder(),
                   ),
@@ -2304,7 +2760,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               decoration: InputDecoration(
                 labelText: l10n.purchaseBillMgmtSupplierRequiredLabel,
                 prefixIcon: const Icon(Icons.person_outline),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+                border: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(AppBorderRadius.xsmall)),
               ),
             ),
           const SizedBox(height: 16),
@@ -2314,7 +2772,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               labelText: l10n.purchaseBillMgmtBillNumberOptionalLabel,
               hintText: l10n.purchaseBillMgmtAutoGenerateHint,
               prefixIcon: const Icon(Icons.tag),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
             ),
           ),
           const SizedBox(height: 16),
@@ -2329,7 +2788,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   tooltip: l10n.purchaseBillMgmtPickDateTooltip,
                   onPressed: _pickBillDate,
                 ),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+                border: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(AppBorderRadius.xsmall)),
               ),
               child: Text(AppDate.dateKey(_billDate)),
             ),
@@ -2341,7 +2802,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               labelText: l10n.createInvoiceNotesOptionalLabel,
               hintText: l10n.purchaseBillMgmtAddAnyNotesHint,
               prefixIcon: const Icon(Icons.notes),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
             ),
             maxLines: 3,
           ),
@@ -2439,7 +2901,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
         initialValue: TextEditingValue(text: _supplierNameController.text),
         optionsBuilder: (query) {
           if (query.text.isEmpty) return suppliers;
-          return suppliers.where((s) => s.name.toLowerCase().contains(query.text.toLowerCase()));
+          return suppliers.where(
+              (s) => s.name.toLowerCase().contains(query.text.toLowerCase()));
         },
         onSelected: (selected) {
           setState(() {
@@ -2456,16 +2919,20 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               labelText: l10n.purchaseBillMgmtSupplierRequiredLabel,
               hintText: l10n.purchaseBillMgmtSearchSupplierHint,
               prefixIcon: const Icon(Icons.business),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
             ),
             onChanged: (text) {
-              final selected = suppliers.where((s) => s.id == _supplierId).firstOrNull;
+              final selected =
+                  suppliers.where((s) => s.id == _supplierId).firstOrNull;
               if (selected != null && selected.name != text) {
                 setState(() => _supplierId = null);
               }
             },
             validator: (v) {
-              if (_supplierId == null) return l10n.purchaseBillMgmtSelectSupplierFromListMessage;
+              if (_supplierId == null) {
+                return l10n.purchaseBillMgmtSelectSupplierFromListMessage;
+              }
               return null;
             },
           );
@@ -2477,7 +2944,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               elevation: 4,
               borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 220, maxWidth: 340),
+                constraints:
+                    const BoxConstraints(maxHeight: 220, maxWidth: 340),
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
@@ -2496,8 +2964,10 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
           );
         },
       ),
-      loading: () => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-      error: (e, _) => Text(AppLocalizations.of(context)!.supplierMgmtLoadErrorMessage(e.toString())),
+      loading: () =>
+          const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      error: (e, _) => Text(AppLocalizations.of(context)!
+          .supplierMgmtLoadErrorMessage(e.toString())),
     );
   }
 
@@ -2509,7 +2979,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
         _buildTotalRow(l10n.fieldSubtotalLabel, totals.subtotal),
         _buildTotalRow(l10n.fieldTaxLabel, totals.tax),
         const SizedBox(height: 4),
-        _buildTotalRow(l10n.purchaseBillMgmtGrandTotalLabel, totals.total, isGrand: true),
+        _buildTotalRow(l10n.purchaseBillMgmtGrandTotalLabel, totals.total,
+            isGrand: true),
       ],
     );
   }
@@ -2522,7 +2993,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label,
-              style: TextStyle(fontWeight: isGrand ? FontWeight.bold : FontWeight.normal, fontSize: isGrand ? 16 : 14)),
+              style: TextStyle(
+                  fontWeight: isGrand ? FontWeight.bold : FontWeight.normal,
+                  fontSize: isGrand ? 16 : 14)),
           Flexible(
             child: Text('$_currencySymbol ${AmountFormat.money(amount)}',
                 textAlign: TextAlign.right,
@@ -2542,17 +3015,14 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
     final l10n = AppLocalizations.of(context)!;
     final products = ref.watch(productsProvider);
     final filteredProducts = products.maybeWhen(
-      data: (list) => list
-          .where((p) => p.type == 'product')
-          .where((p) {
-            if (_productQuery.isEmpty) return true;
-            final q = _productQuery.toLowerCase();
-            return p.name.toLowerCase().contains(q) ||
-                (p.quickCode ?? '').toLowerCase().contains(q) ||
-                (p.aliasName ?? '').toLowerCase().contains(q) ||
-                p.hsncode.toLowerCase().contains(q);
-          })
-          .toList(),
+      data: (list) => list.where((p) => p.type == 'product').where((p) {
+        if (_productQuery.isEmpty) return true;
+        final q = _productQuery.toLowerCase();
+        return p.name.toLowerCase().contains(q) ||
+            (p.quickCode ?? '').toLowerCase().contains(q) ||
+            (p.aliasName ?? '').toLowerCase().contains(q) ||
+            p.hsncode.toLowerCase().contains(q);
+      }).toList(),
       orElse: () => <Product>[],
     );
 
@@ -2565,7 +3035,10 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
           Row(
             children: [
               Text(l10n.purchaseBillMgmtItemsSectionLabel.toUpperCase(),
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 0.6)),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.6)),
               const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -2584,13 +3057,15 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                 onPressed: _addNewProduct,
                 icon: const Icon(Icons.inventory_2_outlined, size: 16),
                 label: Text(l10n.productFormNewProductButton),
-                style: TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+                style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).primaryColor),
               ),
               TextButton.icon(
                 onPressed: _addAdHocItemDialog,
                 icon: const Icon(Icons.add, size: 16),
                 label: Text(l10n.purchaseBillMgmtAddCustomItemTitle),
-                style: TextButton.styleFrom(foregroundColor: Theme.of(context).primaryColor),
+                style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).primaryColor),
               ),
             ],
           ),
@@ -2599,7 +3074,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
             Expanded(
               child: Center(
                 child: Text(l10n.purchaseBillMgmtNoItemsAddedMessage,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant)),
               ),
             )
           else if (_items.isEmpty)
@@ -2607,7 +3083,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: Center(
                 child: Text(l10n.purchaseBillMgmtNoItemsAddedMessage,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant)),
               ),
             )
           else if (isWide)
@@ -2615,11 +3092,15 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
               child: ListView.builder(
                 shrinkWrap: false,
                 itemCount: _items.length,
-                itemBuilder: (context, index) => _buildItemRow(index, _items[index]),
+                itemBuilder: (context, index) =>
+                    _buildItemRow(index, _items[index]),
               ),
             )
           else
-            ..._items.asMap().entries.map((entry) => _buildItemRow(entry.key, entry.value)),
+            ..._items
+                .asMap()
+                .entries
+                .map((entry) => _buildItemRow(entry.key, entry.value)),
           const SizedBox(height: 12),
           if (_productQuery.isNotEmpty) ...[
             // Same floating-panel treatment as CreateInvoiceScreenV2's
@@ -2633,18 +3114,24 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                 constraints: const BoxConstraints(maxHeight: 220),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-                  border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+                  border: Border.all(
+                      color: Theme.of(context).colorScheme.outlineVariant),
                 ),
                 child: filteredProducts.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.all(16),
                         child: Text(l10n.createInvoiceNoProductsFoundMessage,
-                            style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant)),
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         shrinkWrap: true,
-                        itemCount: filteredProducts.length > 8 ? 8 : filteredProducts.length,
+                        itemCount: filteredProducts.length > 8
+                            ? 8
+                            : filteredProducts.length,
                         itemBuilder: (context, index) {
                           final product = filteredProducts[index];
                           return ListTile(
@@ -2653,7 +3140,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                             title: Text(product.name),
                             subtitle: Text(l10n.purchaseBillMgmtLastCostLabel(
                                 '$_currencySymbol${AmountFormat.money(product.purchasePrice)}')),
-                            trailing: const Icon(Icons.add_circle, color: CvSwatch.success),
+                            trailing: const Icon(Icons.add_circle,
+                                color: CvSwatch.success),
                             onTap: () => _addProductItemDialog(product),
                           );
                         },
@@ -2678,7 +3166,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                       },
                     )
                   : null,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
               filled: true,
               fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
             ),
@@ -2698,7 +3187,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
-        border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+        border: Border(
+            top: BorderSide(
+                color: Theme.of(context).colorScheme.outlineVariant)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2714,7 +3205,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
             ),
             child: Text('${index + 1}',
                 style: TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor)),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -2725,15 +3218,19 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                   children: [
                     Flexible(
                       child: Text(item.productName,
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis),
                     ),
                     if (item.productId == null) ...[
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 7, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(l10n.purchaseBillMgmtCustomBadgeLabel,
@@ -2741,7 +3238,9 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.3,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant)),
                       ),
                     ],
                   ],
@@ -2752,7 +3251,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                     spacing: 16,
                     runSpacing: 4,
                     children: [
-                      _buildItemDetail(l10n.purchaseBillMgmtQtyDetailLabel,
+                      _buildItemDetail(
+                          l10n.purchaseBillMgmtQtyDetailLabel,
                           item.quantity == item.quantity.roundToDouble()
                               ? item.quantity.toInt().toString()
                               : item.quantity.toString()),
@@ -2762,13 +3262,17 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                         item.costIncludesTax
                             ? _buildItemDetail(
                                 l10n.fieldTaxLabel,
-                                l10n.purchaseBillMgmtTaxInclusiveLabel(item.taxRate
-                                    .toStringAsFixed(item.taxRate == item.taxRate.roundToDouble() ? 0 : 1)),
+                                l10n.purchaseBillMgmtTaxInclusiveLabel(
+                                    item.taxRate.toStringAsFixed(item.taxRate ==
+                                            item.taxRate.roundToDouble()
+                                        ? 0
+                                        : 1)),
                                 color: CvSwatch.success)
                             : _buildItemDetail(l10n.fieldTaxLabel,
                                 '${item.taxRate.toStringAsFixed(item.taxRate == item.taxRate.roundToDouble() ? 0 : 1)}%'),
                         if (item.costIncludesTax)
-                          _buildItemDetail(l10n.purchaseBillMgmtNetCostDetailLabel,
+                          _buildItemDetail(
+                              l10n.purchaseBillMgmtNetCostDetailLabel,
                               '$_currencySymbol${AmountFormat.money(item.netCostPerUnit)}',
                               color: CvSwatch.success),
                       ],
@@ -2780,7 +3284,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
           ),
           const SizedBox(width: 12),
           Text('$_currencySymbol${AmountFormat.money(item.total)}',
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
           IconButton(
             icon: const Icon(Icons.edit_outlined, size: 18),
             tooltip: l10n.purchaseBillMgmtEditItemTooltip,
@@ -2803,8 +3308,13 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('$label: ', style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant)),
-        Text(value, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: color)),
+        Text('$label: ',
+            style: TextStyle(
+                fontSize: 13,
+                color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        Text(value,
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.w600, color: color)),
       ],
     );
   }

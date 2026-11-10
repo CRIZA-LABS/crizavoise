@@ -11472,6 +11472,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Speak instead of typing (Windows voice typing)'**
   String get voiceTypingTooltip;
+
+  /// No description provided for @a11yShowHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show or hide password'**
+  String get a11yShowHidePassword;
+
+  /// No description provided for @a11yDecrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrease'**
+  String get a11yDecrease;
+
+  /// No description provided for @a11yIncrease.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase'**
+  String get a11yIncrease;
+
+  /// No description provided for @a11yFavourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as favourite'**
+  String get a11yFavourite;
+
+  /// No description provided for @a11yPickColour.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a colour'**
+  String get a11yPickColour;
+
+  /// No description provided for @a11ySend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get a11ySend;
 }
 
 class _AppLocalizationsDelegate

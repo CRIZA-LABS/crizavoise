@@ -65,6 +65,7 @@ class CustomerInfoButton extends StatelessWidget {
                       ),
                     ),
                     IconButton(
+                      tooltip: AppLocalizations.of(context)!.actionClose,
                       icon: const Icon(Icons.close,
                           color: Colors.white70, size: 20),
                       onPressed: () => Navigator.pop(ctx),

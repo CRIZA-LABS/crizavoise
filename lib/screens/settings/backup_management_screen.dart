@@ -36,7 +36,8 @@ class _BackupManagementScreenState extends State<BackupManagementScreen> {
       setState(() => _backups = backups);
     } catch (e) {
       if (!mounted) return;
-      _showErrorDialog(AppLocalizations.of(context)!.backupLoadErrorMessage(e.toString()));
+      _showErrorDialog(
+          AppLocalizations.of(context)!.backupLoadErrorMessage(e.toString()));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -181,6 +182,7 @@ class _BackupManagementScreenState extends State<BackupManagementScreen> {
         actionsPadding: EdgeInsets.only(right: 50),
         actions: [
           IconButton(
+            tooltip: AppLocalizations.of(context)!.actionRefresh,
             icon: const Icon(Icons.refresh),
             onPressed: _loadBackups,
           ),
@@ -265,8 +267,9 @@ class _BackupManagementScreenState extends State<BackupManagementScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor:
-              backup.type == BackupType.database ? CvSwatch.neutral : CvSwatch.success,
+          backgroundColor: backup.type == BackupType.database
+              ? CvSwatch.neutral
+              : CvSwatch.success,
           child: Icon(
             backup.type == BackupType.database ? Icons.storage : Icons.code,
             color: Colors.white,

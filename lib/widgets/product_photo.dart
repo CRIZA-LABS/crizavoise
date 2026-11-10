@@ -84,10 +84,12 @@ class _ProductPhotoEditorState extends State<ProductPhotoEditor> {
       _loaded = true;
     } else {
       ProductPhotoService.get(id).then((b) {
-        if (mounted) setState(() {
+        if (mounted) {
+          setState(() {
           _bytes = b;
           _loaded = true;
         });
+        }
       });
     }
   }

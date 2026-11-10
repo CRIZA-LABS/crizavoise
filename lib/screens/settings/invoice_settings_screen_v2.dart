@@ -41,9 +41,7 @@ class _InvoiceSettingsScreenV2State
       TextEditingController();
   final TextEditingController quotationPrefixController =
       TextEditingController();
-  final TextEditingController receiptPrefixController =
-      TextEditingController();
-
+  final TextEditingController receiptPrefixController = TextEditingController();
 
   String _selectedLogoPosition = 'left';
   String _selectedCurrencyCode = 'INR';
@@ -406,7 +404,8 @@ class _InvoiceSettingsScreenV2State
   }
 
   Future<void> _pickSignature() async {
-    final result = await ImageImportService.pickAndPrepare(context, ImageKind.signature);
+    final result =
+        await ImageImportService.pickAndPrepare(context, ImageKind.signature);
     if (result == null) return;
     final base64Sig = result.base64;
     await ref.read(settingsRepositoryProvider).setSignatureImage(base64Sig);
@@ -422,7 +421,8 @@ class _InvoiceSettingsScreenV2State
   }
 
   Future<void> _pickWatermark() async {
-    final result = await ImageImportService.pickAndPrepare(context, ImageKind.watermark);
+    final result =
+        await ImageImportService.pickAndPrepare(context, ImageKind.watermark);
     if (result == null) return;
     final base64Watermark = result.base64;
     await ref
@@ -445,9 +445,7 @@ class _InvoiceSettingsScreenV2State
 
   Future<void> _setWatermarkFullPage(bool fullPage) async {
     setState(() => _watermarkFullPage = fullPage);
-    await ref
-        .read(settingsRepositoryProvider)
-        .setWatermarkFullPage(fullPage);
+    await ref.read(settingsRepositoryProvider).setWatermarkFullPage(fullPage);
   }
 
   Future<void> _setDefaultInvoiceTitle(String? title) async {
@@ -721,16 +719,13 @@ class _InvoiceSettingsScreenV2State
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.lock_outline,
-                        size: 16, color: CvSwatch.warning),
+                    Icon(Icons.lock_outline, size: 16, color: CvSwatch.warning),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         l10n.invoiceSettingsStartingNumberLockedMessage,
                         style: TextStyle(
-                            fontSize: 12,
-                            color: CvSwatch.warning,
-                            height: 1.4),
+                            fontSize: 12, color: CvSwatch.warning, height: 1.4),
                       ),
                     ),
                   ],
@@ -1344,8 +1339,8 @@ class _InvoiceSettingsScreenV2State
                     ButtonSegment<bool>(
                         value: false,
                         icon: const Icon(Icons.table_rows_outlined, size: 16),
-                        label: Text(l10n
-                            .invoiceSettingsWatermarkPlacementItemsTable)),
+                        label: Text(
+                            l10n.invoiceSettingsWatermarkPlacementItemsTable)),
                     ButtonSegment<bool>(
                         value: true,
                         icon: const Icon(Icons.crop_portrait, size: 16),
@@ -1583,9 +1578,11 @@ class _InvoiceSettingsScreenV2State
           alignment: Alignment.topRight,
           children: [
             InteractiveViewer(
-              child: Image.asset('assets/images/grid_classic_additional_fields.png'),
+              child: Image.asset(
+                  'assets/images/grid_classic_additional_fields.png'),
             ),
             IconButton(
+              tooltip: AppLocalizations.of(context)!.actionClose,
               icon: const Icon(Icons.close),
               onPressed: () => Navigator.of(context).pop(),
             ),
@@ -1610,7 +1607,8 @@ class _InvoiceSettingsScreenV2State
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(def.label,
-                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
             const SizedBox(height: 1),
             Text('Sample value',
                 style: TextStyle(
@@ -1636,11 +1634,13 @@ class _InvoiceSettingsScreenV2State
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: outline))),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: outline))),
             child: Row(
               children: [
                 Icon(Icons.visibility_outlined,
-                    size: 16, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    size: 16,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
                 const SizedBox(width: 6),
                 Text(l10n.createInvoicePreviewLabel,
                     style: TextStyle(
@@ -1680,13 +1680,15 @@ class _InvoiceSettingsScreenV2State
             child: Row(
               children: [
                 Icon(Icons.info_outline,
-                    size: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    size: 14,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(l10n.pdfSettingsPreviewDisclaimer,
                       style: TextStyle(
                           fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant)),
                 ),
               ],
             ),
@@ -1708,7 +1710,8 @@ class _InvoiceSettingsScreenV2State
         ),
         const SizedBox(height: 4),
         Text(
-          AppLocalizations.of(context)!.invoiceSettingsCustomFieldsPageSupportNote,
+          AppLocalizations.of(context)!
+              .invoiceSettingsCustomFieldsPageSupportNote,
           style: TextStyle(
               fontSize: 13,
               fontStyle: FontStyle.italic,
@@ -1736,8 +1739,7 @@ class _InvoiceSettingsScreenV2State
         const SizedBox(height: 8),
         _toggleCardV2(
           title: 'Enable Custom Fields',
-          subtitle:
-              'Show a Custom Fields section on the create-invoice screen',
+          subtitle: 'Show a Custom Fields section on the create-invoice screen',
           icon: Icons.dashboard_customize_outlined,
           value: _customFieldsEnabled,
           onChanged: (val) => setState(() => _customFieldsEnabled = val),
@@ -2392,7 +2394,6 @@ class _InvoiceSettingsScreenV2State
   }
 }
 
-
 /// "Rs." or "₹" on new invoices (saved immediately). Old documents keep
 /// the symbol they were created with; thermal receipts always print "Rs.".
 class _RupeeSymbolChoice extends ConsumerStatefulWidget {
@@ -2406,7 +2407,10 @@ class _RupeeSymbolChoiceState extends ConsumerState<_RupeeSymbolChoice> {
   @override
   void initState() {
     super.initState();
-    ref.read(settingsRepositoryProvider).getSetting(SettingKey.rupeeSymbol).then((v) {
+    ref
+        .read(settingsRepositoryProvider)
+        .getSetting(SettingKey.rupeeSymbol)
+        .then((v) {
       if (mounted && v != null) setState(() => _value = v);
     });
   }
@@ -2417,7 +2421,8 @@ class _RupeeSymbolChoiceState extends ConsumerState<_RupeeSymbolChoice> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.rupeeSymbolLabel, style: const TextStyle(fontWeight: FontWeight.w600)),
+        Text(l10n.rupeeSymbolLabel,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(height: 6),
         SegmentedButton<String>(
           segments: const [
@@ -2427,12 +2432,16 @@ class _RupeeSymbolChoiceState extends ConsumerState<_RupeeSymbolChoice> {
           selected: {_value},
           onSelectionChanged: (v) async {
             setState(() => _value = v.first);
-            await ref.read(settingsRepositoryProvider).setSetting(SettingKey.rupeeSymbol, v.first);
+            await ref
+                .read(settingsRepositoryProvider)
+                .setSetting(SettingKey.rupeeSymbol, v.first);
           },
         ),
         const SizedBox(height: 4),
         Text(l10n.rupeeSymbolHelp,
-            style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            style: TextStyle(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSurfaceVariant)),
       ],
     );
   }

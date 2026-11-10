@@ -96,7 +96,8 @@ class _InvoiceManagementScreenV2State
   bool _hideDeclined = false;
   String _dueDateFilter =
       'all'; // 'all' | 'overdue' | 'due_today' | 'due_week' | 'due_month'
-  String _paymentStatusFilterV2 = 'all'; // 'all' | 'paid' | 'partial' | 'unpaid'
+  String _paymentStatusFilterV2 =
+      'all'; // 'all' | 'paid' | 'partial' | 'unpaid'
   DateTime? _invoiceDateFrom;
   DateTime? _invoiceDateTo;
   int? _idRangeFrom;
@@ -173,7 +174,8 @@ class _InvoiceManagementScreenV2State
         user: widget.user);
     if (changed == null || !mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppLocalizations.of(context)!.invoiceNumberChangedMessage('$prefix$changed'))));
+        content: Text(AppLocalizations.of(context)!
+            .invoiceNumberChangedMessage('$prefix$changed'))));
     await _loadPage();
   }
 
@@ -230,21 +232,21 @@ class _InvoiceManagementScreenV2State
       );
       final results = await Future.wait([
         ref.read(invoiceRepositoryProvider).getInvoicesPaginated(
-          page: _currentPage,
-          pageSize: _pageSize,
-          searchQuery: _searchQuery,
-          filterType: widget.filterType,
-          orderBy: _sortField,
-          orderAscending: _sortAscending,
-          customerId: _selectedCustomerId,
-          filter: filter,
-        ),
+              page: _currentPage,
+              pageSize: _pageSize,
+              searchQuery: _searchQuery,
+              filterType: widget.filterType,
+              orderBy: _sortField,
+              orderAscending: _sortAscending,
+              customerId: _selectedCustomerId,
+              filter: filter,
+            ),
         ref.read(invoiceRepositoryProvider).getInvoiceCount(
-          searchQuery: _searchQuery,
-          filterType: widget.filterType,
-          customerId: _selectedCustomerId,
-          filter: filter,
-        ),
+              searchQuery: _searchQuery,
+              filterType: widget.filterType,
+              customerId: _selectedCustomerId,
+              filter: filter,
+            ),
       ]);
       final pageInvoices = results[0] as List<Invoice>;
       final notes =
@@ -265,7 +267,9 @@ class _InvoiceManagementScreenV2State
       if (mounted) {
         setState(() => _isLoadingPage = false);
         AppError.show(
-            context, AppLocalizations.of(context)!.invoiceMgmtFailedToLoadMessage(e.toString()),
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtFailedToLoadMessage(e.toString()),
             onRetry: _loadPage);
       }
     }
@@ -365,7 +369,8 @@ class _InvoiceManagementScreenV2State
       final proceed = await showDialog<bool>(
         context: context,
         builder: (ctx) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(l10n.invoiceMgmtConvertAgainTitle),
           content: Text(l10n.invoiceMgmtConvertAgainBody(
               quotation.invoiceNumber ?? quotation.id)),
@@ -411,7 +416,8 @@ class _InvoiceManagementScreenV2State
               invoice.status != 'declined'
           ? '${l10n.invoiceMgmtMoveToTrashBody(invoice.invoiceNumber ?? invoice.id)}'
               '\n\n${l10n.invoiceMgmtTrashNoStockHint}'
-          : l10n.invoiceMgmtMoveToTrashBody(invoice.invoiceNumber ?? invoice.id),
+          : l10n
+              .invoiceMgmtMoveToTrashBody(invoice.invoiceNumber ?? invoice.id),
       confirmLabel: l10n.invoiceMgmtMoveToTrashTitle,
       confirmColor: CvSwatch.warning,
     );
@@ -420,15 +426,18 @@ class _InvoiceManagementScreenV2State
     await ref.read(invoiceRepositoryProvider).softDeleteInvoice(invoice.id);
     await _loadPage();
     if (mounted) {
-      AppError.showSuccess(context, AppLocalizations.of(context)!.invoiceMgmtMovedToTrashMessage);
+      AppError.showSuccess(context,
+          AppLocalizations.of(context)!.invoiceMgmtMovedToTrashMessage);
     }
   }
 
   Future<void> _declineInvoice(Invoice invoice) async {
     final l10n = AppLocalizations.of(context)!;
     if (invoice.payments.isNotEmpty) {
-      AppError.show(context,
-          l10n.invoiceMgmtDeclineHasPaymentsMessage(invoice.invoiceNumber ?? invoice.id));
+      AppError.show(
+          context,
+          l10n.invoiceMgmtDeclineHasPaymentsMessage(
+              invoice.invoiceNumber ?? invoice.id));
       return;
     }
     final notes =
@@ -481,7 +490,8 @@ class _InvoiceManagementScreenV2State
             ElevatedButton(
               onPressed: () => Navigator.pop(ctx, true),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: CvSwatch.danger, foregroundColor: Colors.white),
+                  backgroundColor: CvSwatch.danger,
+                  foregroundColor: Colors.white),
               child: Text(l10n.invoiceMgmtCancelVoidAction),
             ),
           ],
@@ -556,7 +566,9 @@ class _InvoiceManagementScreenV2State
                           }),
                         ),
                         const SizedBox(width: 4),
-                        Text(AppLocalizations.of(context)!.invoiceMgmtExportAllRecordsLabel,
+                        Text(
+                            AppLocalizations.of(context)!
+                                .invoiceMgmtExportAllRecordsLabel,
                             style: const TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.w500)),
                       ],
@@ -573,15 +585,21 @@ class _InvoiceManagementScreenV2State
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.invoiceMgmtFilterByDateRangeLabel,
-                          style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          AppLocalizations.of(context)!
+                              .invoiceMgmtFilterByDateRangeLabel,
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                         ),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             Expanded(
                               child: _DatePickerField(
-                                label: AppLocalizations.of(context)!.invoiceMgmtFromDateLabel,
+                                label: AppLocalizations.of(context)!
+                                    .invoiceMgmtFromDateLabel,
                                 value: fromDate,
                                 formatter: fmt,
                                 onPicked: (d) => setS(() => fromDate = d),
@@ -591,7 +609,8 @@ class _InvoiceManagementScreenV2State
                             const SizedBox(width: 12),
                             Expanded(
                               child: _DatePickerField(
-                                label: AppLocalizations.of(context)!.invoiceMgmtToDateLabel,
+                                label: AppLocalizations.of(context)!
+                                    .invoiceMgmtToDateLabel,
                                 value: toDate,
                                 formatter: fmt,
                                 onPicked: (d) => setS(() => toDate = d),
@@ -605,8 +624,10 @@ class _InvoiceManagementScreenV2State
                             toDate!.isBefore(fromDate!)) ...[
                           const SizedBox(height: 8),
                           Text(
-                            AppLocalizations.of(context)!.invoiceMgmtDateRangeInvalidMessage,
-                            style: const TextStyle(fontSize: 12, color: CvSwatch.danger),
+                            AppLocalizations.of(context)!
+                                .invoiceMgmtDateRangeInvalidMessage,
+                            style: const TextStyle(
+                                fontSize: 12, color: CvSwatch.danger),
                           ),
                         ],
                       ],
@@ -639,28 +660,35 @@ class _InvoiceManagementScreenV2State
     if (confirmed != true || !mounted) return;
 
     try {
-      final invoices = await ref.read(invoiceRepositoryProvider).getInvoicesForExport(
-        fromDate: exportAll ? null : fromDate,
-        toDate: exportAll ? null : toDate,
-        filterType: widget.filterType,
-      );
+      final invoices =
+          await ref.read(invoiceRepositoryProvider).getInvoicesForExport(
+                fromDate: exportAll ? null : fromDate,
+                toDate: exportAll ? null : toDate,
+                filterType: widget.filterType,
+              );
       final path = await ExportService.exportInvoicesToCsv(invoices,
           type: widget.filterType);
       if (path == null) return; // user cancelled the save dialog
       if (mounted) {
-        AppError.showSuccess(context,
-            AppLocalizations.of(context)!.invoiceMgmtExportedRecordsMessage(invoices.length, path));
+        AppError.showSuccess(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtExportedRecordsMessage(invoices.length, path));
         await OpenFile.open(path);
       }
     } catch (e) {
       if (mounted) {
-        AppError.show(context, AppLocalizations.of(context)!.invoiceMgmtExportFailedMessage(e.toString()));
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtExportFailedMessage(e.toString()));
       }
     }
   }
 
   void _showTrashDialog() async {
-    final deleted = await ref.read(invoiceRepositoryProvider).getDeletedInvoices();
+    final deleted =
+        await ref.read(invoiceRepositoryProvider).getDeletedInvoices();
     if (!mounted) return;
     showDialog(
       context: context,
@@ -724,11 +752,16 @@ class _InvoiceManagementScreenV2State
       await _loadPage(); // also clears _selectedIds
       if (mounted) {
         AppError.showSuccess(
-            context, AppLocalizations.of(context)!.invoiceMgmtBulkMovedToTrashMessage(count));
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtBulkMovedToTrashMessage(count));
       }
     } catch (e) {
       if (mounted) {
-        AppError.show(context, AppLocalizations.of(context)!.invoiceMgmtBulkDeleteFailedMessage(e.toString()));
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtBulkDeleteFailedMessage(e.toString()));
       }
     } finally {
       if (mounted) setState(() => _isBulkLoading = false);
@@ -747,13 +780,18 @@ class _InvoiceManagementScreenV2State
       final path = await ExportService.exportInvoicesToCsv(selected);
       if (path == null) return; // user cancelled the save dialog
       if (mounted) {
-        AppError.showSuccess(context,
-            AppLocalizations.of(context)!.invoiceMgmtBulkExportedCsvMessage(selected.length));
+        AppError.showSuccess(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtBulkExportedCsvMessage(selected.length));
         await OpenFile.open(path);
       }
     } catch (e) {
       if (mounted) {
-        AppError.show(context, AppLocalizations.of(context)!.invoiceMgmtCsvExportFailedMessage(e.toString()));
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtCsvExportFailedMessage(e.toString()));
       }
     } finally {
       if (mounted) setState(() => _isBulkLoading = false);
@@ -780,7 +818,8 @@ class _InvoiceManagementScreenV2State
           ],
         ),
         content: Text(
-          AppLocalizations.of(context)!.invoiceMgmtSavePdfsPromptMessage(selected.length),
+          AppLocalizations.of(context)!
+              .invoiceMgmtSavePdfsPromptMessage(selected.length),
         ),
         actions: [
           TextButton(
@@ -789,12 +828,14 @@ class _InvoiceManagementScreenV2State
           ),
           OutlinedButton.icon(
             icon: const Icon(Icons.folder_outlined),
-            label: Text(AppLocalizations.of(context)!.invoiceMgmtSaveToFolderLabel),
+            label: Text(
+                AppLocalizations.of(context)!.invoiceMgmtSaveToFolderLabel),
             onPressed: () => Navigator.pop(ctx, 'folder'),
           ),
           FilledButton.icon(
             icon: const Icon(Icons.folder_zip_outlined),
-            label: Text(AppLocalizations.of(context)!.invoiceMgmtSaveAsZipLabel),
+            label:
+                Text(AppLocalizations.of(context)!.invoiceMgmtSaveAsZipLabel),
             onPressed: () => Navigator.pop(ctx, 'zip'),
           ),
         ],
@@ -807,12 +848,14 @@ class _InvoiceManagementScreenV2State
 
     if (saveMode == 'folder') {
       outputDir = await FilePicker.platform.getDirectoryPath(
-        dialogTitle: AppLocalizations.of(context)!.invoiceMgmtChooseFolderDialogTitle,
+        dialogTitle:
+            AppLocalizations.of(context)!.invoiceMgmtChooseFolderDialogTitle,
       );
       if (outputDir == null || !mounted) return;
     } else {
       zipSavePath = await FilePicker.platform.saveFile(
-        dialogTitle: AppLocalizations.of(context)!.invoiceMgmtSaveZipDialogTitle,
+        dialogTitle:
+            AppLocalizations.of(context)!.invoiceMgmtSaveZipDialogTitle,
         fileName:
             'invoices_${DateFormat('yyyyMMdd').format(DateTime.now())}.zip',
         type: FileType.custom,
@@ -850,7 +893,8 @@ class _InvoiceManagementScreenV2State
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                AppLocalizations.of(context)!.invoiceMgmtProcessingPdfsMessage(selected.length),
+                AppLocalizations.of(context)!
+                    .invoiceMgmtProcessingPdfsMessage(selected.length),
               ),
               const SizedBox(height: 16),
               LinearProgressIndicator(
@@ -860,7 +904,9 @@ class _InvoiceManagementScreenV2State
               const SizedBox(height: 8),
               Text(
                 '$done / ${selected.length}',
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 13),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 13),
               ),
             ],
           ),
@@ -870,7 +916,8 @@ class _InvoiceManagementScreenV2State
 
     try {
       final dateFmt = await BackendServices.settings.getDateFormat();
-      final settings = await PDFService.fetchPdfSettings(datePattern: dateFmt.key);
+      final settings =
+          await PDFService.fetchPdfSettings(datePattern: dateFmt.key);
       final String path;
       if (saveMode == 'zip') {
         path = await ExportService.exportInvoicesToZip(
@@ -889,13 +936,17 @@ class _InvoiceManagementScreenV2State
       }
       if (mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        AppError.showSuccess(context, AppLocalizations.of(context)!.invoiceMgmtSavedToMessage(path));
+        AppError.showSuccess(context,
+            AppLocalizations.of(context)!.invoiceMgmtSavedToMessage(path));
         await OpenFile.open(path);
       }
     } catch (e) {
       if (mounted) {
         Navigator.of(context, rootNavigator: true).pop();
-        AppError.show(context, AppLocalizations.of(context)!.invoiceMgmtPdfExportFailedMessage(e.toString()));
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtPdfExportFailedMessage(e.toString()));
       }
     } finally {
       progress.dispose();
@@ -918,12 +969,12 @@ class _InvoiceManagementScreenV2State
       setS(() => counting = true);
       try {
         return await ref.read(invoiceRepositoryProvider).countInvoicesForExport(
-          fromDate: filterMode == 0 ? fromDate : null,
-          toDate: filterMode == 0 ? toDate : null,
-          fromId: filterMode == 1 ? int.tryParse(fromIdCtrl.text) : null,
-          toId: filterMode == 1 ? int.tryParse(toIdCtrl.text) : null,
-          filterType: widget.filterType,
-        );
+              fromDate: filterMode == 0 ? fromDate : null,
+              toDate: filterMode == 0 ? toDate : null,
+              fromId: filterMode == 1 ? int.tryParse(fromIdCtrl.text) : null,
+              toId: filterMode == 1 ? int.tryParse(toIdCtrl.text) : null,
+              filterType: widget.filterType,
+            );
       } finally {
         setS(() => counting = false);
       }
@@ -939,7 +990,8 @@ class _InvoiceManagementScreenV2State
             children: [
               const Icon(Icons.filter_alt_outlined),
               const SizedBox(width: 10),
-              Text(AppLocalizations.of(context)!.invoiceMgmtDownloadByFilterTitle),
+              Text(AppLocalizations.of(context)!
+                  .invoiceMgmtDownloadByFilterTitle),
             ],
           ),
           content: SizedBox(
@@ -952,11 +1004,14 @@ class _InvoiceManagementScreenV2State
                   segments: [
                     ButtonSegment(
                         value: 0,
-                        label: Text(AppLocalizations.of(context)!.invoiceMgmtByDateLabel),
-                        icon: const Icon(Icons.calendar_today_outlined, size: 16)),
+                        label: Text(AppLocalizations.of(context)!
+                            .invoiceMgmtByDateLabel),
+                        icon: const Icon(Icons.calendar_today_outlined,
+                            size: 16)),
                     ButtonSegment(
                         value: 1,
-                        label: Text(AppLocalizations.of(context)!.invoiceMgmtByInvoiceNumberLabel),
+                        label: Text(AppLocalizations.of(context)!
+                            .invoiceMgmtByInvoiceNumberLabel),
                         icon: const Icon(Icons.tag_outlined, size: 16)),
                   ],
                   selected: {filterMode},
@@ -972,7 +1027,8 @@ class _InvoiceManagementScreenV2State
                   Row(children: [
                     Expanded(
                         child: _DatePickerField(
-                      label: AppLocalizations.of(context)!.invoiceMgmtFromDateLabel,
+                      label: AppLocalizations.of(context)!
+                          .invoiceMgmtFromDateLabel,
                       value: fromDate,
                       formatter: DateFormat('dd/MM/yyyy'),
                       onPicked: (d) {
@@ -989,7 +1045,8 @@ class _InvoiceManagementScreenV2State
                     const SizedBox(width: 12),
                     Expanded(
                         child: _DatePickerField(
-                      label: AppLocalizations.of(context)!.invoiceMgmtToDateLabel,
+                      label:
+                          AppLocalizations.of(context)!.invoiceMgmtToDateLabel,
                       value: toDate,
                       formatter: DateFormat('dd/MM/yyyy'),
                       onPicked: (d) {
@@ -1011,7 +1068,8 @@ class _InvoiceManagementScreenV2State
                       controller: fromIdCtrl,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.invoiceMgmtFromInvoiceNumberLabel,
+                          labelText: AppLocalizations.of(context)!
+                              .invoiceMgmtFromInvoiceNumberLabel,
                           border: const OutlineInputBorder()),
                       onChanged: (_) => setS(() => matchCount = 0),
                     )),
@@ -1021,7 +1079,8 @@ class _InvoiceManagementScreenV2State
                       controller: toIdCtrl,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.invoiceMgmtToInvoiceNumberLabel,
+                          labelText: AppLocalizations.of(context)!
+                              .invoiceMgmtToInvoiceNumberLabel,
                           border: const OutlineInputBorder()),
                       onChanged: (_) => setS(() => matchCount = 0),
                     )),
@@ -1041,15 +1100,18 @@ class _InvoiceManagementScreenV2State
                             width: 14,
                             height: 14,
                             child: CircularProgressIndicator(strokeWidth: 2))
-                        : Text(AppLocalizations.of(context)!.invoiceMgmtCheckCountLabel),
+                        : Text(AppLocalizations.of(context)!
+                            .invoiceMgmtCheckCountLabel),
                   ),
                   const SizedBox(width: 12),
                   if (matchCount > 0)
                     Text(
                       matchCount > _maxBulkPdfExport
-                          ? AppLocalizations.of(context)!.invoiceMgmtInvoicesExceedLimitMessage(
-                              matchCount, _maxBulkPdfExport)
-                          : AppLocalizations.of(context)!.invoiceMgmtInvoicesMatchMessage(matchCount),
+                          ? AppLocalizations.of(context)!
+                              .invoiceMgmtInvoicesExceedLimitMessage(
+                                  matchCount, _maxBulkPdfExport)
+                          : AppLocalizations.of(context)!
+                              .invoiceMgmtInvoicesMatchMessage(matchCount),
                       style: TextStyle(
                         color: matchCount > _maxBulkPdfExport
                             ? CvSwatch.danger
@@ -1063,8 +1125,10 @@ class _InvoiceManagementScreenV2State
                     padding: const EdgeInsets.only(top: 8),
                     child: Text(
                       AppLocalizations.of(context)!
-                          .invoiceMgmtMaxPdfsPerDownloadMessage(_maxBulkPdfExport),
-                      style: const TextStyle(color: CvSwatch.danger, fontSize: 12),
+                          .invoiceMgmtMaxPdfsPerDownloadMessage(
+                              _maxBulkPdfExport),
+                      style:
+                          const TextStyle(color: CvSwatch.danger, fontSize: 12),
                     ),
                   ),
               ],
@@ -1076,14 +1140,16 @@ class _InvoiceManagementScreenV2State
                 child: Text(AppLocalizations.of(context)!.actionCancel)),
             OutlinedButton.icon(
               icon: const Icon(Icons.folder_outlined),
-              label: Text(AppLocalizations.of(context)!.invoiceMgmtSaveToFolderLabel),
+              label: Text(
+                  AppLocalizations.of(context)!.invoiceMgmtSaveToFolderLabel),
               onPressed: matchCount > 0 && matchCount <= _maxBulkPdfExport
                   ? () => Navigator.pop(ctx, 'folder')
                   : null,
             ),
             FilledButton.icon(
               icon: const Icon(Icons.folder_zip_outlined),
-              label: Text(AppLocalizations.of(context)!.invoiceMgmtSaveAsZipLabel),
+              label:
+                  Text(AppLocalizations.of(context)!.invoiceMgmtSaveAsZipLabel),
               onPressed: matchCount > 0 && matchCount <= _maxBulkPdfExport
                   ? () => Navigator.pop(ctx, 'zip')
                   : null,
@@ -1095,13 +1161,14 @@ class _InvoiceManagementScreenV2State
       if (saveMode == null || !mounted) return;
       final l10n = AppLocalizations.of(context)!;
 
-      final invoices = await ref.read(invoiceRepositoryProvider).getInvoicesForExport(
-        fromDate: filterMode == 0 ? fromDate : null,
-        toDate: filterMode == 0 ? toDate : null,
-        fromId: filterMode == 1 ? int.tryParse(fromIdCtrl.text) : null,
-        toId: filterMode == 1 ? int.tryParse(toIdCtrl.text) : null,
-        filterType: widget.filterType,
-      );
+      final invoices =
+          await ref.read(invoiceRepositoryProvider).getInvoicesForExport(
+                fromDate: filterMode == 0 ? fromDate : null,
+                toDate: filterMode == 0 ? toDate : null,
+                fromId: filterMode == 1 ? int.tryParse(fromIdCtrl.text) : null,
+                toId: filterMode == 1 ? int.tryParse(toIdCtrl.text) : null,
+                filterType: widget.filterType,
+              );
 
       if (invoices.isEmpty) {
         if (mounted) {
@@ -1112,7 +1179,9 @@ class _InvoiceManagementScreenV2State
       if (invoices.length > _maxBulkPdfExport) {
         if (mounted) {
           AppError.show(
-              context, l10n.invoiceMgmtFilterExceedsLimitMessage(invoices.length, _maxBulkPdfExport));
+              context,
+              l10n.invoiceMgmtFilterExceedsLimitMessage(
+                  invoices.length, _maxBulkPdfExport));
         }
         return;
       }
@@ -1163,10 +1232,13 @@ class _InvoiceManagementScreenV2State
                 const SizedBox(height: 16),
                 LinearProgressIndicator(
                     value: done / invoices.length,
-                    backgroundColor: Theme.of(context).colorScheme.outlineVariant),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.outlineVariant),
                 const SizedBox(height: 8),
                 Text('$done / ${invoices.length}',
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 13)),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontSize: 13)),
               ],
             ),
           ),
@@ -1203,7 +1275,8 @@ class _InvoiceManagementScreenV2State
       } catch (e) {
         if (mounted) {
           Navigator.of(context, rootNavigator: true).pop();
-          AppError.show(context, l10n.invoiceMgmtExportFailedMessage(e.toString()));
+          AppError.show(
+              context, l10n.invoiceMgmtExportFailedMessage(e.toString()));
         }
       } finally {
         progress.dispose();
@@ -1235,7 +1308,9 @@ class _InvoiceManagementScreenV2State
       context,
       title: l10n.invoiceMgmtMarkAsPaidTitle,
       message: l10n.invoiceMgmtMarkAsPaidBody(unpaid.length) +
-          (alreadyPaid > 0 ? l10n.invoiceMgmtAlreadyPaidNoteMessage(alreadyPaid) : ''),
+          (alreadyPaid > 0
+              ? l10n.invoiceMgmtAlreadyPaidNoteMessage(alreadyPaid)
+              : ''),
       confirmLabel: l10n.invoiceMgmtMarkAsPaidTitle,
       confirmColor: CvSwatch.success,
     );
@@ -1244,17 +1319,22 @@ class _InvoiceManagementScreenV2State
     setState(() => _isBulkLoading = true);
     try {
       final count = await ref.read(paymentRepositoryProvider).addPaymentBatch(
-        invoices: unpaid,
-        datePaid: DateTime.now(),
-      );
+            invoices: unpaid,
+            datePaid: DateTime.now(),
+          );
       await _loadPage();
       if (mounted) {
         AppError.showSuccess(
-            context, AppLocalizations.of(context)!.invoiceMgmtMarkedAsPaidMessage(count));
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtMarkedAsPaidMessage(count));
       }
     } catch (e) {
       if (mounted) {
-        AppError.show(context, AppLocalizations.of(context)!.invoiceMgmtMarkAsPaidFailedMessage(e.toString()));
+        AppError.show(
+            context,
+            AppLocalizations.of(context)!
+                .invoiceMgmtMarkAsPaidFailedMessage(e.toString()));
       }
     } finally {
       if (mounted) setState(() => _isBulkLoading = false);
@@ -1315,7 +1395,9 @@ class _InvoiceManagementScreenV2State
   Future<void> _pickCustomerFilterV2() async {
     final results = await Future.wait([
       ref.read(customerRepositoryProvider).getAllCustomers(),
-      ref.read(invoiceRepositoryProvider).getCustomersWithInvoices(filterType: widget.filterType),
+      ref
+          .read(invoiceRepositoryProvider)
+          .getCustomersWithInvoices(filterType: widget.filterType),
     ]);
     final allCustomers = results[0] as List<Customer>;
     final invoiceCustomers = results[1] as List<({String id, String name})>;
@@ -1346,10 +1428,12 @@ class _InvoiceManagementScreenV2State
           final filtered = query.isEmpty
               ? customers
               : customers
-                  .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
+                  .where(
+                      (c) => c.name.toLowerCase().contains(query.toLowerCase()))
                   .toList();
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             title: const Text('Filter by Customer'),
             content: SizedBox(
               width: 380,
@@ -1426,7 +1510,6 @@ class _InvoiceManagementScreenV2State
       (_invoiceDateFrom != null || _invoiceDateTo != null ? 1 : 0) +
       (_idRangeFrom != null || _idRangeTo != null ? 1 : 0);
 
-
   Future<void> _showFilterDialogV2() async {
     bool tempHidePaid = _hidePaid;
     bool tempHideDeclined = _hideDeclined;
@@ -1436,16 +1519,17 @@ class _InvoiceManagementScreenV2State
     DateTime? tempDateTo = _invoiceDateTo;
     final idFromCtrl =
         TextEditingController(text: _idRangeFrom?.toString() ?? '');
-    final idToCtrl =
-        TextEditingController(text: _idRangeTo?.toString() ?? '');
+    final idToCtrl = TextEditingController(text: _idRangeTo?.toString() ?? '');
 
     await showDialog(
       context: context,
       builder: (dialogContext) {
         return StatefulBuilder(builder: (dialogContext, setDialogState) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            title: Text(AppLocalizations.of(context)!.invoiceMgmtFilterInvoicesTitle),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            title: Text(
+                AppLocalizations.of(context)!.invoiceMgmtFilterInvoicesTitle),
             content: SizedBox(
               width: 380,
               child: SingleChildScrollView(
@@ -1455,23 +1539,30 @@ class _InvoiceManagementScreenV2State
                   children: [
                     SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: Text(AppLocalizations.of(context)!.invoiceMgmtHideFullyPaidLabel),
+                      title: Text(AppLocalizations.of(context)!
+                          .invoiceMgmtHideFullyPaidLabel),
                       value: tempHidePaid,
                       onChanged: (v) => setDialogState(() => tempHidePaid = v),
                     ),
                     if (widget.filterType == 'Invoice')
                       SwitchListTile(
                         contentPadding: EdgeInsets.zero,
-                        title: Text(AppLocalizations.of(context)!.invoiceMgmtHideDeclinedLabel),
+                        title: Text(AppLocalizations.of(context)!
+                            .invoiceMgmtHideDeclinedLabel),
                         value: tempHideDeclined,
-                        onChanged: (v) => setDialogState(() => tempHideDeclined = v),
+                        onChanged: (v) =>
+                            setDialogState(() => tempHideDeclined = v),
                       ),
                     const SizedBox(height: 8),
-                    Text(AppLocalizations.of(context)!.invoiceMgmtPaymentStatusLabel,
+                    Text(
+                        AppLocalizations.of(context)!
+                            .invoiceMgmtPaymentStatusLabel,
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Theme.of(dialogContext).colorScheme.onSurfaceVariant)),
+                            color: Theme.of(dialogContext)
+                                .colorScheme
+                                .onSurfaceVariant)),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -1481,14 +1572,17 @@ class _InvoiceManagementScreenV2State
                         final color = opt['color'] as Color;
                         return ChoiceChip(
                           label: Text(_paymentStatusFilterLabel(
-                              AppLocalizations.of(context)!, opt['value'] as String)),
+                              AppLocalizations.of(context)!,
+                              opt['value'] as String)),
                           selected: selected,
-                          onSelected: (_) =>
-                              setDialogState(() => tempStatus = opt['value'] as String),
+                          onSelected: (_) => setDialogState(
+                              () => tempStatus = opt['value'] as String),
                           selectedColor: color.withValues(alpha: 0.18),
                           labelStyle: TextStyle(
-                            color: selected ? color.withValues(alpha: 0.9) : null,
-                            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                            color:
+                                selected ? color.withValues(alpha: 0.9) : null,
+                            fontWeight:
+                                selected ? FontWeight.w700 : FontWeight.w500,
                           ),
                         );
                       }).toList(),
@@ -1498,7 +1592,9 @@ class _InvoiceManagementScreenV2State
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Theme.of(dialogContext).colorScheme.onSurfaceVariant)),
+                            color: Theme.of(dialogContext)
+                                .colorScheme
+                                .onSurfaceVariant)),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -1506,49 +1602,66 @@ class _InvoiceManagementScreenV2State
                       children: _dueDateFilterOptions.map((option) {
                         final selected = tempDue == option.$1;
                         return ChoiceChip(
-                          label: Text(_dueDateFilterLabel(AppLocalizations.of(context)!, option.$1)),
+                          label: Text(_dueDateFilterLabel(
+                              AppLocalizations.of(context)!, option.$1)),
                           selected: selected,
-                          onSelected: (_) => setDialogState(() => tempDue = option.$1),
+                          onSelected: (_) =>
+                              setDialogState(() => tempDue = option.$1),
                           selectedColor: option.$2.withValues(alpha: 0.18),
                           labelStyle: TextStyle(
-                            color: selected ? option.$2.withValues(alpha: 0.9) : null,
-                            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                            color: selected
+                                ? option.$2.withValues(alpha: 0.9)
+                                : null,
+                            fontWeight:
+                                selected ? FontWeight.w700 : FontWeight.w500,
                           ),
                         );
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    Text(AppLocalizations.of(context)!.invoiceMgmtInvoiceDateRangeLabel,
+                    Text(
+                        AppLocalizations.of(context)!
+                            .invoiceMgmtInvoiceDateRangeLabel,
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Theme.of(dialogContext).colorScheme.onSurfaceVariant)),
+                            color: Theme.of(dialogContext)
+                                .colorScheme
+                                .onSurfaceVariant)),
                     const SizedBox(height: 8),
                     Row(children: [
                       Expanded(
                           child: _DatePickerField(
-                        label: AppLocalizations.of(context)!.invoiceMgmtFromDateLabel,
+                        label: AppLocalizations.of(context)!
+                            .invoiceMgmtFromDateLabel,
                         value: tempDateFrom,
                         formatter: DateFormat(_datePattern),
                         onPicked: (d) => setDialogState(() => tempDateFrom = d),
-                        onCleared: () => setDialogState(() => tempDateFrom = null),
+                        onCleared: () =>
+                            setDialogState(() => tempDateFrom = null),
                       )),
                       const SizedBox(width: 12),
                       Expanded(
                           child: _DatePickerField(
-                        label: AppLocalizations.of(context)!.invoiceMgmtToDateLabel,
+                        label: AppLocalizations.of(context)!
+                            .invoiceMgmtToDateLabel,
                         value: tempDateTo,
                         formatter: DateFormat(_datePattern),
                         onPicked: (d) => setDialogState(() => tempDateTo = d),
-                        onCleared: () => setDialogState(() => tempDateTo = null),
+                        onCleared: () =>
+                            setDialogState(() => tempDateTo = null),
                       )),
                     ]),
                     const SizedBox(height: 20),
-                    Text(AppLocalizations.of(context)!.invoiceMgmtInvoiceNumberRangeLabel,
+                    Text(
+                        AppLocalizations.of(context)!
+                            .invoiceMgmtInvoiceNumberRangeLabel,
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Theme.of(dialogContext).colorScheme.onSurfaceVariant)),
+                            color: Theme.of(dialogContext)
+                                .colorScheme
+                                .onSurfaceVariant)),
                     const SizedBox(height: 8),
                     Row(children: [
                       Expanded(
@@ -1556,7 +1669,8 @@ class _InvoiceManagementScreenV2State
                         controller: idFromCtrl,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!.invoiceMgmtFromHashLabel,
+                            labelText: AppLocalizations.of(context)!
+                                .invoiceMgmtFromHashLabel,
                             border: const OutlineInputBorder()),
                       )),
                       const SizedBox(width: 12),
@@ -1565,7 +1679,8 @@ class _InvoiceManagementScreenV2State
                         controller: idToCtrl,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context)!.invoiceMgmtToHashLabel,
+                            labelText: AppLocalizations.of(context)!
+                                .invoiceMgmtToHashLabel,
                             border: const OutlineInputBorder()),
                       )),
                     ]),
@@ -1640,7 +1755,8 @@ class _InvoiceManagementScreenV2State
     ('customer_name', false, Icons.sort_by_alpha_outlined),
   ];
 
-  static String _sortOptionLabel(AppLocalizations l10n, String field, bool asc) {
+  static String _sortOptionLabel(
+      AppLocalizations l10n, String field, bool asc) {
     return switch ((field, asc)) {
       ('id', false) => l10n.invoiceMgmtSortRecentlyAdded,
       ('id', true) => l10n.invoiceMgmtSortOldestAdded,
@@ -1656,7 +1772,8 @@ class _InvoiceManagementScreenV2State
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Text(AppLocalizations.of(context)!.invoiceMgmtSortByTitle),
           content: SizedBox(
             width: 340,
@@ -1668,13 +1785,18 @@ class _InvoiceManagementScreenV2State
                 final primaryColor = Theme.of(context).primaryColor;
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: Icon(icon, size: 20, color: selected ? primaryColor : null),
-                  title: Text(_sortOptionLabel(AppLocalizations.of(context)!, field, asc),
+                  leading: Icon(icon,
+                      size: 20, color: selected ? primaryColor : null),
+                  title: Text(
+                      _sortOptionLabel(
+                          AppLocalizations.of(context)!, field, asc),
                       style: TextStyle(
-                          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight:
+                              selected ? FontWeight.w700 : FontWeight.w500,
                           color: selected ? primaryColor : null)),
-                  trailing:
-                      selected ? Icon(Icons.check_circle, color: primaryColor, size: 20) : null,
+                  trailing: selected
+                      ? Icon(Icons.check_circle, color: primaryColor, size: 20)
+                      : null,
                   onTap: () {
                     Navigator.pop(dialogContext);
                     if (_sortField == field && _sortAscending == asc) return;
@@ -1708,9 +1830,11 @@ class _InvoiceManagementScreenV2State
         hintText: AppLocalizations.of(context)!.invoiceMgmtSearchHintMessage,
         prefixIcon: const Icon(Icons.search, size: 20),
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         suffixIcon: _searchQuery.isNotEmpty
             ? IconButton(
+                tooltip: AppLocalizations.of(context)!.actionClear,
                 icon: const Icon(Icons.clear, size: 18),
                 onPressed: () {
                   _searchController.clear();
@@ -1726,11 +1850,13 @@ class _InvoiceManagementScreenV2State
             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-          borderSide: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+          borderSide:
+              BorderSide(color: Theme.of(context).primaryColor, width: 2),
         ),
       ),
       onChanged: (value) {
@@ -1765,7 +1891,8 @@ class _InvoiceManagementScreenV2State
               OutlinedButton.icon(
                 onPressed: _showFilterDialogV2,
                 icon: const Icon(Icons.filter_list, size: 18),
-                label: Text(AppLocalizations.of(context)!.invoiceMgmtFilterLabel),
+                label:
+                    Text(AppLocalizations.of(context)!.invoiceMgmtFilterLabel),
               ),
               if (_activeFilterCountV2 > 0)
                 Positioned(
@@ -1779,7 +1906,9 @@ class _InvoiceManagementScreenV2State
                     ),
                     child: Text('$_activeFilterCountV2',
                         style: const TextStyle(
-                            color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold)),
                   ),
                 ),
             ],
@@ -1813,7 +1942,10 @@ class _InvoiceManagementScreenV2State
       return Row(
         children: [
           if (newButton != null) ...[newButton, const SizedBox(width: 12)],
-          Expanded(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 480), child: searchField)),
+          Expanded(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 480),
+                  child: searchField)),
           const SizedBox(width: 12),
           customerButton,
           const SizedBox(width: 8),
@@ -1865,10 +1997,15 @@ class _InvoiceManagementScreenV2State
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
-            child: Text(AppLocalizations.of(context)!.invoiceMgmtSelectedCountLabel(count),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            child: Text(
+                AppLocalizations.of(context)!
+                    .invoiceMgmtSelectedCountLabel(count),
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 13)),
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13)),
           ),
           _buildBulkButton(
             icon: Icons.deselect,
@@ -1921,28 +2058,41 @@ class _InvoiceManagementScreenV2State
   // Print are all already visible as quick icons, so the overflow menu
   // only needs to carry Duplicate + Delete. On narrow screens, none of
   // those are visible, so the menu carries all of them.
-  List<PopupMenuEntry<String>> _rowActionMenuItemsV2(Invoice invoice, bool isWide) {
+  List<PopupMenuEntry<String>> _rowActionMenuItemsV2(
+      Invoice invoice, bool isWide) {
     final l10n = AppLocalizations.of(context)!;
-    final isDeclined = (widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
-        invoice.status == 'declined';
+    final isDeclined =
+        (widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
+            invoice.status == 'declined';
     // A draft isn't committed yet: only view / edit / duplicate / trash.
     final isDraft = invoice.isDraft;
     return [
       if (!isWide) ...[
-        PopupMenuItem(value: 'view', child: _MenuRow(Icons.visibility_outlined, l10n.actionView, CvSwatch.success)),
+        PopupMenuItem(
+            value: 'view',
+            child: _MenuRow(
+                Icons.visibility_outlined, l10n.actionView, CvSwatch.success)),
         if ((!_isReturnType || isDraft) && !isDeclined)
-          PopupMenuItem(value: 'edit', child: _MenuRow(Icons.edit_outlined, l10n.actionEdit, CvSwatch.neutral)),
+          PopupMenuItem(
+              value: 'edit',
+              child: _MenuRow(
+                  Icons.edit_outlined, l10n.actionEdit, CvSwatch.neutral)),
         if (widget.filterType == 'Invoice' && !isDeclined && !isDraft)
           PopupMenuItem(
             value: 'pay',
-            child: _MenuRow(Icons.payments_outlined, l10n.actionApplyPayment,
-                invoice.paymentStatus == PaymentStatus.paid ? CvSwatch.success : CvSwatch.neutral),
+            child: _MenuRow(
+                Icons.payments_outlined,
+                l10n.actionApplyPayment,
+                invoice.paymentStatus == PaymentStatus.paid
+                    ? CvSwatch.success
+                    : CvSwatch.neutral),
           ),
         // Declined: read-only history (dialog opens read-only for declined).
         if (isDeclined && invoice.payments.isNotEmpty)
           PopupMenuItem(
             value: 'pay',
-            child: _MenuRow(Icons.history, l10n.paymentDialogHistoryTitle, CvSwatch.neutral),
+            child: _MenuRow(Icons.history, l10n.paymentDialogHistoryTitle,
+                CvSwatch.neutral),
           ),
       ],
       if ((widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
@@ -1950,44 +2100,54 @@ class _InvoiceManagementScreenV2State
           !isDraft) ...[
         PopupMenuItem(
             value: 'decline_invoice',
-            child: _MenuRow(Icons.cancel_outlined, l10n.invoiceMgmtCancelVoidAction, CvSwatch.danger)),
+            child: _MenuRow(Icons.cancel_outlined,
+                l10n.invoiceMgmtCancelVoidAction, CvSwatch.danger)),
         const PopupMenuDivider(),
       ],
       if (widget.filterType == 'Quotation' && !isDraft) ...[
         if (widget.onConvertToInvoice != null)
           PopupMenuItem(
               value: 'convert',
-              child: _MenuRow(Icons.swap_horiz, l10n.invoiceMgmtConvertToInvoiceAction, CvSwatch.neutral)),
+              child: _MenuRow(Icons.swap_horiz,
+                  l10n.invoiceMgmtConvertToInvoiceAction, CvSwatch.neutral)),
         if ((invoice.status ?? 'draft') != 'converted') ...[
           if ((invoice.status ?? 'draft') != 'sent')
             PopupMenuItem(
                 value: 'mark_sent',
-                child: _MenuRow(Icons.send_outlined, l10n.invoiceMgmtMarkAsSent, CvSwatch.neutral)),
+                child: _MenuRow(Icons.send_outlined, l10n.invoiceMgmtMarkAsSent,
+                    CvSwatch.neutral)),
           if ((invoice.status ?? 'draft') != 'accepted')
             PopupMenuItem(
                 value: 'mark_accepted',
-                child: _MenuRow(Icons.check_circle_outline, l10n.invoiceMgmtMarkAsAccepted, CvSwatch.success)),
+                child: _MenuRow(Icons.check_circle_outline,
+                    l10n.invoiceMgmtMarkAsAccepted, CvSwatch.success)),
           if ((invoice.status ?? 'draft') != 'declined')
             PopupMenuItem(
                 value: 'mark_declined',
-                child: _MenuRow(Icons.cancel_outlined, l10n.invoiceMgmtMarkAsDeclined, CvSwatch.danger)),
+                child: _MenuRow(Icons.cancel_outlined,
+                    l10n.invoiceMgmtMarkAsDeclined, CvSwatch.danger)),
         ],
         const PopupMenuDivider(),
       ],
       if (!_isReturnType)
         PopupMenuItem(
             value: 'read_aloud',
-            child: _MenuRow(Icons.volume_up_outlined, l10n.speakReadAloud, CvSwatch.neutral)),
-        if (!isDeclined && PaymentReminder.canRemind(invoice))
-          PopupMenuItem(
-              value: 'remind',
-              child: _MenuRow(Icons.notifications_active_outlined,
-                  l10n.paymentReminderAction, CvSwatch.warning)),
-        if (!isDraft && !isDeclined)
-          PopupMenuItem(
-              value: 'whatsapp',
-              child: _MenuRow(Icons.chat_outlined, l10n.whatsAppShareAction, CvSwatch.neutral)),
-        PopupMenuItem(value: 'duplicate', child: _MenuRow(Icons.copy_all_outlined, l10n.actionDuplicate, CvSwatch.success)),
+            child: _MenuRow(Icons.volume_up_outlined, l10n.speakReadAloud,
+                CvSwatch.neutral)),
+      if (!isDeclined && PaymentReminder.canRemind(invoice))
+        PopupMenuItem(
+            value: 'remind',
+            child: _MenuRow(Icons.notifications_active_outlined,
+                l10n.paymentReminderAction, CvSwatch.warning)),
+      if (!isDraft && !isDeclined)
+        PopupMenuItem(
+            value: 'whatsapp',
+            child: _MenuRow(Icons.chat_outlined, l10n.whatsAppShareAction,
+                CvSwatch.neutral)),
+      PopupMenuItem(
+          value: 'duplicate',
+          child: _MenuRow(
+              Icons.copy_all_outlined, l10n.actionDuplicate, CvSwatch.success)),
       if ((widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
           !isDeclined &&
           !isDraft)
@@ -2006,8 +2166,8 @@ class _InvoiceManagementScreenV2State
           ref.read(returnsEnabledProvider))
         PopupMenuItem(
             value: 'debit_note',
-            child: _MenuRow(Icons.note_add_outlined,
-                l10n.actionCreateDebitNote, CvSwatch.neutral)),
+            child: _MenuRow(Icons.note_add_outlined, l10n.actionCreateDebitNote,
+                CvSwatch.neutral)),
       if (widget.filterType == 'Invoice' &&
           !isDeclined &&
           !isDraft &&
@@ -2018,18 +2178,25 @@ class _InvoiceManagementScreenV2State
                 l10n.returnApplyCustomerCreditAction, CvSwatch.success)),
       if (!isWide)
         PopupMenuItem(
-            value: 'preview', child: _MenuRow(Icons.picture_as_pdf_outlined, l10n.actionPdfPreview, CvSwatch.warning)),
+            value: 'preview',
+            child: _MenuRow(Icons.picture_as_pdf_outlined,
+                l10n.actionPdfPreview, CvSwatch.warning)),
       if (!isWide && !isDraft) ...[
         PopupMenuItem(
-            value: 'download', child: _MenuRow(Icons.download_outlined, l10n.actionDownloadPdf, CvSwatch.neutral)),
-        PopupMenuItem(value: 'print', child: _MenuRow(Icons.print_outlined, l10n.actionPrint, CvSwatch.neutral)),
+            value: 'download',
+            child: _MenuRow(Icons.download_outlined, l10n.actionDownloadPdf,
+                CvSwatch.neutral)),
+        PopupMenuItem(
+            value: 'print',
+            child: _MenuRow(
+                Icons.print_outlined, l10n.actionPrint, CvSwatch.neutral)),
       ],
       // A draft note hasn't settled anything yet — nothing to refund or void.
       if (widget.filterType == 'Credit Note' && !isDraft) ...[
         PopupMenuItem(
             value: 'refund',
-            child: _MenuRow(
-                Icons.currency_exchange_outlined, l10n.actionRefund, CvSwatch.success)),
+            child: _MenuRow(Icons.currency_exchange_outlined, l10n.actionRefund,
+                CvSwatch.success)),
         PopupMenuItem(
             value: 'print_voucher',
             child: _MenuRow(Icons.receipt_long_outlined,
@@ -2037,19 +2204,22 @@ class _InvoiceManagementScreenV2State
         if (widget.user.isAdmin())
           PopupMenuItem(
               value: 'void',
-              child: _MenuRow(
-                  Icons.block_outlined, l10n.actionCancelVoid, CvSwatch.danger)),
+              child: _MenuRow(Icons.block_outlined, l10n.actionCancelVoid,
+                  CvSwatch.danger)),
       ],
       if (widget.user.isAdmin() &&
           (widget.filterType != 'Credit Note' || isDraft))
         PopupMenuItem(
-            value: 'delete', child: _MenuRow(Icons.delete_outline, l10n.invoiceMgmtMoveToTrashTitle, CvSwatch.danger)),
+            value: 'delete',
+            child: _MenuRow(Icons.delete_outline,
+                l10n.invoiceMgmtMoveToTrashTitle, CvSwatch.danger)),
       if (!isDraft &&
           const {'Invoice', 'Quotation', 'Receipt'}.contains(invoice.type) &&
           InvoiceNumberService.canChangeExisting(widget.user, _numberAccess))
         PopupMenuItem(
             value: 'change_number',
-            child: _MenuRow(Icons.pin_outlined, l10n.invoiceNumberChangeAction, CvSwatch.neutral)),
+            child: _MenuRow(Icons.pin_outlined, l10n.invoiceNumberChangeAction,
+                CvSwatch.neutral)),
     ];
   }
 
@@ -2106,8 +2276,9 @@ class _InvoiceManagementScreenV2State
 
   Widget _rowActionsV2(Invoice invoice, bool isWide) {
     final l10n = AppLocalizations.of(context)!;
-    final isDeclined = (widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
-        invoice.status == 'declined';
+    final isDeclined =
+        (widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
+            invoice.status == 'declined';
     final isDraft = invoice.isDraft;
     final menu = PopupMenuButton<String>(
       icon: const Icon(Icons.more_vert, size: 20),
@@ -2122,29 +2293,43 @@ class _InvoiceManagementScreenV2State
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _buildActionButton(Icons.visibility_outlined, CvSwatch.neutral, l10n.actionView,
-            () => _viewInvoice(invoice)),
+        _buildActionButton(Icons.visibility_outlined, CvSwatch.neutral,
+            l10n.actionView, () => _viewInvoice(invoice)),
         if ((!_isReturnType || isDraft) && !isDeclined)
-          _buildActionButton(
-              Icons.edit_outlined, CvSwatch.neutral, l10n.actionEdit, () => widget.onEditInvoice(invoice)),
+          _buildActionButton(Icons.edit_outlined, CvSwatch.neutral,
+              l10n.actionEdit, () => widget.onEditInvoice(invoice)),
         if (widget.filterType == 'Invoice' && !isDeclined && !isDraft)
           _buildActionButton(
             Icons.payments_outlined,
-            invoice.paymentStatus == PaymentStatus.paid ? CvSwatch.success : CvSwatch.neutral,
+            invoice.paymentStatus == PaymentStatus.paid
+                ? CvSwatch.success
+                : CvSwatch.neutral,
             l10n.actionApplyPayment,
             () => _showApplyPaymentDialog(invoice),
           ),
         if (isDeclined && invoice.payments.isNotEmpty)
-          _buildActionButton(Icons.history, CvSwatch.neutral, l10n.paymentDialogHistoryTitle,
+          _buildActionButton(
+              Icons.history,
+              CvSwatch.neutral,
+              l10n.paymentDialogHistoryTitle,
               () => _showApplyPaymentDialog(invoice)),
         // Drafts: preview only (number shows DRAFT) — finalize before
         // download / print.
-        _buildActionButton(Icons.picture_as_pdf_outlined, CvSwatch.neutral, l10n.actionPdfPreview,
+        _buildActionButton(
+            Icons.picture_as_pdf_outlined,
+            CvSwatch.neutral,
+            l10n.actionPdfPreview,
             () => InvoicePdfServices.previewPDF(context, invoice)),
         if (!isDraft) ...[
-          _buildActionButton(Icons.download_outlined, CvSwatch.neutral, l10n.actionDownloadPdf,
+          _buildActionButton(
+              Icons.download_outlined,
+              CvSwatch.neutral,
+              l10n.actionDownloadPdf,
               () => PDFService.downloadPDF(context, invoice)),
-          _buildActionButton(Icons.print_outlined, CvSwatch.neutral, l10n.actionPrint,
+          _buildActionButton(
+              Icons.print_outlined,
+              CvSwatch.neutral,
+              l10n.actionPrint,
               () => InvoicePdfServices.generatePDF(context, invoice)),
         ],
         menu,
@@ -2155,11 +2340,15 @@ class _InvoiceManagementScreenV2State
   Widget _tableHeaderRowV2(bool isWide) {
     final l10n = AppLocalizations.of(context)!;
     TextStyle style = const TextStyle(
-        color: Colors.white, fontSize: 12.5, fontWeight: FontWeight.w700, letterSpacing: 0.4);
+        color: Colors.white,
+        fontSize: 12.5,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.4);
     return Container(
       decoration: BoxDecoration(
         gradient: InvoiceManagementScreenColors.topBarBackgroundGradientColor,
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(12), topRight: Radius.circular(12)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
@@ -2175,22 +2364,36 @@ class _InvoiceManagementScreenV2State
               side: const BorderSide(color: Colors.white70, width: 2),
             ),
           ),
-          SizedBox(width: 60, child: Text(l10n.invoiceMgmtColSlNo, style: style)),
-          Expanded(flex: 3, child: Padding(padding: const EdgeInsets.symmetric(vertical: 16), child: Text(l10n.invoiceMgmtColInvoiceCustomer, style: style))),
+          SizedBox(
+              width: 60, child: Text(l10n.invoiceMgmtColSlNo, style: style)),
+          Expanded(
+              flex: 3,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child:
+                      Text(l10n.invoiceMgmtColInvoiceCustomer, style: style))),
           if (widget.filterType == 'Invoice' && isWide)
             Expanded(child: Text(l10n.invoiceMgmtColTitle, style: style)),
           if (isWide) ...[
-            SizedBox(width: 110, child: Text(l10n.invoiceMgmtColDate, style: style)),
-            SizedBox(width: 56, child: Text(l10n.invoiceMgmtColItems, style: style)),
+            SizedBox(
+                width: 110, child: Text(l10n.invoiceMgmtColDate, style: style)),
+            SizedBox(
+                width: 56, child: Text(l10n.invoiceMgmtColItems, style: style)),
           ],
           Expanded(child: Text(l10n.fieldTotalLabel, style: style)),
           if (widget.filterType == 'Invoice') ...[
-            SizedBox(width: 76, child: Text(l10n.invoiceMgmtColStatus, style: style)),
+            SizedBox(
+                width: 76,
+                child: Text(l10n.invoiceMgmtColStatus, style: style)),
             Expanded(child: Text(l10n.invoiceMgmtColOutstanding, style: style)),
           ],
           if (widget.filterType == 'Quotation')
-            SizedBox(width: 96, child: Text(l10n.invoiceMgmtColStatus, style: style)),
-          SizedBox(width: isWide ? 300 : 48, child: Text(l10n.invoiceMgmtColActions, style: style)),
+            SizedBox(
+                width: 96,
+                child: Text(l10n.invoiceMgmtColStatus, style: style)),
+          SizedBox(
+              width: isWide ? 300 : 48,
+              child: Text(l10n.invoiceMgmtColActions, style: style)),
         ],
       ),
     );
@@ -2206,7 +2409,8 @@ class _InvoiceManagementScreenV2State
                 ? Theme.of(context).colorScheme.surfaceContainerHighest
                 : Theme.of(context).colorScheme.surfaceContainer),
         border: Border(
-          bottom: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
+          bottom:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
           left: isSelected
               ? BorderSide(color: Theme.of(context).primaryColor, width: 3)
               : BorderSide.none,
@@ -2231,12 +2435,16 @@ class _InvoiceManagementScreenV2State
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                 // Serial number: neutral (red is reserved for "due" and errors).
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.06),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.06),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('$index',
                     style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
                         color: Theme.of(context).colorScheme.onSurfaceVariant)),
               ),
             ),
@@ -2255,12 +2463,15 @@ class _InvoiceManagementScreenV2State
                 children: [
                   invoice.isDraft
                       ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
                             color: CvSwatch.warning.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
+                            borderRadius:
+                                BorderRadius.circular(AppBorderRadius.xsmall),
                           ),
-                          child: Text(AppLocalizations.of(context)!.invoiceDraftBadge,
+                          child: Text(
+                              AppLocalizations.of(context)!.invoiceDraftBadge,
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
@@ -2268,37 +2479,51 @@ class _InvoiceManagementScreenV2State
                         )
                       : Text('#${invoice.invoiceNumber ?? invoice.id}',
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w700)),
+                          style: const TextStyle(
+                              fontSize: 14.5, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 2),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.person_outline,
-                          size: 13, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          size: 13,
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(invoice.customer.name,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                fontSize: 12.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                                fontSize: 12.5,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant)),
                       ),
                       const SizedBox(width: 2),
                       CustomerInfoButton(customer: invoice.customer),
                     ],
                   ),
                   // Receipts have no status column — flag a voided one here.
-                  if (widget.filterType == 'Receipt' && invoice.status == 'declined') ...[
+                  if (widget.filterType == 'Receipt' &&
+                      invoice.status == 'declined') ...[
                     const SizedBox(height: 4),
-                    _statusPill(AppLocalizations.of(context)!.invoiceStatusDeclinedBadge, CvSwatch.danger),
+                    _statusPill(
+                        AppLocalizations.of(context)!
+                            .invoiceStatusDeclinedBadge,
+                        CvSwatch.danger),
                   ],
-                  if (_isReturnType && invoice.originalInvoiceNumber != null) ...[
+                  if (_isReturnType &&
+                      invoice.originalInvoiceNumber != null) ...[
                     const SizedBox(height: 2),
                     Text(
-                        AppLocalizations.of(context)!
-                            .returnAgainstInvoiceShort(invoice.originalInvoiceNumber!),
+                        AppLocalizations.of(context)!.returnAgainstInvoiceShort(
+                            invoice.originalInvoiceNumber!),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                            fontSize: 12,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant)),
                   ],
                   if (_notesByInvoice.containsKey(invoice.id)) ...[
                     const SizedBox(height: 4),
@@ -2320,7 +2545,9 @@ class _InvoiceManagementScreenV2State
             Expanded(
               child: Text(invoice.invoiceTitle ?? '—',
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 12.5, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  style: TextStyle(
+                      fontSize: 12.5,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
             ),
           if (isWide) ...[
             SizedBox(width: 110, child: _buildDateCell(invoice)),
@@ -2329,13 +2556,17 @@ class _InvoiceManagementScreenV2State
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: CvSwatch.neutral.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text('${invoice.items.length}',
-                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: CvSwatch.neutral)),
+                      style: TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w600,
+                          color: CvSwatch.neutral)),
                 ),
               ),
             ),
@@ -2345,7 +2576,9 @@ class _InvoiceManagementScreenV2State
               '${invoice.currencySymbol} ${AmountFormat.money(invoice.total)}',
               overflow: TextOverflow.ellipsis,
               // Totals are plain ink; colour is kept for status (paid / due).
-              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold,
+              style: TextStyle(
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onSurface),
             ),
           ),
@@ -2355,13 +2588,20 @@ class _InvoiceManagementScreenV2State
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: invoice.status == 'declined'
-                    ? _statusPill(AppLocalizations.of(context)!.invoiceStatusDeclinedBadge, CvSwatch.danger)
+                    ? _statusPill(
+                        AppLocalizations.of(context)!
+                            .invoiceStatusDeclinedBadge,
+                        CvSwatch.danger)
                     : _buildPaymentStatusChip(invoice.paymentStatus),
               ),
             ),
             Expanded(
-              child: invoice.status == 'declined' || invoice.paymentStatus == PaymentStatus.paid
-                  ? Text('—', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant))
+              child: invoice.status == 'declined' ||
+                      invoice.paymentStatus == PaymentStatus.paid
+                  ? Text('—',
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant))
                   : Text(
                       '${invoice.currencySymbol} ${AmountFormat.money(invoice.outstandingBalance)}',
                       overflow: TextOverflow.ellipsis,
@@ -2383,7 +2623,8 @@ class _InvoiceManagementScreenV2State
                 child: _buildQuotationStatusChip(invoice.status),
               ),
             ),
-          SizedBox(width: isWide ? 300 : 48, child: _rowActionsV2(invoice, isWide)),
+          SizedBox(
+              width: isWide ? 300 : 48, child: _rowActionsV2(invoice, isWide)),
         ],
       ),
     );
@@ -2395,12 +2636,15 @@ class _InvoiceManagementScreenV2State
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(l10n.invoiceMgmtRowsPerPageLabel,
-            style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 13)),
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface, fontSize: 13)),
         const SizedBox(width: 8),
         DropdownButton<int>(
           value: _pageSize,
           underline: const SizedBox(),
-          items: [10, 25, 50, 100].map((n) => DropdownMenuItem(value: n, child: Text('$n'))).toList(),
+          items: [10, 25, 50, 100]
+              .map((n) => DropdownMenuItem(value: n, child: Text('$n')))
+              .toList(),
           onChanged: (n) {
             if (n == null) return;
             setState(() {
@@ -2432,10 +2676,16 @@ class _InvoiceManagementScreenV2State
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
+            border: Border.all(
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.3)),
           ),
-          child: Text(l10n.invoiceMgmtPageOfLabel(_currentPage + 1, _totalPages > 0 ? _totalPages : 1),
-              style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor)),
+          child: Text(
+              l10n.invoiceMgmtPageOfLabel(
+                  _currentPage + 1, _totalPages > 0 ? _totalPages : 1),
+              style: TextStyle(
+                  fontSize: 13.5,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).primaryColor)),
         ),
         const SizedBox(width: 12),
         OutlinedButton.icon(
@@ -2452,7 +2702,9 @@ class _InvoiceManagementScreenV2State
     );
 
     if (isWide) {
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [left, right]);
+      return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [left, right]);
     }
     return Wrap(
       alignment: WrapAlignment.spaceBetween,
@@ -2469,21 +2721,28 @@ class _InvoiceManagementScreenV2State
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.search_off, size: 72, color: Theme.of(context).colorScheme.outlineVariant),
+          Icon(Icons.search_off,
+              size: 72, color: Theme.of(context).colorScheme.outlineVariant),
           const SizedBox(height: 16),
           Text(
             _searchQuery.isEmpty
-                ? l10n.invoiceMgmtNoFilteredTypeFoundMessage('${widget.filterType.toLowerCase()}s')
+                ? l10n.invoiceMgmtNoFilteredTypeFoundMessage(
+                    '${widget.filterType.toLowerCase()}s')
                 : l10n.invoiceMgmtNoResultsForQueryMessage(_searchQuery),
             style: TextStyle(
-                fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w600),
+                fontSize: 17,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 6),
           Text(
             _searchQuery.isEmpty
-                ? l10n.invoiceMgmtCreateFirstTypeMessage(widget.filterType.toLowerCase())
+                ? l10n.invoiceMgmtCreateFirstTypeMessage(
+                    widget.filterType.toLowerCase())
                 : l10n.invoiceMgmtTryAdjustingFiltersMessage,
-            style: TextStyle(fontSize: 13.5, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            style: TextStyle(
+                fontSize: 13.5,
+                color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
           if (_searchQuery.isEmpty && widget.onCreateNew != null) ...[
             const SizedBox(height: 16),
@@ -2506,7 +2765,10 @@ class _InvoiceManagementScreenV2State
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: SizedBox(
-                width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)),
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                    color: Colors.white, strokeWidth: 2)),
           ),
         IconButton(
           icon: const Icon(Icons.download_for_offline_outlined),
@@ -2543,7 +2805,10 @@ class _InvoiceManagementScreenV2State
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: SizedBox(
-              width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)),
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                  color: Colors.white, strokeWidth: 2)),
         ),
       PopupMenuButton<String>(
         icon: const Icon(Icons.more_vert),
@@ -2563,15 +2828,21 @@ class _InvoiceManagementScreenV2State
         itemBuilder: (ctx) => [
           PopupMenuItem(
               value: 'download',
-              child: _MenuRow(Icons.download_for_offline_outlined, l10n.invoiceMgmtDownloadByRangeMenuLabel,
-                  CvSwatch.neutral)),
+              child: _MenuRow(Icons.download_for_offline_outlined,
+                  l10n.invoiceMgmtDownloadByRangeMenuLabel, CvSwatch.neutral)),
           PopupMenuItem(
               value: 'csv',
-              child: _MenuRow(Icons.file_download_outlined, l10n.invoiceMgmtExportAllCsvTooltip, CvSwatch.neutral)),
+              child: _MenuRow(Icons.file_download_outlined,
+                  l10n.invoiceMgmtExportAllCsvTooltip, CvSwatch.neutral)),
           if (widget.user.isAdmin())
             PopupMenuItem(
-                value: 'trash', child: _MenuRow(Icons.delete_sweep_outlined, l10n.invoiceMgmtTrashLabel, CvSwatch.danger)),
-          PopupMenuItem(value: 'refresh', child: _MenuRow(Icons.refresh, l10n.actionRefresh, CvSwatch.neutral)),
+                value: 'trash',
+                child: _MenuRow(Icons.delete_sweep_outlined,
+                    l10n.invoiceMgmtTrashLabel, CvSwatch.danger)),
+          PopupMenuItem(
+              value: 'refresh',
+              child: _MenuRow(
+                  Icons.refresh, l10n.actionRefresh, CvSwatch.neutral)),
         ],
       ),
     ];
@@ -2582,10 +2853,14 @@ class _InvoiceManagementScreenV2State
       final isWide = outerConstraints.maxWidth >= 1000;
 
       return Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark ? null : Colors.grey[50],
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? null
+            : Colors.grey[50],
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.invoiceMgmtManagementTitle(widget.filterType)),
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor,
+          title: Text(AppLocalizations.of(context)!
+              .invoiceMgmtManagementTitle(widget.filterType)),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor ??
+              Theme.of(context).primaryColor,
           foregroundColor: Colors.white,
           elevation: 0,
           centerTitle: false,
@@ -2610,7 +2885,8 @@ class _InvoiceManagementScreenV2State
             Align(
               alignment: Alignment.topCenter,
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: AppLayout.maxWidthWide),
+                constraints:
+                    const BoxConstraints(maxWidth: AppLayout.maxWidthWide),
                 child: DiscoveryBanner(
                   visible: _showReturnsBanner,
                   margin: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -2627,7 +2903,8 @@ class _InvoiceManagementScreenV2State
                   ),
                   subtitle: Text(
                     AppLocalizations.of(context)!.returnsBannerSubtitle,
-                    style: const TextStyle(fontSize: 12, color: CvSwatch.warning),
+                    style:
+                        const TextStyle(fontSize: 12, color: CvSwatch.warning),
                   ),
                   actionLabel: AppLocalizations.of(context)!.actionGotIt,
                   onAction: _dismissReturnsBanner,
@@ -2639,30 +2916,42 @@ class _InvoiceManagementScreenV2State
             ),
             const SizedBox(height: 16),
             _isLoadingPage
-                ? const Expanded(child: Center(child: CircularProgressIndicator()))
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: _pageInvoices.isEmpty
                         ? _emptyStateV2()
                         : Align(
                             alignment: Alignment.topCenter,
                             child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: AppLayout.maxWidthWide),
+                              constraints: const BoxConstraints(
+                                  maxWidth: AppLayout.maxWidthWide),
                               child: SingleChildScrollView(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 child: Card(
                                   elevation: 2,
-                                  shadowColor: Colors.black.withValues(alpha: 0.1),
+                                  shadowColor:
+                                      Colors.black.withValues(alpha: 0.1),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
+                                      borderRadius: BorderRadius.circular(
+                                          AppBorderRadius.xsmall)),
                                   clipBehavior: Clip.antiAlias,
                                   child: Column(
                                     children: [
                                       _tableHeaderRowV2(isWide),
-                                      ..._pageInvoices.asMap().entries.map((entry) {
+                                      ..._pageInvoices
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
                                         final invoice = entry.value;
                                         final index = entry.key;
-                                        final globalIndex = (_currentPage * _pageSize) + index + 1;
-                                        return _invoiceRowV2(invoice, globalIndex, index.isEven, isWide);
+                                        final globalIndex =
+                                            (_currentPage * _pageSize) +
+                                                index +
+                                                1;
+                                        return _invoiceRowV2(invoice,
+                                            globalIndex, index.isEven, isWide);
                                       }),
                                     ],
                                   ),
@@ -2674,7 +2963,8 @@ class _InvoiceManagementScreenV2State
             if (_pageInvoices.isNotEmpty)
               Container(
                 color: Theme.of(context).colorScheme.surfaceContainer,
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                 child: _paginationV2(isWide),
               ),
           ],
@@ -2776,7 +3066,9 @@ class _InvoiceManagementScreenV2State
 
   Widget _buildActionButton(
       IconData icon, Color color, String tooltip, VoidCallback? onPressed) {
-    final effectiveColor = onPressed != null ? color : Theme.of(context).colorScheme.onSurfaceVariant;
+    final effectiveColor = onPressed != null
+        ? color
+        : Theme.of(context).colorScheme.onSurfaceVariant;
     return Tooltip(
       message: tooltip,
       child: InkWell(
@@ -2841,15 +3133,16 @@ class _InvoiceManagementScreenV2State
   // "CN −₹X" / "DN +₹X" under an invoice that has notes raised against it.
   Widget _linkedNotesChips(Invoice invoice, List<Invoice> notes) {
     final l10n = AppLocalizations.of(context)!;
-    Widget chip(String type, Color color,
-        String Function(String amount) label) {
+    Widget chip(
+        String type, Color color, String Function(String amount) label) {
       final ofType = notes.where((n) => n.type == type).toList();
       if (ofType.isEmpty) return const SizedBox.shrink();
       final sum = ofType.fold<double>(0.0, (t, n) => t + n.total);
       return Tooltip(
         message: ofType.map((n) => '#${n.invoiceNumber ?? n.id}').join(', '),
         child: _statusPill(
-            label('${invoice.currencySymbol}${AmountFormat.money(sum)}'), color),
+            label('${invoice.currencySymbol}${AmountFormat.money(sum)}'),
+            color),
       );
     }
 
@@ -2907,7 +3200,8 @@ class _InvoiceManagementScreenV2State
     }
     final outstanding = invoice.outstandingBalance;
     final amount = credit < outstanding ? credit : outstanding;
-    String money(double v) => '${invoice.currencySymbol}${AmountFormat.money(v)}';
+    String money(double v) =>
+        '${invoice.currencySymbol}${AmountFormat.money(v)}';
     final amountText = money(amount);
     final confirmed = await showDialog<bool>(
       context: context,
@@ -2959,8 +3253,7 @@ class _InvoiceManagementScreenV2State
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                l10n.returnCreditApplyErrorMessage(e.toString()))));
+            content: Text(l10n.returnCreditApplyErrorMessage(e.toString()))));
       }
     }
   }
@@ -2971,8 +3264,8 @@ class _InvoiceManagementScreenV2State
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.voidCreditNoteTitle),
-        content: Text(l10n.voidCreditNoteBody(
-            creditNote.invoiceNumber ?? creditNote.id)),
+        content: Text(
+            l10n.voidCreditNoteBody(creditNote.invoiceNumber ?? creditNote.id)),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
@@ -3019,16 +3312,14 @@ class _InvoiceManagementScreenV2State
   // Refund voucher PDF for one refund: 'preview' | 'download' | 'print'.
   Future<void> _voucherAction(
       Invoice creditNote, Refund refund, String action) async {
-    final full = await ref
-        .read(invoiceRepositoryProvider)
-        .getInvoiceById(creditNote.id);
-    final remaining = await ref
-        .read(returnRepositoryProvider)
-        .getRemainingCustomerCredit(
-          customerId: creditNote.customer.id,
-          customerName: creditNote.customer.name,
-          currencyCode: creditNote.currencyCode,
-        );
+    final full =
+        await ref.read(invoiceRepositoryProvider).getInvoiceById(creditNote.id);
+    final remaining =
+        await ref.read(returnRepositoryProvider).getRemainingCustomerCredit(
+              customerId: creditNote.customer.id,
+              customerName: creditNote.customer.name,
+              currencyCode: creditNote.currencyCode,
+            );
     if (!mounted) return;
     final cn = full ?? creditNote;
     switch (action) {
@@ -3053,8 +3344,8 @@ class _InvoiceManagementScreenV2State
         .getRefundsForCreditNote(creditNote.id);
     if (!mounted) return;
     if (refunds.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.returnNoRefundsMessage)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.returnNoRefundsMessage)));
       return;
     }
     await showDialog(
@@ -3112,21 +3403,18 @@ class _InvoiceManagementScreenV2State
   // New debit note linked to [invoice] — opens the create form (clone path,
   // which for 'Debit Note' carries only the customer + invoice link).
   Future<void> _openDebitNote(Invoice invoice) async {
-    final full = await ref
-        .read(invoiceRepositoryProvider)
-        .getInvoiceById(invoice.id);
+    final full =
+        await ref.read(invoiceRepositoryProvider).getInvoiceById(invoice.id);
     if (!mounted || full == null) return;
     widget.onCloneInvoice(full, 'Debit Note');
   }
 
   Future<void> _openCreditNote(Invoice invoice) async {
-    final full = await ref
-        .read(invoiceRepositoryProvider)
-        .getInvoiceById(invoice.id);
+    final full =
+        await ref.read(invoiceRepositoryProvider).getInvoiceById(invoice.id);
     if (!mounted || full == null) return;
-    final returned = await ref
-        .read(returnRepositoryProvider)
-        .getReturnedQtyByLine(full.id);
+    final returned =
+        await ref.read(returnRepositoryProvider).getReturnedQtyByLine(full.id);
     if (!mounted) return;
     final sold = <String, double>{};
     for (final i in full.items) {
@@ -3134,8 +3422,10 @@ class _InvoiceManagementScreenV2State
     }
     if (sold.entries.every((e) =>
         e.value - (returned[e.key] ?? 0) <= InvoiceCalculator.moneyEpsilon)) {
-      AppError.show(context,
-          AppLocalizations.of(context)!.returnNothingLeft(full.invoiceNumber ?? full.id));
+      AppError.show(
+          context,
+          AppLocalizations.of(context)!
+              .returnNothingLeft(full.invoiceNumber ?? full.id));
       return;
     }
     widget.onCloneInvoice(full, 'Credit Note');
@@ -3159,7 +3449,8 @@ class _MenuRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 18,
+        Icon(icon,
+            size: 18,
             color: color == CvSwatch.danger
                 ? CvSwatch.danger
                 : Theme.of(context).colorScheme.onSurfaceVariant),
@@ -3205,7 +3496,8 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
           .getInvoiceById(invoice.originalInvoiceId!);
       if (!mounted) return;
       if (original == null || original.status == 'declined') {
-        AppError.show(context,
+        AppError.show(
+            context,
             AppLocalizations.of(context)!.invoiceMgmtDebitNoteRestoreBlocked(
                 invoice.originalInvoiceNumber ?? invoice.originalInvoiceId!));
         return;
@@ -3217,7 +3509,8 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(AppLocalizations.of(context)!.invoiceMgmtInvoiceRestoredMessage),
+            content: Text(AppLocalizations.of(context)!
+                .invoiceMgmtInvoiceRestoredMessage),
             backgroundColor: CvSwatch.success,
             showCloseIcon: true,
             closeIconColor: Colors.white),
@@ -3246,10 +3539,13 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
     final confirmed = await AppError.confirm(
       context,
       title: l10n.invoiceMgmtPermanentlyDeleteTitle,
-      message: l10n.invoiceMgmtPermanentlyDeleteBody(invoice.invoiceNumber ?? invoice.id),
+      message: l10n.invoiceMgmtPermanentlyDeleteBody(
+          invoice.invoiceNumber ?? invoice.id),
     );
     if (!confirmed) return;
-    await ref.read(invoiceRepositoryProvider).permanentDeleteInvoice(invoice.id);
+    await ref
+        .read(invoiceRepositoryProvider)
+        .permanentDeleteInvoice(invoice.id);
     setState(() => _invoices.removeWhere((i) => i.id == invoice.id));
     widget.onRestored();
   }
@@ -3277,10 +3573,11 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                 ),
                 const SizedBox(width: 12),
                 Text(AppLocalizations.of(context)!.invoiceMgmtTrashLabel,
-                    style:
-                        const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
                 const Spacer(),
                 IconButton(
+                  tooltip: AppLocalizations.of(context)!.actionClose,
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -3291,8 +3588,12 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
               Padding(
                 padding: const EdgeInsets.all(32),
                 child: Center(
-                  child: Text(AppLocalizations.of(context)!.invoiceMgmtTrashIsEmptyLabel,
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16)),
+                  child: Text(
+                      AppLocalizations.of(context)!
+                          .invoiceMgmtTrashIsEmptyLabel,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 16)),
                 ),
               )
             else
@@ -3305,47 +3606,41 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                   itemBuilder: (ctx, index) {
                     final inv = _invoices[index];
                     return ListTile(
-                      leading:
-                          Icon(Icons.receipt_long, color: Theme.of(context).colorScheme.onSurfaceVariant),
-                      title: Text('#${inv.invoiceNumber ?? inv.id} — ${inv.customer.name}'),
+                      leading: Icon(Icons.receipt_long,
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant),
+                      title: Text(
+                          '#${inv.invoiceNumber ?? inv.id} — ${inv.customer.name}'),
                       subtitle: Row(
                         children: [
                           Text(AppFormatters.formatShortDate(inv.date,
                               pattern: widget.datePattern)),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Container(
-                            padding:
-                            const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                               color: inv.type == 'Invoice'
-                                  ? CvSwatch.neutral
-                                  .withValues(alpha: 0.1)
-                                  : CvSwatch.warning
-                                  .withValues(alpha: 0.1),
-                              borderRadius:
-                              BorderRadius.circular(6),
+                                  ? CvSwatch.neutral.withValues(alpha: 0.1)
+                                  : CvSwatch.warning.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(6),
                               border: Border.all(
-                                color:
-                                inv.type == 'Invoice'
-                                    ? CvSwatch.neutral
-                                    .withValues(
-                                    alpha: 0.35)
-                                    : CvSwatch.warning
-                                    .withValues(
-                                    alpha: 0.35),
+                                color: inv.type == 'Invoice'
+                                    ? CvSwatch.neutral.withValues(alpha: 0.35)
+                                    : CvSwatch.warning.withValues(alpha: 0.35),
                               ),
                             ),
                             child: Text(
                               inv.type == 'Invoice'
                                   ? AppLocalizations.of(context)!.labelInvoice
-                                  : AppLocalizations.of(context)!.labelQuotation,
+                                  : AppLocalizations.of(context)!
+                                      .labelQuotation,
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
-                                color:
-                                inv.type == 'Invoice'
+                                color: inv.type == 'Invoice'
                                     ? CvSwatch.neutral
                                     : CvSwatch.warning,
                                 letterSpacing: 0.5,
@@ -3363,7 +3658,8 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                             TextButton.icon(
                               onPressed: () => _restore(inv),
                               icon: const Icon(Icons.restore, size: 16),
-                              label: Text(AppLocalizations.of(context)!.actionRestore),
+                              label: Text(
+                                  AppLocalizations.of(context)!.actionRestore),
                               style: TextButton.styleFrom(
                                   foregroundColor: CvSwatch.success),
                             ),
@@ -3371,7 +3667,8 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                           TextButton.icon(
                             onPressed: () => _permanentDelete(inv),
                             icon: const Icon(Icons.delete_forever, size: 16),
-                            label: Text(AppLocalizations.of(context)!.actionDelete),
+                            label: Text(
+                                AppLocalizations.of(context)!.actionDelete),
                             style: TextButton.styleFrom(
                                 foregroundColor: CvSwatch.danger),
                           ),
@@ -3433,16 +3730,21 @@ class _DatePickerField extends StatelessWidget {
               const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           suffixIcon: value != null
               ? IconButton(
+                  tooltip: AppLocalizations.of(context)!.actionClear,
                   icon: const Icon(Icons.clear, size: 16),
                   onPressed: onCleared,
                 )
               : const Icon(Icons.calendar_today, size: 16),
         ),
         child: Text(
-          value != null ? formatter.format(value!) : AppLocalizations.of(context)!.invoiceMgmtAnyDateLabel,
+          value != null
+              ? formatter.format(value!)
+              : AppLocalizations.of(context)!.invoiceMgmtAnyDateLabel,
           style: TextStyle(
             fontSize: 13,
-            color: value != null ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurfaceVariant,
+            color: value != null
+                ? Theme.of(context).colorScheme.onSurface
+                : Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
       ),
