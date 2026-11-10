@@ -10298,7 +10298,7 @@ abstract class AppLocalizations {
   /// No description provided for @termsPointPricing.
   ///
   /// In en, this message translates to:
-  /// **'It is free for now. We will charge for CrizaVoise later, with at least 30 days\' notice.'**
+  /// **'Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Your data is never locked: viewing, printing and export always work.'**
   String get termsPointPricing;
 
   /// No description provided for @termsPointPrivacy.
@@ -11141,6 +11141,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Activate licence'**
   String get licenseGateAction;
+
+  /// No description provided for @quickActionNewInvoice.
+  ///
+  /// In en, this message translates to:
+  /// **'New invoice'**
+  String get quickActionNewInvoice;
+
+  /// No description provided for @quickActionNewQuotation.
+  ///
+  /// In en, this message translates to:
+  /// **'New quotation'**
+  String get quickActionNewQuotation;
+
+  /// No description provided for @quickActionNewReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'New receipt'**
+  String get quickActionNewReceipt;
+
+  /// No description provided for @quickActionInvoices.
+  ///
+  /// In en, this message translates to:
+  /// **'Find an invoice'**
+  String get quickActionInvoices;
+
+  /// No description provided for @quickActionCustomers.
+  ///
+  /// In en, this message translates to:
+  /// **'Customers'**
+  String get quickActionCustomers;
+
+  /// No description provided for @quickActionProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Products & stock'**
+  String get quickActionProducts;
 }
 
 class _AppLocalizationsDelegate

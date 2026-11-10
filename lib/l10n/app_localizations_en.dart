@@ -6044,7 +6044,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get termsPointPricing =>
-      'It is free for now. We will charge for CrizaVoise later, with at least 30 days\' notice.';
+      'Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Your data is never locked: viewing, printing and export always work.';
 
   @override
   String get termsPointPrivacy =>
@@ -6560,4 +6560,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get licenseGateAction => 'Activate licence';
+
+  @override
+  String get quickActionNewInvoice => 'New invoice';
+
+  @override
+  String get quickActionNewQuotation => 'New quotation';
+
+  @override
+  String get quickActionNewReceipt => 'New receipt';
+
+  @override
+  String get quickActionInvoices => 'Find an invoice';
+
+  @override
+  String get quickActionCustomers => 'Customers';
+
+  @override
+  String get quickActionProducts => 'Products & stock';
 }

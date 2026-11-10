@@ -1569,5 +1569,11 @@
   "speakInvoicePartlyPaid": "अभी {amount} बाक़ी है।",
   "speakInvoiceDue": "भुगतान की तारीख़ {date}।",
   "rupeeSymbolLabel": "नए दस्तावेज़ों पर रुपये का चिह्न",
-  "rupeeSymbolHelp": "पुराने इनवॉइस का चिह्न नहीं बदलता। थर्मल रसीदों पर हमेशा \"Rs.\" छपता है क्योंकि रसीद प्रिंटर में ₹ चिह्न नहीं होता।"
+  "rupeeSymbolHelp": "पुराने इनवॉइस का चिह्न नहीं बदलता। थर्मल रसीदों पर हमेशा \"Rs.\" छपता है क्योंकि रसीद प्रिंटर में ₹ चिह्न नहीं होता।",
+  "quickActionNewInvoice": "नया इनवॉइस",
+  "quickActionNewQuotation": "नया कोटेशन",
+  "quickActionNewReceipt": "नई रसीद",
+  "quickActionInvoices": "इनवॉइस खोजें",
+  "quickActionCustomers": "ग्राहक",
+  "quickActionProducts": "उत्पाद और स्टॉक"
 }

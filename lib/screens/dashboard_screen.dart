@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/widgets/license_banner.dart';
+import 'package:crizavoise/services/pdf/pdf_font_service.dart';
 import 'package:crizavoise/widgets/discovery_banner.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
@@ -128,6 +129,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       if (mounted) setState(() {});
     });
     _loadCompanies();
+    // Load PDF fonts in the background so the first preview is instant.
+    if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+      Future.delayed(const Duration(seconds: 2), PdfFontService.warmUp);
+    }
     SessionManager.initialize(_onSessionTimeout);
     if (ref.read(appEditionConfigProvider).enableUpdateCheck) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdates());
@@ -291,6 +296,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         return DashboardHome(
             onEditInvoice: editInvoice,
             onCloneInvoice: cloneInvoice,
+            onQuickAction: (a) => switch (a) {
+                  DashboardAction.newInvoice => _createDocumentOfType('Invoice'),
+                  DashboardAction.newQuotation => _createDocumentOfType('Quotation'),
+                  DashboardAction.newReceipt => _createDocumentOfType('Receipt'),
+                  DashboardAction.invoices => _selectTab(2),
+                  DashboardAction.customers => _selectTab(5),
+                  DashboardAction.products => _selectTab(6),
+                },
             user: _currentUser);
       case 1:
         final isNewDoc = invoiceToEdit == null && _invoiceToClone == null;
@@ -1432,14 +1445,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 }
 
+/// Big shortcut tiles on the dashboard home.
+enum DashboardAction { newInvoice, newQuotation, newReceipt, invoices, customers, products }
+
 class DashboardHome extends ConsumerStatefulWidget {
   final Function(Invoice) onEditInvoice;
+  final void Function(DashboardAction)? onQuickAction;
   final Function(Invoice, String) onCloneInvoice;
   final User user;
   const DashboardHome({
     required this.onEditInvoice,
     required this.onCloneInvoice,
     required this.user,
+    this.onQuickAction,
     super.key,
   });
 
@@ -1465,7 +1483,6 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
   bool isLoading = true;
   String _dashboardLayout = 'default';
   bool _showLayoutBanner = false;
-  bool _showThemeBanner = false;
   bool _showShortcutsBanner = false;
   bool _showPurchaseBanner = false;
   bool _showSupportBanner = false;
@@ -1537,7 +1554,6 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     final stockLocked =
         (results[17] as ProductColumnsConfig).stockEditAdminOnly &&
             !widget.user.isAdmin();
-    final themeBannerDismissed = results[14] as String?;
     final shortcutsBannerDismissed =
         Platform.isAndroid ? '1' : results[15] as String?;
     final String milestone = financials.count >= 100
@@ -1566,7 +1582,6 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       _topCustomers = topCust;
       _topProducts = topProd;
       _showLayoutBanner = bannerDismissed != '1';
-      _showThemeBanner = themeBannerDismissed != '1';
       _showShortcutsBanner = shortcutsBannerDismissed != '1';
       _showPurchaseBanner = (results[18] as String?) != '1';
       _supportMilestone = milestone;
@@ -1588,13 +1603,6 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
         .read(settingsRepositoryProvider)
         .setSetting(SettingKey.layoutBannerDismissed, '1');
     if (mounted) setState(() => _showLayoutBanner = false);
-  }
-
-  Future<void> _dismissThemeBanner() async {
-    await ref
-        .read(settingsRepositoryProvider)
-        .setSetting(SettingKey.themeBannerDismissed, '1');
-    if (mounted) setState(() => _showThemeBanner = false);
   }
 
   Future<void> _dismissShortcutsBanner() async {
@@ -1762,38 +1770,6 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     );
   }
 
-  Widget _buildThemeDiscoveryBanner() {
-    return DiscoveryBanner(
-      visible: _showThemeBanner,
-      icon: Icons.dark_mode_outlined,
-      iconColor: CvSwatch.neutral,
-      backgroundColor: CvSwatch.neutralTint,
-      borderColor: CvSwatch.neutralSoft,
-      title: Row(
-        children: [
-          Text(
-            AppLocalizations.of(context)!.dashboardThemeBannerTitle,
-            style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-                color: CvSwatch.neutral),
-          ),
-          const SizedBox(width: 6),
-          const _BetaTag(),
-        ],
-      ),
-      subtitle: Text(
-        AppLocalizations.of(context)!.dashboardThemeBannerSubtitle,
-        style: const TextStyle(fontSize: 12, color: CvSwatch.neutral),
-      ),
-      actionLabel: AppLocalizations.of(context)!.actionGotIt,
-      onAction: _dismissThemeBanner,
-      actionColor: CvSwatch.neutral,
-      onDismiss: _dismissThemeBanner,
-      dismissIconColor: CvSwatch.neutralSoft,
-    );
-  }
-
   Widget _buildSupportBanner() {
     final bool isReviewMilestone = _supportMilestone == '10';
     return DiscoveryBanner(
@@ -1885,13 +1861,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPurchaseDiscoveryBanner(),
-              _buildLayoutDiscoveryBanner(),
-              _buildThemeDiscoveryBanner(),
-              _buildShortcutsDiscoveryBanner(),
-              _buildSupportBanner(),
+              _buildOneDiscoveryBanner(),
               // ── Greeting Banner ──────────────────────────────
               _buildGreetingBanner(),
+              _buildQuickActions(),
 
               const SizedBox(height: 28),
 
@@ -2436,6 +2409,58 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           ),
         ),
       ),
+    );
+  }
+
+  /// Only one tip at a time, so a new user isn't greeted by a wall of
+  /// banners. The next one appears after this one is dismissed.
+  Widget _buildOneDiscoveryBanner() {
+    if (_showPurchaseBanner &&
+        widget.user.isAdmin() &&
+        !ref.watch(enablePurchaseBillsAndSuppliersProvider)) {
+      return _buildPurchaseDiscoveryBanner();
+    }
+    if (_showShortcutsBanner) return _buildShortcutsDiscoveryBanner();
+    if (_showLayoutBanner) return _buildLayoutDiscoveryBanner();
+    if (_showSupportBanner) return _buildSupportBanner();
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildQuickActions() {
+    final cb = widget.onQuickAction;
+    if (cb == null) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
+    final tiles = <(IconData, String, String?, DashboardAction)>[
+      (Icons.receipt_long_rounded, l10n.quickActionNewInvoice, 'Ctrl+Q', DashboardAction.newInvoice),
+      (Icons.request_quote_outlined, l10n.quickActionNewQuotation, null, DashboardAction.newQuotation),
+      (Icons.payments_outlined, l10n.quickActionNewReceipt, null, DashboardAction.newReceipt),
+      (Icons.folder_open_rounded, l10n.quickActionInvoices, null, DashboardAction.invoices),
+      (Icons.person_add_alt_1_outlined, l10n.quickActionCustomers, null, DashboardAction.customers),
+      (Icons.inventory_2_outlined, l10n.quickActionProducts, null, DashboardAction.products),
+    ];
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: LayoutBuilder(builder: (context, c) {
+        final perRow = c.maxWidth >= 900 ? 6 : (c.maxWidth >= 560 ? 3 : 2);
+        final w = (c.maxWidth - (perRow - 1) * 12) / perRow;
+        return Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: [
+            for (final t in tiles)
+              SizedBox(
+                width: w,
+                child: _QuickActionTile(
+                  icon: t.$1,
+                  label: t.$2,
+                  shortcut: t.$3,
+                  primary: t.$4 == DashboardAction.newInvoice,
+                  onTap: () => cb(t.$4),
+                ),
+              ),
+          ],
+        );
+      }),
     );
   }
 
@@ -3402,12 +3427,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPurchaseDiscoveryBanner(),
-              _buildLayoutDiscoveryBanner(),
-              _buildThemeDiscoveryBanner(),
-              _buildShortcutsDiscoveryBanner(),
-              _buildSupportBanner(),
+              _buildOneDiscoveryBanner(),
               _buildGreetingBanner(),
+              _buildQuickActions(),
               const SizedBox(height: 20),
               // KPI row
               Row(
@@ -3509,12 +3531,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPurchaseDiscoveryBanner(),
-              _buildLayoutDiscoveryBanner(),
-              _buildThemeDiscoveryBanner(),
-              _buildShortcutsDiscoveryBanner(),
-              _buildSupportBanner(),
+              _buildOneDiscoveryBanner(),
               _buildGreetingBanner(),
+              _buildQuickActions(),
               const SizedBox(height: 20),
               // Mini KPI strip
               Row(
@@ -4584,12 +4603,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildPurchaseDiscoveryBanner(),
-              _buildLayoutDiscoveryBanner(),
-              _buildThemeDiscoveryBanner(),
-              _buildShortcutsDiscoveryBanner(),
-              _buildSupportBanner(),
+              _buildOneDiscoveryBanner(),
               _buildGreetingBanner(),
+              _buildQuickActions(),
               const SizedBox(height: 20),
               // ── Top row: Hero chart + 2×2 KPI grid ──────────────────────────
               SizedBox(
@@ -4989,24 +5005,62 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
   }
 }
 
-class _BetaTag extends StatelessWidget {
-  const _BetaTag();
+/// One big, easy-to-hit dashboard shortcut (icon over label).
+class _QuickActionTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String? shortcut;
+  final bool primary;
+  final VoidCallback onTap;
+  const _QuickActionTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.shortcut,
+    this.primary = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-      decoration: BoxDecoration(
-        color: CvSwatch.neutral,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        AppLocalizations.of(context)!.dashboardBetaBadge,
-        style: const TextStyle(
-          fontSize: 9,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-          letterSpacing: 0.5,
+    final scheme = Theme.of(context).colorScheme;
+    final bg = primary ? scheme.primary : scheme.surfaceContainer;
+    final fg = primary ? scheme.onPrimary : scheme.onSurface;
+    return Semantics(
+      button: true,
+      label: shortcut == null ? label : '$label, $shortcut',
+      excludeSemantics: true,
+      child: Material(
+        color: bg,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(CvRadius.md),
+          side: primary ? BorderSide.none : BorderSide(color: scheme.outlineVariant),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 96),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, size: 30, color: primary ? fg : scheme.primary),
+                  const SizedBox(height: 8),
+                  Text(label,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: fg, fontWeight: FontWeight.w600)),
+                  if (shortcut != null) ...[
+                    const SizedBox(height: 2),
+                    Text(shortcut!,
+                        style: TextStyle(color: fg.withValues(alpha: 0.75), fontSize: 11)),
+                  ],
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

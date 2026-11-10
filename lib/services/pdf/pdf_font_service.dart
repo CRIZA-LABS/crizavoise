@@ -3,7 +3,25 @@ import 'package:crizavoise/services/pdf/pdf_font_assets.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class PdfFontService {
-  static Future<pw.ThemeData> loadTheme() async {
+  static Future<pw.ThemeData>? _cached;
+
+  /// PDF theme with every fallback font. Loaded once per run (about 11 MB of
+  /// fonts), then shared by every invoice, report and receipt. Fonts are only
+  /// embedded in a PDF when its text actually uses them.
+  static Future<pw.ThemeData> loadTheme() {
+    return _cached ??= _load().catchError((Object e) {
+      _cached = null; // allow a retry after a failed asset read
+      throw e;
+    });
+  }
+
+  /// Starts loading in the background (after sign-in) so the first PDF
+  /// preview opens without the font delay.
+  static void warmUp() {
+    loadTheme().ignore();
+  }
+
+  static Future<pw.ThemeData> _load() async {
     final fonts = await Future.wait([
       // 0-3: Primary fonts
       rootBundle.load(PdfFontAssets.regular),

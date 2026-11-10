@@ -3777,5 +3777,11 @@
   "licenseBannerEnded": "View-only: you can still view, print and export. Activate a licence to create new documents.",
   "licenseGateTitle": "Activate CrizaVoise to save",
   "licenseGateBody": "Your free trial or licence has ended. Your data is safe, and you can still view, print, export and back up. To save documents, activate a licence.",
-  "licenseGateAction": "Activate licence"
+  "licenseGateAction": "Activate licence",
+  "quickActionNewInvoice": "New invoice",
+  "quickActionNewQuotation": "New quotation",
+  "quickActionNewReceipt": "New receipt",
+  "quickActionInvoices": "Find an invoice",
+  "quickActionCustomers": "Customers",
+  "quickActionProducts": "Products & stock"
 }

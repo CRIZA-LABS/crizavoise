@@ -6043,7 +6043,7 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get termsPointPricing =>
-      'અત્યારે તે મફત છે. પછીથી CrizaVoise માટે ફી લેવામાં આવશે, ઓછામાં ઓછી 30 દિવસ અગાઉ જાણ સાથે.';
+      '30 દિવસ મફત, પછી નવા દસ્તાવેજ બનાવવા માટે પેઇડ લાઇસન્સ (6 મહિના, 1 વર્ષ અથવા લાઇફટાઇમ). તમારો ડેટા ક્યારેય લૉક થતો નથી: જોવું, પ્રિન્ટ અને એક્સપોર્ટ હંમેશા ચાલે છે.';
 
   @override
   String get termsPointPrivacy =>
@@ -6558,4 +6558,22 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get licenseGateAction => 'Activate licence';
+
+  @override
+  String get quickActionNewInvoice => 'નવું ઇન્વૉઇસ';
+
+  @override
+  String get quickActionNewQuotation => 'નવું ક્વોટેશન';
+
+  @override
+  String get quickActionNewReceipt => 'નવી રસીદ';
+
+  @override
+  String get quickActionInvoices => 'ઇન્વૉઇસ શોધો';
+
+  @override
+  String get quickActionCustomers => 'ગ્રાહકો';
+
+  @override
+  String get quickActionProducts => 'ઉત્પાદનો અને સ્ટોક';
 }
