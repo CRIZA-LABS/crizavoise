@@ -10298,7 +10298,7 @@ abstract class AppLocalizations {
   /// No description provided for @termsPointPricing.
   ///
   /// In en, this message translates to:
-  /// **'Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Your data is never locked: viewing, printing and export always work.'**
+  /// **'Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Payments are non-refundable. Your data is never locked: viewing, printing and export always work.'**
   String get termsPointPricing;
 
   /// No description provided for @termsPointPrivacy.

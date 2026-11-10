@@ -3524,7 +3524,7 @@
   "termsPointCheckDocuments": "Check every invoice before you give it to a customer.",
   "termsPointBackups": "Your data stays on this device. Take regular backups — we cannot recover lost data.",
   "termsPointNoWarranty": "The software is provided \"as is\", without guarantees. Criza Labs is not liable for financial loss, data loss, tax penalties or crashes.",
-  "termsPointPricing": "Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Your data is never locked: viewing, printing and export always work.",
+  "termsPointPricing": "Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Payments are non-refundable. Your data is never locked: viewing, printing and export always work.",
   "termsPointPrivacy": "We do not collect, see or sell your business data. No tracking, no ads.",
   "termsPointTalkFirst": "If something goes wrong, write to us first at info@criza.dev and give us 30 days to fix it.",
   "termsReadTerms": "Read Terms of Use",

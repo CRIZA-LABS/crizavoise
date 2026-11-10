@@ -23,7 +23,7 @@ Offline licensing can't stop a determined cracker. It keeps honest customers hon
 `cd tool/license-admin && npm install && npm start`, then open http://127.0.0.1:8787. It covers customers, issuing, renewals, PC moves, revocation, reset codes, key rotation, an activity log and CSV export. Its data is in `.secrets/admin/`. See `tool/license-admin/README.md`. The command-line tool below still works, and both make identical keys.
 
 ## Online licence check (dormant)
-The app can ask the licence server whether a licence was revoked or moved, at most weekly. Offline or no answer changes nothing. The answer is signed and must be fresh. It is **off** (`AppConfig.licenseCheckUrl = null`) until the admin app is hosted. Turning it on adds network calls, so update PRIVACY.md at the same time.
+Lenient by design. Each time the app starts and the computer is online, it asks the licence server about its licence. Offline, no answer, or an answer it can't verify: nothing changes. Only an explicit *revoked* or *moved* answer switches that PC to view-only, and a later *active* answer (e.g. you undo a mistaken revoke) unlocks it again. Answers are signed and must be fresh. It is **off** (`AppConfig.licenseCheckUrl = null`) until the admin app is hosted. Turning it on adds network calls, so update PRIVACY.md at the same time.
 
 ## Your private keys (`.secrets/`)
 - `license_signing_key.json` signs licence keys. `reset_signing_key.json` signs password-reset codes.

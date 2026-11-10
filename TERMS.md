@@ -1,6 +1,6 @@
 # CrizaVoise Terms of Use
 
-Version 2026-11-10.2 · Effective 10 November 2026
+Version 2026-11-10.3 · Effective 10 November 2026
 
 These Terms are an agreement between **you** (the person or business using CrizaVoise) and **Criza Labs** ("**we**", "**us**"), the makers of **CrizaVoise by Criza Labs** (the "**Software**"). By installing, opening or using the Software, you agree to these Terms and to our Privacy Policy. If you use the Software for a business, you confirm you are allowed to accept these Terms for that business. **If you do not agree, do not install or use the Software.**
 
@@ -15,7 +15,7 @@ These Terms are an agreement between **you** (the person or business using Criza
 2.3 **Your data is never locked.** When a trial or licence ends, you can still open, view, print, share, export and back up all your data. Only creating and saving new documents stops until you activate a licence.
 2.4 **Changes.** We may change prices, plans and what each plan includes. A change never shortens a licence you have already paid for. We will give at least **30 days' notice** in the Software or on https://criza.dev before any new charge applies to you.
 2.5 Licence keys are personal. You may not share, sell or publish a key, or try to create, alter or bypass keys or the trial. We may cancel a key that is misused, without refund.
-2.6 Fees, once paid, are non-refundable except where the law requires a refund or we agree in writing. Prices exclude taxes unless stated.
+2.6 **All payments are final and non-refundable**, including for unused time, if you stop using the Software, change or lose a computer, or if your licence ends because you broke these Terms. The only exception is where a refund is required by law. Prices exclude taxes unless stated.
 
 ## 3. Your responsibilities
 3.1 **You are responsible for everything you create with the Software.** That includes invoices, quotations, receipts, credit and debit notes, amounts, tax rates, GST details, invoice numbers, customer and product records, and reports. **Check every document before you issue it.**
@@ -46,7 +46,7 @@ We may suspend or end your licence if you break this section. You alone are resp
 - claims by your customers, suppliers, staff or authorities.
 
 This applies even if we were told such loss was possible.
-6.2 **Our total liability** for all claims about the Software or these Terms is limited to the **amount you paid us for the Software in the 12 months before the event giving rise to the claim**, or **INR 1,000 if you paid nothing**, whichever is greater.
+6.2 **Our total liability** for all claims about the Software or these Terms is limited to the **amount you actually paid us for the Software in the 6 months before the event giving rise to the claim**. **If you paid us nothing in that period (for example during the free trial), we have no liability to you and you are not entitled to any compensation.**
 6.3 Nothing in these Terms limits liability that cannot be limited by law, such as liability for fraud. Where the law does not allow an exclusion, it applies to the extent allowed.
 
 ## 7. Indemnity

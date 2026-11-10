@@ -49,7 +49,7 @@ class AppConfig {
   /// when either changes materially: users are asked to accept again.
   static const termsAsset = "TERMS.md";
   static const privacyAsset = "PRIVACY.md";
-  static const termsVersion = "2026-11-10.2";
+  static const termsVersion = "2026-11-10.3";
 
   /// Online licence check (tool/license-admin `/api/v1/status`). null = off:
   /// the app makes no licence network calls. Set to the hosted URL (e.g.

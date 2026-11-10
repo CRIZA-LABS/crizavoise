@@ -180,35 +180,44 @@ void main() {
   });
 
   group('online check (dormant until a server URL is set)', () {
-    test('a moved licence becomes revoked; network silence changes nothing', () async {
+    test('lenient: offline keeps the state; only revoked/moved block; active undoes it', () async {
       final store = MemoryLicenseStore();
-      var answer = <String, dynamic>{};
+      Map<String, dynamic>? answer; // null = offline / no answer
       var calls = 0;
-      var now = DateTime.utc(2026, 11, 10);
       LicenseService make() => LicenseService(
           stores: [store],
           deviceCode: () async => device,
           publicKey: pub,
-          clock: () => now,
+          clock: () => DateTime.utc(2026, 11, 10),
           statusFetcher: (id, dev) async {
             calls++;
-            return answer.isEmpty ? null : {...answer, 'id': id};
+            return answer == null ? null : {...answer, 'id': id};
           });
       await make().activate(await key(LicensePlan.oneYear));
 
-      expect(await make().checkOnline(), isFalse, reason: 'no answer (offline)');
-      answer = {'status': 'active'};
-      expect(await make().checkOnline(), isFalse);
-      final before = calls;
-      expect(await make().checkOnline(), isFalse, reason: 'checked recently: skipped');
-      expect(calls, before);
+      expect(await make().checkOnline(), isFalse, reason: 'offline');
+      expect((await make().load()).kind, LicenseKind.licensed);
 
-      now = now.add(const Duration(days: 8));
+      for (final st in ['active', 'expiring', 'unknown', 'other-device']) {
+        answer = {'status': st};
+        expect(await make().checkOnline(), isFalse, reason: st);
+        expect((await make().load()).kind, LicenseKind.licensed, reason: st);
+      }
+      expect(calls, 5, reason: 'checks every time it is called (each app start)');
+
       answer = {'status': 'moved'};
       expect(await make().checkOnline(), isTrue);
+      expect((await make().load()).kind, LicenseKind.licenseRevoked);
+
+      answer = null; // offline afterwards: stays as it was
+      expect(await make().checkOnline(), isFalse);
+      expect((await make().load()).kind, LicenseKind.licenseRevoked);
+
+      answer = {'status': 'active'}; // revoked by mistake, fixed on the server
+      expect(await make().checkOnline(), isTrue);
       final s = await make().load();
-      expect(s.kind, LicenseKind.licenseRevoked);
-      expect(s.canCreateDocuments, isFalse);
+      expect(s.kind, LicenseKind.licensed);
+      expect(s.canCreateDocuments, isTrue);
     });
 
     test('signed status: genuine, forged and stale answers', () async {

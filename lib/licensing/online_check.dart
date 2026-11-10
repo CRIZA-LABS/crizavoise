@@ -6,8 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:crizavoise/common/app_config.dart';
 import 'package:crizavoise/licensing/license_keys.dart';
 
-/// Statuses that end a licence on this computer.
-const blockingStatuses = {'revoked', 'moved', 'other-device'};
+/// The only answers that end a licence on this computer. Anything else
+/// (active, expiring, unknown, errors) leaves the app as it is.
+const blockingStatuses = {'revoked', 'moved'};
 
 /// Verifies a signed status from the licence server:
 /// `{body, sig}` with sig = Ed25519("CVSTAT1|" + body). Returns the decoded

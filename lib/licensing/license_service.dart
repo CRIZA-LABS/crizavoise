@@ -143,8 +143,6 @@ class LicenseService {
   /// Asks the licence server about a licence; null = no answer / check off.
   final Future<Map<String, dynamic>?> Function(String id, String device) statusFetcher;
 
-  /// How often the online check runs (when it is switched on).
-  static const onlineCheckEvery = Duration(days: 7);
 
   static LicenseService? _instance;
   static LicenseService get instance => _instance ??= _defaultService();
@@ -255,27 +253,39 @@ class LicenseService {
   /// Removes the saved licence (e.g. before moving it to another computer).
   Future<void> deactivate() => _compute(clearKey: true);
 
-  /// The online licence check: at most every [onlineCheckEvery], and only
-  /// when a server is configured. Network trouble never changes anything.
-  /// Returns true when the state changed (the licence was revoked or moved).
+  /// The online licence check, lenient by design:
+  /// - runs whenever it's called (once per app start) and only if a server
+  ///   is configured;
+  /// - offline, no answer, or an answer that can't be verified: nothing
+  ///   changes, the app keeps its current state;
+  /// - only an explicit revoked or moved ends the licence here;
+  /// - a later active answer undoes that (e.g. a revoke made by mistake).
+  /// Returns true when the state changed.
   Future<bool> checkOnline() async {
     final s = await _compute();
     final lic = s.license;
-    if (lic == null || s.kind == LicenseKind.licenseRevoked) return false;
-    if (_lastChecked != null && clock().toUtc().difference(_lastChecked!) < onlineCheckEvery) {
-      return false;
-    }
+    if (lic == null) return false;
     final status = await statusFetcher(lic.id, s.deviceCode);
     if (status == null || status['id'] != lic.id) return false;
     final blocked = blockingStatuses.contains(status['status']);
-    await _compute(checkedAt: clock(), revokeId: blocked ? lic.id : null);
-    return blocked;
+    final wasRevoked = s.kind == LicenseKind.licenseRevoked;
+    if (blocked == wasRevoked) {
+      await _compute(checkedAt: clock());
+      return false;
+    }
+    await _compute(
+        checkedAt: clock(),
+        revokeId: blocked ? lic.id : null,
+        unrevokeId: blocked ? null : lic.id);
+    return true;
   }
 
-  DateTime? _lastChecked;
-
   Future<LicenseState> _compute(
-      {String? newKey, bool clearKey = false, DateTime? checkedAt, String? revokeId}) async {
+      {String? newKey,
+      bool clearKey = false,
+      DateTime? checkedAt,
+      String? revokeId,
+      String? unrevokeId}) async {
     final now = clock().toUtc();
     DateTime? trialStart, seen, checked;
     String? key;
@@ -307,8 +317,8 @@ class LicenseService {
     if (clearKey) key = null;
     if (newKey != null) key = newKey;
     if (revokeId != null) revoked.add(revokeId);
+    if (unrevokeId != null) revoked.remove(unrevokeId);
     if (checkedAt != null) checked = checkedAt.toUtc();
-    _lastChecked = checked;
 
     await _writeAll(encodeRecord(
         trialStart: trialStart, seen: effective, key: key, revoked: revoked, checked: checked));
