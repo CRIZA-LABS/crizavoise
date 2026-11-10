@@ -67,6 +67,8 @@ class PdfFontService {
       rootBundle.load(PdfFontAssets.symbolsFallback),
       // 33: Inter
       rootBundle.load(PdfFontAssets.interRegular),
+      // 34: Gujarati
+      rootBundle.load(PdfFontAssets.gujaratiFallback),
     ]);
 
     // Primary fonts
@@ -121,6 +123,8 @@ class PdfFontService {
 
     final inter = pw.Font.ttf(fonts[32]);
 
+    final gujarati = pw.Font.ttf(fonts[33]);
+
     return pw.ThemeData.withFont(
       base: regular,
       bold: bold,
@@ -145,6 +149,7 @@ class PdfFontService {
         malayalamBold,
         devanagari,
         devanagariBold,
+        gujarati,
         tamil,
         tamilBold,
         kannada,

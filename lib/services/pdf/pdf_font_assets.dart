@@ -17,6 +17,9 @@ class PdfFontAssets {
   static const bengaliFallback = 'assets/fonts/NotoSansBengali-Regular.ttf';
   static const bengaliFallbackBold = 'assets/fonts/NotoSansBengali-Bold.ttf';
 
+  // Gujarati (variable font; regular instance used for both weights)
+  static const gujaratiFallback = 'assets/fonts/NotoSansGujarati-Variable.ttf';
+
   // Devanagari
   static const devanagariFallback =
       'assets/fonts/NotoSansDevanagari-Regular.ttf';

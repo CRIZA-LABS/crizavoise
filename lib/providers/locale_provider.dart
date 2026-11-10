@@ -53,6 +53,7 @@ const supportedAppLocales = [
   Locale('fr'),
   Locale('es'),
   Locale('hi'),
+  Locale('gu'),
   Locale('zh'),
 ];
 

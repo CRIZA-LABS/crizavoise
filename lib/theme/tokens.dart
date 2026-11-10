@@ -122,7 +122,7 @@ class CvType {
   static const body = 'Inter';
 
   /// Non-Latin app text (Devanagari, Tibetan) falls back to bundled Noto.
-  static const fallback = ['NotoSansDevanagari', 'NotoSerifTibetan'];
+  static const fallback = ['NotoSansDevanagari', 'NotoSansGujarati', 'NotoSerifTibetan'];
 
   static const display = 40.0;
   static const h1 = 32.0;
