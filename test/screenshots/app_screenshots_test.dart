@@ -24,7 +24,11 @@ import 'package:crizavoise/repositories/sqlite/sqlite_installation_repository.da
 import 'package:crizavoise/repositories/sqlite/sqlite_invoice_repository.dart';
 import 'package:crizavoise/repositories/sqlite/sqlite_payment_repository.dart';
 import 'package:crizavoise/repositories/sqlite/sqlite_settings_repository.dart';
+import 'package:crizavoise/screens/auth/create_account_screen.dart';
+import 'package:crizavoise/screens/auth/forgot_password_screen.dart';
 import 'package:crizavoise/screens/auth/login_screen.dart';
+import 'package:crizavoise/screens/auth/recovery_code_screen.dart';
+import 'package:crizavoise/screens/settings/license_screen.dart';
 import 'package:crizavoise/screens/dashboard_screen.dart';
 import 'package:crizavoise/services/backend_services.dart';
 import 'package:crizavoise/theme/app_theme.dart';
@@ -152,6 +156,21 @@ void main() {
       await _pumpApp(tester, const LoginScreen(), mode);
       await _shot(tester, 'login_$m');
     }, skip: !_enabled, variant: _windows);
+
+    final authScreens = <String, Widget Function()>{
+      'create_account': () => CreateAccountScreen(defaultAdmin: admin),
+      'recovery_code': () => RecoveryCodeScreen(
+          code: 'K7QM-2XPA-9DWE-4HTC', username: 'owner', onDone: () {}, onLater: () {}),
+      'forgot_password': () => const ForgotPasswordScreen(),
+      'license': () => const LicenseScreen(),
+    };
+    for (final e in authScreens.entries) {
+      testWidgets('${e.key} · $m', (tester) async {
+        await _pumpApp(tester, e.value(), mode);
+        await _shot(tester, '${e.key}_$m');
+        await tester.pumpWidget(const SizedBox());
+      }, skip: !_enabled, variant: _windows);
+    }
 
     testWidgets('all screens · $m', (tester) async {
       await _pumpApp(tester, DashboardScreen(admin), mode);

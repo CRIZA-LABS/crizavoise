@@ -1,6 +1,6 @@
 # CrizaVoise Privacy Policy
 
-Version 2026-11-10 · Effective 10 November 2026
+Version 2026-11-10.2 · Effective 10 November 2026
 
 This policy explains how **CrizaVoise by Criza Labs** (the "**Software**") handles information. In short: **your business data stays on your device. We do not collect, see, sell or share it.**
 
@@ -18,28 +18,33 @@ When you store your customers' or suppliers' details (names, phone numbers, addr
 
 Criza Labs does not process this data on your behalf.
 
-## 3. When information reaches us
+## 3. Trial, licence and sign-in information
+- **Device code.** For the trial and licence, the Software calculates a short device code from your operating system's computer ID. The code is a one-way fingerprint: it does not reveal the computer ID or anything about you. It, the trial start date and your licence key are stored only on your computer (in the Software's settings, data folder and, on Windows, your user registry).
+- **When you buy or renew,** you send us your device code, name and email so we can issue a key. We keep a record of keys we issue (key number, plan, name, email, device code, dates) to support and verify licences. We do not use it for marketing without your consent.
+- **Passwords and recovery codes** are stored only on your computer, and only as salted hashes, never in readable form. We cannot see them or recover them.
+
+## 4. When information reaches us
 We only receive information **if you choose to send it to us**:
 - **Emails to us.** When you contact us (for example through Settings → About → Support), your email app sends us your message and email address. Support emails are pre-filled with **app version, operating system and an anonymous installation ID** to help us fix problems. They never include your company, customer or invoice data. You can remove anything before sending.
 - We use what you send only to reply and to fix problems. We keep it only as long as needed for that, and we do not sell or share it, except where the law requires.
 
-## 4. Internet use by the Software
+## 5. Internet use by the Software
 The Software works **offline**. It does not send your data anywhere. It connects to the internet only:
 - when **you** open a link (for example https://criza.dev) or share a document through another app such as email or WhatsApp. That app's own privacy policy then applies;
 - in time-limited **test builds** only, to read the current date from https://criza.dev so the test period can be enforced. No data is sent with that request.
 
 Automatic update checks and usage analytics are switched off.
 
-## 5. Security
+## 6. Security
 - Passwords are stored as salted hashes, never as plain text.
 - Invoice-number changes are recorded in an audit trail.
 - No software or storage is perfectly secure. Protect your device with an operating-system password, keep it updated, and keep backups in a safe place.
 
-## 6. Children
+## 7. Children
 The Software is made for businesses and is not intended for children.
 
-## 7. Changes
+## 8. Changes
 We may update this policy. When the change matters, we will show the new version in the Software. The version and date are at the top.
 
-## 8. Contact and grievances
+## 9. Contact and grievances
 For privacy questions or grievances, write to **info@criza.dev** (Criza Labs, https://criza.dev). We aim to reply within 30 days.

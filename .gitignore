@@ -91,3 +91,6 @@ CrizaVoise_Prompt.md
 # Brand tool deps and previews
 /tool/brand/node_modules/
 /tool/brand/preview/
+
+# Criza Labs signing keys (licences, reset codes). NEVER commit.
+/.secrets/

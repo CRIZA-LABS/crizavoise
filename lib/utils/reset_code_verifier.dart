@@ -1,21 +1,20 @@
 import 'dart:convert';
 import 'package:cryptography/cryptography.dart';
+import 'package:crizavoise/licensing/license_keys.dart';
 
 /// Verifies developer-issued password reset codes.
 ///
 /// Challenge-response: the locked-out user shares their installationId
-/// out-of-band; the developer signs `installationId:utcDayBucket` with a
+/// out-of-band; Criza Labs signs `installationId:utcDayBucket` with a
 /// private Ed25519 key (never shipped with the app) and returns the
 /// base64 signature as the "response code". This file only holds the
 /// public key, so it can't be used to forge codes even if decompiled.
 class ResetCodeVerifier {
   ResetCodeVerifier._();
 
-  /// Ed25519 public key bytes. Safe to ship - cannot sign, only verify.
-  static const List<int> _publicKeyBytes = [
-    32, 32, 192, 59, 67, 127, 76, 119, 253, 86, 122, 201, 212, 124, 139, 248,
-    245, 252, 254, 202, 107, 96, 145, 66, 60, 35, 245, 73, 2, 24, 122, 160,
-  ];
+  /// Criza Labs reset-code public key (verify only). The private key is in
+  /// .secrets/ and codes are made with tool/license/generate.dart reset.
+  static const List<int> _publicKeyBytes = CrizaKeys.resetPublicKey;
 
   /// Days since Unix epoch, computed from UTC. Must match the signer
   /// script's formula exactly.

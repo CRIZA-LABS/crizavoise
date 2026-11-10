@@ -19,7 +19,7 @@ class DatabaseHelper {
   static String? get path => _path;
   static Database? _database;
   static String _dbFileName = 'invoice_manager.db';
-  final dbVersion = 59;
+  final dbVersion = 60;
 
   /// Startup only, before anything has opened a connection yet — just points
   /// at the right file for the first `_initDB()` call. No close/reopen, so
@@ -216,7 +216,9 @@ class DatabaseHelper {
         password TEXT,
         user_type TEXT,
         salt TEXT,
-        password_changed INTEGER NOT NULL DEFAULT 1
+        password_changed INTEGER NOT NULL DEFAULT 1,
+        recovery_hash TEXT,
+        recovery_salt TEXT
       )
     ''');
 
@@ -1375,6 +1377,17 @@ class DatabaseHelper {
         await db.execute(
             'CREATE INDEX IF NOT EXISTS idx_products_quick_code ON products(quick_code COLLATE NOCASE)');
       });
+    }
+
+    if (oldVersion < 60) {
+      // Personal recovery codes for 'Forgot password' (stored hashed only).
+      final cols = (await db.rawQuery('PRAGMA table_info(users)')).map((c) => c['name']);
+      if (!cols.contains('recovery_hash')) {
+        await _runMigrationStep(db, 60, 'add_recovery_code_to_users', () async {
+          await db.execute('ALTER TABLE users ADD COLUMN recovery_hash TEXT');
+          await db.execute('ALTER TABLE users ADD COLUMN recovery_salt TEXT');
+        });
+      }
     }
   }
 

@@ -687,6 +687,7 @@ class _PdfSettingsScreenState extends ConsumerState<PdfSettingsScreen> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildThermalWidthMarginField() {
     return Container(
       padding: const EdgeInsets.all(12),

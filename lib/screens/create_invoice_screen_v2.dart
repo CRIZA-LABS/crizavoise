@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/widgets/license_banner.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
@@ -1463,6 +1464,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   }
 
   Future<bool> _createInvoice() async {
+    if (!await ensureCanCreateDocuments(context, ref)) return false;
     await _ensureDraftLinkLoaded();
     if (!mounted) return false;
     if (nameController.text.isEmpty) {
@@ -1859,6 +1861,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   /// _updateInvoice(finalize: true) assigns one). Handles both the first
   /// save (insert) and re-saving an already-existing draft (update).
   Future<bool> _saveDraft() async {
+    if (!await ensureCanCreateDocuments(context, ref)) return false;
     await _ensureDraftLinkLoaded();
     if (!mounted) return false;
     if (nameController.text.isEmpty) {
@@ -4078,6 +4081,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   /// draft" which must stay unnumbered).
   Future<bool> _updateInvoice({bool finalize = false}) async {
     if (_invoice == null) return false;
+    if (!await ensureCanCreateDocuments(context, ref)) return false;
 
     if (nameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(

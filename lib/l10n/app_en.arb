@@ -3524,7 +3524,7 @@
   "termsPointCheckDocuments": "Check every invoice before you give it to a customer.",
   "termsPointBackups": "Your data stays on this device. Take regular backups — we cannot recover lost data.",
   "termsPointNoWarranty": "The software is provided \"as is\", without guarantees. Criza Labs is not liable for financial loss, data loss, tax penalties or crashes.",
-  "termsPointPricing": "It is free for now. We will charge for CrizaVoise later, with at least 30 days' notice.",
+  "termsPointPricing": "Free for 30 days, then a paid licence (6 months, 1 year or lifetime) to keep creating documents. Your data is never locked: viewing, printing and export always work.",
   "termsPointPrivacy": "We do not collect, see or sell your business data. No tracking, no ads.",
   "termsPointTalkFirst": "If something goes wrong, write to us first at info@criza.dev and give us 30 days to fix it.",
   "termsReadTerms": "Read Terms of Use",
@@ -3621,5 +3621,161 @@
     }
   },
   "rupeeSymbolLabel": "Rupee symbol on new documents",
-  "rupeeSymbolHelp": "Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign."
+  "rupeeSymbolHelp": "Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign.",
+  "actionCopy": "Copy",
+  "actionContinue": "Continue",
+  "authShowPassword": "Show password",
+  "authHidePassword": "Hide password",
+  "authPasswordTooShort": "Use at least 8 characters for the password.",
+  "authPasswordIsUsername": "The password can't be the same as the username.",
+  "authPasswordsDontMatch": "The two passwords don't match.",
+  "authUsernameLabel": "Username",
+  "authUsernameHelp": "You'll type this to sign in. Letters, numbers and . _ - @ (3–32 characters).",
+  "authUsernameRule": "Use 3–32 letters, numbers or . _ - @ for the username (no spaces).",
+  "authUsernameTaken": "That username is already used in this company.",
+  "authPasswordLabel": "Password",
+  "authPasswordHelp": "At least 8 characters. A short sentence is easy to remember and hard to guess.",
+  "authConfirmPasswordLabel": "Type the password again",
+  "authNewPasswordLabel": "New password",
+  "authSomethingWentWrong": "Something went wrong. Please try again.",
+  "createAccountTitle": "Create your account",
+  "createAccountIntro": "Choose the username and password you'll use to open CrizaVoise. You'll be the admin of this company.",
+  "createAccountButton": "Create account",
+  "createAccountPrivacyNote": "Your account stays on this computer. Nothing is sent online.",
+  "recoveryCodeTitle": "Recovery code",
+  "recoveryCodeIntro": "If you ever forget your password, this code lets you set a new one. It's shown only now, so keep it somewhere safe.",
+  "recoveryCodeCopied": "Recovery code copied.",
+  "recoveryCodeSave": "Save as file",
+  "recoveryCodeSavedTo": "Saved to {path}",
+  "@recoveryCodeSavedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "recoveryCodeFileHelp": "Keep this file private. On the sign-in screen choose \"Forgot password?\" and enter this code to set a new password. Each code works once; a new one is shown after use.",
+  "recoveryCodeTipWrite": "Write it down, or save the file on a pen drive or phone.",
+  "recoveryCodeTipPrivate": "Anyone with this code can reset your password, so keep it private.",
+  "recoveryCodeTipOnce": "Each code works once. After using it you'll get a new one.",
+  "recoveryCodeConfirm": "I've saved my recovery code",
+  "recoveryCodeLater": "Later",
+  "forgotTitle": "Forgot your password?",
+  "forgotIntro": "No problem. Choose how you'd like to get back in.",
+  "forgotIntroCompany": "No problem. Choose how you'd like to get back in to {company}.",
+  "@forgotIntroCompany": {
+    "placeholders": {
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "forgotUseRecoveryCode": "Use my recovery code",
+  "forgotUseRecoveryCodeHelp": "The code you saved when you created your account.",
+  "forgotAskSupport": "Get a code from Criza Labs",
+  "forgotAskSupportHelp": "If you lost your recovery code. We'll check it's you first.",
+  "forgotAskAdmin": "Not the admin? Ask your admin to reset your password in Settings → Users.",
+  "forgotBackToLogin": "Back to sign in",
+  "forgotRecoveryCodeIntro": "Enter your username and recovery code. Spaces, dashes and capitals don't matter.",
+  "forgotSupportIntro": "Email us this installation ID. After we confirm you own this business, we'll send a one-time code that works for about 3 days on this computer only.",
+  "forgotEmailSupport": "Email support",
+  "forgotSupportCodeLabel": "Code from Criza Labs",
+  "forgotVerify": "Check code",
+  "forgotEnterUsernameAndCode": "Enter your username and the code.",
+  "forgotCodeInvalid": "That username and code don't match, or the code has expired.",
+  "forgotNewPasswordTitle": "Choose a new password",
+  "forgotNewPasswordFor": "For {username}",
+  "@forgotNewPasswordFor": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "forgotSetPassword": "Save new password",
+  "forgotPasswordDone": "Password changed. Sign in with your new password.",
+  "forgotInstallationIdLabel": "Installation ID",
+  "forgotInstallationIdCopied": "Installation ID copied.",
+  "loginSetupTitle": "Welcome to CrizaVoise",
+  "loginSetupBody": "First, create the account you'll sign in with. It takes a minute.",
+  "loginForgotPassword": "Forgot password?",
+  "loginInvalidCredentials": "Wrong username or password.",
+  "licenseTitle": "Licence",
+  "licensePlanSixMonths": "6 months",
+  "licensePlanOneYear": "1 year",
+  "licensePlanLifetime": "Lifetime",
+  "licensePlanSixMonthsHelp": "Try it for a season.",
+  "licensePlanOneYearHelp": "Best for most shops.",
+  "licensePlanLifetimeHelp": "Pay once, use for good.",
+  "licenseActivated": "Licence activated. Thank you for supporting CrizaVoise!",
+  "licenseErrorInvalid": "This key isn't valid. Check that you copied all of it, starting with CV1.",
+  "licenseErrorOtherDevice": "This key is for a different computer. Send us the device code shown above.",
+  "licenseErrorExpired": "This key has already expired. Contact us to renew.",
+  "licenseRemove": "Remove licence from this computer",
+  "licenseRemoveConfirm": "Remove the licence from this computer? Your data isn't touched, and you can enter the same key again later.",
+  "licenseClockWrong": "Your computer's date looks earlier than before. Please set the correct date and time.",
+  "licenseDeviceCodeLabel": "This computer's device code",
+  "licenseDeviceCodeHelp": "Send this code when you buy or renew. A licence works on this computer.",
+  "licenseDeviceCodeCopied": "Device code copied.",
+  "licensePlansTitle": "Plans",
+  "licensePlansHelp": "Every plan includes everything in CrizaVoise.",
+  "licenseEnterKeyTitle": "Enter licence key",
+  "licenseEnterKeyLabel": "Licence key",
+  "licenseEnterKeyHint": "Paste the key you received (it starts with CV1.)",
+  "licenseActivate": "Activate",
+  "licenseBuy": "Buy or renew",
+  "licenseNoMailApp": "No email app found. Write to {email} with your device code.",
+  "@licenseNoMailApp": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "licenseStatusTrial": "{days, plural, =1{Free trial: 1 day left} other{Free trial: {days} days left}}",
+  "@licenseStatusTrial": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "licenseTrialBody": "Everything is unlocked during the 30-day trial. When it ends your data stays safe: you can still view, print, export and back up. Creating new documents then needs a licence.",
+  "licenseStatusTrialEnded": "Your free trial has ended",
+  "licenseEndedBody": "Your data is safe. You can still view, print, share, export and back up everything. To create and save documents, activate a licence.",
+  "licenseStatusLicensed": "Licensed",
+  "licenseNeverExpires": "Lifetime licence: it never expires.",
+  "licenseValidUntil": "Valid until {date}.",
+  "@licenseValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "licenseStatusExpired": "Your licence has expired",
+  "licenseLicensedTo": "Licensed to",
+  "licensePlanLabel": "Plan",
+  "licenseNumberLabel": "Licence number",
+  "licenseIssuedLabel": "Issued",
+  "licenseBannerTrial": "{days, plural, =1{1 day left in your free trial.} other{{days} days left in your free trial.}}",
+  "@licenseBannerTrial": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "licenseBannerExpiring": "{days, plural, =1{Your licence ends tomorrow.} other{Your licence ends in {days} days.}}",
+  "@licenseBannerExpiring": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "licenseBannerEnded": "View-only: you can still view, print and export. Activate a licence to create new documents.",
+  "licenseGateTitle": "Activate CrizaVoise to save",
+  "licenseGateBody": "Your free trial or licence has ended. Your data is safe, and you can still view, print, export and back up. To save documents, activate a licence.",
+  "licenseGateAction": "Activate licence"
 }

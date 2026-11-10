@@ -13,6 +13,7 @@ import 'package:crizavoise/screens/settings/invoice_settings_screen_v2.dart';
 import 'package:crizavoise/screens/settings/pdf_settings_screen_v2.dart';
 import 'package:crizavoise/screens/settings/product_columns_settings_screen.dart';
 import 'package:crizavoise/screens/settings/app_info_screen.dart';
+import 'package:crizavoise/screens/settings/license_screen.dart';
 import 'package:crizavoise/screens/settings/company_info_screen.dart';
 import 'package:crizavoise/screens/settings/company_management_screen.dart';
 import 'package:crizavoise/screens/settings/customization_screen.dart';
@@ -49,6 +50,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   static const _idProductColumns = 8;
   static const _idAccessibility = 9;
   static const _idCompanies = 10;
+  static const _idLicense = 11;
 
   int _selectedIndex = 0;
   int? _highlightCustomIndex;
@@ -98,6 +100,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       _idProductColumns,
       _idCustomize,
       _idAccessibility,
+      if (!cfg.isCloud) _idLicense,
       _idSoftwareInfo,
     ];
   }
@@ -228,6 +231,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return const ProductColumnsSettingsScreen();
       case _idAccessibility:
         return const AccessibilityScreen();
+      case _idLicense:
+        return const LicenseScreen();
       case _idCompanies:
         return CompanyManagementScreen(currentUser: widget.currentUser);
       default:
@@ -301,6 +306,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 icon: const Icon(Icons.accessibility_new_rounded),
                 label: Text(l10n.settingsNavAccessibilityLabel),
               ),
+              if (!cfg.isCloud)
+                NavigationRailDestination(
+                  icon: const Icon(Icons.workspace_premium_outlined),
+                  label: Text(l10n.licenseTitle),
+                ),
               NavigationRailDestination(
                 icon: Stack(
                   clipBehavior: Clip.none,

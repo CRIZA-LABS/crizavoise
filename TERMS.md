@@ -1,6 +1,6 @@
 # CrizaVoise Terms of Use
 
-Version 2026-11-10 · Effective 10 November 2026
+Version 2026-11-10.2 · Effective 10 November 2026
 
 These Terms are an agreement between **you** (the person or business using CrizaVoise) and **Criza Labs** ("**we**", "**us**"), the makers of **CrizaVoise by Criza Labs** (the "**Software**"). By installing, opening or using the Software, you agree to these Terms and to our Privacy Policy. If you use the Software for a business, you confirm you are allowed to accept these Terms for that business. **If you do not agree, do not install or use the Software.**
 
@@ -10,10 +10,12 @@ These Terms are an agreement between **you** (the person or business using Criza
 1.3 Parts of the Software are open-source components. They are listed in THIRD_PARTY_NOTICES.md and stay under their own licences.
 
 ## 2. Price and paid plans
-2.1 CrizaVoise is currently free to use for an introductory period. **We intend to charge for the Software after that period.** We may introduce paid plans, licence fees or subscriptions, change prices, or limit some features to paid plans.
-2.2 We will give at least **30 days' notice** in the Software or on https://criza.dev before a charge starts to apply to you. If you do not pay when payment becomes due, we may limit or end your access to the Software or to some features.
-2.3 Your business data stays on your device. Even if your access is limited, you will be able to export it with the Software's backup and export tools for at least 30 days after the notice.
-2.4 Fees, once paid, are non-refundable except where the law requires a refund or we agree in writing. Prices exclude taxes unless stated.
+2.1 **Free trial.** You can use the full Software free for **30 days** from the first time it is opened on a computer. The trial is offered once per computer.
+2.2 **Paid licence.** After the trial, creating and saving new documents needs a paid licence: **6 months**, **1 year** or **lifetime**, at the prices we publish or quote to you. A licence is for **one computer**, is tied to that computer's device code, and is activated with a licence key from us. Lifetime means for as long as we offer and support this version of the Software; it does not include future major versions unless we say so.
+2.3 **Your data is never locked.** When a trial or licence ends, you can still open, view, print, share, export and back up all your data. Only creating and saving new documents stops until you activate a licence.
+2.4 **Changes.** We may change prices, plans and what each plan includes. A change never shortens a licence you have already paid for. We will give at least **30 days' notice** in the Software or on https://criza.dev before any new charge applies to you.
+2.5 Licence keys are personal. You may not share, sell or publish a key, or try to create, alter or bypass keys or the trial. We may cancel a key that is misused, without refund.
+2.6 Fees, once paid, are non-refundable except where the law requires a refund or we agree in writing. Prices exclude taxes unless stated.
 
 ## 3. Your responsibilities
 3.1 **You are responsible for everything you create with the Software.** That includes invoices, quotations, receipts, credit and debit notes, amounts, tax rates, GST details, invoice numbers, customer and product records, and reports. **Check every document before you issue it.**

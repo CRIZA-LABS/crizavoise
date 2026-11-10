@@ -242,7 +242,6 @@ class InvoiceService {
           'hide_invoice_number': invoice.hideInvoiceNumber ? 1 : 0,
           'custom_invoice_number': invoice.customInvoiceNumber,
           'manual_number': invoice.manualNumber ? 1 : 0,
-        'manual_number': invoice.manualNumber ? 1 : 0,
           'custom_fields': CustomFieldValue.listToJson(invoice.customFields),
           'original_invoice_id': invoice.originalInvoiceId,
           'original_invoice_number': invoice.originalInvoiceNumber,

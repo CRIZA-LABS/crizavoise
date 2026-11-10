@@ -49,5 +49,5 @@ class AppConfig {
   /// when either changes materially: users are asked to accept again.
   static const termsAsset = "TERMS.md";
   static const privacyAsset = "PRIVACY.md";
-  static const termsVersion = "2026-11-10";
+  static const termsVersion = "2026-11-10.2";
 }

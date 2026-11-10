@@ -10541,6 +10541,606 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign.'**
   String get rupeeSymbolHelp;
+
+  /// No description provided for @actionCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get actionCopy;
+
+  /// No description provided for @actionContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get actionContinue;
+
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
+  /// No description provided for @authPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters for the password.'**
+  String get authPasswordTooShort;
+
+  /// No description provided for @authPasswordIsUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'The password can\'t be the same as the username.'**
+  String get authPasswordIsUsername;
+
+  /// No description provided for @authPasswordsDontMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The two passwords don\'t match.'**
+  String get authPasswordsDontMatch;
+
+  /// No description provided for @authUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get authUsernameLabel;
+
+  /// No description provided for @authUsernameHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll type this to sign in. Letters, numbers and . _ - @ (3–32 characters).'**
+  String get authUsernameHelp;
+
+  /// No description provided for @authUsernameRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 3–32 letters, numbers or . _ - @ for the username (no spaces).'**
+  String get authUsernameRule;
+
+  /// No description provided for @authUsernameTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'That username is already used in this company.'**
+  String get authUsernameTaken;
+
+  /// No description provided for @authPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPasswordLabel;
+
+  /// No description provided for @authPasswordHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters. A short sentence is easy to remember and hard to guess.'**
+  String get authPasswordHelp;
+
+  /// No description provided for @authConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the password again'**
+  String get authConfirmPasswordLabel;
+
+  /// No description provided for @authNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get authNewPasswordLabel;
+
+  /// No description provided for @authSomethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get authSomethingWentWrong;
+
+  /// No description provided for @createAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get createAccountTitle;
+
+  /// No description provided for @createAccountIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the username and password you\'ll use to open CrizaVoise. You\'ll be the admin of this company.'**
+  String get createAccountIntro;
+
+  /// No description provided for @createAccountButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get createAccountButton;
+
+  /// No description provided for @createAccountPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account stays on this computer. Nothing is sent online.'**
+  String get createAccountPrivacyNote;
+
+  /// No description provided for @recoveryCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery code'**
+  String get recoveryCodeTitle;
+
+  /// No description provided for @recoveryCodeIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'If you ever forget your password, this code lets you set a new one. It\'s shown only now, so keep it somewhere safe.'**
+  String get recoveryCodeIntro;
+
+  /// No description provided for @recoveryCodeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery code copied.'**
+  String get recoveryCodeCopied;
+
+  /// No description provided for @recoveryCodeSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as file'**
+  String get recoveryCodeSave;
+
+  /// No description provided for @recoveryCodeSavedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to {path}'**
+  String recoveryCodeSavedTo(String path);
+
+  /// No description provided for @recoveryCodeFileHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this file private. On the sign-in screen choose \"Forgot password?\" and enter this code to set a new password. Each code works once; a new one is shown after use.'**
+  String get recoveryCodeFileHelp;
+
+  /// No description provided for @recoveryCodeTipWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Write it down, or save the file on a pen drive or phone.'**
+  String get recoveryCodeTipWrite;
+
+  /// No description provided for @recoveryCodeTipPrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone with this code can reset your password, so keep it private.'**
+  String get recoveryCodeTipPrivate;
+
+  /// No description provided for @recoveryCodeTipOnce.
+  ///
+  /// In en, this message translates to:
+  /// **'Each code works once. After using it you\'ll get a new one.'**
+  String get recoveryCodeTipOnce;
+
+  /// No description provided for @recoveryCodeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve saved my recovery code'**
+  String get recoveryCodeConfirm;
+
+  /// No description provided for @recoveryCodeLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get recoveryCodeLater;
+
+  /// No description provided for @forgotTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot your password?'**
+  String get forgotTitle;
+
+  /// No description provided for @forgotIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'No problem. Choose how you\'d like to get back in.'**
+  String get forgotIntro;
+
+  /// No description provided for @forgotIntroCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'No problem. Choose how you\'d like to get back in to {company}.'**
+  String forgotIntroCompany(String company);
+
+  /// No description provided for @forgotUseRecoveryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my recovery code'**
+  String get forgotUseRecoveryCode;
+
+  /// No description provided for @forgotUseRecoveryCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The code you saved when you created your account.'**
+  String get forgotUseRecoveryCodeHelp;
+
+  /// No description provided for @forgotAskSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Get a code from Criza Labs'**
+  String get forgotAskSupport;
+
+  /// No description provided for @forgotAskSupportHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'If you lost your recovery code. We\'ll check it\'s you first.'**
+  String get forgotAskSupportHelp;
+
+  /// No description provided for @forgotAskAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Not the admin? Ask your admin to reset your password in Settings → Users.'**
+  String get forgotAskAdmin;
+
+  /// No description provided for @forgotBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get forgotBackToLogin;
+
+  /// No description provided for @forgotRecoveryCodeIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and recovery code. Spaces, dashes and capitals don\'t matter.'**
+  String get forgotRecoveryCodeIntro;
+
+  /// No description provided for @forgotSupportIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Email us this installation ID. After we confirm you own this business, we\'ll send a one-time code that works for about 3 days on this computer only.'**
+  String get forgotSupportIntro;
+
+  /// No description provided for @forgotEmailSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Email support'**
+  String get forgotEmailSupport;
+
+  /// No description provided for @forgotSupportCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Code from Criza Labs'**
+  String get forgotSupportCodeLabel;
+
+  /// No description provided for @forgotVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Check code'**
+  String get forgotVerify;
+
+  /// No description provided for @forgotEnterUsernameAndCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your username and the code.'**
+  String get forgotEnterUsernameAndCode;
+
+  /// No description provided for @forgotCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That username and code don\'t match, or the code has expired.'**
+  String get forgotCodeInvalid;
+
+  /// No description provided for @forgotNewPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password'**
+  String get forgotNewPasswordTitle;
+
+  /// No description provided for @forgotNewPasswordFor.
+  ///
+  /// In en, this message translates to:
+  /// **'For {username}'**
+  String forgotNewPasswordFor(String username);
+
+  /// No description provided for @forgotSetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Save new password'**
+  String get forgotSetPassword;
+
+  /// No description provided for @forgotPasswordDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed. Sign in with your new password.'**
+  String get forgotPasswordDone;
+
+  /// No description provided for @forgotInstallationIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Installation ID'**
+  String get forgotInstallationIdLabel;
+
+  /// No description provided for @forgotInstallationIdCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Installation ID copied.'**
+  String get forgotInstallationIdCopied;
+
+  /// No description provided for @loginSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to CrizaVoise'**
+  String get loginSetupTitle;
+
+  /// No description provided for @loginSetupBody.
+  ///
+  /// In en, this message translates to:
+  /// **'First, create the account you\'ll sign in with. It takes a minute.'**
+  String get loginSetupBody;
+
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong username or password.'**
+  String get loginInvalidCredentials;
+
+  /// No description provided for @licenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Licence'**
+  String get licenseTitle;
+
+  /// No description provided for @licensePlanSixMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'6 months'**
+  String get licensePlanSixMonths;
+
+  /// No description provided for @licensePlanOneYear.
+  ///
+  /// In en, this message translates to:
+  /// **'1 year'**
+  String get licensePlanOneYear;
+
+  /// No description provided for @licensePlanLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime'**
+  String get licensePlanLifetime;
+
+  /// No description provided for @licensePlanSixMonthsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Try it for a season.'**
+  String get licensePlanSixMonthsHelp;
+
+  /// No description provided for @licensePlanOneYearHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Best for most shops.'**
+  String get licensePlanOneYearHelp;
+
+  /// No description provided for @licensePlanLifetimeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay once, use for good.'**
+  String get licensePlanLifetimeHelp;
+
+  /// No description provided for @licenseActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Licence activated. Thank you for supporting CrizaVoise!'**
+  String get licenseActivated;
+
+  /// No description provided for @licenseErrorInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This key isn\'t valid. Check that you copied all of it, starting with CV1.'**
+  String get licenseErrorInvalid;
+
+  /// No description provided for @licenseErrorOtherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'This key is for a different computer. Send us the device code shown above.'**
+  String get licenseErrorOtherDevice;
+
+  /// No description provided for @licenseErrorExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This key has already expired. Contact us to renew.'**
+  String get licenseErrorExpired;
+
+  /// No description provided for @licenseRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove licence from this computer'**
+  String get licenseRemove;
+
+  /// No description provided for @licenseRemoveConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the licence from this computer? Your data isn\'t touched, and you can enter the same key again later.'**
+  String get licenseRemoveConfirm;
+
+  /// No description provided for @licenseClockWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Your computer\'s date looks earlier than before. Please set the correct date and time.'**
+  String get licenseClockWrong;
+
+  /// No description provided for @licenseDeviceCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'This computer\'s device code'**
+  String get licenseDeviceCodeLabel;
+
+  /// No description provided for @licenseDeviceCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this code when you buy or renew. A licence works on this computer.'**
+  String get licenseDeviceCodeHelp;
+
+  /// No description provided for @licenseDeviceCodeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Device code copied.'**
+  String get licenseDeviceCodeCopied;
+
+  /// No description provided for @licensePlansTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Plans'**
+  String get licensePlansTitle;
+
+  /// No description provided for @licensePlansHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Every plan includes everything in CrizaVoise.'**
+  String get licensePlansHelp;
+
+  /// No description provided for @licenseEnterKeyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter licence key'**
+  String get licenseEnterKeyTitle;
+
+  /// No description provided for @licenseEnterKeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Licence key'**
+  String get licenseEnterKeyLabel;
+
+  /// No description provided for @licenseEnterKeyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the key you received (it starts with CV1.)'**
+  String get licenseEnterKeyHint;
+
+  /// No description provided for @licenseActivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get licenseActivate;
+
+  /// No description provided for @licenseBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy or renew'**
+  String get licenseBuy;
+
+  /// No description provided for @licenseNoMailApp.
+  ///
+  /// In en, this message translates to:
+  /// **'No email app found. Write to {email} with your device code.'**
+  String licenseNoMailApp(String email);
+
+  /// No description provided for @licenseStatusTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Free trial: 1 day left} other{Free trial: {days} days left}}'**
+  String licenseStatusTrial(int days);
+
+  /// No description provided for @licenseTrialBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is unlocked during the 30-day trial. When it ends your data stays safe: you can still view, print, export and back up. Creating new documents then needs a licence.'**
+  String get licenseTrialBody;
+
+  /// No description provided for @licenseStatusTrialEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Your free trial has ended'**
+  String get licenseStatusTrialEnded;
+
+  /// No description provided for @licenseEndedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is safe. You can still view, print, share, export and back up everything. To create and save documents, activate a licence.'**
+  String get licenseEndedBody;
+
+  /// No description provided for @licenseStatusLicensed.
+  ///
+  /// In en, this message translates to:
+  /// **'Licensed'**
+  String get licenseStatusLicensed;
+
+  /// No description provided for @licenseNeverExpires.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime licence: it never expires.'**
+  String get licenseNeverExpires;
+
+  /// No description provided for @licenseValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until {date}.'**
+  String licenseValidUntil(String date);
+
+  /// No description provided for @licenseStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your licence has expired'**
+  String get licenseStatusExpired;
+
+  /// No description provided for @licenseLicensedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Licensed to'**
+  String get licenseLicensedTo;
+
+  /// No description provided for @licensePlanLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get licensePlanLabel;
+
+  /// No description provided for @licenseNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Licence number'**
+  String get licenseNumberLabel;
+
+  /// No description provided for @licenseIssuedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Issued'**
+  String get licenseIssuedLabel;
+
+  /// No description provided for @licenseBannerTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day left in your free trial.} other{{days} days left in your free trial.}}'**
+  String licenseBannerTrial(int days);
+
+  /// No description provided for @licenseBannerExpiring.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Your licence ends tomorrow.} other{Your licence ends in {days} days.}}'**
+  String licenseBannerExpiring(int days);
+
+  /// No description provided for @licenseBannerEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'View-only: you can still view, print and export. Activate a licence to create new documents.'**
+  String get licenseBannerEnded;
+
+  /// No description provided for @licenseGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate CrizaVoise to save'**
+  String get licenseGateTitle;
+
+  /// No description provided for @licenseGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your free trial or licence has ended. Your data is safe, and you can still view, print, export and back up. To save documents, activate a licence.'**
+  String get licenseGateBody;
+
+  /// No description provided for @licenseGateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate licence'**
+  String get licenseGateAction;
 }
 
 class _AppLocalizationsDelegate

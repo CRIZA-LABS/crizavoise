@@ -15,6 +15,7 @@ import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/theme_provider.dart';
 import 'package:crizavoise/screens/auth/forgot_password_screen.dart';
+import 'package:crizavoise/screens/auth/create_account_screen.dart';
 import 'package:crizavoise/screens/auth/change_password_screen.dart';
 import 'package:crizavoise/screens/help/help_search_screen.dart';
 import 'package:crizavoise/screens/legal/legal_document_screen.dart';
@@ -26,7 +27,6 @@ import 'package:crizavoise/theme/brand_assets.dart';
 import 'package:crizavoise/providers/app_config_provider.dart';
 import 'package:crizavoise/utils/post_auth_navigation.dart';
 import 'package:crizavoise/utils/window_title.dart';
-import 'package:crizavoise/theme/swatch.dart';
 
 // Login Screen
 class LoginScreen extends ConsumerStatefulWidget {
@@ -41,7 +41,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
-  bool _showDefaultCredsHint = false;
+  /// Built-in admin/admin account still unclaimed: show "Create your account".
+  User? _defaultAdmin;
+  bool _autoOpenedSetup = false;
   List<CompanyProfile> _companies = [];
   String? _activeCompanyId;
 
@@ -85,7 +87,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _passwordController.clear();
     setState(() {
       _activeCompanyId = id;
-      _showDefaultCredsHint = false;
+      _defaultAdmin = null;
     });
     await _checkFirstTimeUser();
   }
@@ -98,21 +100,64 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
     _usernameController.clear();
     _passwordController.clear();
-    setState(() => _showDefaultCredsHint = false);
+    setState(() => _defaultAdmin = null);
     await _loadCompanies();
     await _checkFirstTimeUser();
   }
 
-  // Show the hint only while admin/admin actually still works as a login.
-  // Cloud edition has no seeded default account — skip the check entirely.
+  // The built-in admin/admin account exists only to bootstrap a new company.
+  // While it's unclaimed, offer "Create your account" instead of telling
+  // anyone the default password. Cloud edition has no seeded account.
   Future<void> _checkFirstTimeUser() async {
     if (ref.read(appEditionConfigProvider).isCloud) return;
     final user =
         await ref.read(authRepositoryProvider).getUser('admin', 'admin');
-    if (!mounted || user == null) return;
-    _usernameController.text = 'admin';
-    _passwordController.text = 'admin';
-    setState(() => _showDefaultCredsHint = true);
+    if (!mounted) return;
+    setState(() => _defaultAdmin = user);
+    if (user != null && !_autoOpenedSetup) {
+      _autoOpenedSetup = true;
+      _openCreateAccount();
+    }
+  }
+
+  void _openCreateAccount() {
+    final admin = _defaultAdmin;
+    if (admin == null) return;
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => CreateAccountScreen(defaultAdmin: admin)));
+  }
+
+  Widget _buildSetupCard() {
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: scheme.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: scheme.primary.withValues(alpha: 0.35)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.loginSetupTitle,
+              style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 4),
+          Text(l10n.loginSetupBody,
+              style: TextStyle(color: scheme.onSurfaceVariant)),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              icon: const Icon(Icons.person_add_alt_1_rounded),
+              label: Text(l10n.createAccountTitle),
+              onPressed: _openCreateAccount,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -150,7 +195,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid credentials')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.loginInvalidCredentials)),
       );
       return;
     }
@@ -265,61 +310,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           semanticLabel: AppConfig.name,
                         ),
                         AppSpacing.hSmall,
-                        if (!cfg.isCloud && _showDefaultCredsHint) ...[
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerHighest,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .outlineVariant),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.info_outline,
-                                    size: 18,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                            text:
-                                                'First time here? Log in with username '),
-                                        TextSpan(
-                                            text: 'admin',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: CvSwatch.warning)),
-                                        const TextSpan(text: ' and password '),
-                                        TextSpan(
-                                            text: 'admin',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: CvSwatch.warning)),
-                                        const TextSpan(
-                                            text:
-                                                ', then set your own password when prompted.'),
-                                      ],
-                                    ),
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        if (!cfg.isCloud && _defaultAdmin != null) ...[
+                          _buildSetupCard(),
                           AppSpacing.hLarge,
                         ],
                         if (_companies.length > 1) ...[
@@ -404,7 +396,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     builder: (context) =>
                                         const ForgotPasswordScreen()),
                               ),
-                              child: const Text('Forgot password?'),
+                              child: Text(AppLocalizations.of(context)!.loginForgotPassword),
                             ),
                           ),
                         AppSpacing.hLarge,

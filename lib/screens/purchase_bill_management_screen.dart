@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/widgets/license_banner.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/purchase_bill_calculator.dart';
@@ -1808,6 +1809,8 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
 
   // asDraft: saved without touching stock / purchase price; finalized later.
   Future<void> _save({required bool asDraft}) async {
+    if (!await ensureCanCreateDocuments(context, ref)) return;
+    if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
     if (_useExistingSupplier && _supplierId == null) {
       AppError.show(context, l10n.purchaseBillMgmtSelectSupplierMessage);

@@ -15,8 +15,8 @@
 export PATH="/c/flutter/bin:$PATH"     # Flutter SDK lives at C:\flutter
 flutter pub get
 flutter gen-l10n                       # after editing ARB files
-flutter analyze                        # baseline: 64 infos, 0 errors/warnings
-flutter test                           # 439 tests; product_form_test has one known flaky case
+flutter analyze                        # baseline: 61 infos, 0 errors/warnings
+flutter test                           # 465 tests; product_form_test has one known flaky case
 flutter build windows                  # needs Developer Mode ON, Smart App Control OFF, and nuget.exe on PATH (winget install Microsoft.NuGet; required by flutter_tts)
 dart run flutter_launcher_icons        # regenerate icons from assets/brand/icons/icon-1024.png
 ```
@@ -41,6 +41,11 @@ dart run flutter_launcher_icons        # regenerate icons from assets/brand/icon
   - `supportEmail` contact@ (support), `infoEmail` info@ (general/legal), `businessEmail` connect@ (business/licensing).
   - Open them via `lib/utils/contact_links.dart` (mailto + subject; support also gets version/OS/installation ID).
   - Packaging metadata (deb maintainer) is the one unavoidable exception.
+- **Licensing (offline):** 30-day trial, then 6m / 1y / lifetime keys. Code in `lib/licensing/` (codec, service, machine_id, license_keys).
+  - Keys are Ed25519-signed; private keys are in gitignored `.secrets/` (NEVER commit). Issue keys with `dart run tool/license/generate.dart` (see docs/licensing.md).
+  - On expiry the app is view-only: `ensureCanCreateDocuments` (lib/widgets/license_banner.dart) gates invoice, draft and purchase-bill saves. `LicenseStrip` sits above the dashboard.
+  - Tests use an in-memory store automatically (FLUTTER_TEST), never the registry.
+- **Accounts:** first run → `CreateAccountScreen` replaces the seeded admin/admin. Recovery codes are stored hashed in `users.recovery_hash` (DB v60). Forgot password = recovery code or a Criza Labs reset code (`generate.dart reset`).
 - **No network calls without the owner's OK.** The update check is disabled (`UpdateConfig`). The FAQ is bundled-only. Analytics, donate and review links were removed. The only remaining request is the test-build clock (`TestBuildConfig.clockUrl`), which runs only on CI test builds.
 - **Legal:** `TERMS.md` + `PRIVACY.md` (bundled assets, installed next to the exe). `TermsAcceptanceScreen` gates login until `AppConfig.termsVersion` is accepted (stored per installation via `TermsService`); bump the version when either document changes materially. Have a lawyer review before charging.
 - PDF credit is `AppConfig.pdfCredit` ("Powered by CrizaVoise · criza.dev"), hidden by `SettingKey.showInvoiceFooterBranding`.

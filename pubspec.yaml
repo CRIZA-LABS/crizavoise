@@ -24,6 +24,8 @@ dependencies:
   share_plus: ^11.0.0
   crypto: ^3.0.3
   cryptography: ^2.7.0
+  win32: ^5.15.0
+  ffi: ^2.1.0
   uuid: ^4.0.0
   csv: ^6.0.0
   archive: ^4.0.0

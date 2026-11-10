@@ -6306,4 +6306,374 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get rupeeSymbolHelp =>
       'Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign.';
+
+  @override
+  String get actionCopy => 'Copy';
+
+  @override
+  String get actionContinue => 'Continue';
+
+  @override
+  String get authShowPassword => 'Show password';
+
+  @override
+  String get authHidePassword => 'Hide password';
+
+  @override
+  String get authPasswordTooShort =>
+      'Use at least 8 characters for the password.';
+
+  @override
+  String get authPasswordIsUsername =>
+      'The password can\'t be the same as the username.';
+
+  @override
+  String get authPasswordsDontMatch => 'The two passwords don\'t match.';
+
+  @override
+  String get authUsernameLabel => 'Username';
+
+  @override
+  String get authUsernameHelp =>
+      'You\'ll type this to sign in. Letters, numbers and . _ - @ (3–32 characters).';
+
+  @override
+  String get authUsernameRule =>
+      'Use 3–32 letters, numbers or . _ - @ for the username (no spaces).';
+
+  @override
+  String get authUsernameTaken =>
+      'That username is already used in this company.';
+
+  @override
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authPasswordHelp =>
+      'At least 8 characters. A short sentence is easy to remember and hard to guess.';
+
+  @override
+  String get authConfirmPasswordLabel => 'Type the password again';
+
+  @override
+  String get authNewPasswordLabel => 'New password';
+
+  @override
+  String get authSomethingWentWrong =>
+      'Something went wrong. Please try again.';
+
+  @override
+  String get createAccountTitle => 'Create your account';
+
+  @override
+  String get createAccountIntro =>
+      'Choose the username and password you\'ll use to open CrizaVoise. You\'ll be the admin of this company.';
+
+  @override
+  String get createAccountButton => 'Create account';
+
+  @override
+  String get createAccountPrivacyNote =>
+      'Your account stays on this computer. Nothing is sent online.';
+
+  @override
+  String get recoveryCodeTitle => 'Recovery code';
+
+  @override
+  String get recoveryCodeIntro =>
+      'If you ever forget your password, this code lets you set a new one. It\'s shown only now, so keep it somewhere safe.';
+
+  @override
+  String get recoveryCodeCopied => 'Recovery code copied.';
+
+  @override
+  String get recoveryCodeSave => 'Save as file';
+
+  @override
+  String recoveryCodeSavedTo(String path) {
+    return 'Saved to $path';
+  }
+
+  @override
+  String get recoveryCodeFileHelp =>
+      'Keep this file private. On the sign-in screen choose \"Forgot password?\" and enter this code to set a new password. Each code works once; a new one is shown after use.';
+
+  @override
+  String get recoveryCodeTipWrite =>
+      'Write it down, or save the file on a pen drive or phone.';
+
+  @override
+  String get recoveryCodeTipPrivate =>
+      'Anyone with this code can reset your password, so keep it private.';
+
+  @override
+  String get recoveryCodeTipOnce =>
+      'Each code works once. After using it you\'ll get a new one.';
+
+  @override
+  String get recoveryCodeConfirm => 'I\'ve saved my recovery code';
+
+  @override
+  String get recoveryCodeLater => 'Later';
+
+  @override
+  String get forgotTitle => 'Forgot your password?';
+
+  @override
+  String get forgotIntro =>
+      'No problem. Choose how you\'d like to get back in.';
+
+  @override
+  String forgotIntroCompany(String company) {
+    return 'No problem. Choose how you\'d like to get back in to $company.';
+  }
+
+  @override
+  String get forgotUseRecoveryCode => 'Use my recovery code';
+
+  @override
+  String get forgotUseRecoveryCodeHelp =>
+      'The code you saved when you created your account.';
+
+  @override
+  String get forgotAskSupport => 'Get a code from Criza Labs';
+
+  @override
+  String get forgotAskSupportHelp =>
+      'If you lost your recovery code. We\'ll check it\'s you first.';
+
+  @override
+  String get forgotAskAdmin =>
+      'Not the admin? Ask your admin to reset your password in Settings → Users.';
+
+  @override
+  String get forgotBackToLogin => 'Back to sign in';
+
+  @override
+  String get forgotRecoveryCodeIntro =>
+      'Enter your username and recovery code. Spaces, dashes and capitals don\'t matter.';
+
+  @override
+  String get forgotSupportIntro =>
+      'Email us this installation ID. After we confirm you own this business, we\'ll send a one-time code that works for about 3 days on this computer only.';
+
+  @override
+  String get forgotEmailSupport => 'Email support';
+
+  @override
+  String get forgotSupportCodeLabel => 'Code from Criza Labs';
+
+  @override
+  String get forgotVerify => 'Check code';
+
+  @override
+  String get forgotEnterUsernameAndCode => 'Enter your username and the code.';
+
+  @override
+  String get forgotCodeInvalid =>
+      'That username and code don\'t match, or the code has expired.';
+
+  @override
+  String get forgotNewPasswordTitle => 'Choose a new password';
+
+  @override
+  String forgotNewPasswordFor(String username) {
+    return 'For $username';
+  }
+
+  @override
+  String get forgotSetPassword => 'Save new password';
+
+  @override
+  String get forgotPasswordDone =>
+      'Password changed. Sign in with your new password.';
+
+  @override
+  String get forgotInstallationIdLabel => 'Installation ID';
+
+  @override
+  String get forgotInstallationIdCopied => 'Installation ID copied.';
+
+  @override
+  String get loginSetupTitle => 'Welcome to CrizaVoise';
+
+  @override
+  String get loginSetupBody =>
+      'First, create the account you\'ll sign in with. It takes a minute.';
+
+  @override
+  String get loginForgotPassword => 'Forgot password?';
+
+  @override
+  String get loginInvalidCredentials => 'Wrong username or password.';
+
+  @override
+  String get licenseTitle => 'Licence';
+
+  @override
+  String get licensePlanSixMonths => '6 months';
+
+  @override
+  String get licensePlanOneYear => '1 year';
+
+  @override
+  String get licensePlanLifetime => 'Lifetime';
+
+  @override
+  String get licensePlanSixMonthsHelp => 'Try it for a season.';
+
+  @override
+  String get licensePlanOneYearHelp => 'Best for most shops.';
+
+  @override
+  String get licensePlanLifetimeHelp => 'Pay once, use for good.';
+
+  @override
+  String get licenseActivated =>
+      'Licence activated. Thank you for supporting CrizaVoise!';
+
+  @override
+  String get licenseErrorInvalid =>
+      'This key isn\'t valid. Check that you copied all of it, starting with CV1.';
+
+  @override
+  String get licenseErrorOtherDevice =>
+      'This key is for a different computer. Send us the device code shown above.';
+
+  @override
+  String get licenseErrorExpired =>
+      'This key has already expired. Contact us to renew.';
+
+  @override
+  String get licenseRemove => 'Remove licence from this computer';
+
+  @override
+  String get licenseRemoveConfirm =>
+      'Remove the licence from this computer? Your data isn\'t touched, and you can enter the same key again later.';
+
+  @override
+  String get licenseClockWrong =>
+      'Your computer\'s date looks earlier than before. Please set the correct date and time.';
+
+  @override
+  String get licenseDeviceCodeLabel => 'This computer\'s device code';
+
+  @override
+  String get licenseDeviceCodeHelp =>
+      'Send this code when you buy or renew. A licence works on this computer.';
+
+  @override
+  String get licenseDeviceCodeCopied => 'Device code copied.';
+
+  @override
+  String get licensePlansTitle => 'Plans';
+
+  @override
+  String get licensePlansHelp =>
+      'Every plan includes everything in CrizaVoise.';
+
+  @override
+  String get licenseEnterKeyTitle => 'Enter licence key';
+
+  @override
+  String get licenseEnterKeyLabel => 'Licence key';
+
+  @override
+  String get licenseEnterKeyHint =>
+      'Paste the key you received (it starts with CV1.)';
+
+  @override
+  String get licenseActivate => 'Activate';
+
+  @override
+  String get licenseBuy => 'Buy or renew';
+
+  @override
+  String licenseNoMailApp(String email) {
+    return 'No email app found. Write to $email with your device code.';
+  }
+
+  @override
+  String licenseStatusTrial(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Free trial: $days days left',
+      one: 'Free trial: 1 day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get licenseTrialBody =>
+      'Everything is unlocked during the 30-day trial. When it ends your data stays safe: you can still view, print, export and back up. Creating new documents then needs a licence.';
+
+  @override
+  String get licenseStatusTrialEnded => 'Your free trial has ended';
+
+  @override
+  String get licenseEndedBody =>
+      'Your data is safe. You can still view, print, share, export and back up everything. To create and save documents, activate a licence.';
+
+  @override
+  String get licenseStatusLicensed => 'Licensed';
+
+  @override
+  String get licenseNeverExpires => 'Lifetime licence: it never expires.';
+
+  @override
+  String licenseValidUntil(String date) {
+    return 'Valid until $date.';
+  }
+
+  @override
+  String get licenseStatusExpired => 'Your licence has expired';
+
+  @override
+  String get licenseLicensedTo => 'Licensed to';
+
+  @override
+  String get licensePlanLabel => 'Plan';
+
+  @override
+  String get licenseNumberLabel => 'Licence number';
+
+  @override
+  String get licenseIssuedLabel => 'Issued';
+
+  @override
+  String licenseBannerTrial(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days left in your free trial.',
+      one: '1 day left in your free trial.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String licenseBannerExpiring(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Your licence ends in $days days.',
+      one: 'Your licence ends tomorrow.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get licenseBannerEnded =>
+      'View-only: you can still view, print and export. Activate a licence to create new documents.';
+
+  @override
+  String get licenseGateTitle => 'Activate CrizaVoise to save';
+
+  @override
+  String get licenseGateBody =>
+      'Your free trial or licence has ended. Your data is safe, and you can still view, print, export and back up. To save documents, activate a licence.';
+
+  @override
+  String get licenseGateAction => 'Activate licence';
 }
