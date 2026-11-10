@@ -51,7 +51,17 @@ dart run flutter_launcher_icons        # regenerate icons from assets/brand/icon
 - Keep business logic (invoice math, tax, numbering, storage, exports) unchanged during redesign work.
 - Git: work on branch `crizavoise`. The `upstream` remote is the original project, so **never push to it**.
 
-## Phase status
-- **Phase 1 (identity, theme, rebrand):** implemented. The Windows build is pending the owner enabling Developer Mode.
-- **Phase 2 (UI/UX, motion, performance):** not started.
-- **Phase 3 (features, polish, release):** not started.
+## Phase status (2026-11-10)
+- **Phase 1 (identity, theme, rebrand):** done. A release build works (needs Smart App Control off, nuget on PATH). Migration verified on real data.
+- **Phase 2 (UI/UX):**
+  - Done: 5 main destinations + More; the consistency pass (CvSwatch, shared banner and tile, flat cards, visible toggles); reduce motion; read-aloud (flutter_tts); Gujarati; screenshot harness; performance baseline (docs/performance.md).
+  - Not done: PIN quick-login with avatars; dashboard action tiles; guided first-run rework; number-pad inputs; voice input; sounds; full screen-reader / keyboard audit; cold-start and frame-time profiling.
+- **Phase 3 (features, release):**
+  - Done: custom invoice numbers with audit; product quick codes; WhatsApp share; Terms and Privacy; image auto-resize; license scan (GPL removed).
+  - Not done: product photos; quick-invoice flow; payment reminders; CrizaVoise PDF template restyle; charts review; Syncfusion / LGPL replacement (owner decision); code signing and installer; README screenshots.
+- Known: the INR symbol is "Rs."; Indic shaping in PDFs is unverified; `product_form_test` and `invoice_status_test` each have one timing-flaky case.
+
+## Tools
+- `tool/brand` builds logos and icons. `tool/recolor.js` is the colour codemod. `tool/license_scan.js` scans dependency licenses.
+- `SCREENSHOTS=1 flutter test test/screenshots/app_screenshots_test.dart` writes PNGs of every main screen (light and dark) to build/screenshots.
+- `BENCH=1 flutter test test/benchmarks/db_benchmark_test.dart` runs the 5,000-invoice benchmark.
