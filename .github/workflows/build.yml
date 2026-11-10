@@ -689,18 +689,22 @@ jobs:
           files: release-assets/**
           fail_on_unmatched_files: false
           body: |
-            **CrizaVoise by Criza Labs**: free, open-source, offline invoicing and billing for small businesses. https://criza.dev
+            **CrizaVoise by [Criza Labs](https://criza.dev/)**: free, open-source, offline invoicing and billing software for small businesses.
+            Website, guides and FAQ: **https://voise.criza.dev**
 
-            ### Downloads
-            - **Windows:** `CrizaVoise-Setup-*.exe`
+            ### Download
+            - **Windows 10 / 11:** `CrizaVoise-Setup-*.exe`, also at https://voise.criza.dev/download/
             - **Linux:** `.deb` for Ubuntu 22.04 / 24.04, or the AppImage
             - **macOS:** `crizavoise-*-macos.dmg`
 
-            The installers are not code-signed yet. Windows SmartScreen may warn you: choose **More info → Run anyway**. On macOS, if it says the app cannot be opened, go to **System Settings → Privacy & Security** and click **Open Anyway**.
+            The installers are not code-signed yet. Windows SmartScreen may warn you: choose **More info → Run anyway**. On macOS, if it says the app cannot be opened, go to **System Settings → Privacy & Security** and click **Open Anyway**. GitHub shows each file's SHA-256 next to it.
 
-            ### Licence
+            ### Licence and credit
             Apache License 2.0. You may fork it and use it, also commercially. Keep `LICENSE` and `NOTICE`, credit **"Based on CrizaVoise by Criza Labs (https://criza.dev)"**, and use your own name and logo (see `TRADEMARKS.md`).
 
-            Changes: see [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md).
+            ### Made by Criza Labs
+            Built and maintained by [Criza Labs](https://criza.dev/about), a founder-led software and AI studio in Gujarat, India. Need a custom version, a website, an app or AI automation? See [our services](https://criza.dev/services) or [contact us](https://criza.dev/contact).
+
+            Release notes: https://voise.criza.dev/changelog/ · [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) · Support: contact@criza.dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
