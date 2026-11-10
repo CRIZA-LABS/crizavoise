@@ -65,7 +65,7 @@ The owner plans an **online backup option**, a **web version** and a private **l
 - Package imports: `package:crizavoise/...`.
 - New UI strings go to `lib/l10n/app_en.arb` (with `@key` metadata when placeholders are used), then run `flutter gen-l10n`.
 - Keep business logic (invoice math, tax, numbering, storage, exports) unchanged during redesign work.
-- Git: work on branch `crizavoise`. The `upstream` remote is the original project, so **never push to it**.
+- Git: work on branch `crizavoise`, which tracks `origin/main`. `origin` is the **private** repo github.com/CRIZA-LABS/crizavoise; push with `git push origin crizavoise:main`. Never push tags (153 old tags from the original project). The `upstream` remote is the original project, so **never push to it**. Never make the repo public: the code is proprietary.
 
 ## Phase status (2026-11-10)
 - **Phase 1 (identity, theme, rebrand):** done. Migration verified on real data.
