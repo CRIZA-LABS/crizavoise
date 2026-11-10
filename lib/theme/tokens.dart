@@ -5,49 +5,22 @@
 // or the CrizaTokens ThemeExtension — never hard-code colours in widgets.
 import 'package:flutter/material.dart';
 
-/// Raw brand hues. Use for the logo and accents, not body text.
-/// Sampled from the Criza Labs master logo: the red folded-ribbon "A", the
-/// blue of the "C", the magenta seam and the app-icon navy. The CrizaVoise
-/// mark (the Criza "A" turned into a V) uses exactly these.
+/// Raw brand colours — "Ink · Paper · Stamp", the colours of a bill book.
+/// They match the app icon exactly (tool/brand/mark.js). No blue: Stamp red
+/// is the Criza Labs red (the "A" and the full stop in "CRIZA."), Ink and
+/// Paper come from the Criza site's dark and paper sections.
 class CvBrand {
-  static const red = Color(0xFFFD352A);
-  static const pink = Color(0xFFF51E91);
-  static const blue = Color(0xFF019FFB);
+  static const ink = Color(0xFF121316);
+  static const inkLift = Color(0xFF24262B);
+  static const paper = Color(0xFFF6F1E7);
+  static const stamp = Color(0xFFD7261E); // icon slot + the total's dot
+  static const stampBright = Color(0xFFEE3A2C); // on dark surfaces
 
-  static const ribbonRed = Color(0xFFF61B15);
-  static const ribbonRedLight = Color(0xFFFD533A);
-  static const ribbonBlue = Color(0xFF00A6F5);
-  static const ribbonBlueLight = Color(0xFF0AD3FF);
-  static const ribbonBlueDeep = Color(0xFF0046BC);
-  static const magenta = Color(0xFFF50FA5);
-  static const navy = Color(0xFF031326);
-  static const navyTop = Color(0xFF0A2240);
-
-  /// The two-ribbon pairing (red → blue) for accent strokes and highlights.
-  static const ribbonGradient = LinearGradient(
-    colors: [ribbonRedLight, ribbonRed, ribbonBlue, ribbonBlueLight],
-    stops: [0, 0.42, 0.58, 1],
-  );
-
-  /// Logo plate.
-  static const plateGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [navyTop, navy],
-  );
-
-  /// Logo/accent gradient: red → pink (45%) → blue.
-  static const gradient = LinearGradient(
-    colors: [red, pink, blue],
-    stops: [0, 0.45, 1],
-  );
-
-  /// Darkened gradient for filled call-to-action surfaces; white text passes
-  /// AA across the whole area.
-  static const ctaGradient = LinearGradient(
-    begin: Alignment.centerLeft,
-    end: Alignment.centerRight,
-    colors: [Color(0xFFD81F30), Color(0xFFC0157A), Color(0xFF0A6FC2)],
+  /// Used sparingly for brand moments (hero headers, empty states).
+  static const stampGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFEE3A2C), Color(0xFFB71F18)],
   );
 }
 
@@ -96,48 +69,48 @@ class CvPalette {
 }
 
 class CvColors {
-  /// Light theme: the Criza "paper" palette.
+  /// Light theme: Paper with Ink, Stamp red for brand accents.
   static const light = CvPalette(
     brightness: Brightness.light,
-    background: Color(0xFFF4EFE6),
-    surface1: Color(0xFFFBF8F3),
+    background: Color(0xFFF6F1E7), // Paper
+    surface1: Color(0xFFFBF8F2),
     surface2: Color(0xFFFFFFFF),
-    surface3: Color(0xFFEBE4D7),
-    text: Color(0xFF12131A),
-    textMuted: Color(0xFF4A4E59),
-    border: Color(0x2912131A), // ink @ 16%
-    borderStrong: Color(0x8012131A), // ink @ 50% (site uses 42%; raised for 3:1 UI contrast)
-    primary: Color(0xFF0A5EA8),
+    surface3: Color(0xFFEEE7DA),
+    text: Color(0xFF121316), // Ink
+    textMuted: Color(0xFF55585F),
+    border: Color(0x29121316), // ink @ 16%
+    borderStrong: Color(0x80121316), // ink @ 50%
+    primary: Color(0xFFC8231C), // Stamp red: actions, selection, key icons
     onPrimary: Color(0xFFFFFFFF),
-    accent: Color(0xFFC81E33),
-    onAccent: Color(0xFFFFFFFF),
-    success: Color(0xFF17703F),
+    accent: Color(0xFF121316), // Ink: structure (app bars, the icon tile)
+    onAccent: Color(0xFFF6F1E7),
+    success: Color(0xFF1C7346),
     warning: Color(0xFF8A5300),
-    danger: Color(0xFFB3261E),
-    info: Color(0xFF0A5EA8),
-    focus: Color(0xFFC0157A),
+    danger: Color(0xFF9B1C16), // deeper than Stamp red; always shown with an icon
+    info: Color(0xFF3A3D45),
+    focus: Color(0xFFC8231C),
   );
 
-  /// Dark theme: the Criza site's native palette.
+  /// Dark theme: Ink with Paper, Stamp red lifted for dark surfaces.
   static const dark = CvPalette(
     brightness: Brightness.dark,
-    background: Color(0xFF08090D),
-    surface1: Color(0xFF0E1016),
-    surface2: Color(0xFF13151D),
-    surface3: Color(0xFF1C1F2A),
-    text: Color(0xFFF6F2EA),
-    textMuted: Color(0xFFB3B7C2),
+    background: Color(0xFF0E0F12),
+    surface1: Color(0xFF16171B), // = icon tile family
+    surface2: Color(0xFF1C1E23),
+    surface3: Color(0xFF26282E),
+    text: Color(0xFFF3EEE4), // Paper
+    textMuted: Color(0xFFB7B2A8),
     border: Color(0x1FFFFFFF), // white @ 12%
-    borderStrong: Color(0x66FFFFFF), // white @ 40% (site uses 30%; raised for 3:1 UI contrast)
-    primary: Color(0xFF5CC0FF),
-    onPrimary: Color(0xFF08090D),
-    accent: Color(0xFFFF6B78),
-    onAccent: Color(0xFF08090D),
-    success: Color(0xFF3DDC97),
+    borderStrong: Color(0x66FFFFFF), // white @ 40%
+    primary: Color(0xFFFF5A4C), // Stamp red, lifted for dark surfaces
+    onPrimary: Color(0xFF121316),
+    accent: Color(0xFFF3EEE4), // Paper
+    onAccent: Color(0xFF121316),
+    success: Color(0xFF4FD08C),
     warning: Color(0xFFFFC857),
     danger: Color(0xFFFF8A80),
-    info: Color(0xFF5CC0FF),
-    focus: Color(0xFFF51E91),
+    info: Color(0xFFD0CBC1),
+    focus: Color(0xFFFF5A4C),
   );
 
   static CvPalette of(Brightness b) => b == Brightness.dark ? dark : light;
@@ -231,12 +204,10 @@ class CvZ {
 class CrizaTokens extends ThemeExtension<CrizaTokens> {
   final CvPalette palette;
   final Gradient brandGradient;
-  final Gradient ctaGradient;
 
   const CrizaTokens({
     required this.palette,
-    this.brandGradient = CvBrand.gradient,
-    this.ctaGradient = CvBrand.ctaGradient,
+    this.brandGradient = CvBrand.stampGradient,
   });
 
   Color get success => palette.success;

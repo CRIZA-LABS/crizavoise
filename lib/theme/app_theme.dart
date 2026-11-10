@@ -101,12 +101,13 @@ class AppTheme {
       focusColor: p.focus.withValues(alpha: 0.18),
       extensions: [CrizaTokens(palette: p)],
       appBarTheme: AppBarTheme(
-        backgroundColor: isDark ? p.surface2 : p.primary,
-        foregroundColor: isDark ? p.text : p.onPrimary,
+        // Ink bar in light mode (the icon's tile), raised surface in dark.
+        backgroundColor: isDark ? p.surface2 : CvBrand.ink,
+        foregroundColor: isDark ? p.text : CvBrand.paper,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: text.titleLarge?.copyWith(color: isDark ? p.text : p.onPrimary),
+        titleTextStyle: text.titleLarge?.copyWith(color: isDark ? p.text : CvBrand.paper),
       ),
       cardTheme: CardThemeData(
         color: p.surface1,

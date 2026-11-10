@@ -9,7 +9,7 @@ CrizaVoise follows the **same identity system as Criza Labs**, not a separate st
 
 | Parent (Criza site) | Product (this app) |
 |---|---|
-| App icon: the 3D ribbon **C** on navy `#031326` | App icon: **the bill being printed** on the same navy (dark) or white (light) tile, ending in the Criza red dot |
+| App icon: the 3D ribbon **C** on navy `#031326` | App icon: **the bill being printed** on an Ink (dark) or Paper (light) tile, with a Stamp-red slot and the Criza red full stop |
 | Lockup **"CRIZA LABS."**: master CRIZA lettering, dot removed, "LABS" in Inter SemiBold at 0.25em tracking on the baseline, ending in a small copy of the dot | Lockup **"CRIZA VOISE."**: built by the identical rules (same proportions: word size 0.32 × height, gap 0.14 × height, dot 0.5 × word cap height) |
 
 ## 2. Name
@@ -22,13 +22,13 @@ CrizaVoise follows the **same identity system as Criza Labs**, not a separate st
 ## 3. The mark: "the bill being printed"
 A **shop bill coming out of a thermal-printer slot**: the everyday moment at every small-business counter (kirana, retail, service shops). Inside the bill, item lines lead to a bold **TOTAL** line that ends in the **Criza red dot**, the same full stop that ends "CRIZA." and "CRIZA VOISE.".
 
-| Part | Colour | Why |
-|---|---|---|
-| Tile | Criza navy `#031326` (dark) / white (light) | The Criza app-icon navy |
-| Printer slot | Criza blue `#2fb4ff` (on navy) / `#0a7fe0` (on white) | The blue of the Criza "C" |
-| Bill | White (dark) / navy (light) | Paper |
-| Item lines / total | Ink at 30–55% / full ink | Hierarchy: the total is what matters |
-| Dot | Criza red `#f61b15` | The Criza full stop |
+| Part | Dark icon | Light icon | Why |
+|---|---|---|---|
+| Tile | Ink `#121316` | Paper `#f6f1e7` | The bill book's cover and its pages |
+| Printer slot | Stamp red `#ee3a2c` | Stamp red `#d7261e` | The action: printing the bill |
+| Bill | Paper | Ink | Paper is the bill |
+| Item lines / total | Ink 30% / Ink | Paper 55% / Paper | The total is what matters |
+| Dot | Stamp red `#d7261e` | Stamp red | The Criza full stop |
 
 **Why this and not a letter mark:** the category leader Vyapar uses a folded-ribbon **V** on red, myBillBook a folded orange arrow, and Swipe a blue circle swirl. A letterform or folded ribbon would blend in, but nobody owns *the printed bill*. It's also instantly understood by people who can't read.
 
@@ -42,8 +42,8 @@ A **shop bill coming out of a thermal-printer slot**: the everyday moment at eve
 - Tile radius 14.5/64 with a 1-unit inner hairline.
 
 ### Light and dark theme icons
-- **Dark icon** (`mark-dark.svg`, navy tile): the default. It's the Windows `.exe` icon and works on both taskbars.
-- **Light icon** (`mark-light.svg`, white tile): for light-mode UI, light documents and screenshots.
+- **Dark icon** (`mark-dark.svg`, Ink tile): the default. It's the Windows `.exe` icon and works on both taskbars.
+- **Light icon** (`mark-light.svg`, Paper tile): for light-mode UI, light documents and screenshots.
 - In the app, `BrandAssets.markFor(brightness)` picks the right one automatically.
 - Ready-made exports for both are in **`brand-kit/icon-dark/`** and **`brand-kit/icon-light/`**: SVG, small SVG, a 14-size `.ico`, and PNGs from 16 to 1024 px.
 
@@ -65,21 +65,22 @@ A **shop bill coming out of a thermal-printer slot**: the everyday moment at eve
 - The dot is always Criza red and always ends the total line. It's never used as a notification badge.
 - Don't set "CRIZA" in a font. The lockup always uses the master lettering.
 
-## 4. Colour
-**UI tokens** (`lib/theme/tokens.dart`; all text pairs pass WCAG AA, enforced by `test/theme_contrast_test.dart`)
-| Token | Dark | Light |
-|---|---|---|
-| Background | `#08090d` | `#f4efe6` |
-| Surface 1 / 2 / 3 | `#0e1016` / `#13151d` / `#1c1f2a` | `#fbf8f3` / `#ffffff` / `#ebe4d7` |
-| Text | `#f6f2ea` | `#12131a` |
-| Text muted | `#b3b7c2` | `#4a4e59` |
-| Primary (actions, links, "Voise") | `#5cc0ff` | `#0a5ea8` |
-| Accent | `#ff6b78` | `#c81e33` |
-| Success / Warning / Danger / Info | `#3ddc97` / `#ffc857` / `#ff8a80` / `#5cc0ff` | `#17703f` / `#8a5300` / `#b3261e` / `#0a5ea8` |
+## 4. Colour: "Ink · Paper · Stamp"
+The colours of a bill book: ink on paper, with a red rubber stamp. **No blue.** That keeps CrizaVoise apart from Swipe, Zoho, Tally and most fintech apps, and avoids the generic tech look.
+- **Stamp red** is the Criza Labs red: the red "A" in CRIZA and its full stop.
+- **Ink** and **Paper** come from the Criza site's dark and paper sections.
 
-**Gradients**
-- **Ribbon gradient** (`CvBrand.ribbonGradient`): red → blue, for thin accent strokes and highlights only.
-- **CTA gradient** (white text passes AA): `#d81f30` → `#c0157a` → `#0a6fc2`.
+| Role | Light | Dark | Use |
+|---|---|---|---|
+| Background (Paper / Ink) | `#f6f1e7` | `#0e0f12` | Page canvas |
+| Surface 1 / 2 / 3 | `#fbf8f2` / `#ffffff` / `#eee7da` | `#16171b` / `#1c1e23` / `#26282e` | Cards, dialogs, pressed/selected |
+| Text | `#121316` | `#f3eee4` | Body text |
+| Text muted | `#55585f` | `#b7b2a8` | Secondary text |
+| **Primary: Stamp red** | `#c8231c` (white text) | `#ff5a4c` (ink text) | Actions, selection, key icons (like the icon's slot and dot) |
+| Structure: Ink | `#121316` | (raised surface) | App bars and headers (like the icon's tile) |
+| Success / Warning / Danger | `#1c7346` / `#8a5300` / `#9b1c16` | `#4fd08c` / `#ffc857` / `#ff8a80` | Status. Danger is deeper than Stamp red and **always shown with an icon**, so an error never looks like a brand accent. |
+
+All text pairs pass **WCAG AA** in both themes, and borders and focus rings pass 3:1. This is enforced by `test/theme_contrast_test.dart`. Tokens live in `lib/theme/tokens.dart` (`CvBrand`, `CvColors`).
 
 ## 5. Typography
 - **Bricolage Grotesque** for display text and headings (bold, slightly tight).
@@ -99,8 +100,8 @@ Plain, warm, short. Talk to a busy shop owner, not an accountant.
 | Design for 16 px first; one bold silhouette; no fine detail | Logo/favicon guides (Piktochart, Zillion Designs, Inkbot) | T-silhouette (slot + bill); small variant below 48 px |
 | Simple, unambiguous, recognisable; no text in the icon; don't fill the whole tile | Apple HIG (icons) | One everyday object; no letters; about 65% of the tile |
 | ICO at least 16/24/32/48/256; Windows picks the exact size or the next one up | Microsoft Learn: app icon construction | 14 sizes in the `.ico`, a pixel match at every Windows 11 scale step |
-| Plated icons must handle light and dark themes | Microsoft Learn | Dark and light tiles, both tested on both taskbars |
+| Plated icons must handle light and dark themes | Microsoft Learn | Ink and Paper tiles, both tested on both taskbars |
 | Products share the parent's core visual system | Brand-architecture guides (MIT brand, Indorama brand book) | Same ribbon drawing, colours, lettering and lockup rules as Criza Labs: CRIZA LABS. ↔ CRIZA VOISE. |
 | Mono and reversed versions; vector masters | Logo guides (Fiveable, Zenind) | Mono symbol, light and dark lockups; the mark is vector, and the lockup follows the parent's raster master |
 | Avoid the "AI-generated" look: a real idea, grid construction, optical corrections, flat colour | Creative Bloq, LogoGeek, Kreafolk | No gloss or gradients; geometry documented in mark.js; optical centring and weights |
-| Stand apart from the category | Competitor icons (Vyapar red V ribbon, myBillBook orange arrow, Swipe blue swirl) | No letterform, no ribbon, no circle; a printed bill nobody else uses |
+| Stand apart from the category | Competitor icons (Vyapar red V ribbon, myBillBook orange arrow, Swipe blue swirl) | No letterform, ribbon, circle or blue; a printed bill in ink, paper and stamp red |

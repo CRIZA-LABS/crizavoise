@@ -1,8 +1,7 @@
 // CrizaVoise mark (v4) — "the bill being printed".
 //
 // A shop bill coming out of a thermal printer slot: the everyday moment at
-// every small-business counter (kirana, retail, service shops). The slot is a
-// Criza-blue bar; the bill has a torn zig-zag edge; its items lead to a bold
+// every small-business counter (kirana, retail, service shops). The slot is stamp-red bar; the bill has a torn zig-zag edge; its items lead to a bold
 // TOTAL line that ends in the Criza Labs red dot — the same full stop that
 // ends "CRIZA." and "CRIZA VOISE.".
 //
@@ -16,12 +15,13 @@
 //    (dropped at small sizes).
 
 const COLORS = {
-  navy: '#031326', // Criza app-icon navy
-  navyLift: '#0b2442',
-  paper: '#ffffff',
-  blue: '#0a7fe0', // Criza blue (from the C), deepened for contrast on white
-  blueBright: '#2fb4ff', // same hue for use on navy
-  red: '#f61b15', // Criza red (the A / the dot)
+  // "Ink · Paper · Stamp" — the colours of a bill book. No blue.
+  navy: '#121316', // Ink: tile (dark) / bill (light). Name kept for the code below.
+  navyLift: '#24262b', // tile hairline on dark
+  paper: '#f6f1e7', // Paper: the bill (dark) / tile (light) — Criza paper family
+  blue: '#d7261e', // Stamp red: printer slot on the light tile (key kept)
+  blueBright: '#ee3a2c', // Stamp red, lifted for the dark tile
+  red: '#d7261e', // the Criza full stop on the total line
 };
 
 // Geometry (64 grid, before centring offset)
@@ -91,7 +91,7 @@ function markSvg({ theme = 'dark', small = false, plate = true } = {}) {
   if (plate) {
     plateSvg = theme === 'dark'
       ? `<rect width="64" height="64" rx="14.5" fill="${COLORS.navy}"/><rect x=".6" y=".6" width="62.8" height="62.8" rx="13.9" fill="none" stroke="${COLORS.navyLift}" stroke-width="1.2"/>`
-      : `<rect width="64" height="64" rx="14.5" fill="#ffffff"/><rect x=".5" y=".5" width="63" height="63" rx="14" fill="none" stroke="#031326" stroke-opacity=".12"/>`;
+      : `<rect width="64" height="64" rx="14.5" fill="${COLORS.paper}"/><rect x=".5" y=".5" width="63" height="63" rx="14" fill="none" stroke="${COLORS.navy}" stroke-opacity=".14"/>`;
   }
   // Unplated: the roll's separating ring must match the background, so the
   // unplated symbol is drawn for its theme's background.

@@ -1,5 +1,5 @@
 name: crizavoise
-description: "CrizaVoise by Criza Labs — simple invoicing and billing for small businesses."
+description: "CrizaVoise by Criza Labs â€” simple invoicing and billing for small businesses."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 environment:
@@ -107,10 +107,10 @@ package_rename_config:
   windows:
     app_name: CrizaVoise
     organization: Criza Labs
-    copyright_notice: Copyright © 2026 Criza Labs. All rights reserved.
+    copyright_notice: Copyright Â© 2026 Criza Labs. All rights reserved.
     exe_name: crizavoise
 
   web:
     app_name: CrizaVoise
     short_app_name: CrizaVoise
-    description: CrizaVoise by Criza Labs — simple invoicing and billing for small businesses.
+    description: CrizaVoise by Criza Labs â€” simple invoicing and billing for small businesses.

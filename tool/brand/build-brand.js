@@ -81,7 +81,7 @@ const innerOf = (s) => s.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
   fs.writeFileSync(path.join(icons, 'android-foreground.png'),
     await png(svg('-12 -12 88 88', innerOf(files['symbol-on-dark.svg'])), 1024));
   fs.writeFileSync(path.join(icons, 'android-background.png'),
-    await png(svg('0 0 64 64', '<rect width="64" height="64" fill="#031326"/>'), 1024));
+    await png(svg('0 0 64 64', '<rect width="64" height="64" fill="#121316"/>'), 1024));
 
   // Windows .ico (14 Microsoft target sizes). The dark tile reads on both
   // taskbars (family.png), so it is the .exe icon; brand-kit has the light one.
@@ -100,7 +100,7 @@ const innerOf = (s) => s.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
   for (const sz of [192, 512]) {
     fs.writeFileSync(path.join(repo, 'web', 'icons', `Icon-${sz}.png`), await png(files['mark-dark.svg'], sz));
     fs.writeFileSync(path.join(repo, 'web', 'icons', `Icon-maskable-${sz}.png`),
-      await png(svg('0 0 64 64', '<rect width="64" height="64" fill="#031326"/>' +
+      await png(svg('0 0 64 64', '<rect width="64" height="64" fill="#121316"/>' +
         `<g transform="translate(32 32) scale(.78) translate(-32 -32)">${innerOf(files['mark-dark.svg'])}</g>`), sz));
   }
 
@@ -132,8 +132,8 @@ const innerOf = (s) => s.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '');
     '',
     '| Folder | What it is | Use it for |',
     '|---|---|---|',
-    '| `icon-dark/` | App icon on a **navy** tile | Dark themes and dark backgrounds. This is the Windows app icon (it also reads well on light taskbars). |',
-    '| `icon-light/` | App icon on a **white** tile | Light themes and light backgrounds: light-mode docs, store screenshots, printed material. |',
+    '| `icon-dark/` | App icon on an **Ink** tile | Dark themes and dark backgrounds. This is the Windows app icon (it also reads well on light taskbars). |',
+    '| `icon-light/` | App icon on a **Paper** tile | Light themes and light backgrounds: light-mode docs, store screenshots, printed material. |',
     '| `logo/` | Full logo **CRIZA VOISE.** for dark and light backgrounds, the symbol without a tile, and a one-colour symbol | Websites, invoices, print, thermal receipts (mono). |',
     '',
     'Each icon folder has an SVG, a small-size SVG (for 16–47 px), a Windows `.ico` (14 sizes) and PNGs from 16 to 1024 px.',

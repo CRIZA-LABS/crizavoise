@@ -3,9 +3,9 @@
     "short_name": "CrizaVoise",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#08090d",
-    "theme_color": "#08090d",
-    "description": "CrizaVoise by Criza Labs — simple invoicing and billing for small businesses.",
+    "background_color": "#121316",
+    "theme_color": "#121316",
+    "description": "CrizaVoise by Criza Labs â€” simple invoicing and billing for small businesses.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
