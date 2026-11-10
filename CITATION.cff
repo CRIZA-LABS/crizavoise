@@ -11,7 +11,7 @@ authors:
 version: "1.0.0"
 date-released: "2026-11-10"
 license: Apache-2.0
-url: "https://criza.dev"
+url: "https://voise.criza.dev"
 repository-code: "https://github.com/CRIZA-LABS/crizavoise"
 keywords:
   - invoicing

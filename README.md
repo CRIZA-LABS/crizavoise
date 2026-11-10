@@ -17,7 +17,7 @@
     <img alt="Built with Flutter" src="https://img.shields.io/badge/built%20with-Flutter-1f2933" />
   </p>
 
-  <p><a href="https://github.com/CRIZA-LABS/crizavoise/releases/latest"><strong>Download</strong></a> · <a href="#features">Features</a> · <a href="#screenshots">Screenshots</a> · <a href="#faq">FAQ</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
+  <p><a href="https://voise.criza.dev"><strong>Website</strong></a> · <a href="https://voise.criza.dev/download/"><strong>Download</strong></a> · <a href="#features">Features</a> · <a href="#screenshots">Screenshots</a> · <a href="#faq">FAQ</a> · <a href="CONTRIBUTING.md">Contribute</a></p>
 </div>
 
 ---
@@ -27,7 +27,7 @@
 > **Fork it, use it, ship it: just give credit.** Keep [LICENSE](LICENSE) and [NOTICE](NOTICE), and show **"Based on CrizaVoise by Criza Labs (https://criza.dev)"** in your README and About screen. Use your own name and logo ([TRADEMARKS.md](TRADEMARKS.md)).
 
 ## Download
-Get the latest version from **[Releases](https://github.com/CRIZA-LABS/crizavoise/releases/latest)**:
+Get the latest version from **[voise.criza.dev/download](https://voise.criza.dev/download/)** or **[GitHub Releases](https://github.com/CRIZA-LABS/crizavoise/releases/latest)**:
 
 | Platform | File |
 |---|---|
