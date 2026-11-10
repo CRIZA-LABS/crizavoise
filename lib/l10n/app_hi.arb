@@ -1544,5 +1544,6 @@
   "productQuickCodeInvalid": "12 तक अक्षर, अंक या \"-\" इस्तेमाल करें।",
   "productQuickCodeTaken": "यह कोड किसी दूसरे आइटम में इस्तेमाल हो चुका है।",
   "productMgmtCsvDescQuickCode": "जल्दी खोजने का वैकल्पिक छोटा कोड (अक्षर, अंक, -; अलग-अलग)। दूसरे आइटम में इस्तेमाल हो चुके कोड छोड़ दिए जाते हैं।",
-  "productSearchByCodeHint": "नाम, क्विक कोड या HSN"
+  "productSearchByCodeHint": "नाम, क्विक कोड या HSN",
+  "navMore": "और"
 }

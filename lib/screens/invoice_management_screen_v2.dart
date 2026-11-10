@@ -2092,7 +2092,7 @@ class _InvoiceManagementScreenV2State
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _buildActionButton(Icons.visibility_outlined, CvSwatch.success, l10n.actionView,
+        _buildActionButton(Icons.visibility_outlined, CvSwatch.neutral, l10n.actionView,
             () => _viewInvoice(invoice)),
         if ((!_isReturnType || isDraft) && !isDeclined)
           _buildActionButton(
@@ -2109,7 +2109,7 @@ class _InvoiceManagementScreenV2State
               () => _showApplyPaymentDialog(invoice)),
         // Drafts: preview only (number shows DRAFT) — finalize before
         // download / print.
-        _buildActionButton(Icons.picture_as_pdf_outlined, CvSwatch.warning, l10n.actionPdfPreview,
+        _buildActionButton(Icons.picture_as_pdf_outlined, CvSwatch.neutral, l10n.actionPdfPreview,
             () => InvoicePdfServices.previewPDF(context, invoice)),
         if (!isDraft) ...[
           _buildActionButton(Icons.download_outlined, CvSwatch.neutral, l10n.actionDownloadPdf,
@@ -2199,13 +2199,15 @@ class _InvoiceManagementScreenV2State
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                // Serial number: neutral (red is reserved for "due" and errors).
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.06),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text('$index',
                     style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                        fontSize: 12, fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant)),
               ),
             ),
           ),
@@ -2312,7 +2314,9 @@ class _InvoiceManagementScreenV2State
             child: Text(
               '${invoice.currencySymbol} ${AmountFormat.money(invoice.total)}',
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: CvSwatch.success),
+              // Totals are plain ink; colour is kept for status (paid / due).
+              style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface),
             ),
           ),
           if (widget.filterType == 'Invoice') ...[

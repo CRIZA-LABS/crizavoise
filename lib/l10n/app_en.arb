@@ -3539,5 +3539,6 @@
   "productQuickCodeInvalid": "Use up to 12 letters, numbers or \"-\".",
   "productQuickCodeTaken": "This code is already used by another item.",
   "productMgmtCsvDescQuickCode": "Optional short code for fast search (letters, numbers, -; unique). Codes already used by another item are skipped.",
-  "productSearchByCodeHint": "Name, quick code or HSN"
+  "productSearchByCodeHint": "Name, quick code or HSN",
+  "navMore": "More"
 }

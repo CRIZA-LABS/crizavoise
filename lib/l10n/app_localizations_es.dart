@@ -6213,4 +6213,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get productSearchByCodeHint => 'Name, quick code or HSN';
+
+  @override
+  String get navMore => 'Más';
 }

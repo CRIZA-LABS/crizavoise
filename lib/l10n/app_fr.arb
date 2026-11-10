@@ -1472,5 +1472,6 @@
   "amountSeparatorLabel": "Format des nombres",
   "amountSeparatorNoneLabel": "Sans séparateur  (1234567.89)",
   "amountSeparatorInternationalLabel": "International  (1,234,567.89)",
-  "amountSeparatorIndianLabel": "Indien  (12,34,567.89)"
+  "amountSeparatorIndianLabel": "Indien  (12,34,567.89)",
+  "navMore": "Plus"
 }

@@ -10388,6 +10388,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Name, quick code or HSN'**
   String get productSearchByCodeHint;
+
+  /// No description provided for @navMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get navMore;
 }
 
 class _AppLocalizationsDelegate

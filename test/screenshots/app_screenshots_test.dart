@@ -164,6 +164,10 @@ void main() {
         'Settings': 'settings',
       };
       for (final e in pages.entries) {
+        if (find.text(e.key).evaluate().isEmpty) {
+          await tester.tap(find.text('More').first, warnIfMissed: false);
+          await tester.pump(const Duration(milliseconds: 400));
+        }
         final nav = find.text(e.key).first;
         await tester.tap(nav, warnIfMissed: false);
         for (var i = 0; i < 12; i++) {

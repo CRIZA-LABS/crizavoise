@@ -781,41 +781,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    // ── 5 main destinations (Phase 2 IA) ──────
                     _buildNavItem(0, Icons.dashboard_outlined, Icons.dashboard,
                         AppLocalizations.of(context)!.navDashboard),
                     _buildNavItem(1, Icons.receipt_outlined, Icons.receipt,
                         AppLocalizations.of(context)!.navNewInvoice),
-                    if (ref.watch(cashUpiExchangeEnabledProvider))
-                      _buildNavItem(9, Icons.currency_exchange,
-                          Icons.currency_exchange,
-                          AppLocalizations.of(context)!.navServices),
                     _buildNavItem(
                         2,
                         Icons.receipt_long_outlined,
                         Icons.receipt_long,
                         AppLocalizations.of(context)!.navInvoices),
-                    _buildNavItem(
-                        3,
-                        Icons.request_quote_outlined,
-                        Icons.request_quote,
-                        AppLocalizations.of(context)!.navQuotations),
-                    _buildNavItem(
-                        4,
-                        Icons.point_of_sale_outlined,
-                        Icons.point_of_sale,
-                        AppLocalizations.of(context)!.navReceipts),
-                    if (ref.watch(returnsEnabledProvider)) ...[
-                      _buildNavItem(
-                          12,
-                          Icons.assignment_return_outlined,
-                          Icons.assignment_return,
-                          AppLocalizations.of(context)!.navCreditNotes),
-                      _buildNavItem(
-                          13,
-                          Icons.assignment_late_outlined,
-                          Icons.assignment_late,
-                          AppLocalizations.of(context)!.navDebitNotes),
-                    ],
                     _buildNavItem(5, Icons.people_outline, Icons.people,
                         AppLocalizations.of(context)!.navCustomers),
                     _buildNavItem(
@@ -823,15 +798,31 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         Icons.inventory_2_outlined,
                         Icons.inventory_2,
                         AppLocalizations.of(context)!.navProducts),
-                    if (showPurchaseBillsAndSuppliers && !_purchaseBillsLocked) ...[
-                      _buildNavItem(10, Icons.shopping_cart_outlined,
-                          Icons.shopping_cart, AppLocalizations.of(context)!.navPurchaseBills),
-                      _buildNavItem(11, Icons.local_shipping_outlined,
-                          Icons.local_shipping, AppLocalizations.of(context)!.navSuppliers),
-                    ],
-                    if (!_reportsLocked)
-                      _buildNavItem(7, Icons.bar_chart_outlined, Icons.bar_chart,
-                          AppLocalizations.of(context)!.navReports),
+                    // ── Everything else, one tap away ─────────
+                    _buildMoreGroup([
+                      (3, Icons.request_quote_outlined, Icons.request_quote,
+                          AppLocalizations.of(context)!.navQuotations),
+                      (4, Icons.point_of_sale_outlined, Icons.point_of_sale,
+                          AppLocalizations.of(context)!.navReceipts),
+                      if (ref.watch(returnsEnabledProvider)) ...[
+                        (12, Icons.assignment_return_outlined, Icons.assignment_return,
+                            AppLocalizations.of(context)!.navCreditNotes),
+                        (13, Icons.assignment_late_outlined, Icons.assignment_late,
+                            AppLocalizations.of(context)!.navDebitNotes),
+                      ],
+                      if (ref.watch(cashUpiExchangeEnabledProvider))
+                        (9, Icons.currency_exchange, Icons.currency_exchange,
+                            AppLocalizations.of(context)!.navServices),
+                      if (showPurchaseBillsAndSuppliers && !_purchaseBillsLocked) ...[
+                        (10, Icons.shopping_cart_outlined, Icons.shopping_cart,
+                            AppLocalizations.of(context)!.navPurchaseBills),
+                        (11, Icons.local_shipping_outlined, Icons.local_shipping,
+                            AppLocalizations.of(context)!.navSuppliers),
+                      ],
+                      if (!_reportsLocked)
+                        (7, Icons.bar_chart_outlined, Icons.bar_chart,
+                            AppLocalizations.of(context)!.navReports),
+                    ]),
                     _buildNavItem(8, Icons.settings_outlined, Icons.settings,
                         AppLocalizations.of(context)!.navSettings,
                         showDot: _hasUpdate),
@@ -1159,6 +1150,63 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
   */
+
+  bool _moreExpanded = false;
+
+  /// Collapsible "More" group: every secondary destination stays one tap
+  /// away. It opens by itself when the current page is one of its items.
+  Widget _buildMoreGroup(List<(int, IconData, IconData, String)> items) {
+    if (items.isEmpty) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    final containsSelected = items.any((i) => i.$1 == _selectedIndex);
+    final open = _moreExpanded || containsSelected;
+    return Column(
+      children: [
+        LayoutBuilder(builder: (context, constraints) {
+          final wide = constraints.maxWidth > 110;
+          final header = InkWell(
+            onTap: containsSelected ? null : () => setState(() => _moreExpanded = !_moreExpanded),
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: wide ? 12 : 0, vertical: 11),
+              child: Row(
+                mainAxisAlignment: wide ? MainAxisAlignment.start : MainAxisAlignment.center,
+                children: [
+                  Icon(open ? Icons.expand_less : Icons.apps_outlined,
+                      size: 20, color: scheme.onSurfaceVariant),
+                  if (wide) ...[
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(l10n.navMore,
+                          style: TextStyle(color: scheme.onSurfaceVariant, fontWeight: FontWeight.w600)),
+                    ),
+                    Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                        size: 18, color: scheme.onSurfaceVariant),
+                  ],
+                ],
+              ),
+            ),
+          );
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: wide ? 10 : 8, vertical: 2),
+            child: Tooltip(message: l10n.navMore, child: Material(type: MaterialType.transparency, child: header)),
+          );
+        }),
+        AnimatedSize(
+          duration: CvMotion.scaled(context, CvMotion.base),
+          curve: CvMotion.standard,
+          alignment: Alignment.topCenter,
+          child: open
+              ? Column(children: [
+                  for (final (i, outline, filled, label) in items)
+                    _buildNavItem(i, outline, filled, label),
+                ])
+              : const SizedBox(width: double.infinity),
+        ),
+      ],
+    );
+  }
 
   Widget _buildNavItem(
       int index, IconData outlinedIcon, IconData filledIcon, String label,

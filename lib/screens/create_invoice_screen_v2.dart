@@ -3509,9 +3509,9 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
-        color: CvSwatch.success.withValues(alpha: 0.04),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-        border: Border.all(color: CvSwatch.success.withValues(alpha: 0.25)),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       ),
       child: Column(
         children: [
@@ -3528,14 +3528,14 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               child: Row(
                 children: [
                   Icon(Icons.add_box_outlined,
-                      size: 18, color: CvSwatch.success),
+                      size: 18, color: Theme.of(context).colorScheme.onSurfaceVariant),
                   const SizedBox(width: 8),
                   Text(
                     'Charges & Adjustments',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: CvSwatch.success,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
                   if (_additionalCostControllers.isNotEmpty) ...[
@@ -3544,7 +3544,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: CvSwatch.success,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
@@ -3561,7 +3561,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _showAdditionalCosts
                         ? Icons.expand_less
                         : Icons.expand_more,
-                    color: CvSwatch.success,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     size: 20,
                   ),
                 ],
@@ -3571,7 +3571,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
 
           // Collapsible body
           if (_showAdditionalCosts) ...[
-            const Divider(height: 1, color: CvSwatch.success),
+            Divider(height: 1, color: Theme.of(context).colorScheme.outlineVariant),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -3582,7 +3582,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
                         'Use a minus sign for deductions (e.g. freight paid by buyer).',
-                        style: TextStyle(fontSize: 11, color: CvSwatch.success),
+                        style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                     ),
                   ),
@@ -3817,7 +3817,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           style: TextStyle(
             fontSize: isTotal ? 18 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-            color: isTotal ? CvSwatch.success : Theme.of(context).colorScheme.onSurface,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(width: 8),
@@ -3829,7 +3829,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             style: TextStyle(
               fontSize: isTotal ? 20 : 14,
               fontWeight: FontWeight.bold,
-              color: isTotal ? CvSwatch.success : Theme.of(context).colorScheme.onSurface,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),

@@ -6120,4 +6120,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get productSearchByCodeHint => 'नाम, क्विक कोड या HSN';
+
+  @override
+  String get navMore => 'और';
 }

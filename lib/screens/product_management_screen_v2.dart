@@ -16,6 +16,7 @@ import 'package:csv/csv.dart';
 import 'package:intl/intl.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/widgets/discovery_banner.dart';
 import 'package:crizavoise/database/product_service.dart';
 import 'package:crizavoise/widgets/quick_code_field.dart';
 import 'package:crizavoise/models/product.dart';
@@ -276,69 +277,25 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
   }
 
   Widget _buildColumnsDiscoveryBanner() {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.easeOut,
-      child: _showColumnsBanner
-          ? Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: CvSwatch.neutralTint,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: CvSwatch.neutralSoft),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.tune, color: CvSwatch.neutral, size: 20),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.productMgmtColumnsBannerTitle,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            color: CvSwatch.neutral,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          AppLocalizations.of(context)!.productMgmtColumnsBannerSubtitle,
-                          style: const TextStyle(fontSize: 12, color: CvSwatch.neutral),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    onPressed: () async {
-                      await Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const ProductColumnsSettingsScreen()));
-                      _loadColumnsConfig();
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: CvSwatch.neutral,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(AppLocalizations.of(context)!.productMgmtConfigureAction,
-                        style: const TextStyle(fontWeight: FontWeight.w600)),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close, size: 16),
-                    color: CvSwatch.neutralSoft,
-                    onPressed: _dismissColumnsBanner,
-                    tooltip: AppLocalizations.of(context)!.actionDismiss,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-                  ),
-                ],
-              ),
-            )
-          : const SizedBox.shrink(),
+    // Shared banner component — same look as every other "New: …" banner.
+    return DiscoveryBanner(
+      visible: _showColumnsBanner,
+      icon: Icons.tune,
+      iconColor: CvSwatch.neutral,
+      backgroundColor: CvSwatch.neutralTint,
+      borderColor: CvSwatch.neutralSoft,
+      title: Text(AppLocalizations.of(context)!.productMgmtColumnsBannerTitle),
+      subtitle: Text(AppLocalizations.of(context)!.productMgmtColumnsBannerSubtitle),
+      actionLabel: AppLocalizations.of(context)!.productMgmtConfigureAction,
+      actionColor: CvSwatch.neutral,
+      onAction: () async {
+        await Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => const ProductColumnsSettingsScreen()));
+        _loadColumnsConfig();
+      },
+      onDismiss: _dismissColumnsBanner,
+      dismissIconColor: CvSwatch.neutral,
+      margin: const EdgeInsets.only(bottom: 16),
     );
   }
 
@@ -1713,6 +1670,9 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
     );
   }
 
+  static bool _isStatusAccent(Color c) =>
+      c == CvSwatch.danger || c == CvSwatch.warning;
+
   Widget _statCardV2({
     required String label,
     required String value,
@@ -1737,8 +1697,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                           color: Theme.of(context).colorScheme.onSurfaceVariant)),
                   const SizedBox(height: 6),
                   Text(value,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.w800)),
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 24)),
                   const SizedBox(height: 2),
                   Text(subtitle ?? '',
                       style: TextStyle(
@@ -1750,11 +1709,16 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
             Container(
               width: 40,
               height: 40,
+              // Same tile rule as the dashboard: neutral icon unless this tile is a
+              // status (warning / danger) — colour must mean something.
               decoration: BoxDecoration(
-                color: accent.withValues(alpha: 0.12),
+                color: (_isStatusAccent(accent) ? accent : Theme.of(context).colorScheme.onSurface)
+                    .withValues(alpha: _isStatusAccent(accent) ? 0.12 : 0.06),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: accent, size: 20),
+              child: Icon(icon,
+                  color: _isStatusAccent(accent) ? accent : Theme.of(context).colorScheme.onSurface,
+                  size: 20),
             ),
           ],
         ),
@@ -1783,7 +1747,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
         value: '$_servicesCountV2',
         subtitle: l10n.productMgmtNonTangibleServicesSubtitle,
         icon: Icons.design_services_outlined,
-        accent: CvSwatch.warning,
+        accent: CvSwatch.neutral,
       ),
       _statCardV2(
         label: l10n.productMgmtLowStockTabLabel,

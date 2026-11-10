@@ -1294,6 +1294,9 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
     );
   }
 
+  static bool _isStatusAccent(Color c) =>
+      c == CvSwatch.danger || c == CvSwatch.warning;
+
   Widget _statCardV2({
     required String label,
     required String value,
@@ -1318,7 +1321,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
                         color: Theme.of(context).colorScheme.onSurfaceVariant)),
                 const SizedBox(height: 6),
                 Text(value,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 24)),
                 const SizedBox(height: 2),
                 Text(subtitle,
                     style: TextStyle(
@@ -1330,11 +1333,16 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
           Container(
             width: 40,
             height: 40,
+            // Same tile rule as the dashboard: neutral icon unless this tile is a
+            // status (warning / danger) — colour must mean something.
             decoration: BoxDecoration(
-              color: accent.withValues(alpha: 0.12),
+              color: (_isStatusAccent(accent) ? accent : Theme.of(context).colorScheme.onSurface)
+                  .withValues(alpha: _isStatusAccent(accent) ? 0.12 : 0.06),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: accent, size: 20),
+            child: Icon(icon,
+                color: _isStatusAccent(accent) ? accent : Theme.of(context).colorScheme.onSurface,
+                size: 20),
           ),
         ],
       ),
@@ -1369,7 +1377,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
         value: '$_gstRegisteredCountV2',
         subtitle: AppLocalizations.of(context)!.customerMgmtWithTaxNumberSubtitle(_taxWord),
         icon: Icons.receipt_long_outlined,
-        accent: CvSwatch.warning,
+        accent: CvSwatch.neutral,
       ),
     ];
 
