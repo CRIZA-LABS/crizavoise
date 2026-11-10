@@ -51,6 +51,14 @@ dart run flutter_launcher_icons        # regenerate icons from assets/brand/icon
 - **Legal:** `TERMS.md` + `PRIVACY.md` (bundled assets, installed next to the exe). `TermsAcceptanceScreen` gates login until `AppConfig.termsVersion` is accepted (stored per installation via `TermsService`); bump the version when either document changes materially. Have a lawyer review before charging.
 - PDF credit is `AppConfig.pdfCredit` ("Powered by CrizaVoise · criza.dev"), hidden by `SettingKey.showInvoiceFooterBranding`.
 
+## Future direction (design for it now)
+The owner plans an **online backup option**, a **web version** and a private **licence-admin web app** (criza.dev subdomain). Until then the app stays offline, and any network call still needs the owner's OK. When building features:
+- **Data:** go through the repository interfaces (`lib/repositories/` + Riverpod providers); never call sqflite from widgets. A cloud/REST repository should be able to drop in.
+- **Platform code:** keep `dart:io`, `dart:ffi`, win32 and file paths in small platform files (e.g. `lib/licensing/machine_id.dart`) that can be swapped with conditional imports for web. `AppEditionConfig.isCloud` is the existing cloud hook.
+- **Backups:** keep them portable (DB file + JSON export, every table listed in `BackupManager`), so they can be encrypted client-side and uploaded later.
+- **IDs:** use UUID string IDs (already the pattern) so records can sync without clashes. New timestamp fields should be UTC ISO strings (older ones are local time).
+- **Licensing:** the key format (`CV1.`, versioned payload) can carry new fields such as an account ID; leave room for an optional online check.
+
 ## Conventions
 - Package imports: `package:crizavoise/...`.
 - New UI strings go to `lib/l10n/app_en.arb` (with `@key` metadata when placeholders are used), then run `flutter gen-l10n`.
