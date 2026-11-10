@@ -161,6 +161,16 @@ export function createService({ db, keys }) {
     await audit('licence.revoke', { id, reason });
   }
 
+  /** Undo a revoke made by mistake. Online-checked apps unlock again on their next start. */
+  async function restore(id, reason) {
+    const l = await getLicence(id);
+    if (!l) throw new LicenceError('Licence not found.');
+    if (l.status !== 'revoked') throw new LicenceError('Only a revoked licence can be restored.');
+    await db.run("UPDATE licences SET status = 'active', notes = COALESCE(notes,'') || ? WHERE id = ?",
+      `\nRestored ${today()}: ${reason || ''}`, id);
+    await audit('licence.restore', { id, reason });
+  }
+
   async function updateNotes(id, notes) {
     await db.run('UPDATE licences SET notes = ? WHERE id = ?', notes, id);
   }
@@ -228,7 +238,7 @@ export function createService({ db, keys }) {
   return {
     audit, setting, setSetting, generation, statusOf,
     saveCustomer, getCustomer, listCustomers,
-    issue, getLicence, listLicences, renew, transfer, revoke, updateNotes, inspectKey,
+    issue, getLicence, listLicences, renew, transfer, revoke, restore, updateNotes, inspectKey,
     resetCode, reissueActive, stats, recentAudit, onlineStatus,
     resetHistory: (customerId) => customerId
       ? db.all('SELECT * FROM reset_codes WHERE customer_id = ? ORDER BY id DESC', customerId)

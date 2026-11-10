@@ -13,6 +13,24 @@ async function hmac(secret, text) {
   return b64url(await crypto.subtle.sign('HMAC', k, enc.encode(text)));
 }
 
+/**
+ * True for form posts from this site. Modern browsers send Sec-Fetch-Site;
+ * otherwise compare Origin with the host ("null" or unparsable = not ours).
+ * Requests with neither header (scripts, tests, curl) are allowed: they
+ * still need the session cookie, which is SameSite=Strict.
+ */
+export function isSameSite(c) {
+  const site = c.req.header('sec-fetch-site');
+  if (site) return site === 'same-origin' || site === 'none';
+  const origin = c.req.header('origin');
+  if (!origin) return true;
+  try {
+    return new URL(origin).host === new URL(c.req.url).host;
+  } catch {
+    return false;
+  }
+}
+
 export function createApp({ db, keys, canRotate = true }) {
   const svc = createService({ db, keys });
   const app = new Hono();
@@ -36,14 +54,12 @@ export function createApp({ db, keys, canRotate = true }) {
 
   // ---- security: same-origin form posts only ----
   app.use('*', async (c, next) => {
-    if (c.req.method === 'POST') {
-      const origin = c.req.header('origin');
-      const host = new URL(c.req.url).host;
-      if (origin && new URL(origin).host !== host) return c.text('Cross-site request blocked', 403);
-    }
+    if (c.req.method === 'POST' && !isSameSite(c)) return c.text('Cross-site request blocked', 403);
     await next();
     c.header('X-Frame-Options', 'DENY');
-    c.header('Referrer-Policy', 'no-referrer');
+    // same-origin (not no-referrer): with no-referrer browsers send
+    // "Origin: null" on form posts, which broke every form.
+    c.header('Referrer-Policy', 'same-origin');
     c.header('X-Content-Type-Options', 'nosniff');
   });
 
@@ -215,8 +231,9 @@ export function createApp({ db, keys, canRotate = true }) {
       ${active ? `<div class="row">
         ${l.expires ? `<form method="post" action="/licences/${h(l.id)}/renew" class="card"><h2 style="margin-top:0">Renew</h2><p class="muted">Same computer. Continues from ${h(l.expires > new Date().toISOString().slice(0, 10) ? l.expires : 'today')}.</p><label>Plan</label>${planSelect(l.plan)}<label>Amount paid (₹)</label><input name="amount" type="number" min="0"><label>Payment reference</label><input name="paymentRef"><button>Renew</button></form>` : ''}
         <form method="post" action="/licences/${h(l.id)}/transfer" class="card" data-confirm="Move this licence to the new computer? The old key is marked as moved."><h2 style="margin-top:0">Move to a new PC</h2><p class="muted">Same plan and end date. Ask the customer to press “Remove licence” on the old PC.</p><label>New device code</label><input name="device" class="mono" required placeholder="XXXX-XXXX-XXXX-XXXX"><label>Note</label><input name="notes" placeholder="e.g. old laptop stolen"><button>Issue key for new PC</button></form>
-        <form method="post" action="/licences/${h(l.id)}/revoke" class="card" data-confirm="Revoke this licence? This is recorded and can't be undone here."><h2 style="margin-top:0">Revoke</h2><p class="muted">For refunds or misuse. The app only learns about it once the online check is switched on.</p><label>Reason</label><input name="reason" required><button class="danger">Revoke licence</button></form>
+        <form method="post" action="/licences/${h(l.id)}/revoke" class="card" data-confirm="Revoke this licence? It is recorded; you can restore it later."><h2 style="margin-top:0">Revoke</h2><p class="muted">For refunds or misuse. Once the online check is on, that PC becomes view-only the next time it starts online. You can restore it later.</p><label>Reason</label><input name="reason" required><button class="danger">Revoke licence</button></form>
       </div>` : ''}
+      ${l.status === 'revoked' ? `<form method="post" action="/licences/${h(l.id)}/restore" class="card"><h2 style="margin-top:0">Restore</h2><p class="muted">Revoked by mistake? Make it active again. With the online check on, the customer's PC unlocks at its next online start.</p><label>Reason</label><input name="reason" required><button>Restore licence</button></form>` : ''}
       <h2>Notes</h2><form method="post" action="/licences/${h(l.id)}/notes" class="card"><textarea name="notes" rows="3">${h(l.notes)}</textarea><button class="ghost">Save notes</button></form>`, flashFrom(c));
   });
 
@@ -233,6 +250,7 @@ export function createApp({ db, keys, canRotate = true }) {
   action('renew', (id, f) => svc.renew(id, f));
   action('transfer', (id, f) => svc.transfer(id, f));
   action('revoke', (id, f) => svc.revoke(id, f.reason));
+  action('restore', (id, f) => svc.restore(id, f.reason));
   action('notes', (id, f) => svc.updateNotes(id, f.notes));
 
   app.get('/export.csv', async (c) => {

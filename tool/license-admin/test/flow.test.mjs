@@ -80,6 +80,10 @@ test('full licence lifecycle', async () => {
   await req('POST', `/licences/${renId}/revoke`, { reason: 'refund' });
   const st = await (await req('GET', `/api/v1/status?id=${renId}&device=AAAA-BBBB-CCCC-DDDD`)).json();
   assert.equal(JSON.parse(Buffer.from(st.body, 'base64url').toString()).status, 'revoked');
+  await req('POST', `/licences/${renId}/restore`, { reason: 'mistake' });
+  const st2 = await (await req('GET', `/api/v1/status?id=${renId}&device=AAAA-BBBB-CCCC-DDDD`)).json();
+  assert.equal(JSON.parse(Buffer.from(st2.body, 'base64url').toString()).status, 'active');
+  await req('POST', `/licences/${renId}/revoke`, { reason: 'refund' });
 
   // reset code
   const rc = await req('POST', '/reset', { installationId: '3f2b6a1e-1111-4222-8333-444455556666', customerId, note: 'called' });
@@ -99,10 +103,17 @@ test('full licence lifecycle', async () => {
 
   // everything is in the activity log; CSV export works
   const audit = await db.all('SELECT action FROM audit');
-  for (const a of ['licence.issue', 'licence.transfer', 'licence.renew', 'licence.revoke', 'reset.issue', 'keys.rotate', 'keys.reissue']) {
+  for (const a of ['licence.issue', 'licence.transfer', 'licence.renew', 'licence.revoke', 'licence.restore', 'reset.issue', 'keys.rotate', 'keys.reissue']) {
     assert.ok(audit.some((r) => r.action === a), a);
   }
   assert.match(await (await req('GET', '/export.csv')).text(), /Sharma Traders/);
+
+  // every page renders (no 500s) with real data present
+  const pages = ['/', '/customers', '/customers?q=ravi', '/customers/new', `/customers/${customerId}`, '/licences', '/licences?q=CV', '/licences/new', '/reset', '/inspect', '/keys', '/audit'];
+  for (const l of await db.all('SELECT id FROM licences')) pages.push(`/licences/${l.id}`);
+  for (const u of pages) assert.equal((await req('GET', u)).status, 200, u);
+  const ins = await req('POST', '/inspect', { key: re.licence_key });
+  assert.match(await ins.text(), /Genuine key/);
 });
 
 test('cross-site posts and unauthenticated access are blocked', async () => {
@@ -116,4 +127,25 @@ test('device codes are normalised', () => {
   assert.equal(normalizeDevice('n1z8 c0ec-yfob 18fr'), 'N1Z8-C0EC-YF0B-18FR');
   assert.equal(normalizeDevice('short'), null);
   assert.ok(unb64);
+});
+
+test('browser form posts work; cross-site posts are blocked', async () => {
+  const db = await openNodeDb(':memory:');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cvadmin-'));
+  const app = createApp({ db, keys: nodeKeystore({ secretsDir: dir, repoDir: dir }) });
+  const post = (headers) => app.request('http://127.0.0.1:8787/setup', {
+    method: 'POST', redirect: 'manual',
+    headers: { 'content-type': 'application/x-www-form-urlencoded', ...headers },
+    body: 'password=abcdefghijklmn&password2=abcdefghijklmn',
+  });
+  // What Chrome/Edge send for a same-site form (Origin can be "null").
+  let r = await post({ origin: 'null', 'sec-fetch-site': 'same-origin' });
+  assert.equal(r.status, 302);
+  assert.match(r.headers.get('location'), /^\/login\?ok=/);
+  await db.run("DELETE FROM settings WHERE key='admin_password'");
+  r = await post({ origin: 'http://127.0.0.1:8787' });
+  assert.equal(r.status, 302);
+  assert.equal((await post({ origin: 'https://evil.example', 'sec-fetch-site': 'cross-site' })).status, 403);
+  assert.equal((await post({ origin: 'null' })).status, 403, 'opaque origin without fetch metadata');
+  assert.equal((await post({ origin: 'https://evil.example' })).status, 403);
 });
