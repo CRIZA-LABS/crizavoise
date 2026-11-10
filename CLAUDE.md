@@ -6,8 +6,8 @@
 - **Flutter 3** desktop: Windows first, then Linux and macOS. The Android/iOS/web folders exist but aren't shipped.
 - **State:** Riverpod (`flutter_riverpod`). Repositories live in `lib/repositories/` (SQLite implementations in `sqlite/`), wired in `lib/providers/`.
 - **Data:** SQLite via `sqflite` + `sqflite_common_ffi`. Each company gets its own DB file (`invoice_manager*.db`) in the app-support dir. The company registry lives in SharedPreferences.
-- **PDF:** `pdf` + `printing`. Templates are in `lib/services/pdf/`. The viewer is `syncfusion_flutter_pdfviewer`, which needs a commercial license; flagged for Phase 3.
-- **i18n:** ARB files in `lib/l10n/` (en is the template; es, fr, hi, ne, zh, bo). Missing keys fall back to English.
+- **PDF:** `pdf` + `printing`. Templates are in `lib/services/pdf/`. The viewer is `printing`'s PdfPreview (`lib/widgets/pdf_bytes_viewer.dart`). Default colours come from `lib/services/pdf/pdf_brand.dart`; don't use blue.
+- **i18n:** ARB files in `lib/l10n/` (en is the template; es, fr, hi, gu, ne, zh, bo). Missing keys fall back to English. New strings should get hi and gu translations.
 - **Desktop window:** `window_manager`.
 
 ## Commands
@@ -15,8 +15,8 @@
 export PATH="/c/flutter/bin:$PATH"     # Flutter SDK lives at C:\flutter
 flutter pub get
 flutter gen-l10n                       # after editing ARB files
-flutter analyze                        # baseline: 61 infos, 0 errors/warnings
-flutter test                           # 465 tests; product_form_test has one known flaky case
+flutter analyze                        # baseline: 58 infos, 0 errors/warnings
+flutter test                           # 474 tests; product_form_test has one known flaky case
 flutter build windows                  # needs Developer Mode ON, Smart App Control OFF, and nuget.exe on PATH (winget install Microsoft.NuGet; required by flutter_tts)
 ISCC.exe installer.iss                 # Windows installer -> dist/CrizaVoise-Setup-1.0.0.exe (Inno Setup 6 in %LOCALAPPDATA%\Programs)
 dart run flutter_launcher_icons        # regenerate icons from assets/brand/icons/icon-1024.png
@@ -68,14 +68,29 @@ The owner plans an **online backup option**, a **web version** and a private **l
 - Git: work on branch `crizavoise`. The `upstream` remote is the original project, so **never push to it**.
 
 ## Phase status (2026-11-10)
-- **Phase 1 (identity, theme, rebrand):** done. A release build works (needs Smart App Control off, nuget on PATH). Migration verified on real data.
-- **Phase 2 (UI/UX):**
-  - Done: 5 main destinations + More; the consistency pass (CvSwatch, shared banner and tile, flat cards, visible toggles); reduce motion; read-aloud (flutter_tts); Gujarati; screenshot harness; performance baseline (docs/performance.md).
-  - Not done: PIN quick-login with avatars; dashboard action tiles; guided first-run rework; number-pad inputs; voice input; sounds; full screen-reader / keyboard audit; cold-start and frame-time profiling.
-- **Phase 3 (features, release):**
-  - Done: custom invoice numbers with audit; product quick codes; WhatsApp share; Terms and Privacy; image auto-resize; license scan (GPL removed).
-  - Not done: product photos; quick-invoice flow; payment reminders; CrizaVoise PDF template restyle; charts review; Syncfusion / LGPL replacement (owner decision); code signing and installer; README screenshots.
-- Known: the INR symbol is "Rs."; Indic shaping in PDFs is unverified; `product_form_test` and `invoice_status_test` each have one timing-flaky case.
+- **Phase 1 (identity, theme, rebrand):** done. Migration verified on real data.
+- **Phase 2 (UI/UX):** done.
+  - 5 main destinations + More; consistency pass; visible toggles.
+  - Dashboard action tiles (Quick bill first); one tip at a time.
+  - Reduce motion; read-aloud; Gujarati.
+  - First run: Create account → recovery code → setup wizard.
+  - PIN quick sign-in with avatars and a number pad.
+  - Voice typing (Windows dictation, Win+H); optional sound when saved.
+  - Screen-reader labels on every icon button.
+  - PDF fonts cached and preloaded.
+- **Phase 3 (features, release):** done.
+  - Custom invoice numbers with audit; quick codes; product photos; quick bill.
+  - WhatsApp share and payment reminders.
+  - Licensing (trial, keys, admin app, dormant lenient online check); Terms and Privacy.
+  - Brand PDF/chart colours; free PDF viewer and own ESC/POS encoder (no GPL/LGPL/commercial).
+  - Inno Setup installer; README screenshots.
+- **Still open (needs the owner or real hardware):**
+  - code signing (buy a certificate)
+  - a lawyer's review of TERMS/PRIVACY/LICENSE
+  - checking Indic text shaping on a printed PDF
+  - cold-start and frame-time profiling on a low-end PC
+  - hosting the admin app on Cloudflare
+- **Known:** the INR symbol defaults to "Rs."; `product_form_test` and `invoice_status_test` each have one timing-flaky case.
 
 ## Tools
 - `tool/brand` builds logos and icons. `tool/recolor.js` is the colour codemod. `tool/license_scan.js` scans dependency licenses.

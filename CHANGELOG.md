@@ -22,12 +22,25 @@ First release of **CrizaVoise by Criza Labs**.
 - **Gujarati** language, with Gujarati fonts on screen and in PDFs.
 - **Reduce motion** setting (the computer's setting is also respected).
 - **Logos of any size.** Logos, signatures and watermarks are resized automatically, with advice on the best size.
+- **Quick bill.** One tap from the dashboard: a walk-in customer is filled in and the cursor waits in product search.
+- **Payment reminders.** Unpaid invoices get a ready, editable reminder (balance, due date, UPI ID) to send on WhatsApp or copy for SMS.
+- **Quick PIN sign-in** with avatars and a large number pad. It locks after 5 wrong tries until the password is used. Managed under My account (sidebar).
+- **Product photos.** Shown in the product list and invoice search; resized to about 15 KB each and included in backups.
+- **Voice typing** in product search (uses Windows' own dictation, Win + H).
+- **Sound when saved** (optional, Settings → Accessibility).
+- **Dashboard action tiles:** Quick bill, New invoice, quotation and receipt, Find an invoice, Customers, Products.
+- **Windows installer** (per-user, no admin rights needed; data is kept on uninstall).
+- **Licence admin app** for Criza Labs (`tool/license-admin`): customers, keys, renewals, PC moves, revocation, reset codes and an activity log.
 
 ### Improved
 - Navigation: 5 main items plus "More"; nothing removed.
 - Consistent banners, stat tiles, cards and status colours across screens. Toggles are clearly visible when on.
 - Help search, the PDF viewer and the receipt-printer encoder no longer use GPL, LGPL or commercial libraries; every dependency is MIT, BSD, Apache or MPL.
-- No network calls: the update check, analytics, remote FAQ and donation links were removed.
+- No network calls: the update check, analytics, remote FAQ and donation links were removed. (A lenient online licence check exists but is off until a licence server is hosted.)
+- PDFs, receipts, reports and charts use CrizaVoise colours by default; the theme-colour presets are on-brand.
+- Faster PDFs: fonts load once in the background instead of on every document.
+- Every icon-only button has a label for screen readers; Hindi and Gujarati cover all new screens.
+- Terms: liability is capped at fees paid in the last 6 months (nil if nothing was paid), and all payments are non-refundable.
 
 ### Known issues
 - Gujarati and Hindi conjunct letters may not join correctly in PDFs (a limitation of the PDF library); check a real invoice.
