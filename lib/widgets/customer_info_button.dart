@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/models/customer.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// Tapping the ⓘ icon shows a clean dialog with the customer's full contact details.
 class CustomerInfoButton extends StatelessWidget {
@@ -17,7 +18,7 @@ class CustomerInfoButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          child: Icon(Icons.info_outline, size: 15, color: Colors.indigo[400]),
+          child: Icon(Icons.info_outline, size: 15, color: CvSwatch.neutral),
         ),
       ),
     );
@@ -45,7 +46,7 @@ class CustomerInfoButton extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
                 decoration: const BoxDecoration(
-                  color: Colors.indigo,
+                  color: CvSwatch.neutral,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
                 ),
                 child: Row(
@@ -94,16 +95,16 @@ class CustomerInfoButton extends StatelessWidget {
                       ),
                     if (c.phone.isNotEmpty)
                       _infoRow(context, Icons.phone_outlined,
-                          l10n.fieldPhoneLabel, c.phone, Colors.green),
+                          l10n.fieldPhoneLabel, c.phone, CvSwatch.success),
                     if (c.email.isNotEmpty)
                       _infoRow(context, Icons.email_outlined,
-                          l10n.fieldEmailLabel, c.email, Colors.blue),
+                          l10n.fieldEmailLabel, c.email, CvSwatch.neutral),
                     if (c.address.isNotEmpty)
                       _infoRow(context, Icons.location_on_outlined,
-                          l10n.fieldAddressLabel, c.address, Colors.orange),
+                          l10n.fieldAddressLabel, c.address, CvSwatch.warning),
                     if (c.gstin.isNotEmpty)
                       _infoRow(context, Icons.badge_outlined,
-                          l10n.fieldGstinLabel, c.gstin, Colors.purple),
+                          l10n.fieldGstinLabel, c.gstin, CvSwatch.neutral),
                   ],
                 ),
               ),

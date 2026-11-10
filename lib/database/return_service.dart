@@ -559,6 +559,7 @@ class ReturnService {
         'invoice_discount_value': inv.invoiceDiscountValue,
         'hide_invoice_number': inv.hideInvoiceNumber ? 1 : 0,
         'custom_invoice_number': inv.customInvoiceNumber,
+        'manual_number': inv.manualNumber ? 1 : 0,
         'custom_fields': CustomFieldValue.listToJson(inv.customFields),
         'original_invoice_id': inv.originalInvoiceId,
         'original_invoice_number': inv.originalInvoiceNumber,

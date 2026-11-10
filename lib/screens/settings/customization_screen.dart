@@ -3,6 +3,7 @@ import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/common/app_config.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/utils/contact_links.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class CustomizationScreen extends StatefulWidget {
   final int? highlightIndex;
@@ -242,14 +243,14 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.amber.shade50,
+                color: CvSwatch.warningTint,
                 borderRadius: BorderRadius.circular(AppBorderRadius.medium),
-                border: Border.all(color: Colors.amber.shade200),
+                border: Border.all(color: CvSwatch.warningSoft),
               ),
               child: Row(
                 children: [
                   Icon(Icons.info_outline_rounded,
-                      size: 18, color: Colors.amber.shade700),
+                      size: 18, color: CvSwatch.warning),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -257,7 +258,7 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
                           AppConfig.businessEmail),
                       style: TextStyle(
                           fontSize: AppFontSize.xsmall,
-                          color: Colors.amber.shade800),
+                          color: CvSwatch.warning),
                     ),
                   ),
                 ],

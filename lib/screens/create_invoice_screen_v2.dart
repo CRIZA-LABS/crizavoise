@@ -12,6 +12,9 @@ import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/pdf/pdf_service.dart';
+import 'package:crizavoise/database/invoice_number_service.dart';
+import 'package:crizavoise/widgets/invoice_number_dialogs.dart';
 import 'package:crizavoise/providers/app_config_provider.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:uuid/uuid.dart';
@@ -35,6 +38,7 @@ import 'package:crizavoise/widgets/return_l10n.dart';
 import 'package:crizavoise/widgets/product_form.dart';
 import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/services/refund_receipt_service.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// Stamped on a credit note that puts at least one line back into stock.
 const salesReturnTitle = 'Credit Note (Sales Return)';
@@ -208,6 +212,60 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   double taxRate = Tax.defaultTaxRate;
   Invoice? _invoice;
   String currentInvoiceNumber = "";
+
+  // Custom invoice numbers (InvoiceNumberService): a number typed by a
+  // permitted user for a NEW document; null = use the automatic number.
+  String? _manualNumber;
+  CustomNumberAccess _numberAccess = CustomNumberAccess.off;
+  String _docPrefix = '';
+  static const _customNumberTypes = {'Invoice', 'Quotation', 'Receipt'};
+
+  bool get _canTypeNumber =>
+      widget.user != null &&
+      _customNumberTypes.contains(invoiceType) &&
+      (!isEditing || (_invoice?.isDraft ?? false)) &&
+      InvoiceNumberService.canSetOnNew(widget.user!, _numberAccess);
+
+  Future<void> _loadNumberAccess() async {
+    final access = await InvoiceNumberService.access();
+    final prefix = await InvoiceNumberService.prefixFor(invoiceType);
+    if (!mounted) return;
+    setState(() {
+      _numberAccess = access;
+      _docPrefix = prefix;
+    });
+  }
+
+  Future<void> _editNumber() async {
+    final choice = await showCustomNumberDialog(context,
+        type: invoiceType, prefix: _docPrefix, autoNumber: currentInvoiceNumber, current: _manualNumber);
+    if (choice == null || !mounted) return;
+    setState(() => _manualNumber = switch (choice) {
+          UseTypedNumber(:final number) => number,
+          UseAutomaticNumber() => null,
+        });
+  }
+
+  /// Re-checks a typed number right before saving (someone else may have
+  /// used it meanwhile). Returns false and explains if it can't be used.
+  Future<bool> _manualNumberStillValid() async {
+    if (_manualNumber == null) return true;
+    final issue = await InvoiceNumberService.validate(invoiceType, _manualNumber!, prefix: _docPrefix);
+    if (issue == null) return true;
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Text(invoiceNumberIssueText(AppLocalizations.of(context)!, issue))));
+    }
+    return false;
+  }
+
+  Future<void> _logManualNumber(Invoice inv, String suggested) async {
+    if (!inv.manualNumber || widget.user == null) return;
+    await InvoiceNumberService.logSetOnCreate(
+        invoiceId: inv.id, type: inv.type, suggestedNumber: suggested,
+        number: inv.invoiceNumber!, user: widget.user!);
+  }
   String _currencyCode = 'INR';
   String _currencySymbol = '₹';
   List<UpiEntry> _upiEntries = [];
@@ -251,6 +309,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   void initState() {
     super.initState();
     widget.guard?.canLeave = _confirmLeaveIfDirty;
+    _loadNumberAccess();
     // V2: close the inline product dropdown a beat after the field loses
     // focus, so a tap on a dropdown row still registers as a selection
     // before the list disappears.
@@ -533,6 +592,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           : widget.cloneFrom != null
               ? 'clone:${widget.cloneFrom!.id}:$invoiceType'
               : 'create',
+      'manualNumber': _manualNumber ?? '',
       'selectedCustomerId': selectedCustomer?.id ?? '',
       'customer': {
         'name': nameController.text.trim(),
@@ -902,7 +962,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               ElevatedButton(
                 onPressed: () => Navigator.pop(ctx, true),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange),
+                    backgroundColor: CvSwatch.warning),
                 child: Text(AppLocalizations.of(context)!.createInvoiceAddAnywayButton),
               ),
             ],
@@ -940,7 +1000,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               ElevatedButton(
                 onPressed: () => Navigator.pop(ctx, true),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange),
+                    backgroundColor: CvSwatch.warning),
                 child: Text(AppLocalizations.of(context)!.createInvoiceAddAnywayButton),
               ),
             ],
@@ -1019,17 +1079,17 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.green[50],
-                      border: Border.all(color: Colors.green[200]!),
+                      color: CvSwatch.successTint,
+                      border: Border.all(color: CvSwatch.successSoft),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
                         const Icon(Icons.all_inclusive,
-                            color: Colors.green, size: 18),
+                            color: CvSwatch.success, size: 18),
                         const SizedBox(width: 8),
                         Text(AppLocalizations.of(context)!.createInvoiceUnlimitedStockLabel,
-                            style: const TextStyle(color: Colors.green)),
+                            style: const TextStyle(color: CvSwatch.success)),
                       ],
                     ),
                   )
@@ -1039,18 +1099,18 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.red[50],
-                      border: Border.all(color: Colors.red[200]!),
+                      color: CvSwatch.dangerTint,
+                      border: Border.all(color: CvSwatch.dangerSoft),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
                         const Icon(Icons.warning_amber,
-                            color: Colors.red, size: 18),
+                            color: CvSwatch.danger, size: 18),
                         const SizedBox(width: 8),
                         Text(AppLocalizations.of(context)!.createInvoiceOutOfStockTitle,
                             style: const TextStyle(
-                                color: Colors.red,
+                                color: CvSwatch.danger,
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
@@ -1061,17 +1121,17 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.green[50],
-                      border: Border.all(color: Colors.green[200]!),
+                      color: CvSwatch.successTint,
+                      border: Border.all(color: CvSwatch.successSoft),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
                         const Icon(Icons.inventory_2,
-                            color: Colors.green, size: 18),
+                            color: CvSwatch.success, size: 18),
                         const SizedBox(width: 8),
                         Text(AppLocalizations.of(context)!.createInvoiceAvailableStockLabel(product.stock),
-                            style: const TextStyle(color: Colors.green)),
+                            style: const TextStyle(color: CvSwatch.success)),
                       ],
                     ),
                   ),
@@ -1099,27 +1159,27 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                         if (storageLocation != null && storageLocation.isNotEmpty)
                           Chip(
                             avatar: const Icon(Icons.place_outlined,
-                                size: 14, color: Colors.blueGrey),
+                                size: 14, color: CvSwatch.neutral),
                             label: Text(storageLocation,
                                 style: const TextStyle(fontSize: AppFontSize.xsmall)),
                             visualDensity: VisualDensity.compact,
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            backgroundColor: Colors.blueGrey[50],
+                            backgroundColor: CvSwatch.neutralTint,
                           ),
                         if (expiryDate != null)
                           Chip(
                             avatar: Icon(
                                 isExpired ? Icons.error_outline : Icons.event_outlined,
                                 size: 14,
-                                color: isExpired ? Colors.red : Colors.orange[800]),
+                                color: isExpired ? CvSwatch.danger : CvSwatch.warning),
                             label: Text(
                                 '${isExpired ? 'Expired ' : 'Exp '}${DateFormat(_datePattern).format(expiryDate)}',
                                 style: TextStyle(
                                     fontSize: AppFontSize.xsmall,
-                                    color: isExpired ? Colors.red : null)),
+                                    color: isExpired ? CvSwatch.danger : null)),
                             visualDensity: VisualDensity.compact,
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            backgroundColor: isExpired ? Colors.red[50] : Colors.orange[50],
+                            backgroundColor: isExpired ? CvSwatch.dangerTint : CvSwatch.warningTint,
                           ),
                       ],
                     ),
@@ -1310,7 +1370,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceProductAlreadyAddedMessage),
             ],
           ),
-          backgroundColor: Colors.orange,
+          backgroundColor: CvSwatch.warning,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           shape: RoundedRectangleBorder(
@@ -1412,7 +1472,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceCustomerNameRequiredMessage),
             ],
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           shape: RoundedRectangleBorder(
@@ -1438,7 +1498,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(AppLocalizations.of(context)!
                 .returnValidationMaxQty(i.product.name, _fmtQty(left))),
-            backgroundColor: Colors.red,
+            backgroundColor: CvSwatch.danger,
             behavior: SnackBarBehavior.floating,
             showCloseIcon: true,
           ));
@@ -1457,7 +1517,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceAtLeastOneItemRequiredMessage),
             ],
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           shape: RoundedRectangleBorder(
@@ -1479,11 +1539,17 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           _isReturnDoc && (_invoice?.isDraft ?? false) ? _invoice!.id : null;
       final invoiceId =
           draftNoteId ?? await InvoicePdfServices.generateNextId();
-      final invoiceNumber =
+      if (!await _manualNumberStillValid()) {
+        if (mounted) setState(() => isLoading = false);
+        return false;
+      }
+      final autoNumber =
           await InvoicePdfServices.generateNextInvoiceNumber(invoiceType);
+      final invoiceNumber = _manualNumber ?? autoNumber;
       final invoice = Invoice(
         id: invoiceId,
         invoiceNumber: invoiceNumber,
+        manualNumber: _manualNumber != null,
         customer: _isReturnDoc && _againstInvoice != null
             ? _againstInvoice!.customer
             : _resolveInvoiceCustomer(),
@@ -1569,6 +1635,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             debitNote: invoice, replaceDraft: draftNoteId != null);
       } else {
         await ref.read(invoiceRepositoryProvider).insertInvoice(invoice);
+        await _logManualNumber(invoice, autoNumber);
       }
 
       final (:payError, :creditToApply) =
@@ -1605,7 +1672,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               ),
             ],
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: CvSwatch.success,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           duration: convertedFromId != null
@@ -1637,7 +1704,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           SnackBar(
             content: Text(AppLocalizations.of(context)!
                 .createInvoicePaymentNotRecordedMessage(payError)),
-            backgroundColor: Colors.red,
+            backgroundColor: CvSwatch.danger,
             behavior: SnackBarBehavior.floating,
             showCloseIcon: true,
           ),
@@ -1675,7 +1742,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           content: Text(payAmount <= 0
               ? AppLocalizations.of(context)!.paymentDialogInvalidAmountError
               : AppLocalizations.of(context)!.paymentDialogExceedsOutstandingError),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
         ),
@@ -1801,7 +1868,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceCustomerNameRequiredMessage),
             ],
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           shape: RoundedRectangleBorder(
@@ -1893,7 +1960,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceDraftSavedMessage),
             ],
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: CvSwatch.success,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           shape: RoundedRectangleBorder(
@@ -1949,7 +2016,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
-              const Icon(Icons.edit, color: Colors.blue),
+              const Icon(Icons.edit, color: CvSwatch.neutral),
               const SizedBox(width: 12),
               Text(AppLocalizations.of(context)!.createInvoiceEditItemTitle, style: const TextStyle(fontSize: AppFontSize.xlarge)),
             ],
@@ -1962,7 +2029,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withValues(alpha: 0.1),
+                    color: CvSwatch.neutral.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
                   ),
                   child: Row(
@@ -1971,7 +2038,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                         item.product.type == 'service'
                             ? Icons.design_services_outlined
                             : Icons.inventory_2,
-                        color: Colors.blue[700],
+                        color: CvSwatch.neutral,
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -1990,8 +2057,8 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                               horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
                             color: item.product.type == 'service'
-                                ? Colors.purple.withValues(alpha: 0.15)
-                                : Colors.indigo.withValues(alpha: 0.15),
+                                ? CvSwatch.neutral.withValues(alpha: 0.15)
+                                : CvSwatch.neutral.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -2002,8 +2069,8 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
                               color: item.product.type == 'service'
-                                  ? Colors.purple[700]
-                                  : Colors.indigo[700],
+                                  ? CvSwatch.neutral
+                                  : CvSwatch.neutral,
                             ),
                           ),
                         ),
@@ -2069,27 +2136,27 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                         if (storageLocation != null && storageLocation.isNotEmpty)
                           Chip(
                             avatar: const Icon(Icons.place_outlined,
-                                size: 14, color: Colors.blueGrey),
+                                size: 14, color: CvSwatch.neutral),
                             label: Text(storageLocation,
                                 style: const TextStyle(fontSize: AppFontSize.xsmall)),
                             visualDensity: VisualDensity.compact,
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            backgroundColor: Colors.blueGrey[50],
+                            backgroundColor: CvSwatch.neutralTint,
                           ),
                         if (expiryDate != null)
                           Chip(
                             avatar: Icon(
                                 isExpired ? Icons.error_outline : Icons.event_outlined,
                                 size: 14,
-                                color: isExpired ? Colors.red : Colors.orange[800]),
+                                color: isExpired ? CvSwatch.danger : CvSwatch.warning),
                             label: Text(
                                 '${isExpired ? 'Expired ' : 'Exp '}${DateFormat(_datePattern).format(expiryDate)}',
                                 style: TextStyle(
                                     fontSize: AppFontSize.xsmall,
-                                    color: isExpired ? Colors.red : null)),
+                                    color: isExpired ? CvSwatch.danger : null)),
                             visualDensity: VisualDensity.compact,
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            backgroundColor: isExpired ? Colors.red[50] : Colors.orange[50],
+                            backgroundColor: isExpired ? CvSwatch.dangerTint : CvSwatch.warningTint,
                           ),
                       ],
                     ),
@@ -2363,7 +2430,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
-              const Icon(Icons.add_box, color: Colors.deepPurple),
+              const Icon(Icons.add_box, color: CvSwatch.neutral),
               const SizedBox(width: 12),
               Text(AppLocalizations.of(context)!.createInvoiceCustomItemTitle,
                   style: const TextStyle(fontSize: AppFontSize.xlarge)),
@@ -2623,7 +2690,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: CvSwatch.neutral,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
                 padding:
@@ -2756,8 +2823,10 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     if(!mounted) return;
     setState(() {
       invoiceType = invoiceType_;
+      _manualNumber = null; // numbers are per document type
       if (invoiceType_ != 'Invoice') invoiceTitle = null;
     });
+    _loadNumberAccess();
     if (!isEditing) {
       final invNumber =
           await InvoicePdfServices.peekNextInvoiceNumber(invoiceType_);
@@ -2773,6 +2842,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     setState(() {
       invoiceType = invoiceType_;
       currentInvoiceNumber = invType;
+      _manualNumber = null;
       _invoice = null;
       isEditing = false;
       selectedCustomer = null;
@@ -2815,7 +2885,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.error_outline, color: Colors.red),
+            const Icon(Icons.error_outline, color: CvSwatch.danger),
             const SizedBox(width: 12),
             Text(AppLocalizations.of(context)!.createInvoicePhoneAlreadyInUseTitle),
           ],
@@ -2849,7 +2919,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceCustomerNameRequiredBeforeSavingMessage),
             ],
           ),
-          backgroundColor: Colors.orange,
+          backgroundColor: CvSwatch.warning,
           behavior: SnackBarBehavior.floating,
           showCloseIcon: true,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -2875,7 +2945,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
-              const Icon(Icons.phone_forwarded, color: Colors.orange),
+              const Icon(Icons.phone_forwarded, color: CvSwatch.warning),
               const SizedBox(width: 12),
               Text(AppLocalizations.of(context)!.createInvoicePhoneChangedTitle),
             ],
@@ -2893,7 +2963,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               child: Text(AppLocalizations.of(context)!.createInvoiceSaveAsNewButton),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              style: ElevatedButton.styleFrom(backgroundColor: CvSwatch.warning),
               onPressed: () => Navigator.pop(ctx, 'update'),
               child: Text(AppLocalizations.of(context)!.createInvoiceUpdateExistingButton,
                   style: const TextStyle(color: Colors.white)),
@@ -2959,7 +3029,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
-              const Icon(Icons.person_search, color: Colors.orange),
+              const Icon(Icons.person_search, color: CvSwatch.warning),
               const SizedBox(width: 12),
               Text(AppLocalizations.of(context)!.createInvoiceCustomerAlreadyExistsTitle),
             ],
@@ -2973,7 +3043,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               child: Text(AppLocalizations.of(context)!.createInvoiceUseExistingButton),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              style: ElevatedButton.styleFrom(backgroundColor: CvSwatch.warning),
               onPressed: () => Navigator.pop(ctx, 'update'),
               child:
                   Text(AppLocalizations.of(context)!.actionUpdate, style: const TextStyle(color: Colors.white)),
@@ -3438,9 +3508,9 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     return Container(
       margin: const EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
-        color: Colors.teal.withValues(alpha: 0.04),
+        color: CvSwatch.success.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-        border: Border.all(color: Colors.teal.withValues(alpha: 0.25)),
+        border: Border.all(color: CvSwatch.success.withValues(alpha: 0.25)),
       ),
       child: Column(
         children: [
@@ -3457,14 +3527,14 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               child: Row(
                 children: [
                   Icon(Icons.add_box_outlined,
-                      size: 18, color: Colors.teal[700]),
+                      size: 18, color: CvSwatch.success),
                   const SizedBox(width: 8),
                   Text(
                     'Charges & Adjustments',
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Colors.teal[800],
+                      color: CvSwatch.success,
                     ),
                   ),
                   if (_additionalCostControllers.isNotEmpty) ...[
@@ -3473,7 +3543,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.teal,
+                        color: CvSwatch.success,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
@@ -3490,7 +3560,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _showAdditionalCosts
                         ? Icons.expand_less
                         : Icons.expand_more,
-                    color: Colors.teal[700],
+                    color: CvSwatch.success,
                     size: 20,
                   ),
                 ],
@@ -3500,7 +3570,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
 
           // Collapsible body
           if (_showAdditionalCosts) ...[
-            const Divider(height: 1, color: Colors.teal),
+            const Divider(height: 1, color: CvSwatch.success),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -3511,7 +3581,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
                         'Use a minus sign for deductions (e.g. freight paid by buyer).',
-                        style: TextStyle(fontSize: 11, color: Colors.teal[700]),
+                        style: TextStyle(fontSize: 11, color: CvSwatch.success),
                       ),
                     ),
                   ),
@@ -3583,7 +3653,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                           const SizedBox(width: 4),
                           IconButton(
                             icon: const Icon(Icons.remove_circle_outline,
-                                color: Colors.red, size: 20),
+                                color: CvSwatch.danger, size: 20),
                             tooltip: AppLocalizations.of(context)!.tooltipRemove,
                             onPressed: () {
                               if(!mounted) return;
@@ -3746,7 +3816,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           style: TextStyle(
             fontSize: isTotal ? 18 : 14,
             fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-            color: isTotal ? Colors.green : Theme.of(context).colorScheme.onSurface,
+            color: isTotal ? CvSwatch.success : Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(width: 8),
@@ -3758,7 +3828,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             style: TextStyle(
               fontSize: isTotal ? 20 : 14,
               fontWeight: FontWeight.bold,
-              color: isTotal ? Colors.green : Theme.of(context).colorScheme.onSurface,
+              color: isTotal ? CvSwatch.success : Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),
@@ -3776,7 +3846,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                 height: 16,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.orange[800],
+                  color: CvSwatch.warning,
                 ),
               )
             : Text(
@@ -3787,23 +3857,23 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                 style: TextStyle(
                   fontSize: compact ? 13 : 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange[900],
+                  color: CvSwatch.warning,
                 ),
               );
 
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.orange[50],
+            color: CvSwatch.warningTint,
             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-            border: Border.all(color: Colors.orange[200]!, width: 0.8),
+            border: Border.all(color: CvSwatch.warningSoft, width: 0.8),
           ),
           child: Row(
             children: [
               Icon(
                 Icons.account_balance_wallet_outlined,
                 size: 16,
-                color: Colors.orange[800],
+                color: CvSwatch.warning,
               ),
               const SizedBox(width: 6),
               Expanded(
@@ -3814,7 +3884,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                   style: TextStyle(
                     fontSize: compact ? 12 : 13,
                     fontWeight: FontWeight.w600,
-                    color: Colors.orange[900],
+                    color: CvSwatch.warning,
                   ),
                 ),
               ),
@@ -3840,7 +3910,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.orange[700],
+            color: CvSwatch.warning,
             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
           ),
           child: Row(
@@ -3895,7 +3965,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             Expanded(
               child: Text(
                 'Amount Paid:',
-                style: TextStyle(fontSize: 14, color: Colors.green[700]),
+                style: TextStyle(fontSize: 14, color: CvSwatch.success),
               ),
             ),
             Text(
@@ -3903,7 +3973,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Colors.green[700],
+                color: CvSwatch.success,
               ),
             ),
           ],
@@ -3914,7 +3984,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             margin: const EdgeInsets.only(top: 6),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: CvSwatch.success,
               borderRadius: BorderRadius.circular(4),
             ),
             child: const Text(
@@ -3934,7 +4004,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Expanded(
                 child: Text(
                   'Amount Due:',
-                  style: TextStyle(fontSize: 14, color: Colors.orange[800]),
+                  style: TextStyle(fontSize: 14, color: CvSwatch.warning),
                 ),
               ),
               Text(
@@ -3942,7 +4012,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange[800],
+                  color: CvSwatch.warning,
                 ),
               ),
             ],
@@ -4006,7 +4076,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceCustomerNameRequiredMessage),
             ],
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           showCloseIcon: true,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -4032,7 +4102,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               Text(AppLocalizations.of(context)!.createInvoiceAtLeastOneItemRequiredMessage),
             ],
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           showCloseIcon: true,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -4050,12 +4120,20 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     setState(() => isLoading = true);
 
     try {
-      final invoiceNumber = finalize
+      if (finalize && !await _manualNumberStillValid()) {
+        if (mounted) setState(() => isLoading = false);
+        return false;
+      }
+      final autoNumber = finalize
           ? await InvoicePdfServices.generateNextInvoiceNumber(invoiceType)
-          : _invoice!.invoiceNumber;
+          : null;
+      final invoiceNumber =
+          finalize ? (_manualNumber ?? autoNumber) : _invoice!.invoiceNumber;
       final updatedInvoice = Invoice(
         id: _invoice!.id,
         invoiceNumber: invoiceNumber,
+        // Keep an existing manual flag; a finalized draft is manual if typed.
+        manualNumber: finalize ? _manualNumber != null : _invoice!.manualNumber,
         customer: _resolveInvoiceCustomer(),
         items: List.from(invoiceItems),
         date: _selectedOrderDate,
@@ -4094,7 +4172,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           content: Text(AppLocalizations.of(context)!
               .createInvoiceTotalBelowPaidMessage(
                   '$_currencySymbol ${AmountFormat.money(paid)}')),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
           showCloseIcon: true,
           behavior: SnackBarBehavior.floating,
         ));
@@ -4146,7 +4224,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                   : AppLocalizations.of(context)!.createInvoiceUpdatedSuccessMessage(_invoiceTypeLabel(invoiceType))),
             ],
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: CvSwatch.success,
           showCloseIcon: true,
           duration: const Duration(milliseconds: 2000),
           behavior: SnackBarBehavior.floating,
@@ -4159,7 +4237,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           SnackBar(
             content: Text(AppLocalizations.of(context)!
                 .createInvoicePaymentNotRecordedMessage(payError)),
-            backgroundColor: Colors.red,
+            backgroundColor: CvSwatch.danger,
             behavior: SnackBarBehavior.floating,
             showCloseIcon: true,
           ),
@@ -4231,7 +4309,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       Theme.of(context).colorScheme.surface,
                     ]
                   : [
-                      Colors.green.shade50,
+                      CvSwatch.successTint,
                       Colors.white,
                     ],
             ),
@@ -4244,11 +4322,11 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.green.shade100,
+                    color: CvSwatch.successTint,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(Icons.check_circle,
-                      color: Colors.green.shade700, size: 80),
+                      color: CvSwatch.success, size: 80),
                 ),
                 const SizedBox(height: 24),
                 Text(
@@ -4264,14 +4342,14 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
+                    color: CvSwatch.neutralTint,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.createInvoiceIdLabel(_invoiceTypeLabel(invoiceType), '${_invoice?.invoiceNumber}'),
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.blue.shade700,
+                      color: CvSwatch.neutral,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -4284,7 +4362,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _buildSuccessActionButton(
                       icon: Icons.visibility,
                       label: AppLocalizations.of(context)!.createInvoiceViewDetailsLabel,
-                      color: Colors.green,
+                      color: CvSwatch.success,
                       onPressed: () => InvoicePdfServices.showInvoiceDetails(
                           context, _invoice!),
                     ),
@@ -4293,7 +4371,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       icon: Icons.picture_as_pdf,
                       label: AppLocalizations.of(context)!.createInvoicePreviewPdfLabel,
                       tooltip: AppLocalizations.of(context)!.createInvoicePreviewPdfTooltip,
-                      color: Colors.purple,
+                      color: CvSwatch.neutral,
                       onPressed: () =>
                           InvoicePdfServices.previewPDF(context, _invoice!),
                     ),
@@ -4301,7 +4379,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _buildSuccessActionButton(
                       icon: Icons.download_outlined,
                       label: AppLocalizations.of(context)!.actionDownloadPdf,
-                      color: Colors.deepPurple,
+                      color: CvSwatch.neutral,
                       onPressed: () =>
                           PDFService.downloadPDF(context, _invoice!),
                     ),
@@ -4310,7 +4388,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       icon: Icons.print,
                       label: AppLocalizations.of(context)!.createInvoicePrintPdfLabel,
                       tooltip: AppLocalizations.of(context)!.createInvoicePrintPdfTooltip,
-                      color: Colors.blue,
+                      color: CvSwatch.neutral,
                       onPressed: () =>
                           InvoicePdfServices.generatePDF(context, _invoice!),
                     ),
@@ -4325,26 +4403,26 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: Colors.amber.shade50,
+                      color: CvSwatch.warningTint,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.amber.shade300),
+                      border: Border.all(color: CvSwatch.warningSoft),
                     ),
                     child: Row(
                       children: [
                         Icon(Icons.person_add_alt_1_outlined,
-                            color: Colors.amber.shade800, size: 22),
+                            color: CvSwatch.warning, size: 22),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Save "${nameController.text.trim()}" to your customer list for future use?',
                             style: TextStyle(
-                                fontSize: 13, color: Colors.amber.shade900),
+                                fontSize: 13, color: CvSwatch.warning),
                           ),
                         ),
                         const SizedBox(width: 12),
                         TextButton(
                           style: TextButton.styleFrom(
-                            foregroundColor: Colors.amber.shade900,
+                            foregroundColor: CvSwatch.warning,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 8),
                           ),
@@ -4415,7 +4493,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     minimumSize:
                         Size(MediaQuery.of(context).size.width * 0.2, 56),
                     backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(AppBorderRadius.xsmall)),
@@ -4643,20 +4721,39 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                         Flexible(
                           child: Text(
                             style: TextStyle(fontSize: compact ? 15 : 18),
-                            '$invoiceType Number : #[$currentInvoiceNumber]',
+                            '$invoiceType Number : #[${_docPrefix.isNotEmpty && _manualNumber != null ? _docPrefix : ''}${_manualNumber ?? currentInvoiceNumber}]',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                         ),
+                        if (_manualNumber != null || (_invoice?.manualNumber ?? false)) ...[
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white70),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(AppLocalizations.of(context)!.invoiceNumberManualBadge,
+                                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                          ),
+                        ],
                         const SizedBox(width: 6),
-                        Tooltip(
-                          message: 'Invoice numbers are auto-generated.\n'
-                              'The next number is calculated from the last\n'
-                              'invoice in the database (including deleted ones).\n'
-                              'Manual editing is not supported.',
-                          child: const Icon(Icons.info_outline,
-                              size: 16, color: Colors.white70),
-                        ),
+                        if (_canTypeNumber)
+                          IconButton(
+                            icon: const Icon(Icons.edit_outlined, size: 18),
+                            tooltip: AppLocalizations.of(context)!.invoiceNumberEditTooltip,
+                            visualDensity: VisualDensity.compact,
+                            onPressed: _editNumber,
+                          )
+                        else
+                          Tooltip(
+                            message: 'Invoice numbers are generated automatically.\n'
+                                'An admin can allow typing your own number in\n'
+                                'Settings → Accessibility → Custom invoice numbers.',
+                            child: const Icon(Icons.info_outline,
+                                size: 16, color: Colors.white70),
+                          ),
                       ],
                     ),
                   ),
@@ -4833,7 +4930,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
         ).copyWith(
           enabled: !locked,
           helperMaxLines: 2,
-          helperStyle: TextStyle(color: Colors.orange[800]),
+          helperStyle: TextStyle(color: CvSwatch.warning),
         ),
         child: inv == null ? null : Text(_againstInvoiceText(inv)),
       ),
@@ -5104,7 +5201,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange, foregroundColor: Colors.white),
+                backgroundColor: CvSwatch.warning, foregroundColor: Colors.white),
             child: Text(l10n.createInvoiceSaveAnywayButton),
           ),
         ],
@@ -5604,7 +5701,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                                     : customer.phone),
                                 trailing: isSelected
                                     ? const Icon(Icons.check_circle,
-                                        color: Colors.green)
+                                        color: CvSwatch.success)
                                     : null,
                                 onTap: () {
                                   _selectCustomer(customer);
@@ -6102,7 +6199,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                               TextSpan(
                                 text: '📍 $storageLocation',
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                                    fontWeight: FontWeight.bold, color: CvSwatch.neutral),
                               ),
                             ],
                             if (expiryDate != null) ...[
@@ -6112,7 +6209,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                                     '${isExpired ? 'Expired ' : 'Exp '}${DateFormat(_datePattern).format(expiryDate)}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: isExpired ? Colors.red : Colors.orange[800],
+                                  color: isExpired ? CvSwatch.danger : CvSwatch.warning,
                                 ),
                               ),
                             ],
@@ -6295,7 +6392,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       if (item.unitPrice != null)
                         _buildItemDetail('Price',
                             '$_currencySymbol${AmountFormat.money(item.effectivePrice)} *',
-                            color: Colors.orange[700])
+                            color: CvSwatch.warning)
                       else
                         _buildItemDetail('Price',
                             '$_currencySymbol${AmountFormat.money(item.product.price)}'),
@@ -6306,10 +6403,10 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                         _buildItemDetail(
                             _taxMode == TaxMode.perItem ? '' : 'Tax',
                             'Inclusive',
-                            color: Colors.teal[700]),
+                            color: CvSwatch.success),
                         _buildItemDetail('Net Price',
                             '$_currencySymbol${AmountFormat.money(InvoiceTotalsCalculator.netPrice(price: item.effectivePrice, taxRatePercent: item.product.tax_rate.toDouble(), priceIncludesTax: true))}',
-                            color: Colors.teal[700]),
+                            color: CvSwatch.success),
                       ],
                       if (_columnsConfig.hsncode)
                         _buildItemDetail(
@@ -6329,11 +6426,11 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       if (!item.discountIsPercent && item.discountPerUnit && item.discount > 0)
                         _buildItemDetail('Net',
                             '$_currencySymbol${AmountFormat.money(item.effectivePrice - item.discount)}/item',
-                            color: Colors.teal[700]),
+                            color: CvSwatch.success),
                       if (item.extraCost != null && item.extraCost! > 0)
                         _buildItemDetail('Extra',
                             '+$_currencySymbol${AmountFormat.money(item.extraCost!)}',
-                            color: Colors.teal[700]),
+                            color: CvSwatch.success),
                       // Credit note: qty still returnable (linked invoice)
                       // and whether this line goes back into stock.
                       if (invoiceType == 'Credit Note' && _againstInvoice != null)
@@ -6341,7 +6438,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                             AppLocalizations.of(context)!.returnColLeft,
                             _fmtQty(math.max(
                                 0.0, _creditNoteLeft(item.product.id))),
-                            color: Colors.orange[800]),
+                            color: CvSwatch.warning),
                       if (invoiceType == 'Credit Note' && _canRestock(item))
                         InkWell(
                           onTap: () =>
@@ -6475,7 +6572,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                   child: Text(
                     AppLocalizations.of(context)!.createInvoiceLockedByCreditNotes,
                     style: TextStyle(
-                        fontSize: AppFontSize.small, color: Colors.orange[800]),
+                        fontSize: AppFontSize.small, color: CvSwatch.warning),
                   ),
                 ),
               const SizedBox(height: 12),
@@ -6552,9 +6649,9 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.orange.withValues(alpha: 0.04),
+        color: CvSwatch.warning.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-        border: Border.all(color: Colors.orange.withValues(alpha: 0.25)),
+        border: Border.all(color: CvSwatch.warning.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -6632,9 +6729,9 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.green.withValues(alpha: 0.04),
+        color: CvSwatch.success.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-        border: Border.all(color: Colors.green.withValues(alpha: 0.25)),
+        border: Border.all(color: CvSwatch.success.withValues(alpha: 0.25)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -7083,12 +7180,12 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(AppLocalizations.of(context)!.createInvoiceDiscountColonLabel,
-                    style: TextStyle(fontSize: 14, color: Colors.orange[700])),
+                    style: TextStyle(fontSize: 14, color: CvSwatch.warning)),
                 Text('-$_currencySymbol${AmountFormat.money(totalDiscount)}',
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.orange[700])),
+                        color: CvSwatch.warning)),
               ],
             ),
           ],
@@ -7110,7 +7207,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                           ? AppLocalizations.of(context)!.createInvoiceDiscountPercentLabel(_invoiceDiscountValue.toStringAsFixed(1))
                           : AppLocalizations.of(context)!.createInvoiceInvoiceDiscountColonLabel,
                       style:
-                          TextStyle(fontSize: 14, color: Colors.orange[700])),
+                          TextStyle(fontSize: 14, color: CvSwatch.warning)),
                 ),
                 Flexible(
                   child: Text(
@@ -7118,7 +7215,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.orange[700])),
+                          color: CvSwatch.warning)),
                 ),
               ],
             ),
@@ -7240,7 +7337,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _buildActionButton(
                       icon: Icons.visibility_outlined,
                       label: AppLocalizations.of(context)!.actionView,
-                      color: Colors.green,
+                      color: CvSwatch.success,
                       onPressed: _invoice != null
                           ? () => InvoicePdfServices.showInvoiceDetails(
                               context, _invoice!)
@@ -7250,7 +7347,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       icon: Icons.picture_as_pdf_outlined,
                       label: AppLocalizations.of(context)!.createInvoicePreviewLabel,
                       tooltip: AppLocalizations.of(context)!.createInvoicePreviewTooltip,
-                      color: Colors.purple,
+                      color: CvSwatch.neutral,
                       onPressed: hasSavedRow
                           ? () => InvoicePdfServices.previewPDF(context, _invoice!)
                           : null,
@@ -7258,7 +7355,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _buildActionButton(
                       icon: Icons.download_outlined,
                       label: AppLocalizations.of(context)!.createInvoiceDownloadLabel,
-                      color: Colors.deepPurple,
+                      color: CvSwatch.neutral,
                       onPressed: hasSavedRow && !isDraftRow
                           ? () => PDFService.downloadPDF(context, _invoice!)
                           : null,
@@ -7269,7 +7366,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       tooltip: isDraftRow
                           ? AppLocalizations.of(context)!.createInvoiceDraftPrintTooltip
                           : AppLocalizations.of(context)!.createInvoicePrintTooltip,
-                      color: Colors.blue,
+                      color: CvSwatch.neutral,
                       onPressed: hasSavedRow && !isDraftRow
                           ? () => InvoicePdfServices.generatePDF(context, _invoice!)
                           : null,
@@ -7315,7 +7412,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 22, vertical: 16),
@@ -7323,11 +7420,11 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                           borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
                     ),
                     icon: isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width: 18,
                             height: 18,
                             child: CircularProgressIndicator(
-                                color: Colors.white, strokeWidth: 2),
+                                color: Theme.of(context).colorScheme.onPrimary, strokeWidth: 2),
                           )
                         : Icon(!hasSavedRow
                             ? Icons.save_outlined

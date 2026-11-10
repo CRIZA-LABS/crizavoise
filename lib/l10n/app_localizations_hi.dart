@@ -5932,4 +5932,113 @@ class AppLocalizationsHi extends AppLocalizations {
   String imageImportFileTooLargeMessage(String max) {
     return 'यह फ़ाइल $max MB से बड़ी है। कृपया छोटी इमेज चुनें।';
   }
+
+  @override
+  String get customNumbersSettingTitle => 'अपना इनवॉइस नंबर';
+
+  @override
+  String get customNumbersSettingSubtitle =>
+      'इनवॉइस नंबर अपने-आप बनते हैं। अपना नंबर लिखने की अनुमति दें, जैसे काग़ज़ की बिल बुक से मिलाने के लिए।';
+
+  @override
+  String get customNumbersAccessOff => 'बंद';
+
+  @override
+  String get customNumbersAccessAdmins => 'सिर्फ़ एडमिन';
+
+  @override
+  String get customNumbersAccessEveryone => 'एडमिन और स्टाफ़';
+
+  @override
+  String get customNumbersSafeguards =>
+      'सुरक्षा: नंबर अलग-अलग होने चाहिए और इनमें 16 तक अक्षर, अंक, \"-\" या \"/\" हों (GST नियम)। पुराने इनवॉइस का नंबर सिर्फ़ एडमिन बदल सकते हैं, कारण और पासवर्ड के साथ। हर बदलाव दर्ज होता है।';
+
+  @override
+  String get invoiceNumberEditTooltip => 'अपना नंबर लिखें';
+
+  @override
+  String get invoiceNumberDialogTitle => 'इनवॉइस नंबर';
+
+  @override
+  String invoiceNumberAutoLabel(String number) {
+    return 'अपने-आप बना नंबर: $number';
+  }
+
+  @override
+  String get invoiceNumberCustomFieldLabel => 'आपका नंबर';
+
+  @override
+  String get invoiceNumberFieldHint => 'अक्षर, अंक, - या /';
+
+  @override
+  String get invoiceNumberUseAutoAction => 'अपने-आप वाला लें';
+
+  @override
+  String get invoiceNumberUseThisAction => 'यह नंबर लें';
+
+  @override
+  String get invoiceNumberManualBadge => 'हाथ से';
+
+  @override
+  String get invoiceNumberIssueEmpty => 'नंबर लिखें।';
+
+  @override
+  String get invoiceNumberIssueInvalid =>
+      'सिर्फ़ अक्षर, अंक, \"-\" या \"/\" इस्तेमाल करें।';
+
+  @override
+  String get invoiceNumberIssueTooLong =>
+      'बहुत लंबा — प्रीफ़िक्स के साथ 16 अक्षर या कम होना चाहिए (GST नियम)।';
+
+  @override
+  String get invoiceNumberIssueDuplicate =>
+      'यह नंबर पहले से इस्तेमाल हुआ है। हर नंबर अलग होना चाहिए।';
+
+  @override
+  String get invoiceNumberChangeAction => 'इनवॉइस नंबर बदलें';
+
+  @override
+  String get invoiceNumberChangeWarning =>
+      'नंबर सिर्फ़ ग़लती सुधारने या काग़ज़ के रिकॉर्ड से मिलाने के लिए बदलें। बदलाव आपके नाम और कारण के साथ दर्ज होगा।';
+
+  @override
+  String invoiceNumberCurrentLabel(String number) {
+    return 'अभी का नंबर: $number';
+  }
+
+  @override
+  String get invoiceNumberNewLabel => 'नया नंबर';
+
+  @override
+  String get invoiceNumberReasonLabel => 'कारण (ज़रूरी)';
+
+  @override
+  String get invoiceNumberPasswordLabel => 'आपका पासवर्ड';
+
+  @override
+  String get invoiceNumberReasonMissing => 'कृपया छोटा सा कारण लिखें।';
+
+  @override
+  String get invoiceNumberPasswordWrong => 'पासवर्ड ग़लत है।';
+
+  @override
+  String get invoiceNumberNoPermission =>
+      'आपको इनवॉइस नंबर बदलने की अनुमति नहीं है।';
+
+  @override
+  String invoiceNumberChangedMessage(String number) {
+    return 'इनवॉइस नंबर बदलकर $number कर दिया गया।';
+  }
+
+  @override
+  String get invoiceNumberHistoryTitle => 'बदलाव का इतिहास';
+
+  @override
+  String invoiceNumberHistoryEntry(
+      String oldNumber, String newNumber, String user, String date) {
+    return '$oldNumber → $newNumber · $user · $date';
+  }
+
+  @override
+  String get invoiceNumberHistoryNone => 'अभी कोई बदलाव नहीं।';
 }

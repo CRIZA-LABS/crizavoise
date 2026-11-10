@@ -52,6 +52,8 @@ import 'package:crizavoise/screens/auth/login_screen.dart';
 import 'package:crizavoise/screens/reports_screen.dart';
 import 'package:crizavoise/screens/purchase_bill_management_screen.dart';
 import 'package:crizavoise/screens/supplier_management_screen.dart';
+import 'package:crizavoise/theme/swatch.dart';
+import 'package:crizavoise/theme/tokens.dart';
 
 // invoice.type is a raw internal value ('Invoice'/'Quotation'/'Receipt') used
 // for comparisons throughout this file — only the displayed label is localized.
@@ -628,7 +630,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                           : Icons.circle_outlined,
                                       size: 18,
                                       color: company.id == _activeCompanyId
-                                          ? Colors.green
+                                          ? CvSwatch.success
                                           : Theme.of(context)
                                               .colorScheme
                                               .onSurfaceVariant,
@@ -958,7 +960,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
-                                color: Colors.orange.withValues(alpha: 0.15),
+                                color: CvSwatch.warning.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -966,7 +968,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                     .dashboardTestBuildBadge,
                                 style: TextStyle(
                                   fontSize: 9,
-                                  color: Colors.orange.shade800,
+                                  color: CvSwatch.warning,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -1056,7 +1058,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 1),
                             decoration: BoxDecoration(
-                              color: Colors.orange.withValues(alpha: 0.15),
+                              color: CvSwatch.warning.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -1064,7 +1066,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                   .dashboardTestBadgeShort,
                               style: TextStyle(
                                 fontSize: 7,
-                                color: Colors.orange.shade800,
+                                color: CvSwatch.warning,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -1084,7 +1086,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   /*
   Widget _buildComingSoonNavItem(IconData icon, String label) {
-    const disabledColor = Color(0xFFCBD5E1);
+    const disabledColor = CvSwatch.neutralSoft;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -1213,7 +1215,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               width: 8,
                               height: 8,
                               decoration: const BoxDecoration(
-                                color: Colors.orange,
+                                color: CvSwatch.warning,
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -1267,7 +1269,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               width: 8,
                               height: 8,
                               decoration: const BoxDecoration(
-                                color: Colors.orange,
+                                color: CvSwatch.warning,
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -1628,25 +1630,25 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     return DiscoveryBanner(
       visible: _showShortcutsBanner,
       icon: Icons.keyboard_outlined,
-      iconColor: const Color(0xFF059669),
-      backgroundColor: const Color(0xFFECFDF5),
-      borderColor: const Color(0xFFA7F3D0),
+      iconColor: CvSwatch.success,
+      backgroundColor: CvSwatch.successTint,
+      borderColor: CvSwatch.successSoft,
       title: Text(
         AppLocalizations.of(context)!.dashboardShortcutsBannerTitle,
         style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,
-            color: Color(0xFF065F46)),
+            color: CvSwatch.success),
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardShortcutsBannerSubtitle,
-        style: const TextStyle(fontSize: 12, color: Color(0xFF059669)),
+        style: const TextStyle(fontSize: 12, color: CvSwatch.success),
       ),
       actionLabel: AppLocalizations.of(context)!.dashboardViewAllAction,
       onAction: _showShortcutsDialog,
-      actionColor: const Color(0xFF059669),
+      actionColor: CvSwatch.success,
       onDismiss: _dismissShortcutsBanner,
-      dismissIconColor: const Color(0xFF6EE7B7),
+      dismissIconColor: CvSwatch.successSoft,
     );
   }
 
@@ -1658,25 +1660,25 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           widget.user.isAdmin() &&
           !ref.watch(enablePurchaseBillsAndSuppliersProvider),
       icon: Icons.local_shipping_outlined,
-      iconColor: const Color(0xFF0891B2),
-      backgroundColor: const Color(0xFFECFEFF),
-      borderColor: const Color(0xFFA5F3FC),
+      iconColor: CvSwatch.neutral,
+      backgroundColor: CvSwatch.neutralTint,
+      borderColor: CvSwatch.neutralSoft,
       title: Text(
         AppLocalizations.of(context)!.dashboardPurchaseBannerTitle,
         style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,
-            color: Color(0xFF155E75)),
+            color: CvSwatch.neutral),
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardPurchaseBannerSubtitle,
-        style: const TextStyle(fontSize: 12, color: Color(0xFF0891B2)),
+        style: const TextStyle(fontSize: 12, color: CvSwatch.neutral),
       ),
       actionLabel: AppLocalizations.of(context)!.dashboardPurchaseBannerAction,
       onAction: _enablePurchaseBills,
-      actionColor: const Color(0xFF0891B2),
+      actionColor: CvSwatch.neutral,
       onDismiss: _dismissPurchaseBanner,
-      dismissIconColor: const Color(0xFF67E8F9),
+      dismissIconColor: CvSwatch.neutralSoft,
     );
   }
 
@@ -1684,25 +1686,25 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     return DiscoveryBanner(
       visible: _showLayoutBanner,
       icon: Icons.dashboard_customize_outlined,
-      iconColor: const Color(0xFF2563EB),
-      backgroundColor: const Color(0xFFEFF6FF),
-      borderColor: const Color(0xFFBFDBFE),
+      iconColor: CvSwatch.neutral,
+      backgroundColor: CvSwatch.neutralTint,
+      borderColor: CvSwatch.neutralSoft,
       title: Text(
         AppLocalizations.of(context)!.dashboardLayoutBannerTitle,
         style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,
-            color: Color(0xFF1E40AF)),
+            color: CvSwatch.neutral),
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardLayoutBannerSubtitle,
-        style: const TextStyle(fontSize: 12, color: Color(0xFF3B82F6)),
+        style: const TextStyle(fontSize: 12, color: CvSwatch.neutral),
       ),
       actionLabel: AppLocalizations.of(context)!.actionGotIt,
       onAction: _dismissLayoutBanner,
-      actionColor: const Color(0xFF2563EB),
+      actionColor: CvSwatch.neutral,
       onDismiss: _dismissLayoutBanner,
-      dismissIconColor: const Color(0xFF93C5FD),
+      dismissIconColor: CvSwatch.neutralSoft,
     );
   }
 
@@ -1710,9 +1712,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     return DiscoveryBanner(
       visible: _showThemeBanner,
       icon: Icons.dark_mode_outlined,
-      iconColor: const Color(0xFF7C3AED),
-      backgroundColor: const Color(0xFFF5F3FF),
-      borderColor: const Color(0xFFDDD6FE),
+      iconColor: CvSwatch.neutral,
+      backgroundColor: CvSwatch.neutralTint,
+      borderColor: CvSwatch.neutralSoft,
       title: Row(
         children: [
           Text(
@@ -1720,7 +1722,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 13,
-                color: Color(0xFF5B21B6)),
+                color: CvSwatch.neutral),
           ),
           const SizedBox(width: 6),
           const _BetaTag(),
@@ -1728,13 +1730,13 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardThemeBannerSubtitle,
-        style: const TextStyle(fontSize: 12, color: Color(0xFF7C3AED)),
+        style: const TextStyle(fontSize: 12, color: CvSwatch.neutral),
       ),
       actionLabel: AppLocalizations.of(context)!.actionGotIt,
       onAction: _dismissThemeBanner,
-      actionColor: const Color(0xFF7C3AED),
+      actionColor: CvSwatch.neutral,
       onDismiss: _dismissThemeBanner,
-      dismissIconColor: const Color(0xFFC4B5FD),
+      dismissIconColor: CvSwatch.neutralSoft,
     );
   }
 
@@ -1746,23 +1748,23 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       crossAxisAlignment: CrossAxisAlignment.start,
       icon: isReviewMilestone ? Icons.star_outline : Icons.celebration_outlined,
       iconSize: 22,
-      iconColor: const Color(0xFFD97706),
-      backgroundColor: const Color(0xFFFFFBEB),
-      borderColor: const Color(0xFFFDE68A),
+      iconColor: CvSwatch.warning,
+      backgroundColor: CvSwatch.warningTint,
+      borderColor: CvSwatch.warningSoft,
       title: Text(
         AppLocalizations.of(context)!
             .dashboardSupportBannerTitle(_supportMilestone),
         style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,
-            color: Color(0xFF92400E)),
+            color: CvSwatch.warning),
       ),
       subtitle: Text(
         isReviewMilestone
             ? AppLocalizations.of(context)!.dashboardSupportBannerReviewSubtitle
             : AppLocalizations.of(context)!
                 .dashboardSupportBannerSupportSubtitle,
-        style: const TextStyle(fontSize: 12, color: Color(0xFFB45309)),
+        style: const TextStyle(fontSize: 12, color: CvSwatch.warning),
       ),
       actionLabel: isReviewMilestone
           ? AppLocalizations.of(context)!.dashboardReviewAction
@@ -1771,10 +1773,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
         await openContact(ContactChannel.support,
             topic: isReviewMilestone ? 'Feedback' : null);
       },
-      actionColor: const Color(0xFF92400E),
-      actionBackgroundColor: const Color(0xFFFDE68A),
+      actionColor: CvSwatch.warning,
+      actionBackgroundColor: CvSwatch.warningSoft,
       onDismiss: _dismissSupportBanner,
-      dismissIconColor: const Color(0xFFD97706),
+      dismissIconColor: CvSwatch.warning,
     );
   }
 
@@ -1847,47 +1849,47 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                     _buildStatCard(
                         AppLocalizations.of(context)!.navCustomers,
                         totalCustomers.toString(),
-                        const Color(0xFF1565C0),
+                        CvSwatch.neutral,
                         Icons.people_outline),
                     const SizedBox(width: 16),
                     _buildStatCard(
                       AppLocalizations.of(context)!.navProducts,
                       totalProducts.toString(),
-                      const Color(0xFF2E7D32),
+                      CvSwatch.success,
                       Icons.inventory_2_outlined,
                       subtitle: outOfStockProducts.isNotEmpty
                           ? AppLocalizations.of(context)!
                               .dashboardOutOfStockCountLabel(
                                   outOfStockProducts.length)
                           : null,
-                      subtitleColor: Colors.red[600],
+                      subtitleColor: CvSwatch.danger,
                     ),
                     const SizedBox(width: 16),
                     _buildStatCard(
                         AppLocalizations.of(context)!.navInvoices,
                         totalInvoices.toString(),
-                        const Color(0xFFE65100),
+                        CvSwatch.warning,
                         Icons.receipt_long_outlined),
                     const SizedBox(width: 16),
                     _buildStatCard(
                       AppLocalizations.of(context)!
                           .dashboardRevenueCollectedLabel,
                       '$_currencySymbol ${AmountFormat.money(totalRevenue)}',
-                      const Color(0xFF6A1B9A),
+                      CvSwatch.neutral,
                       Icons.account_balance_wallet_outlined,
                     ),
                     const SizedBox(width: 16),
                     _buildStatCard(
                       AppLocalizations.of(context)!.dashboardOutstandingLabel,
                       '$_currencySymbol ${AmountFormat.money(totalOutstanding)}',
-                      const Color(0xFFC62828),
+                      CvSwatch.danger,
                       Icons.hourglass_top_outlined,
                       subtitle: overdueInvoices.isNotEmpty
                           ? AppLocalizations.of(context)!
                               .dashboardOverdueCountLabel(
                                   overdueInvoices.length)
                           : null,
-                      subtitleColor: Colors.red[700],
+                      subtitleColor: CvSwatch.danger,
                     ),
                   ],
                 ),
@@ -2103,19 +2105,19 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                       vertical: 4),
                                               decoration: BoxDecoration(
                                                 color: invoice.type == 'Invoice'
-                                                    ? Colors.indigo
+                                                    ? CvSwatch.neutral
                                                         .withValues(alpha: 0.1)
-                                                    : Colors.orange
+                                                    : CvSwatch.warning
                                                         .withValues(alpha: 0.1),
                                                 borderRadius:
                                                     BorderRadius.circular(6),
                                                 border: Border.all(
                                                   color:
                                                       invoice.type == 'Invoice'
-                                                          ? Colors.indigo
+                                                          ? CvSwatch.neutral
                                                               .withValues(
                                                                   alpha: 0.35)
-                                                          : Colors.orange
+                                                          : CvSwatch.warning
                                                               .withValues(
                                                                   alpha: 0.35),
                                                 ),
@@ -2128,8 +2130,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                   fontWeight: FontWeight.w600,
                                                   color:
                                                       invoice.type == 'Invoice'
-                                                          ? Colors.indigo[700]
-                                                          : Colors.orange[800],
+                                                          ? CvSwatch.neutral
+                                                          : CvSwatch.warning,
                                                   letterSpacing: 0.5,
                                                 ),
                                               ),
@@ -2200,7 +2202,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                       .outstandingBalance,
                                                 );
                                                 final color = isOverdue
-                                                    ? Colors.red[700]!
+                                                    ? CvSwatch.danger
                                                     : Theme.of(context)
                                                         .colorScheme
                                                         .onSurfaceVariant;
@@ -2257,7 +2259,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 16, vertical: 8),
                                         decoration: BoxDecoration(
-                                          color: Colors.purple
+                                          color: CvSwatch.neutral
                                               .withValues(alpha: 0.1),
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -2267,7 +2269,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.purple,
+                                            color: CvSwatch.neutral,
                                           ),
                                         ),
                                       ),
@@ -2279,7 +2281,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                         children: [
                                           _buildActionButton(
                                               Icons.visibility_outlined,
-                                              Colors.green,
+                                              CvSwatch.success,
                                               AppLocalizations.of(context)!
                                                   .actionView,
                                               () => InvoicePdfServices
@@ -2287,7 +2289,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                       context, invoice)),
                                           _buildActionButton(
                                               Icons.edit_outlined,
-                                              Colors.blue,
+                                              CvSwatch.neutral,
                                               AppLocalizations.of(context)!
                                                   .actionEdit,
                                               invoice.status == 'declined' ||
@@ -2297,7 +2299,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                       .onEditInvoice(invoice)),
                                           _buildActionButton(
                                               Icons.copy_all_outlined,
-                                              Colors.teal,
+                                              CvSwatch.success,
                                               AppLocalizations.of(context)!
                                                   .actionDuplicate,
                                               () => _showCloneDialog(invoice)),
@@ -2305,7 +2307,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                           // invoice list.
                                           _buildActionButton(
                                               Icons.picture_as_pdf_outlined,
-                                              Colors.orange,
+                                              CvSwatch.warning,
                                               AppLocalizations.of(context)!
                                                   .actionPdfPreview,
                                               () =>
@@ -2314,14 +2316,14 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                           if (!invoice.isDraft) ...[
                                           _buildActionButton(
                                               Icons.download_outlined,
-                                              Colors.deepPurple,
+                                              CvSwatch.neutral,
                                               AppLocalizations.of(context)!
                                                   .actionDownloadPdf,
                                               () => PDFService.downloadPDF(
                                                   context, invoice)),
                                           _buildActionButton(
                                               Icons.print_outlined,
-                                              Colors.blueGrey,
+                                              CvSwatch.neutral,
                                               AppLocalizations.of(context)!
                                                   .actionPrint,
                                               () => InvoicePdfServices
@@ -2330,7 +2332,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                           ],
                                           _buildActionButton(
                                               Icons.payments_outlined,
-                                              Colors.purple,
+                                              CvSwatch.neutral,
                                               AppLocalizations.of(context)!
                                                   .actionPayment,
                                               invoice.type == 'Invoice' &&
@@ -2358,7 +2360,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                   : null),
                                           _buildActionButton(
                                               Icons.delete_outline,
-                                              Colors.red,
+                                              CvSwatch.danger,
                                               AppLocalizations.of(context)!
                                                   .actionDelete,
                                               widget.user.isAdmin()
@@ -2389,14 +2391,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
       decoration: BoxDecoration(
         gradient: DashboardScreenColors.welcomePanelBackgroundGradientColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF1E293B).withValues(alpha: 0.25),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(CvRadius.lg),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -2462,13 +2457,13 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: Colors.orange[700],
+                color: CvSwatch.warning,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(width: 12),
             const Icon(Icons.notifications_active_outlined,
-                color: Colors.orange, size: 22),
+                color: CvSwatch.warning, size: 22),
             const SizedBox(width: 8),
             Text(
               AppLocalizations.of(context)!.dashboardDueSoonTitle,
@@ -2481,9 +2476,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: Colors.orange.withValues(alpha: 0.12),
+                color: CvSwatch.warning.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.orange.withValues(alpha: 0.4)),
+                border: Border.all(color: CvSwatch.warning.withValues(alpha: 0.4)),
               ),
               child: Text(
                 AppLocalizations.of(context)!
@@ -2491,7 +2486,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: Colors.orange[800]),
+                    color: CvSwatch.warning),
               ),
             ),
             const Spacer(),
@@ -2509,7 +2504,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           final due = DateTime(invoice.dueDate!.year, invoice.dueDate!.month,
               invoice.dueDate!.day);
           final isToday = due == today;
-          final badgeColor = isToday ? Colors.red : Colors.orange;
+          final badgeColor = isToday ? CvSwatch.danger : CvSwatch.warning;
           final badgeLabel = isToday
               ? AppLocalizations.of(context)!.dashboardDueTodayBadge
               : AppLocalizations.of(context)!.dashboardDueTomorrowBadge;
@@ -2598,20 +2593,20 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                     // Actions
                     _buildActionButton(
                         Icons.visibility_outlined,
-                        Colors.green,
+                        CvSwatch.success,
                         AppLocalizations.of(context)!.actionView,
                         () => InvoicePdfServices.showInvoiceDetails(
                             context, invoice)),
                     const SizedBox(width: 6),
                     _buildActionButton(
                         Icons.picture_as_pdf_outlined,
-                        Colors.orange,
+                        CvSwatch.warning,
                         AppLocalizations.of(context)!.actionPdfPreview,
                         () => InvoicePdfServices.previewPDF(context, invoice)),
                     const SizedBox(width: 6),
                     _buildActionButton(
                         Icons.payments_outlined,
-                        Colors.purple,
+                        CvSwatch.neutral,
                         AppLocalizations.of(context)!.actionRecordPayment,
                         () => showDialog(
                               context: context,
@@ -2644,12 +2639,12 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: Colors.red[800],
+                color: CvSwatch.danger,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(width: 12),
-            Icon(Icons.warning_amber_rounded, color: Colors.red[700], size: 22),
+            Icon(Icons.warning_amber_rounded, color: CvSwatch.danger, size: 22),
             const SizedBox(width: 8),
             Text(
               AppLocalizations.of(context)!.dashboardOverdueSectionTitle,
@@ -2662,9 +2657,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: Colors.red.withValues(alpha: 0.10),
+                color: CvSwatch.danger.withValues(alpha: 0.10),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.red.withValues(alpha: 0.4)),
+                border: Border.all(color: CvSwatch.danger.withValues(alpha: 0.4)),
               ),
               child: Text(
                 AppLocalizations.of(context)!
@@ -2672,7 +2667,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: Colors.red[800]),
+                    color: CvSwatch.danger),
               ),
             ),
             const Spacer(),
@@ -2698,7 +2693,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
                 side: BorderSide(
-                    color: Colors.red.withValues(alpha: 0.3), width: 1),
+                    color: CvSwatch.danger.withValues(alpha: 0.3), width: 1),
               ),
               child: Padding(
                 padding:
@@ -2710,10 +2705,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.red.withValues(alpha: 0.1),
+                        color: CvSwatch.danger.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
-                            color: Colors.red.withValues(alpha: 0.4)),
+                            color: CvSwatch.danger.withValues(alpha: 0.4)),
                       ),
                       child: Text(
                         AppLocalizations.of(context)!
@@ -2721,7 +2716,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Colors.red[800]),
+                            color: CvSwatch.danger),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -2761,7 +2756,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.red.withValues(alpha: 0.08),
+                        color: CvSwatch.danger.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
@@ -2769,27 +2764,27 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.red[800]),
+                            color: CvSwatch.danger),
                       ),
                     ),
                     const SizedBox(width: 12),
                     // Actions
                     _buildActionButton(
                         Icons.visibility_outlined,
-                        Colors.green,
+                        CvSwatch.success,
                         AppLocalizations.of(context)!.actionView,
                         () => InvoicePdfServices.showInvoiceDetails(
                             context, invoice)),
                     const SizedBox(width: 6),
                     _buildActionButton(
                         Icons.picture_as_pdf_outlined,
-                        Colors.orange,
+                        CvSwatch.warning,
                         AppLocalizations.of(context)!.actionPdfPreview,
                         () => InvoicePdfServices.previewPDF(context, invoice)),
                     const SizedBox(width: 6),
                     _buildActionButton(
                       Icons.payments_outlined,
-                      Colors.purple,
+                      CvSwatch.neutral,
                       AppLocalizations.of(context)!.actionRecordPayment,
                       () => showDialog(
                         context: context,
@@ -2818,7 +2813,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       builder: (ctx) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.inventory_2, color: Colors.red[600], size: 20),
+            Icon(Icons.inventory_2, color: CvSwatch.danger, size: 20),
             const SizedBox(width: 8),
             Flexible(
                 child: Text(product.name, overflow: TextOverflow.ellipsis)),
@@ -2863,7 +2858,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
   // [low]: the same alert for in-stock items at/below their low-stock limit.
   Widget _buildOutOfStockSection({bool low = false}) {
     final products = low ? lowStockProducts : outOfStockProducts;
-    final MaterialColor alert = low ? Colors.orange : Colors.red;
+    final Color alert = low ? CvSwatch.warning : CvSwatch.danger;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2874,12 +2869,12 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               width: 4,
               height: 24,
               decoration: BoxDecoration(
-                color: alert[700],
+                color: alert,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(width: 12),
-            Icon(Icons.inventory_2, color: alert[600], size: 22),
+            Icon(Icons.inventory_2, color: alert, size: 22),
             const SizedBox(width: 8),
             Text(
               low
@@ -2904,7 +2899,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: alert[700]),
+                    color: alert),
               ),
             ),
             const Spacer(),
@@ -2939,7 +2934,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(Icons.inventory_2,
-                            color: alert[600], size: 20),
+                            color: alert, size: 20),
                       ),
                       const SizedBox(width: 16),
                       // Name & type
@@ -2992,7 +2987,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
-                              color: alert[700]),
+                              color: alert),
                         ),
                       ),
                       if (!_stockLocked) ...[
@@ -3000,7 +2995,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                       // Update stock button
                       _buildActionButton(
                         Icons.add_box_outlined,
-                        Colors.green,
+                        CvSwatch.success,
                         AppLocalizations.of(context)!.actionUpdateStock,
                         () => _showUpdateStockDialog(product),
                       ),
@@ -3014,31 +3009,31 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     );
   }
 
+  /// One stat-tile style across the app: card surface with a hairline
+  /// border (like every card), a neutral icon badge — status is carried by the
+  /// warning line, not by a decorative icon colour — and the value in the
+  /// brand display face. [color] is kept for callers but no longer tints.
   Widget _buildStatCard(String title, String value, Color color, IconData icon,
       {String? subtitle, Color? subtitleColor}) {
+    final scheme = Theme.of(context).colorScheme;
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(CvSpace.md),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
-              blurRadius: 12,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          color: scheme.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(CvRadius.md),
+          border: Border.all(color: scheme.outlineVariant),
         ),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(9),
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
+                color: scheme.onSurface.withValues(alpha: 0.06),
+                borderRadius: BorderRadius.circular(CvRadius.sm + 2),
               ),
-              child: Icon(icon, color: color, size: 19),
+              child: Icon(icon, color: scheme.onSurface, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -3064,7 +3059,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                       if (subtitle?.isNotEmpty ?? false) ...[
                         const SizedBox(width: 4),
                         Icon(Icons.warning_amber_rounded,
-                            size: 11, color: subtitleColor ?? Colors.red),
+                            size: 11, color: subtitleColor ?? CvSwatch.danger),
                         const SizedBox(width: 2),
                         Flexible(
                           child: Text(
@@ -3073,7 +3068,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 10,
-                                color: subtitleColor ?? Colors.red,
+                                color: subtitleColor ?? CvSwatch.danger,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -3085,10 +3080,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                     value,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onSurface),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontSize: 18, color: scheme.onSurface),
                   ),
                 ],
               ),
@@ -3128,13 +3121,13 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     final String label;
     switch (status) {
       case PaymentStatus.paid:
-        color = Colors.green;
+        color = CvSwatch.success;
         label = l10n.paymentStatusPaid;
       case PaymentStatus.partial:
-        color = Colors.orange;
+        color = CvSwatch.warning;
         label = l10n.paymentStatusPartial;
       case PaymentStatus.unpaid:
-        color = Colors.red;
+        color = CvSwatch.danger;
         label = l10n.paymentStatusUnpaid;
     }
     return Container(
@@ -3160,7 +3153,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.copy_all, color: Colors.teal),
+            const Icon(Icons.copy_all, color: CvSwatch.success),
             const SizedBox(width: 12),
             Text(l10n.dashboardDuplicateInvoiceTitle),
           ],
@@ -3183,7 +3176,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             onPressed: () => Navigator.pop(ctx, 'Invoice'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Colors.white,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
             icon: const Icon(Icons.receipt),
             label: Text(l10n.labelInvoice),
@@ -3207,9 +3200,9 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
+                  color: CvSwatch.danger.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8)),
-              child: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+              child: const Icon(Icons.warning_amber_rounded, color: CvSwatch.danger),
             ),
             const SizedBox(width: 12),
             Text(l10n.dashboardDeleteInvoiceTitle),
@@ -3233,7 +3226,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               _loadDashboardData();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: CvSwatch.danger,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
@@ -3261,7 +3254,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 width: 8,
                 height: 8,
                 decoration: const BoxDecoration(
-                  color: Colors.red,
+                  color: CvSwatch.danger,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -3370,31 +3363,31 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           .dashboardRevenueCollectedLabel,
                       '$_currencySymbol ${_fmtAmt(totalRevenue)}',
                       Icons.account_balance_wallet_outlined,
-                      const Color(0xFF6A1B9A)),
+                      CvSwatch.neutral),
                   const SizedBox(width: 10),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.dashboardOutstandingLabel,
                       '$_currencySymbol ${_fmtAmt(totalOutstanding)}',
                       Icons.hourglass_top_outlined,
-                      const Color(0xFFC62828)),
+                      CvSwatch.danger),
                   const SizedBox(width: 10),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.dashboardTotalInvoicesLabel,
                       totalInvoices.toString(),
                       Icons.receipt_long_outlined,
-                      const Color(0xFFE65100)),
+                      CvSwatch.warning),
                   const SizedBox(width: 10),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.navCustomers,
                       totalCustomers.toString(),
                       Icons.people_outline,
-                      const Color(0xFF1565C0)),
+                      CvSwatch.neutral),
                   const SizedBox(width: 10),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.navProducts,
                       totalProducts.toString(),
                       Icons.inventory_2_outlined,
-                      const Color(0xFF2E7D32)),
+                      CvSwatch.success),
                 ],
               ),
               const SizedBox(height: 20),
@@ -3477,31 +3470,31 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           .dashboardRevenueCollectedLabel,
                       '$_currencySymbol ${_fmtAmt(totalRevenue)}',
                       Icons.account_balance_wallet_outlined,
-                      const Color(0xFF6A1B9A)),
+                      CvSwatch.neutral),
                   const SizedBox(width: 12),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.dashboardOutstandingLabel,
                       '$_currencySymbol ${_fmtAmt(totalOutstanding)}',
                       Icons.hourglass_top_outlined,
-                      const Color(0xFFC62828)),
+                      CvSwatch.danger),
                   const SizedBox(width: 12),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.navInvoices,
                       totalInvoices.toString(),
                       Icons.receipt_long_outlined,
-                      const Color(0xFFE65100)),
+                      CvSwatch.warning),
                   const SizedBox(width: 12),
                   _buildKpiCard(
                       AppLocalizations.of(context)!.navCustomers,
                       totalCustomers.toString(),
                       Icons.people_outline,
-                      const Color(0xFF1565C0)),
+                      CvSwatch.neutral),
                   const SizedBox(width: 12),
                   _buildKpiCard(
                     AppLocalizations.of(context)!.navProducts,
                     totalProducts.toString(),
                     Icons.inventory_2_outlined,
-                    const Color(0xFF2E7D32),
+                    CvSwatch.success,
                   ),
                 ],
               ),
@@ -3804,13 +3797,13 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                       sections: [
                         PieChartSectionData(
                           value: totalRevenue,
-                          color: const Color(0xFF2E7D32),
+                          color: CvSwatch.success,
                           title: '',
                           radius: 38,
                         ),
                         PieChartSectionData(
                           value: totalOutstanding,
-                          color: const Color(0xFFC62828),
+                          color: CvSwatch.danger,
                           title: '',
                           radius: 38,
                         ),
@@ -3829,25 +3822,25 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           const SizedBox(height: 14),
           _buildDonutLegend(
               AppLocalizations.of(context)!.dashboardCollectedLabel,
-              const Color(0xFF2E7D32),
+              CvSwatch.success,
               '$_currencySymbol ${_fmtAmt(totalRevenue)}'),
           const SizedBox(height: 6),
           _buildDonutLegend(
               AppLocalizations.of(context)!.dashboardOutstandingLabel,
-              const Color(0xFFC62828),
+              CvSwatch.danger,
               '$_currencySymbol ${_fmtAmt(totalOutstanding)}'),
           if (overdueInvoices.isNotEmpty) ...[
             const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: const Color(0xFFB71C1C).withValues(alpha: 0.07),
+                color: CvSwatch.danger.withValues(alpha: 0.07),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 children: [
                   const Icon(Icons.warning_amber_rounded,
-                      size: 13, color: Color(0xFFB71C1C)),
+                      size: 13, color: CvSwatch.danger),
                   const SizedBox(width: 6),
                   Text(
                       AppLocalizations.of(context)!
@@ -3855,7 +3848,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                               overdueInvoices.length),
                       style: const TextStyle(
                           fontSize: 12,
-                          color: Color(0xFFB71C1C),
+                          color: CvSwatch.danger,
                           fontWeight: FontWeight.w600)),
                 ],
               ),
@@ -3994,23 +3987,23 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     final String statusLabel;
     final l10n = AppLocalizations.of(context)!;
     if (inv.status == 'declined') {
-      statusColor = const Color(0xFFC62828);
+      statusColor = CvSwatch.danger;
       statusLabel = l10n.invoiceStatusDeclinedBadge;
     } else {
       switch (status) {
         case PaymentStatus.paid:
-          statusColor = const Color(0xFF2E7D32);
+          statusColor = CvSwatch.success;
           statusLabel = l10n.paymentStatusPaid;
           break;
         case PaymentStatus.partial:
-          statusColor = const Color(0xFFF57C00);
+          statusColor = CvSwatch.warning;
           statusLabel = l10n.paymentStatusPartial;
           break;
         default:
           final isOver = InvoiceCalculator.isOverdue(
               dueDate: inv.dueDate, outstanding: inv.outstandingBalance);
           statusColor =
-              isOver ? const Color(0xFFC62828) : const Color(0xFF546E7A);
+              isOver ? CvSwatch.danger : CvSwatch.neutral;
           statusLabel = isOver
               ? l10n.dashboardOverdueSectionTitle
               : l10n.paymentStatusUnpaid;
@@ -4130,10 +4123,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    color: const Color(0xFFF57C00).withValues(alpha: 0.1),
+                    color: CvSwatch.warning.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8)),
                 child: const Icon(Icons.event_outlined,
-                    color: Color(0xFFF57C00), size: 15),
+                    color: CvSwatch.warning, size: 15),
               ),
               const SizedBox(width: 8),
               Text(AppLocalizations.of(context)!.dashboardDueSoonTitle,
@@ -4145,12 +4138,12 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                 decoration: BoxDecoration(
-                    color: const Color(0xFFF57C00).withValues(alpha: 0.1),
+                    color: CvSwatch.warning.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10)),
                 child: Text('${dueSoonInvoices.length}',
                     style: const TextStyle(
                         fontSize: 12,
-                        color: Color(0xFFF57C00),
+                        color: CvSwatch.warning,
                         fontWeight: FontWeight.w700)),
               ),
             ],
@@ -4183,7 +4176,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
   // [low]: see _buildOutOfStockSection.
   Widget _buildOutOfStockCard({bool low = false}) {
     final products = low ? lowStockProducts : outOfStockProducts;
-    final MaterialColor alert = low ? Colors.orange : Colors.red;
+    final Color alert = low ? CvSwatch.warning : CvSwatch.danger;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -4264,19 +4257,19 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 5),
                           decoration: BoxDecoration(
-                            color: Colors.green.withValues(alpha: 0.1),
+                            color: CvSwatch.success.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(7),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.add_box_outlined,
-                                  size: 13, color: Colors.green),
+                                  size: 13, color: CvSwatch.success),
                               const SizedBox(width: 4),
                               Text(AppLocalizations.of(context)!.labelStock,
                                   style: const TextStyle(
                                       fontSize: 11,
-                                      color: Colors.green,
+                                      color: CvSwatch.success,
                                       fontWeight: FontWeight.w600)),
                             ],
                           ),
@@ -4301,7 +4294,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
         color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-            color: const Color(0xFFC62828).withValues(alpha: 0.2), width: 1),
+            color: CvSwatch.danger.withValues(alpha: 0.2), width: 1),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -4318,10 +4311,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    color: const Color(0xFFC62828).withValues(alpha: 0.1),
+                    color: CvSwatch.danger.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8)),
                 child: const Icon(Icons.warning_amber_rounded,
-                    color: Color(0xFFC62828), size: 15),
+                    color: CvSwatch.danger, size: 15),
               ),
               const SizedBox(width: 8),
               Text(AppLocalizations.of(context)!.dashboardOverdueSectionTitle,
@@ -4333,12 +4326,12 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                 decoration: BoxDecoration(
-                    color: const Color(0xFFC62828).withValues(alpha: 0.1),
+                    color: CvSwatch.danger.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10)),
                 child: Text('${overdueInvoices.length}',
                     style: const TextStyle(
                         fontSize: 12,
-                        color: Color(0xFFC62828),
+                        color: CvSwatch.danger,
                         fontWeight: FontWeight.w700)),
               ),
             ],
@@ -4356,7 +4349,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                     Text('$_currencySymbol ${_fmtAmt(inv.outstandingBalance)}',
                         style: const TextStyle(
                             fontSize: 12,
-                            color: Color(0xFFC62828),
+                            color: CvSwatch.danger,
                             fontWeight: FontWeight.w600)),
                     const SizedBox(width: 4),
                     Tooltip(
@@ -4377,19 +4370,19 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                               horizontal: 8, vertical: 5),
                           decoration: BoxDecoration(
                             color:
-                                const Color(0xFF6A1B9A).withValues(alpha: 0.1),
+                                CvSwatch.neutral.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(7),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.payments_outlined,
-                                  size: 13, color: Color(0xFF6A1B9A)),
+                                  size: 13, color: CvSwatch.neutral),
                               const SizedBox(width: 4),
                               Text(AppLocalizations.of(context)!.actionPay,
                                   style: const TextStyle(
                                       fontSize: 11,
-                                      color: Color(0xFF6A1B9A),
+                                      color: CvSwatch.neutral,
                                       fontWeight: FontWeight.w600)),
                             ],
                           ),
@@ -4448,7 +4441,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           _buildQuickActionRow(
               Icons.person_add_outlined,
               AppLocalizations.of(context)!.navCustomers,
-              const Color(0xFF1565C0), () {
+              CvSwatch.neutral, () {
             if (!mounted) return;
             context
                 .findAncestorStateOfType<_DashboardScreenState>()
@@ -4466,7 +4459,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           _buildQuickActionRow(
               Icons.bar_chart_outlined,
               AppLocalizations.of(context)!.navReports,
-              const Color(0xFF2E7D32), () {
+              CvSwatch.success, () {
             if (!mounted) return;
             context
                 .findAncestorStateOfType<_DashboardScreenState>()
@@ -4569,14 +4562,14 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                       .dashboardRevenueCollectedLabel,
                                   '$_currencySymbol ${_fmtAmt(totalRevenue)}',
                                   Icons.account_balance_wallet_outlined,
-                                  const Color(0xFF6A1B9A),
+                                  CvSwatch.neutral,
                                 ),
                                 const SizedBox(width: 14),
                                 _buildKpiCard(
                                   AppLocalizations.of(context)!.navInvoices,
                                   totalInvoices.toString(),
                                   Icons.receipt_long_outlined,
-                                  const Color(0xFFE65100),
+                                  CvSwatch.warning,
                                 ),
                               ],
                             ),
@@ -4589,7 +4582,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                       .dashboardOutstandingLabel,
                                   '$_currencySymbol ${_fmtAmt(totalOutstanding)}',
                                   Icons.hourglass_top_outlined,
-                                  const Color(0xFFC62828),
+                                  CvSwatch.danger,
                                 ),
                                 const SizedBox(width: 14),
                                 _buildKpiCard(
@@ -4597,7 +4590,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                       .dashboardOverdueSectionTitle,
                                   overdueInvoices.length.toString(),
                                   Icons.warning_amber_outlined,
-                                  const Color(0xFFB71C1C),
+                                  CvSwatch.danger,
                                   alert: overdueInvoices.isNotEmpty,
                                 ),
                               ],
@@ -4610,13 +4603,13 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                     AppLocalizations.of(context)!.navCustomers,
                                     totalCustomers.toString(),
                                     Icons.people_outline,
-                                    const Color(0xFF1565C0)),
+                                    CvSwatch.neutral),
                                 const SizedBox(width: 14),
                                 _buildKpiCard(
                                   AppLocalizations.of(context)!.navProducts,
                                   totalProducts.toString(),
                                   Icons.inventory_2_outlined,
-                                  const Color(0xFF2E7D32),
+                                  CvSwatch.success,
                                 ),
                               ],
                             ),
@@ -4701,7 +4694,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           value: 'preview',
           child: Row(children: [
             const Icon(Icons.visibility_outlined,
-                size: 16, color: Colors.green),
+                size: 16, color: CvSwatch.success),
             const SizedBox(width: 10),
             Text(AppLocalizations.of(context)!.actionPdfPreview,
                 style: const TextStyle(fontSize: 13)),
@@ -4711,7 +4704,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           value: 'download',
           child: Row(children: [
             const Icon(Icons.download_outlined,
-                size: 16, color: Colors.deepPurple),
+                size: 16, color: CvSwatch.neutral),
             const SizedBox(width: 10),
             Text(AppLocalizations.of(context)!.actionDownloadPdf,
                 style: const TextStyle(fontSize: 13)),
@@ -4757,7 +4750,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             value: 'payment',
             child: Row(children: [
               const Icon(Icons.payments_outlined,
-                  size: 16, color: Color(0xFF6A1B9A)),
+                  size: 16, color: CvSwatch.neutral),
               const SizedBox(width: 10),
               Text(AppLocalizations.of(context)!.actionRecordPayment,
                   style: const TextStyle(fontSize: 13)),
@@ -4767,7 +4760,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           value: 'preview',
           child: Row(children: [
             const Icon(Icons.visibility_outlined,
-                size: 16, color: Colors.green),
+                size: 16, color: CvSwatch.success),
             const SizedBox(width: 10),
             Text(AppLocalizations.of(context)!.actionPdfPreview,
                 style: const TextStyle(fontSize: 13)),
@@ -4777,7 +4770,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           value: 'download',
           child: Row(children: [
             const Icon(Icons.download_outlined,
-                size: 16, color: Colors.deepPurple),
+                size: 16, color: CvSwatch.neutral),
             const SizedBox(width: 10),
             Text(AppLocalizations.of(context)!.actionDownloadPdf,
                 style: const TextStyle(fontSize: 13)),
@@ -4811,10 +4804,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF1565C0).withValues(alpha: 0.1),
+                    color: CvSwatch.neutral.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8)),
                 child: const Icon(Icons.emoji_events_outlined,
-                    color: Color(0xFF1565C0), size: 15),
+                    color: CvSwatch.neutral, size: 15),
               ),
               const SizedBox(width: 8),
               Text(AppLocalizations.of(context)!.dashboardTopCustomersTitle,
@@ -4835,12 +4828,12 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                   CircleAvatar(
                     radius: 13,
                     backgroundColor:
-                        const Color(0xFF1565C0).withValues(alpha: 0.1),
+                        CvSwatch.neutral.withValues(alpha: 0.1),
                     child: Text(
                       name.isNotEmpty ? name[0].toUpperCase() : '?',
                       style: const TextStyle(
                           fontSize: 11,
-                          color: Color(0xFF1565C0),
+                          color: CvSwatch.neutral,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -4888,10 +4881,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    color: const Color(0xFF2E7D32).withValues(alpha: 0.1),
+                    color: CvSwatch.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8)),
                 child: const Icon(Icons.trending_up_outlined,
-                    color: Color(0xFF2E7D32), size: 15),
+                    color: CvSwatch.success, size: 15),
               ),
               const SizedBox(width: 8),
               Text(AppLocalizations.of(context)!.dashboardTopProductsTitle,
@@ -4912,10 +4905,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                        color: const Color(0xFF2E7D32).withValues(alpha: 0.08),
+                        color: CvSwatch.success.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(7)),
                     child: const Icon(Icons.inventory_2_outlined,
-                        size: 13, color: Color(0xFF2E7D32)),
+                        size: 13, color: CvSwatch.success),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -4950,7 +4943,7 @@ class _BetaTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
       decoration: BoxDecoration(
-        color: const Color(0xFF7C3AED),
+        color: CvSwatch.neutral,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(

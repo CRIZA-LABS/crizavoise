@@ -7,6 +7,9 @@ import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/theme/screen_colors.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/pdf/pdf_service.dart';
+import 'package:crizavoise/database/invoice_number_service.dart';
+import 'package:crizavoise/widgets/invoice_number_dialogs.dart';
 import 'package:crizavoise/models/customer.dart';
 import 'package:crizavoise/models/invoice.dart';
 import 'package:crizavoise/models/invoice_list_filter.dart';
@@ -28,6 +31,7 @@ import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/widgets/customer_info_button.dart';
 import 'package:crizavoise/utils/formatters.dart';
 import 'package:crizavoise/widgets/discovery_banner.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class InvoiceManagementScreenV2 extends ConsumerStatefulWidget {
   final Function(Invoice) onEditInvoice;
@@ -112,10 +116,10 @@ class _InvoiceManagementScreenV2State
   /// they always align pixel-perfectly.
   static const List<(String, Color)> _dueDateFilterOptions = [
     ('all', Colors.grey),
-    ('overdue', Colors.red),
-    ('due_today', Colors.orange),
-    ('due_week', Colors.blue),
-    ('due_month', Colors.teal),
+    ('overdue', CvSwatch.danger),
+    ('due_today', CvSwatch.warning),
+    ('due_week', CvSwatch.neutral),
+    ('due_month', CvSwatch.success),
   ];
 
   static String _dueDateFilterLabel(AppLocalizations l10n, String key) {
@@ -133,9 +137,30 @@ class _InvoiceManagementScreenV2State
   @override
   void initState() {
     super.initState();
+    InvoiceNumberService.access().then((a) {
+      if (mounted) setState(() => _numberAccess = a);
+    });
     _loadPage();
     _loadDateFormat();
     _loadReturnsBanner();
+  }
+
+  CustomNumberAccess _numberAccess = CustomNumberAccess.off;
+
+  /// Admin-only, audited change of a finalized document's number.
+  Future<void> _changeNumber(Invoice invoice) async {
+    final prefix = await InvoiceNumberService.prefixFor(invoice.type);
+    if (!mounted) return;
+    final changed = await showChangeInvoiceNumberDialog(context,
+        invoiceId: invoice.id,
+        type: invoice.type,
+        currentNumber: invoice.invoiceNumber ?? invoice.id,
+        prefix: prefix,
+        user: widget.user);
+    if (changed == null || !mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context)!.invoiceNumberChangedMessage('$prefix$changed'))));
+    await _loadPage();
   }
 
   // One-time "product returns" notice, Invoices list only.
@@ -274,7 +299,7 @@ class _InvoiceManagementScreenV2State
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.copy_all, color: Colors.teal),
+            const Icon(Icons.copy_all, color: CvSwatch.success),
             const SizedBox(width: 12),
             Text(AppLocalizations.of(context)!.dashboardDuplicateInvoiceTitle),
           ],
@@ -297,7 +322,7 @@ class _InvoiceManagementScreenV2State
             onPressed: () => Navigator.pop(ctx, 'Invoice'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Colors.white,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
             icon: const Icon(Icons.receipt),
             label: Text(AppLocalizations.of(context)!.labelInvoice),
@@ -374,7 +399,7 @@ class _InvoiceManagementScreenV2State
               '\n\n${l10n.invoiceMgmtTrashNoStockHint}'
           : l10n.invoiceMgmtMoveToTrashBody(invoice.invoiceNumber ?? invoice.id),
       confirmLabel: l10n.invoiceMgmtMoveToTrashTitle,
-      confirmColor: Colors.orange,
+      confirmColor: CvSwatch.warning,
     );
     if (!confirmed) return;
 
@@ -442,7 +467,7 @@ class _InvoiceManagementScreenV2State
             ElevatedButton(
               onPressed: () => Navigator.pop(ctx, true),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, foregroundColor: Colors.white),
+                  backgroundColor: CvSwatch.danger, foregroundColor: Colors.white),
               child: Text(l10n.invoiceMgmtCancelVoidAction),
             ),
           ],
@@ -567,7 +592,7 @@ class _InvoiceManagementScreenV2State
                           const SizedBox(height: 8),
                           Text(
                             AppLocalizations.of(context)!.invoiceMgmtDateRangeInvalidMessage,
-                            style: const TextStyle(fontSize: 12, color: Colors.red),
+                            style: const TextStyle(fontSize: 12, color: CvSwatch.danger),
                           ),
                         ],
                       ],
@@ -673,7 +698,7 @@ class _InvoiceManagementScreenV2State
               '\n\n${l10n.invoiceMgmtTrashNoStockHint}'
           : l10n.invoiceMgmtBulkMoveToTrashBody(count),
       confirmLabel: l10n.invoiceMgmtMoveToTrashTitle,
-      confirmColor: Colors.orange,
+      confirmColor: CvSwatch.warning,
     );
     if (!confirmed) return;
 
@@ -797,7 +822,7 @@ class _InvoiceManagementScreenV2State
               saveMode == 'zip'
                   ? Icons.folder_zip_outlined
                   : Icons.picture_as_pdf,
-              color: Colors.orange,
+              color: CvSwatch.warning,
             ),
             const SizedBox(width: 12),
             Text(saveMode == 'zip'
@@ -1013,8 +1038,8 @@ class _InvoiceManagementScreenV2State
                           : AppLocalizations.of(context)!.invoiceMgmtInvoicesMatchMessage(matchCount),
                       style: TextStyle(
                         color: matchCount > _maxBulkPdfExport
-                            ? Colors.red
-                            : Colors.green[700],
+                            ? CvSwatch.danger
+                            : CvSwatch.success,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -1025,7 +1050,7 @@ class _InvoiceManagementScreenV2State
                     child: Text(
                       AppLocalizations.of(context)!
                           .invoiceMgmtMaxPdfsPerDownloadMessage(_maxBulkPdfExport),
-                      style: const TextStyle(color: Colors.red, fontSize: 12),
+                      style: const TextStyle(color: CvSwatch.danger, fontSize: 12),
                     ),
                   ),
               ],
@@ -1109,7 +1134,7 @@ class _InvoiceManagementScreenV2State
                 saveMode == 'zip'
                     ? Icons.folder_zip_outlined
                     : Icons.picture_as_pdf,
-                color: Colors.orange),
+                color: CvSwatch.warning),
             const SizedBox(width: 12),
             Text(saveMode == 'zip'
                 ? l10n.invoiceMgmtCreatingZipLabel
@@ -1198,7 +1223,7 @@ class _InvoiceManagementScreenV2State
       message: l10n.invoiceMgmtMarkAsPaidBody(unpaid.length) +
           (alreadyPaid > 0 ? l10n.invoiceMgmtAlreadyPaidNoteMessage(alreadyPaid) : ''),
       confirmLabel: l10n.invoiceMgmtMarkAsPaidTitle,
-      confirmColor: Colors.green,
+      confirmColor: CvSwatch.success,
     );
     if (!confirmed || !mounted) return;
 
@@ -1255,10 +1280,10 @@ class _InvoiceManagementScreenV2State
 
   static const List<Map<String, dynamic>> _paymentStatusFilterOptionsV2 = [
     {'value': 'all', 'color': Colors.grey},
-    {'value': 'paid', 'color': Colors.green},
-    {'value': 'partial', 'color': Colors.orange},
-    {'value': 'unpaid', 'color': Colors.red},
-    {'value': 'declined', 'color': Colors.red},
+    {'value': 'paid', 'color': CvSwatch.success},
+    {'value': 'partial', 'color': CvSwatch.warning},
+    {'value': 'unpaid', 'color': CvSwatch.danger},
+    {'value': 'declined', 'color': CvSwatch.danger},
   ];
 
   static String _paymentStatusFilterLabel(AppLocalizations l10n, String value) {
@@ -1578,7 +1603,7 @@ class _InvoiceManagementScreenV2State
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     ),
                     child: Text(AppLocalizations.of(context)!.actionApply),
                   ),
@@ -1852,7 +1877,7 @@ class _InvoiceManagementScreenV2State
           _buildBulkButton(
             icon: Icons.payments_outlined,
             label: AppLocalizations.of(context)!.invoiceMgmtMarkPaidLabel,
-            color: Colors.green[300]!,
+            color: CvSwatch.successSoft,
             onPressed: _isBulkLoading ? null : _bulkMarkAsPaid,
           ),
           _buildBulkButton(
@@ -1870,7 +1895,7 @@ class _InvoiceManagementScreenV2State
             _buildBulkButton(
               icon: Icons.delete_outline,
               label: AppLocalizations.of(context)!.invoiceMgmtTrashLabel,
-              color: Colors.red[300]!,
+              color: CvSwatch.dangerSoft,
               onPressed: _isBulkLoading ? null : _bulkSoftDelete,
             ),
         ],
@@ -1892,20 +1917,20 @@ class _InvoiceManagementScreenV2State
     final isDraft = invoice.isDraft;
     return [
       if (!isWide) ...[
-        PopupMenuItem(value: 'view', child: _MenuRow(Icons.visibility_outlined, l10n.actionView, Colors.green)),
+        PopupMenuItem(value: 'view', child: _MenuRow(Icons.visibility_outlined, l10n.actionView, CvSwatch.success)),
         if ((!_isReturnType || isDraft) && !isDeclined)
-          PopupMenuItem(value: 'edit', child: _MenuRow(Icons.edit_outlined, l10n.actionEdit, Colors.blue)),
+          PopupMenuItem(value: 'edit', child: _MenuRow(Icons.edit_outlined, l10n.actionEdit, CvSwatch.neutral)),
         if (widget.filterType == 'Invoice' && !isDeclined && !isDraft)
           PopupMenuItem(
             value: 'pay',
             child: _MenuRow(Icons.payments_outlined, l10n.actionApplyPayment,
-                invoice.paymentStatus == PaymentStatus.paid ? Colors.green : Colors.purple),
+                invoice.paymentStatus == PaymentStatus.paid ? CvSwatch.success : CvSwatch.neutral),
           ),
         // Declined: read-only history (dialog opens read-only for declined).
         if (isDeclined && invoice.payments.isNotEmpty)
           PopupMenuItem(
             value: 'pay',
-            child: _MenuRow(Icons.history, l10n.paymentDialogHistoryTitle, Colors.blueGrey),
+            child: _MenuRow(Icons.history, l10n.paymentDialogHistoryTitle, CvSwatch.neutral),
           ),
       ],
       if ((widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
@@ -1913,32 +1938,32 @@ class _InvoiceManagementScreenV2State
           !isDraft) ...[
         PopupMenuItem(
             value: 'decline_invoice',
-            child: _MenuRow(Icons.cancel_outlined, l10n.invoiceMgmtCancelVoidAction, Colors.red)),
+            child: _MenuRow(Icons.cancel_outlined, l10n.invoiceMgmtCancelVoidAction, CvSwatch.danger)),
         const PopupMenuDivider(),
       ],
       if (widget.filterType == 'Quotation' && !isDraft) ...[
         if (widget.onConvertToInvoice != null)
           PopupMenuItem(
               value: 'convert',
-              child: _MenuRow(Icons.swap_horiz, l10n.invoiceMgmtConvertToInvoiceAction, Colors.indigo)),
+              child: _MenuRow(Icons.swap_horiz, l10n.invoiceMgmtConvertToInvoiceAction, CvSwatch.neutral)),
         if ((invoice.status ?? 'draft') != 'converted') ...[
           if ((invoice.status ?? 'draft') != 'sent')
             PopupMenuItem(
                 value: 'mark_sent',
-                child: _MenuRow(Icons.send_outlined, l10n.invoiceMgmtMarkAsSent, Colors.blue)),
+                child: _MenuRow(Icons.send_outlined, l10n.invoiceMgmtMarkAsSent, CvSwatch.neutral)),
           if ((invoice.status ?? 'draft') != 'accepted')
             PopupMenuItem(
                 value: 'mark_accepted',
-                child: _MenuRow(Icons.check_circle_outline, l10n.invoiceMgmtMarkAsAccepted, Colors.green)),
+                child: _MenuRow(Icons.check_circle_outline, l10n.invoiceMgmtMarkAsAccepted, CvSwatch.success)),
           if ((invoice.status ?? 'draft') != 'declined')
             PopupMenuItem(
                 value: 'mark_declined',
-                child: _MenuRow(Icons.cancel_outlined, l10n.invoiceMgmtMarkAsDeclined, Colors.red)),
+                child: _MenuRow(Icons.cancel_outlined, l10n.invoiceMgmtMarkAsDeclined, CvSwatch.danger)),
         ],
         const PopupMenuDivider(),
       ],
       if (!_isReturnType)
-        PopupMenuItem(value: 'duplicate', child: _MenuRow(Icons.copy_all_outlined, l10n.actionDuplicate, Colors.teal)),
+        PopupMenuItem(value: 'duplicate', child: _MenuRow(Icons.copy_all_outlined, l10n.actionDuplicate, CvSwatch.success)),
       if ((widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
           !isDeclined &&
           !isDraft)
@@ -1958,7 +1983,7 @@ class _InvoiceManagementScreenV2State
         PopupMenuItem(
             value: 'debit_note',
             child: _MenuRow(Icons.note_add_outlined,
-                l10n.actionCreateDebitNote, Colors.indigo)),
+                l10n.actionCreateDebitNote, CvSwatch.neutral)),
       if (widget.filterType == 'Invoice' &&
           !isDeclined &&
           !isDraft &&
@@ -1966,40 +1991,48 @@ class _InvoiceManagementScreenV2State
         PopupMenuItem(
             value: 'apply_credit',
             child: _MenuRow(Icons.account_balance_wallet_outlined,
-                l10n.returnApplyCustomerCreditAction, Colors.teal)),
+                l10n.returnApplyCustomerCreditAction, CvSwatch.success)),
       if (!isWide)
         PopupMenuItem(
-            value: 'preview', child: _MenuRow(Icons.picture_as_pdf_outlined, l10n.actionPdfPreview, Colors.orange)),
+            value: 'preview', child: _MenuRow(Icons.picture_as_pdf_outlined, l10n.actionPdfPreview, CvSwatch.warning)),
       if (!isWide && !isDraft) ...[
         PopupMenuItem(
-            value: 'download', child: _MenuRow(Icons.download_outlined, l10n.actionDownloadPdf, Colors.deepPurple)),
-        PopupMenuItem(value: 'print', child: _MenuRow(Icons.print_outlined, l10n.actionPrint, Colors.blueGrey)),
+            value: 'download', child: _MenuRow(Icons.download_outlined, l10n.actionDownloadPdf, CvSwatch.neutral)),
+        PopupMenuItem(value: 'print', child: _MenuRow(Icons.print_outlined, l10n.actionPrint, CvSwatch.neutral)),
       ],
       // A draft note hasn't settled anything yet — nothing to refund or void.
       if (widget.filterType == 'Credit Note' && !isDraft) ...[
         PopupMenuItem(
             value: 'refund',
             child: _MenuRow(
-                Icons.currency_exchange_outlined, l10n.actionRefund, Colors.green)),
+                Icons.currency_exchange_outlined, l10n.actionRefund, CvSwatch.success)),
         PopupMenuItem(
             value: 'print_voucher',
             child: _MenuRow(Icons.receipt_long_outlined,
-                l10n.actionPrintRefundVoucher, Colors.blueGrey)),
+                l10n.actionPrintRefundVoucher, CvSwatch.neutral)),
         if (widget.user.isAdmin())
           PopupMenuItem(
               value: 'void',
               child: _MenuRow(
-                  Icons.block_outlined, l10n.actionCancelVoid, Colors.red)),
+                  Icons.block_outlined, l10n.actionCancelVoid, CvSwatch.danger)),
       ],
       if (widget.user.isAdmin() &&
           (widget.filterType != 'Credit Note' || isDraft))
         PopupMenuItem(
-            value: 'delete', child: _MenuRow(Icons.delete_outline, l10n.invoiceMgmtMoveToTrashTitle, Colors.red)),
+            value: 'delete', child: _MenuRow(Icons.delete_outline, l10n.invoiceMgmtMoveToTrashTitle, CvSwatch.danger)),
+      if (!isDraft &&
+          const {'Invoice', 'Quotation', 'Receipt'}.contains(invoice.type) &&
+          InvoiceNumberService.canChangeExisting(widget.user, _numberAccess))
+        PopupMenuItem(
+            value: 'change_number',
+            child: _MenuRow(Icons.pin_outlined, l10n.invoiceNumberChangeAction, CvSwatch.neutral)),
     ];
   }
 
   void _handleRowActionV2(String action, Invoice invoice) {
     switch (action) {
+      case 'change_number':
+        _changeNumber(invoice);
       case 'view':
         _viewInvoice(invoice);
       case 'edit':
@@ -2059,29 +2092,29 @@ class _InvoiceManagementScreenV2State
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _buildActionButton(Icons.visibility_outlined, Colors.green, l10n.actionView,
+        _buildActionButton(Icons.visibility_outlined, CvSwatch.success, l10n.actionView,
             () => _viewInvoice(invoice)),
         if ((!_isReturnType || isDraft) && !isDeclined)
           _buildActionButton(
-              Icons.edit_outlined, Colors.blue, l10n.actionEdit, () => widget.onEditInvoice(invoice)),
+              Icons.edit_outlined, CvSwatch.neutral, l10n.actionEdit, () => widget.onEditInvoice(invoice)),
         if (widget.filterType == 'Invoice' && !isDeclined && !isDraft)
           _buildActionButton(
             Icons.payments_outlined,
-            invoice.paymentStatus == PaymentStatus.paid ? Colors.green : Colors.purple,
+            invoice.paymentStatus == PaymentStatus.paid ? CvSwatch.success : CvSwatch.neutral,
             l10n.actionApplyPayment,
             () => _showApplyPaymentDialog(invoice),
           ),
         if (isDeclined && invoice.payments.isNotEmpty)
-          _buildActionButton(Icons.history, Colors.blueGrey, l10n.paymentDialogHistoryTitle,
+          _buildActionButton(Icons.history, CvSwatch.neutral, l10n.paymentDialogHistoryTitle,
               () => _showApplyPaymentDialog(invoice)),
         // Drafts: preview only (number shows DRAFT) — finalize before
         // download / print.
-        _buildActionButton(Icons.picture_as_pdf_outlined, Colors.orange, l10n.actionPdfPreview,
+        _buildActionButton(Icons.picture_as_pdf_outlined, CvSwatch.warning, l10n.actionPdfPreview,
             () => InvoicePdfServices.previewPDF(context, invoice)),
         if (!isDraft) ...[
-          _buildActionButton(Icons.download_outlined, Colors.deepPurple, l10n.actionDownloadPdf,
+          _buildActionButton(Icons.download_outlined, CvSwatch.neutral, l10n.actionDownloadPdf,
               () => PDFService.downloadPDF(context, invoice)),
-          _buildActionButton(Icons.print_outlined, Colors.blueGrey, l10n.actionPrint,
+          _buildActionButton(Icons.print_outlined, CvSwatch.neutral, l10n.actionPrint,
               () => InvoicePdfServices.generatePDF(context, invoice)),
         ],
         menu,
@@ -2192,14 +2225,14 @@ class _InvoiceManagementScreenV2State
                       ? Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.orange.withValues(alpha: 0.15),
+                            color: CvSwatch.warning.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
                           ),
                           child: Text(AppLocalizations.of(context)!.invoiceDraftBadge,
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.orange[800])),
+                                  color: CvSwatch.warning)),
                         )
                       : Text('#${invoice.invoiceNumber ?? invoice.id}',
                           overflow: TextOverflow.ellipsis,
@@ -2224,7 +2257,7 @@ class _InvoiceManagementScreenV2State
                   // Receipts have no status column — flag a voided one here.
                   if (widget.filterType == 'Receipt' && invoice.status == 'declined') ...[
                     const SizedBox(height: 4),
-                    _statusPill(AppLocalizations.of(context)!.invoiceStatusDeclinedBadge, Colors.red),
+                    _statusPill(AppLocalizations.of(context)!.invoiceStatusDeclinedBadge, CvSwatch.danger),
                   ],
                   if (_isReturnType && invoice.originalInvoiceNumber != null) ...[
                     const SizedBox(height: 2),
@@ -2266,11 +2299,11 @@ class _InvoiceManagementScreenV2State
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withValues(alpha: 0.1),
+                    color: CvSwatch.neutral.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text('${invoice.items.length}',
-                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Colors.blue[700])),
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: CvSwatch.neutral)),
                 ),
               ),
             ),
@@ -2279,7 +2312,7 @@ class _InvoiceManagementScreenV2State
             child: Text(
               '${invoice.currencySymbol} ${AmountFormat.money(invoice.total)}',
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Colors.green),
+              style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: CvSwatch.success),
             ),
           ),
           if (widget.filterType == 'Invoice') ...[
@@ -2288,7 +2321,7 @@ class _InvoiceManagementScreenV2State
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: invoice.status == 'declined'
-                    ? _statusPill(AppLocalizations.of(context)!.invoiceStatusDeclinedBadge, Colors.red)
+                    ? _statusPill(AppLocalizations.of(context)!.invoiceStatusDeclinedBadge, CvSwatch.danger)
                     : _buildPaymentStatusChip(invoice.paymentStatus),
               ),
             ),
@@ -2302,8 +2335,8 @@ class _InvoiceManagementScreenV2State
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: invoice.paymentStatus == PaymentStatus.partial
-                            ? Colors.orange[700]
-                            : Colors.red[700],
+                            ? CvSwatch.warning
+                            : CvSwatch.danger,
                       ),
                     ),
             ),
@@ -2497,14 +2530,14 @@ class _InvoiceManagementScreenV2State
           PopupMenuItem(
               value: 'download',
               child: _MenuRow(Icons.download_for_offline_outlined, l10n.invoiceMgmtDownloadByRangeMenuLabel,
-                  Colors.blueGrey)),
+                  CvSwatch.neutral)),
           PopupMenuItem(
               value: 'csv',
-              child: _MenuRow(Icons.file_download_outlined, l10n.invoiceMgmtExportAllCsvTooltip, Colors.blueGrey)),
+              child: _MenuRow(Icons.file_download_outlined, l10n.invoiceMgmtExportAllCsvTooltip, CvSwatch.neutral)),
           if (widget.user.isAdmin())
             PopupMenuItem(
-                value: 'trash', child: _MenuRow(Icons.delete_sweep_outlined, l10n.invoiceMgmtTrashLabel, Colors.red)),
-          PopupMenuItem(value: 'refresh', child: _MenuRow(Icons.refresh, l10n.actionRefresh, Colors.blueGrey)),
+                value: 'trash', child: _MenuRow(Icons.delete_sweep_outlined, l10n.invoiceMgmtTrashLabel, CvSwatch.danger)),
+          PopupMenuItem(value: 'refresh', child: _MenuRow(Icons.refresh, l10n.actionRefresh, CvSwatch.neutral)),
         ],
       ),
     ];
@@ -2548,25 +2581,25 @@ class _InvoiceManagementScreenV2State
                   visible: _showReturnsBanner,
                   margin: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                   icon: Icons.assignment_return_outlined,
-                  iconColor: const Color(0xFFEA580C),
-                  backgroundColor: const Color(0xFFFFF7ED),
-                  borderColor: const Color(0xFFFED7AA),
+                  iconColor: CvSwatch.warning,
+                  backgroundColor: CvSwatch.warningTint,
+                  borderColor: CvSwatch.warningSoft,
                   title: Text(
                     AppLocalizations.of(context)!.returnsBannerTitle,
                     style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: Color(0xFF9A3412)),
+                        color: CvSwatch.warning),
                   ),
                   subtitle: Text(
                     AppLocalizations.of(context)!.returnsBannerSubtitle,
-                    style: const TextStyle(fontSize: 12, color: Color(0xFFC2410C)),
+                    style: const TextStyle(fontSize: 12, color: CvSwatch.warning),
                   ),
                   actionLabel: AppLocalizations.of(context)!.actionGotIt,
                   onAction: _dismissReturnsBanner,
-                  actionColor: const Color(0xFFEA580C),
+                  actionColor: CvSwatch.warning,
                   onDismiss: _dismissReturnsBanner,
-                  dismissIconColor: const Color(0xFFFDBA74),
+                  dismissIconColor: CvSwatch.warningSoft,
                 ),
               ),
             ),
@@ -2658,9 +2691,9 @@ class _InvoiceManagementScreenV2State
     final dueStr =
         AppFormatters.formatShortDate(invoice.dueDate, pattern: _datePattern);
     final dueColor = isOverdue
-        ? Colors.red[700]!
+        ? CvSwatch.danger
         : isToday
-            ? Colors.orange[700]!
+            ? CvSwatch.warning
             : Theme.of(context).colorScheme.onSurfaceVariant;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2734,13 +2767,13 @@ class _InvoiceManagementScreenV2State
     final String label;
     switch (status) {
       case PaymentStatus.paid:
-        color = Colors.green;
+        color = CvSwatch.success;
         label = l10n.paymentStatusPaid;
       case PaymentStatus.partial:
-        color = Colors.orange;
+        color = CvSwatch.warning;
         label = l10n.paymentStatusPartial;
       case PaymentStatus.unpaid:
-        color = Colors.red;
+        color = CvSwatch.danger;
         label = l10n.paymentStatusUnpaid;
     }
     return _statusPill(label, color);
@@ -2753,19 +2786,19 @@ class _InvoiceManagementScreenV2State
     final String label;
     switch (status ?? 'draft') {
       case 'sent':
-        color = Colors.blue;
+        color = CvSwatch.neutral;
         label = l10n.quotationStatusSent;
       case 'accepted':
-        color = Colors.green;
+        color = CvSwatch.success;
         label = l10n.quotationStatusAccepted;
       case 'declined':
-        color = Colors.red;
+        color = CvSwatch.danger;
         label = l10n.quotationStatusDeclined;
       case 'converted':
-        color = Colors.indigo;
+        color = CvSwatch.neutral;
         label = l10n.quotationStatusConverted;
       default:
-        color = Colors.blueGrey;
+        color = CvSwatch.neutral;
         label = l10n.quotationStatusDraft;
     }
     return _statusPill(label, color);
@@ -2788,7 +2821,7 @@ class _InvoiceManagementScreenV2State
 
     return Wrap(spacing: 4, runSpacing: 4, children: [
       chip('Credit Note', Colors.brown, l10n.returnBadgeCreditNote),
-      chip('Debit Note', Colors.indigo, l10n.returnBadgeDebitNote),
+      chip('Debit Note', CvSwatch.neutral, l10n.returnBadgeDebitNote),
     ]);
   }
 
@@ -3092,7 +3125,10 @@ class _MenuRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: color),
+        Icon(icon, size: 18,
+            color: color == CvSwatch.danger
+                ? CvSwatch.danger
+                : Theme.of(context).colorScheme.onSurfaceVariant),
         const SizedBox(width: 10),
         Flexible(child: Text(label)),
       ],
@@ -3148,7 +3184,7 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(AppLocalizations.of(context)!.invoiceMgmtInvoiceRestoredMessage),
-            backgroundColor: Colors.green,
+            backgroundColor: CvSwatch.success,
             showCloseIcon: true,
             closeIconColor: Colors.white),
       );
@@ -3200,10 +3236,10 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.1),
+                    color: CvSwatch.danger.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.delete_sweep, color: Colors.red),
+                  child: const Icon(Icons.delete_sweep, color: CvSwatch.danger),
                 ),
                 const SizedBox(width: 12),
                 Text(AppLocalizations.of(context)!.invoiceMgmtTrashLabel,
@@ -3250,19 +3286,19 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                                 vertical: 4),
                             decoration: BoxDecoration(
                               color: inv.type == 'Invoice'
-                                  ? Colors.indigo
+                                  ? CvSwatch.neutral
                                   .withValues(alpha: 0.1)
-                                  : Colors.orange
+                                  : CvSwatch.warning
                                   .withValues(alpha: 0.1),
                               borderRadius:
                               BorderRadius.circular(6),
                               border: Border.all(
                                 color:
                                 inv.type == 'Invoice'
-                                    ? Colors.indigo
+                                    ? CvSwatch.neutral
                                     .withValues(
                                     alpha: 0.35)
-                                    : Colors.orange
+                                    : CvSwatch.warning
                                     .withValues(
                                     alpha: 0.35),
                               ),
@@ -3276,8 +3312,8 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                                 fontWeight: FontWeight.w600,
                                 color:
                                 inv.type == 'Invoice'
-                                    ? Colors.indigo[700]
-                                    : Colors.orange[800],
+                                    ? CvSwatch.neutral
+                                    : CvSwatch.warning,
                                 letterSpacing: 0.5,
                               ),
                             ),
@@ -3295,7 +3331,7 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                               icon: const Icon(Icons.restore, size: 16),
                               label: Text(AppLocalizations.of(context)!.actionRestore),
                               style: TextButton.styleFrom(
-                                  foregroundColor: Colors.green),
+                                  foregroundColor: CvSwatch.success),
                             ),
                           const SizedBox(width: 4),
                           TextButton.icon(
@@ -3303,7 +3339,7 @@ class _TrashDialogState extends ConsumerState<_TrashDialog> {
                             icon: const Icon(Icons.delete_forever, size: 16),
                             label: Text(AppLocalizations.of(context)!.actionDelete),
                             style: TextButton.styleFrom(
-                                foregroundColor: Colors.red),
+                                foregroundColor: CvSwatch.danger),
                           ),
                         ],
                       ),

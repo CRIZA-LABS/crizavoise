@@ -5,6 +5,7 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/utils/password_utils.dart';
 import 'package:crizavoise/utils/post_auth_navigation.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
   final User user;
@@ -100,7 +101,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Password changed successfully.'),
-          backgroundColor: Colors.green,
+          backgroundColor: CvSwatch.success,
         ),
       );
 
@@ -128,7 +129,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? null
-            : Colors.blue[50],
+            : CvSwatch.neutralTint,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -168,7 +169,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                                   'You must set a new password before continuing.',
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: Colors.orange[700],
+                                    color: CvSwatch.warning,
                                   ),
                                 ),
                             ],
@@ -182,14 +183,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.amber[50],
-                        border: Border.all(color: Colors.amber[300]!),
+                        color: CvSwatch.warningTint,
+                        border: Border.all(color: CvSwatch.warningSoft),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.warning_amber_rounded, color: Colors.amber[800], size: 20),
+                          Icon(Icons.warning_amber_rounded, color: CvSwatch.warning, size: 20),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -197,7 +198,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.amber[900],
+                                color: CvSwatch.warning,
                               ),
                             ),
                           ),
@@ -279,18 +280,18 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.red[50],
-                          border: Border.all(color: Colors.red[200]!),
+                          color: CvSwatch.dangerTint,
+                          border: Border.all(color: CvSwatch.dangerSoft),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.error_outline, color: Colors.red, size: 18),
+                            const Icon(Icons.error_outline, color: CvSwatch.danger, size: 18),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 _errorMessage!,
-                                style: const TextStyle(color: Colors.red, fontSize: 13),
+                                style: const TextStyle(color: CvSwatch.danger, fontSize: 13),
                               ),
                             ),
                           ],
@@ -307,14 +308,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           backgroundColor: Theme.of(context).primaryColor,
-                          foregroundColor: Colors.white,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
                         ),
                         child: _isLoading
-                            ? const SizedBox(
+                            ? SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                             strokeWidth: 2,
                           ),
                         )

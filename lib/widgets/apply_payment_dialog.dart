@@ -8,6 +8,7 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/services/payment_receipt_service.dart';
 import 'package:crizavoise/utils/app_date.dart';
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 const paymentMethods = ['Cash', 'UPI', 'Bank Transfer', 'Check', 'Online', 'Other'];
 
@@ -130,7 +131,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
                 : l10n.paymentDialogRecordedMessage(
                     widget.invoice.currencySymbol,
                     AmountFormat.money(_outstanding))),
-            backgroundColor: Colors.green,
+            backgroundColor: CvSwatch.success,
           ),
         );
       }
@@ -141,7 +142,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
           SnackBar(
               content:
                   Text(l10n.paymentDialogRecordFailedMessage(e.toString())),
-              backgroundColor: Colors.red),
+              backgroundColor: CvSwatch.danger),
         );
       }
     }
@@ -162,7 +163,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
               child: Text(l10n.actionCancel)),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(foregroundColor: CvSwatch.danger),
             child: Text(l10n.actionDelete),
           ),
         ],
@@ -247,21 +248,21 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
                           label: l10n.paymentDialogInvoiceTotalLabel,
                           value:
                               '$sym ${AmountFormat.money(widget.invoice.total)}',
-                          color: Colors.blue,
+                          color: CvSwatch.neutral,
                         ),
                         const SizedBox(width: 12),
                         PaymentSummaryCard(
                           label: l10n.paymentDialogAmountPaidLabel,
                           value: '$sym ${AmountFormat.money(_totalPaid)}',
-                          color: Colors.green,
+                          color: CvSwatch.success,
                         ),
                         const SizedBox(width: 12),
                         PaymentSummaryCard(
                           label: l10n.dashboardOutstandingLabel,
                           value: '$sym ${AmountFormat.money(_outstanding)}',
                           color: _outstanding <= InvoiceCalculator.moneyEpsilon
-                              ? Colors.green
-                              : Colors.orange,
+                              ? CvSwatch.success
+                              : CvSwatch.warning,
                         ),
                       ],
                     ),
@@ -317,20 +318,20 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 16),
                         decoration: BoxDecoration(
-                          color: Colors.green.withValues(alpha: 0.1),
+                          color: CvSwatch.success.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                              color: Colors.green.withValues(alpha: 0.4)),
+                              color: CvSwatch.success.withValues(alpha: 0.4)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(Icons.check_circle,
-                                color: Colors.green, size: 20),
+                                color: CvSwatch.success, size: 20),
                             const SizedBox(width: 8),
                             Text(l10n.paymentDialogFullyPaidBannerLabel,
                                 style: const TextStyle(
-                                    color: Colors.green,
+                                    color: CvSwatch.success,
                                     fontWeight: FontWeight.w600)),
                           ],
                         ),
@@ -605,7 +606,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
               style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: Colors.indigo),
+                  color: CvSwatch.neutral),
             ),
           ),
           SizedBox(
@@ -621,7 +622,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
               style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: Colors.green),
+                  color: CvSwatch.success),
             ),
           ),
           Expanded(
@@ -657,7 +658,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
                     child: Padding(
                       padding: const EdgeInsets.all(6),
                       child: Icon(Icons.download_outlined,
-                          size: 17, color: Colors.indigo[400]),
+                          size: 17, color: CvSwatch.neutral),
                     ),
                   ),
                 ),
@@ -670,7 +671,7 @@ class _ApplyPaymentDialogState extends ConsumerState<ApplyPaymentDialog> {
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: Icon(Icons.delete_outline,
-                            size: 17, color: Colors.red[400]),
+                            size: 17, color: CvSwatch.danger),
                       ),
                     ),
                   ),

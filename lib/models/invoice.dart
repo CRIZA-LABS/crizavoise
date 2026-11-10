@@ -35,6 +35,9 @@ class Invoice {
   double invoiceDiscountValue;
   bool hideInvoiceNumber; // hide real invoice number in PDF output only
   String? customInvoiceNumber; // shown instead of invoiceNumber in PDF when hideInvoiceNumber is true
+  /// True when [invoiceNumber] was typed by a person (see InvoiceNumberService)
+  /// instead of generated; such rows are excluded from the auto sequence.
+  bool manualNumber;
   List<CustomFieldValue> customFields; // user-defined per-invoice fields (e.g. Vehicle No, Delivery Note)
   String? status; // quotation lifecycle: 'draft'|'sent'|'accepted'|'declined'|'converted'; null == 'draft'.
   // For type=='Invoice': only 'declined' is used (invoice voided, stock returned); null == active.
@@ -80,6 +83,7 @@ class Invoice {
     this.invoiceDiscountValue = 0.0,
     this.hideInvoiceNumber = false,
     this.customInvoiceNumber,
+    this.manualNumber = false,
     this.customFields = const [],
     this.originalInvoiceId,
     this.originalInvoiceNumber,

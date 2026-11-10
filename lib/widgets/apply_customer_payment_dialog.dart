@@ -7,6 +7,7 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/utils/app_date.dart';
 import 'package:crizavoise/widgets/apply_payment_dialog.dart' show PaymentSummaryCard;
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// Applies one payment across several of a customer's open invoices —
 /// smallest outstanding balance first by default, editable per invoice
@@ -116,7 +117,7 @@ class _ApplyCustomerPaymentDialogState extends ConsumerState<ApplyCustomerPaymen
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Amount for ${inv.invoiceNumber ?? inv.id} exceeds its outstanding balance.'),
-            backgroundColor: Colors.red,
+            backgroundColor: CvSwatch.danger,
           ));
           return;
         }
@@ -126,7 +127,7 @@ class _ApplyCustomerPaymentDialogState extends ConsumerState<ApplyCustomerPaymen
     if (allocations.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Enter an amount for at least one invoice.'),
-        backgroundColor: Colors.red,
+        backgroundColor: CvSwatch.danger,
       ));
       return;
     }
@@ -147,14 +148,14 @@ class _ApplyCustomerPaymentDialogState extends ConsumerState<ApplyCustomerPaymen
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
             'Applied $sym ${AmountFormat.money(total)} across ${saved.length} invoice${saved.length == 1 ? '' : 's'}.'),
-        backgroundColor: Colors.green,
+        backgroundColor: CvSwatch.success,
       ));
     } catch (e) {
       if (mounted) {
         setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Failed to apply payment: $e'),
-          backgroundColor: Colors.red,
+          backgroundColor: CvSwatch.danger,
         ));
       }
     }
@@ -246,14 +247,14 @@ class _ApplyCustomerPaymentDialogState extends ConsumerState<ApplyCustomerPaymen
                                     label: 'Total Outstanding',
                                     value:
                                         '${_invoicesForCurrency.first.currencySymbol} ${AmountFormat.money(_totalOutstanding)}',
-                                    color: Colors.orange,
+                                    color: CvSwatch.warning,
                                   ),
                                   const SizedBox(width: 12),
                                   PaymentSummaryCard(
                                     label: 'Total Allocated',
                                     value:
                                         '${_invoicesForCurrency.first.currencySymbol} ${AmountFormat.money(_totalAllocated)}',
-                                    color: Colors.green,
+                                    color: CvSwatch.success,
                                   ),
                                 ],
                               ),
@@ -423,7 +424,7 @@ class _ApplyCustomerPaymentDialogState extends ConsumerState<ApplyCustomerPaymen
           Expanded(
             flex: 2,
             child: Text('${inv.currencySymbol} ${AmountFormat.money(inv.outstandingBalance)}',
-                style: const TextStyle(fontSize: 13, color: Colors.orange)),
+                style: const TextStyle(fontSize: 13, color: CvSwatch.warning)),
           ),
           Expanded(
             flex: 2,

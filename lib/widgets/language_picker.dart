@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/providers/locale_provider.dart';
 import 'package:crizavoise/providers/repositories.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 // Each language's own name, in its own script — these are endonyms and are
 // intentionally NOT translated (a language picker always shows "Français",
@@ -31,16 +32,16 @@ class BetaBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: Colors.orange.withValues(alpha: 0.15),
+        color: CvSwatch.warning.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: Colors.orange.withValues(alpha: 0.5)),
+        border: Border.all(color: CvSwatch.warning.withValues(alpha: 0.5)),
       ),
       child: Text(
         AppLocalizations.of(context)!.commonBeta,
         style: const TextStyle(
             fontSize: 9,
             fontWeight: FontWeight.bold,
-            color: Colors.orange,
+            color: CvSwatch.warning,
             height: 1),
       ),
     );

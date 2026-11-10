@@ -14,6 +14,7 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/theme_provider.dart';
 import 'package:crizavoise/utils/company_switch_navigation.dart';
 import 'package:crizavoise/utils/window_title.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// Lists every company registered on this device, with actions to switch,
 /// create, or (self-only) rename/delete. Reused from two entry points:
@@ -411,7 +412,7 @@ class _CompanyManagementScreenState
               TextButton(
                 onPressed: matches ? () => Navigator.of(context).pop(true) : null,
                 child: Text(l10n.actionDelete,
-                    style: const TextStyle(color: Colors.red)),
+                    style: const TextStyle(color: CvSwatch.danger)),
               ),
             ],
           );
@@ -457,13 +458,13 @@ class _CompanyManagementScreenState
     // opaque green so the active card still reads as a clean highlight
     // in both themes.
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final activeCardFill = isDark ? Colors.green.shade900 : Colors.green.shade50;
-    final activeCardBorder = isDark ? Colors.green.shade600 : Colors.green.shade300;
+    final activeCardFill = isDark ? CvSwatch.success : CvSwatch.successTint;
+    final activeCardBorder = isDark ? CvSwatch.success : CvSwatch.successSoft;
     final activeBadgeBg =
-        isDark ? Colors.green.withValues(alpha: 0.25) : Colors.green.withValues(alpha: 0.12);
+        isDark ? CvSwatch.success.withValues(alpha: 0.25) : CvSwatch.success.withValues(alpha: 0.12);
     final activeBadgeBorder =
-        isDark ? Colors.green.shade400 : Colors.green.withValues(alpha: 0.4);
-    final activeBadgeText = isDark ? Colors.green.shade300 : Colors.green;
+        isDark ? CvSwatch.success : CvSwatch.success.withValues(alpha: 0.4);
+    final activeBadgeText = isDark ? CvSwatch.successSoft : CvSwatch.success;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.companyMgmtTitle)),
@@ -529,7 +530,7 @@ class _CompanyManagementScreenState
                               if (canManage && company.id == _activeId)
                                 IconButton(
                                   icon: const Icon(Icons.delete_outline,
-                                      color: Colors.red),
+                                      color: CvSwatch.danger),
                                   tooltip: _companies.length > 1
                                       ? l10n.companyMgmtDeleteButton
                                       : l10n.companyMgmtOnlyCompanyTooltip,

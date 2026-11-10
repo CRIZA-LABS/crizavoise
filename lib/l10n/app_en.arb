@@ -3449,5 +3449,73 @@
         "type": "String"
       }
     }
-  }
+  },
+  "customNumbersSettingTitle": "Custom invoice numbers",
+  "customNumbersSettingSubtitle": "Invoice numbers are automatic. Allow typing your own number, for example to match a paper bill book or an existing series.",
+  "customNumbersAccessOff": "Off",
+  "customNumbersAccessAdmins": "Admins only",
+  "customNumbersAccessEveryone": "Admins and staff",
+  "customNumbersSafeguards": "Safeguards: numbers must be unique and use up to 16 letters, digits, \"-\" or \"/\" (GST rule). Changing the number of an existing invoice is admin-only and needs a reason and your password. Every change is recorded.",
+  "invoiceNumberEditTooltip": "Type your own number",
+  "invoiceNumberDialogTitle": "Invoice number",
+  "invoiceNumberAutoLabel": "Automatic number: {number}",
+  "@invoiceNumberAutoLabel": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "invoiceNumberCustomFieldLabel": "Your number",
+  "invoiceNumberFieldHint": "Letters, numbers, - or /",
+  "invoiceNumberUseAutoAction": "Use automatic",
+  "invoiceNumberUseThisAction": "Use this number",
+  "invoiceNumberManualBadge": "Manual",
+  "invoiceNumberIssueEmpty": "Enter a number.",
+  "invoiceNumberIssueInvalid": "Use only letters, numbers, \"-\" or \"/\".",
+  "invoiceNumberIssueTooLong": "Too long — with the prefix it must be 16 characters or fewer (GST rule).",
+  "invoiceNumberIssueDuplicate": "This number is already used. Each number must be unique.",
+  "invoiceNumberChangeAction": "Change invoice number",
+  "invoiceNumberChangeWarning": "Only change a number to fix a mistake or to match your paper records. The change is recorded with your name and reason.",
+  "invoiceNumberCurrentLabel": "Current number: {number}",
+  "@invoiceNumberCurrentLabel": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "invoiceNumberNewLabel": "New number",
+  "invoiceNumberReasonLabel": "Reason (required)",
+  "invoiceNumberPasswordLabel": "Your password",
+  "invoiceNumberReasonMissing": "Please write a short reason.",
+  "invoiceNumberPasswordWrong": "Wrong password.",
+  "invoiceNumberNoPermission": "You don't have permission to change invoice numbers.",
+  "invoiceNumberChangedMessage": "Invoice number changed to {number}.",
+  "@invoiceNumberChangedMessage": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "invoiceNumberHistoryTitle": "Change history",
+  "invoiceNumberHistoryEntry": "{oldNumber} → {newNumber} · {user} · {date}",
+  "@invoiceNumberHistoryEntry": {
+    "placeholders": {
+      "oldNumber": {
+        "type": "String"
+      },
+      "newNumber": {
+        "type": "String"
+      },
+      "user": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "invoiceNumberHistoryNone": "No changes yet."
 }

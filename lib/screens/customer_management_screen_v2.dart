@@ -23,6 +23,7 @@ import 'package:csv/csv.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:io';
+import 'package:crizavoise/theme/swatch.dart';
 
 class CustomerManagementScreenV2 extends ConsumerStatefulWidget {
   final User user;
@@ -344,7 +345,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
             Expanded(child: Text(message)),
           ],
         ),
-        backgroundColor: isError ? Colors.red.shade600 : Colors.green.shade600,
+        backgroundColor: isError ? CvSwatch.danger : CvSwatch.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
         duration: const Duration(seconds: 3),
@@ -506,7 +507,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.warning_amber_rounded, color: Colors.orange),
+            const Icon(Icons.warning_amber_rounded, color: CvSwatch.warning),
             const SizedBox(width: 8),
             Text(AppLocalizations.of(context)!.customerMgmtConfirmDeleteTitle),
           ],
@@ -518,7 +519,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
             child: Text(AppLocalizations.of(context)!.actionCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: CvSwatch.danger),
             onPressed: () => Navigator.pop(context, true),
             child: Text(AppLocalizations.of(context)!.actionDelete),
           ),
@@ -672,7 +673,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: required ? Colors.red.shade700 : Theme.of(context).colorScheme.onSurfaceVariant,
+              color: required ? CvSwatch.danger : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
         ),
@@ -690,7 +691,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 15, color: Colors.blueGrey),
+          Icon(icon, size: 15, color: CvSwatch.neutral),
           const SizedBox(width: 6),
           Expanded(child: Text(text, style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface))),
         ],
@@ -871,18 +872,18 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
                       children: [
                         Chip(
                           label: Text(AppLocalizations.of(context)!.customerMgmtNewCountChip(newCustomers.length)),
-                          backgroundColor: Colors.green.shade100,
+                          backgroundColor: CvSwatch.successTint,
                           avatar: const Icon(Icons.person_add, size: 16),
                         ),
                         Chip(
                           label: Text(AppLocalizations.of(context)!.customerMgmtDuplicatesCountChip(duplicates.length)),
-                          backgroundColor: Colors.orange.shade100,
+                          backgroundColor: CvSwatch.warningTint,
                           avatar: const Icon(Icons.warning_amber, size: 16),
                         ),
                         if (errors.isNotEmpty)
                           Chip(
                             label: Text(AppLocalizations.of(context)!.customerMgmtErrorsCountChip(errors.length)),
-                            backgroundColor: Colors.red.shade100,
+                            backgroundColor: CvSwatch.dangerTint,
                             avatar: const Icon(Icons.error_outline, size: 16),
                           ),
                       ],
@@ -938,12 +939,12 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
                     if (errors.isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Text(AppLocalizations.of(context)!.customerMgmtSkippedRowsLabel,
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: CvSwatch.danger)),
                       const SizedBox(height: 8),
                       ...errors.map((e) => Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: Text(AppLocalizations.of(context)!.customerMgmtErrorBulletLabel(e),
-                                style: const TextStyle(fontSize: 12, color: Colors.red)),
+                                style: const TextStyle(fontSize: 12, color: CvSwatch.danger)),
                           )),
                     ],
 
@@ -1026,7 +1027,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
             child: Text(l10n.actionCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: CvSwatch.danger),
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(l10n.customerMgmtDeleteAllButton),
           ),
@@ -1354,21 +1355,21 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
         value: '$_businessesCountV2',
         subtitle: AppLocalizations.of(context)!.customerMgmtRegisteredBusinessesSubtitle,
         icon: Icons.apartment_outlined,
-        accent: Colors.green,
+        accent: CvSwatch.success,
       ),
       _statCardV2(
         label: AppLocalizations.of(context)!.customerMgmtIndividualsLabel,
         value: '$_individualsCountV2',
         subtitle: AppLocalizations.of(context)!.customerMgmtIndividualCustomersSubtitle,
         icon: Icons.person_outline,
-        accent: Colors.deepPurple,
+        accent: CvSwatch.neutral,
       ),
       _statCardV2(
         label: AppLocalizations.of(context)!.customerMgmtTaxRegisteredLabel(_taxWord),
         value: '$_gstRegisteredCountV2',
         subtitle: AppLocalizations.of(context)!.customerMgmtWithTaxNumberSubtitle(_taxWord),
         icon: Icons.receipt_long_outlined,
-        accent: Colors.orange,
+        accent: CvSwatch.warning,
       ),
     ];
 
@@ -1457,10 +1458,10 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
                     value: 'delete_all',
                     child: Row(
                       children: [
-                        const Icon(Icons.delete_sweep, color: Colors.red, size: 18),
+                        const Icon(Icons.delete_sweep, color: CvSwatch.danger, size: 18),
                         const SizedBox(width: 8),
                         Text(AppLocalizations.of(context)!.customerMgmtDeleteAllTitle,
-                            style: const TextStyle(color: Colors.red)),
+                            style: const TextStyle(color: CvSwatch.danger)),
                       ],
                     ),
                   ),
@@ -1664,15 +1665,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
     );
   }
 
-  static const List<MaterialColor> _avatarColorsV2 = [
-    Colors.blue,
-    Colors.green,
-    Colors.deepPurple,
-    Colors.orange,
-    Colors.teal,
-    Colors.pink,
-    Colors.indigo,
-  ];
+  static const _avatarColorsV2 = CvSwatch.avatars;
 
   Widget _avatarV2(Customer c) {
     final initials = c.name.trim().isEmpty
@@ -1689,7 +1682,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
       radius: 18,
       backgroundColor: color.withValues(alpha: 0.15),
       child: Text(initials,
-          style: TextStyle(color: color.shade700, fontWeight: FontWeight.bold, fontSize: 13)),
+          style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 13)),
     );
   }
 
@@ -1776,7 +1769,7 @@ class _CustomerManagementScreenV2State extends ConsumerState<CustomerManagementS
                 style: TextStyle(
                     fontWeight: hasOutstanding ? FontWeight.w600 : FontWeight.normal,
                     color: hasOutstanding
-                        ? Colors.orange.shade800
+                        ? CvSwatch.warning
                         : Theme.of(context).colorScheme.onSurfaceVariant),
               ),
             ),

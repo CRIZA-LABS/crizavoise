@@ -96,8 +96,10 @@ class AppTheme {
       fontFamily: CvType.body,
       fontFamilyFallback: CvType.fallback,
       textTheme: text,
-      visualDensity: VisualDensity.standard,
-      materialTapTargetSize: MaterialTapTargetSize.padded,
+      // Platform density: compact with a mouse (dense desktop tables keep
+      // fitting), roomy on touch. Primary buttons keep a 48px minimum via
+      // their own themes below.
+      visualDensity: VisualDensity.adaptivePlatformDensity,
       focusColor: p.focus.withValues(alpha: 0.18),
       extensions: [CrizaTokens(palette: p)],
       appBarTheme: AppBarTheme(
@@ -112,6 +114,8 @@ class AppTheme {
       cardTheme: CardThemeData(
         color: p.surface1,
         surfaceTintColor: Colors.transparent,
+        // Flat cards everywhere: no shadow even when a screen sets elevation.
+        shadowColor: Colors.transparent,
         elevation: CvElevation.card,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(

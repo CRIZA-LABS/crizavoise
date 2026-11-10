@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/theme/tokens.dart';
 
-/// Dismissible "New: ..." feature-discovery banner. Shared shape for all
-/// discovery banners on the dashboard (layout, theme, shortcuts, support) —
-/// only colors/copy/action differ between them.
+/// Dismissible "New: ..." feature-discovery banner — ONE consistent CrizaVoise
+/// style for every banner (layout, theme, shortcuts, support, purchases):
+/// card surface, Stamp-tinted icon badge, ink title, muted subtitle, Stamp
+/// action. The colour parameters are kept for source compatibility but are
+/// intentionally ignored so banners can't drift into a rainbow again.
 class DiscoveryBanner extends StatelessWidget {
   final bool visible;
   final IconData icon;
@@ -42,56 +45,65 @@ class DiscoveryBanner extends StatelessWidget {
     this.iconSize = 20,
   });
 
+  /// Re-style plain Text so every banner reads the same; other widgets
+  /// (e.g. a title with a BETA chip) are kept as they are.
+  Widget _restyle(Widget w, TextStyle? style) =>
+      w is Text && w.data != null ? Text(w.data!, style: style) : w;
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final text = theme.textTheme;
     return AnimatedSize(
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.easeOut,
+      duration: CvMotion.base,
+      curve: CvMotion.standard,
       child: visible
           ? Container(
               margin: margin,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.fromLTRB(CvSpace.md, CvSpace.sm + 4, CvSpace.xs, CvSpace.sm + 4),
               decoration: BoxDecoration(
-                color: backgroundColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: borderColor),
+                color: scheme.surfaceContainerHigh,
+                borderRadius: BorderRadius.circular(CvRadius.md),
+                border: Border.all(color: scheme.outlineVariant),
               ),
               child: Row(
                 crossAxisAlignment: crossAxisAlignment,
                 children: [
-                  Icon(icon, color: iconColor, size: iconSize),
-                  const SizedBox(width: 12),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: scheme.primary.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, color: scheme.primary, size: 20),
+                  ),
+                  const SizedBox(width: CvSpace.md),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        title,
+                        _restyle(title, text.titleSmall?.copyWith(color: scheme.onSurface)),
                         const SizedBox(height: 2),
-                        subtitle,
+                        _restyle(subtitle, text.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: CvSpace.sm),
                   TextButton(
                     onPressed: onAction,
                     style: TextButton.styleFrom(
-                      foregroundColor: actionColor,
-                      backgroundColor: actionBackgroundColor,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      foregroundColor: scheme.primary,
+                      padding: const EdgeInsets.symmetric(horizontal: CvSpace.md),
                     ),
-                    child: Text(actionLabel,
-                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                    child: Text(actionLabel, style: const TextStyle(fontWeight: FontWeight.w600)),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close, size: 16),
-                    color: dismissIconColor,
+                    icon: const Icon(Icons.close_rounded, size: 18),
+                    color: scheme.onSurfaceVariant,
                     onPressed: onDismiss,
                     tooltip: AppLocalizations.of(context)!.actionDismiss,
-                    padding: EdgeInsets.zero,
-                    constraints:
-                        const BoxConstraints(minWidth: 28, minHeight: 28),
                   ),
                 ],
               ),

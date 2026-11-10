@@ -11,6 +11,7 @@ import 'package:crizavoise/providers/supplier_provider.dart';
 import 'package:crizavoise/utils/error_handler.dart';
 import 'package:uuid/uuid.dart';
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class SupplierManagementScreen extends ConsumerStatefulWidget {
   final User user;
@@ -193,10 +194,10 @@ class _SupplierManagementScreenState
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundColor: Colors.teal.withValues(alpha: 0.12),
+              backgroundColor: CvSwatch.success.withValues(alpha: 0.12),
               child: Text(
                 supplier.name.isNotEmpty ? supplier.name[0].toUpperCase() : '?',
-                style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: CvSwatch.success, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(width: 12),
@@ -226,7 +227,7 @@ class _SupplierManagementScreenState
               _infoRowV2(
                 Icons.account_balance_wallet_outlined,
                 l10n.supplierMgmtOutstandingLabel(AmountFormat.money(balance)),
-                color: balance > 0 ? Colors.red[700] : Colors.green[700],
+                color: balance > 0 ? CvSwatch.danger : CvSwatch.success,
               ),
             ],
           ),
@@ -293,7 +294,7 @@ class _SupplierManagementScreenState
       title: l10n.invoiceMgmtMoveToTrashTitle,
       message: l10n.supplierMgmtMoveToTrashBody(supplier.name),
       confirmLabel: l10n.invoiceMgmtMoveToTrashTitle,
-      confirmColor: Colors.orange,
+      confirmColor: CvSwatch.warning,
     );
     if (!confirmed) return;
 
@@ -517,10 +518,10 @@ class _SupplierManagementScreenState
                 children: [
                   CircleAvatar(
                     radius: 16,
-                    backgroundColor: Colors.teal.withValues(alpha: 0.12),
+                    backgroundColor: CvSwatch.success.withValues(alpha: 0.12),
                     child: Text(
                       supplier.name.isNotEmpty ? supplier.name[0].toUpperCase() : '?',
-                      style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: CvSwatch.success, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -553,7 +554,7 @@ class _SupplierManagementScreenState
               AmountFormat.money(balance),
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: balance > 0 ? Colors.red[700] : Colors.green[700]),
+                  color: balance > 0 ? CvSwatch.danger : CvSwatch.success),
             ),
           ),
           SizedBox(
@@ -563,14 +564,14 @@ class _SupplierManagementScreenState
               children: [
                 _actionButtonV2(
                   icon: Icons.visibility_outlined,
-                  color: Colors.green,
+                  color: CvSwatch.success,
                   tooltip: l10n.actionView,
                   onPressed: () => _showViewSupplierDialogV2(supplier),
                 ),
                 const SizedBox(width: 6),
                 _actionButtonV2(
                   icon: Icons.edit_outlined,
-                  color: Colors.blue,
+                  color: CvSwatch.neutral,
                   tooltip: l10n.actionEdit,
                   onPressed: () => _editSupplierV2(supplier),
                 ),
@@ -578,7 +579,7 @@ class _SupplierManagementScreenState
                   const SizedBox(width: 6),
                   _actionButtonV2(
                     icon: Icons.delete_outline,
-                    color: Colors.red,
+                    color: CvSwatch.danger,
                     tooltip: l10n.actionDelete,
                     onPressed: () => _confirmSoftDelete(supplier),
                   ),
@@ -908,7 +909,7 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
     widget.onRestored();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.supplierMgmtRestoredMessage), backgroundColor: Colors.green),
+        SnackBar(content: Text(l10n.supplierMgmtRestoredMessage), backgroundColor: CvSwatch.success),
       );
     }
   }
@@ -930,10 +931,10 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.1),
+                    color: CvSwatch.danger.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.delete_sweep, color: Colors.red),
+                  child: const Icon(Icons.delete_sweep, color: CvSwatch.danger),
                 ),
                 const SizedBox(width: 12),
                 Text(l10n.invoiceMgmtTrashLabel,
@@ -969,7 +970,7 @@ class _SupplierTrashDialogState extends ConsumerState<_SupplierTrashDialog> {
                         onPressed: () => _restore(s),
                         icon: const Icon(Icons.restore, size: 16),
                         label: Text(l10n.actionRestore),
-                        style: TextButton.styleFrom(foregroundColor: Colors.green),
+                        style: TextButton.styleFrom(foregroundColor: CvSwatch.success),
                       ),
                     );
                   },

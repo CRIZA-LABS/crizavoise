@@ -13,6 +13,7 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/services/exchange_receipt_service.dart';
 import 'package:crizavoise/widgets/apply_payment_dialog.dart';
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// Cash / UPI-Bank exchange ledger: balances, entry actions and history.
 class CashExchangeScreen extends ConsumerStatefulWidget {
@@ -428,7 +429,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
   }
 
   void _error(String msg) => ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: Colors.red));
+      SnackBar(content: Text(msg), backgroundColor: CvSwatch.danger));
 
   double _parse(TextEditingController c) =>
       double.tryParse(c.text.trim()) ?? 0;
@@ -530,7 +531,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                   upiToCash
                       ? l10n.cashExchangeCashLabel
                       : l10n.cashExchangeUpiBankLabel),
-              style: TextStyle(color: Colors.orange[800]),
+              style: TextStyle(color: CvSwatch.warning),
             ),
         ];
       },
@@ -718,7 +719,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
               onPressed: () => Navigator.pop(ctx, false),
               child: Text(l10n.actionCancel)),
           FilledButton(
-              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              style: FilledButton.styleFrom(backgroundColor: CvSwatch.danger),
               onPressed: () => Navigator.pop(ctx, true),
               child: Text(l10n.actionDelete)),
         ],
@@ -973,7 +974,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: value < 0 ? Colors.red[700] : null),
+                        color: value < 0 ? CvSwatch.danger : null),
                   ),
                 ),
               ],
@@ -985,12 +986,12 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
   }
 
   Color _typeColor(String type) => switch (type) {
-        CashLedgerEntry.upiToCash || CashLedgerEntry.cashToUpi => Colors.blue,
-        CashLedgerEntry.expense => Colors.orange,
-        CashLedgerEntry.withdrawal => Colors.purple,
-        CashLedgerEntry.bankDeposit => Colors.teal,
-        CashLedgerEntry.invoicePayment => Colors.green,
-        _ => Colors.blueGrey,
+        CashLedgerEntry.upiToCash || CashLedgerEntry.cashToUpi => CvSwatch.neutral,
+        CashLedgerEntry.expense => CvSwatch.warning,
+        CashLedgerEntry.withdrawal => CvSwatch.neutral,
+        CashLedgerEntry.bankDeposit => CvSwatch.success,
+        CashLedgerEntry.invoicePayment => CvSwatch.success,
+        _ => CvSwatch.neutral,
       };
 
   Widget _chip(String text, Color color) => Container(
@@ -1021,7 +1022,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
               style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w600,
-                  color: delta < 0 ? Colors.red[400] : Colors.green[500])),
+                  color: delta < 0 ? CvSwatch.danger : CvSwatch.success)),
         ],
       ));
 
@@ -1041,7 +1042,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
     final fee = e.isExchange
         ? _chip(
             '+${_money(e.serviceFee)} ${l10n.cashExchangeFeeLabel} · ${_accountLabel(l10n, e.feeMethod)}',
-            Colors.green)
+            CvSwatch.success)
         : null;
     // Admins: any entry; users: their own, for 24 hours. Never the opening
     // (own dialog) or invoice payments (managed from the Invoices screen).
@@ -1105,9 +1106,9 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                   child: ListTile(
                     dense: true,
                     contentPadding: EdgeInsets.zero,
-                    leading: Icon(Icons.delete_outline, color: Colors.red[400]),
+                    leading: Icon(Icons.delete_outline, color: CvSwatch.danger),
                     title: Text(l10n.actionDelete,
-                        style: TextStyle(color: Colors.red[400])),
+                        style: TextStyle(color: CvSwatch.danger)),
                   ),
                 ),
             ],
@@ -1146,7 +1147,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
               if (e.customerName != null)
                 Text(e.customerName!, style: const TextStyle(fontSize: 14)),
               if (fee != null) fee,
-              if (e.edited) _chip(l10n.cashExchangeEdited, Colors.blueGrey),
+              if (e.edited) _chip(l10n.cashExchangeEdited, CvSwatch.neutral),
             ],
           ),
           const SizedBox(height: 4),
@@ -1217,7 +1218,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                   style: TextStyle(
                       fontSize: bold ? 16 : 14.5,
                       fontWeight: bold ? FontWeight.bold : FontWeight.w600,
-                      color: v < 0 ? Colors.red[400] : null)),
+                      color: v < 0 ? CvSwatch.danger : null)),
             ],
           );
       final accent = tint ?? muted;
@@ -1315,7 +1316,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                           '${l10n.cashExchangeClosingBalance}: ${_amount(closingTotal)}',
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: closingTotal < 0 ? Colors.red[400] : null)),
+                              color: closingTotal < 0 ? CvSwatch.danger : null)),
                     TextButton.icon(
                       onPressed: () =>
                           setState(() => _balancesOpen = !_balancesOpen),
@@ -1494,19 +1495,19 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                       spacing: gap,
                       runSpacing: gap,
                       children: [
-                        _stat(l10n.cashExchangeCashLabel, b.cash, Colors.green,
+                        _stat(l10n.cashExchangeCashLabel, b.cash, CvSwatch.success,
                             Icons.payments_outlined, w),
                         _stat(l10n.cashExchangeUpiBankLabel, b.upiBank,
-                            Colors.blue, Icons.account_balance_wallet_outlined, w),
+                            CvSwatch.neutral, Icons.account_balance_wallet_outlined, w),
                         _stat(l10n.cashExchangeTotalLabel, b.cash + b.upiBank,
-                            Colors.indigo, Icons.summarize_outlined, w),
+                            CvSwatch.neutral, Icons.summarize_outlined, w),
                         _stat(l10n.cashExchangeIncomeTodayLabel,
-                            _today.serviceIncome, Colors.teal, Icons.trending_up, w),
+                            _today.serviceIncome, CvSwatch.success, Icons.trending_up, w),
                         _stat(l10n.cashExchangeIncomeMonthLabel,
-                            _month.serviceIncome, Colors.teal,
+                            _month.serviceIncome, CvSwatch.success,
                             Icons.calendar_month_outlined, w),
                         _stat(l10n.cashExchangeExpensesMonthLabel, _month.expenses,
-                            Colors.orange, Icons.shopping_bag_outlined, w),
+                            CvSwatch.warning, Icons.shopping_bag_outlined, w),
                       ],
                     ),
                     if (_opening == null) ...[
@@ -1514,7 +1515,7 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                       // Not a ListTile: its trailing button can't wrap and
                       // asserts on narrow widths.
                       Card(
-                        color: Colors.amber.withValues(alpha: 0.12),
+                        color: CvSwatch.warning.withValues(alpha: 0.12),
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Wrap(
@@ -1571,14 +1572,14 @@ class _CashExchangeScreenState extends ConsumerState<CashExchangeScreen> {
                         FilledButton.icon(
                             onPressed: () => _exchangeDialog(true),
                             style: FilledButton.styleFrom(
-                                backgroundColor: Colors.green[700],
+                                backgroundColor: CvSwatch.success,
                                 foregroundColor: Colors.white),
                             icon: const Icon(Icons.payments_outlined, size: 18),
                             label: Text(l10n.cashExchangeUpiToCash)),
                         FilledButton.icon(
                             onPressed: () => _exchangeDialog(false),
                             style: FilledButton.styleFrom(
-                                backgroundColor: Colors.blue[700],
+                                backgroundColor: CvSwatch.neutral,
                                 foregroundColor: Colors.white),
                             icon: const Icon(
                                 Icons.account_balance_wallet_outlined,

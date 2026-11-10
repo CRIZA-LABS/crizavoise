@@ -20,6 +20,7 @@ import 'package:crizavoise/screens/settings/customization_screen.dart';
 import 'package:crizavoise/screens/settings/user_management_screen_v2.dart';
 import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/services/update_service.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   final User currentUser;
@@ -170,7 +171,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.add_circle_outline,
-                  size: 64, color: Colors.blueGrey),
+                  size: 64, color: CvSwatch.neutral),
               AppSpacing.hMedium,
               Text(
                   AppLocalizations.of(context)!
@@ -313,7 +314,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           width: 8,
                           height: 8,
                           decoration: const BoxDecoration(
-                            color: Colors.orange,
+                            color: CvSwatch.warning,
                             shape: BoxShape.circle,
                           ),
                         ),

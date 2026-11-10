@@ -25,6 +25,7 @@ import 'package:crizavoise/theme/brand_assets.dart';
 import 'package:crizavoise/providers/app_config_provider.dart';
 import 'package:crizavoise/utils/post_auth_navigation.dart';
 import 'package:crizavoise/utils/window_title.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 // Login Screen
 class LoginScreen extends ConsumerStatefulWidget {
@@ -233,7 +234,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final cardPadding = isPhone ? 20.0 : 32.0;
     final logoWidth = (cardWidth * 0.65).clamp(140.0, 230.0);
     return Scaffold(
-      backgroundColor: isDark ? null : Colors.blue[50],
+      backgroundColor: null, // theme canvas: Paper (light) / Ink (dark)
       body: Stack(
         children: [
           SafeArea(
@@ -296,13 +297,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             text: 'admin',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.orange.shade700)),
+                                                color: CvSwatch.warning)),
                                         const TextSpan(text: ' and password '),
                                         TextSpan(
                                             text: 'admin',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.orange.shade700)),
+                                                color: CvSwatch.warning)),
                                         const TextSpan(
                                             text:
                                                 ', then set your own password when prompted.'),
@@ -377,14 +378,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 50),
                               backgroundColor: Theme.of(context).primaryColor,
-                              foregroundColor: Colors.white,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimary,
                             ),
                             child: _isLoading
-                                ? const SizedBox(
+                                ? SizedBox(
                                     height: 20,
                                     width: 20,
                                     child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.onPrimary,
                                       strokeWidth: 2,
                                     ),
                                   )

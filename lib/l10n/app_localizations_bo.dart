@@ -5913,4 +5913,113 @@ class AppLocalizationsBo extends AppLocalizations {
   String imageImportFileTooLargeMessage(String max) {
     return 'This file is larger than $max MB. Please choose a smaller image.';
   }
+
+  @override
+  String get customNumbersSettingTitle => 'Custom invoice numbers';
+
+  @override
+  String get customNumbersSettingSubtitle =>
+      'Invoice numbers are automatic. Allow typing your own number, for example to match a paper bill book or an existing series.';
+
+  @override
+  String get customNumbersAccessOff => 'Off';
+
+  @override
+  String get customNumbersAccessAdmins => 'Admins only';
+
+  @override
+  String get customNumbersAccessEveryone => 'Admins and staff';
+
+  @override
+  String get customNumbersSafeguards =>
+      'Safeguards: numbers must be unique and use up to 16 letters, digits, \"-\" or \"/\" (GST rule). Changing the number of an existing invoice is admin-only and needs a reason and your password. Every change is recorded.';
+
+  @override
+  String get invoiceNumberEditTooltip => 'Type your own number';
+
+  @override
+  String get invoiceNumberDialogTitle => 'Invoice number';
+
+  @override
+  String invoiceNumberAutoLabel(String number) {
+    return 'Automatic number: $number';
+  }
+
+  @override
+  String get invoiceNumberCustomFieldLabel => 'Your number';
+
+  @override
+  String get invoiceNumberFieldHint => 'Letters, numbers, - or /';
+
+  @override
+  String get invoiceNumberUseAutoAction => 'Use automatic';
+
+  @override
+  String get invoiceNumberUseThisAction => 'Use this number';
+
+  @override
+  String get invoiceNumberManualBadge => 'Manual';
+
+  @override
+  String get invoiceNumberIssueEmpty => 'Enter a number.';
+
+  @override
+  String get invoiceNumberIssueInvalid =>
+      'Use only letters, numbers, \"-\" or \"/\".';
+
+  @override
+  String get invoiceNumberIssueTooLong =>
+      'Too long — with the prefix it must be 16 characters or fewer (GST rule).';
+
+  @override
+  String get invoiceNumberIssueDuplicate =>
+      'This number is already used. Each number must be unique.';
+
+  @override
+  String get invoiceNumberChangeAction => 'Change invoice number';
+
+  @override
+  String get invoiceNumberChangeWarning =>
+      'Only change a number to fix a mistake or to match your paper records. The change is recorded with your name and reason.';
+
+  @override
+  String invoiceNumberCurrentLabel(String number) {
+    return 'Current number: $number';
+  }
+
+  @override
+  String get invoiceNumberNewLabel => 'New number';
+
+  @override
+  String get invoiceNumberReasonLabel => 'Reason (required)';
+
+  @override
+  String get invoiceNumberPasswordLabel => 'Your password';
+
+  @override
+  String get invoiceNumberReasonMissing => 'Please write a short reason.';
+
+  @override
+  String get invoiceNumberPasswordWrong => 'Wrong password.';
+
+  @override
+  String get invoiceNumberNoPermission =>
+      'You don\'t have permission to change invoice numbers.';
+
+  @override
+  String invoiceNumberChangedMessage(String number) {
+    return 'Invoice number changed to $number.';
+  }
+
+  @override
+  String get invoiceNumberHistoryTitle => 'Change history';
+
+  @override
+  String invoiceNumberHistoryEntry(
+      String oldNumber, String newNumber, String user, String date) {
+    return '$oldNumber → $newNumber · $user · $date';
+  }
+
+  @override
+  String get invoiceNumberHistoryNone => 'No changes yet.';
 }

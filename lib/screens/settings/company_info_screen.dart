@@ -18,6 +18,7 @@ import 'package:crizavoise/models/company_info.dart';
 import 'package:crizavoise/utils/window_title.dart';
 
 import 'package:crizavoise/common/app_countries.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class CompanyInfoScreen extends ConsumerStatefulWidget {
   const CompanyInfoScreen({super.key});
@@ -479,10 +480,10 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                             TextButton.icon(
                               onPressed: _clearLogo,
                               icon: const Icon(Icons.delete_outline,
-                                  size: 16, color: Colors.red),
+                                  size: 16, color: CvSwatch.danger),
                               label: Text(l10n.companyInfoRemoveLogoButton,
                                   style: const TextStyle(
-                                      color: Colors.red, fontSize: 13)),
+                                      color: CvSwatch.danger, fontSize: 13)),
                             ),
                           ],
                           const SizedBox(height: 4),
@@ -551,7 +552,7 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                             : l10n.actionSave),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
-                          foregroundColor: Colors.white,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimary,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -859,7 +860,7 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                                           ? Icons.star_rounded
                                           : Icons.star_outline_rounded,
                                       color: isDefault
-                                          ? Colors.amber[700]
+                                          ? CvSwatch.warning
                                           : Theme.of(context)
                                               .colorScheme
                                               .onSurfaceVariant,
@@ -892,7 +893,7 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                                 IconButton(
                                   tooltip: l10n.tooltipRemove,
                                   icon: const Icon(Icons.remove_circle_outline,
-                                      color: Colors.redAccent),
+                                      color: CvSwatch.danger),
                                   onPressed: () {
                                     setState(() {
                                       _upiControllers[index].label.dispose();
@@ -992,7 +993,7 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                                             ? Icons.star_rounded
                                             : Icons.star_outline_rounded,
                                         color: isDefault
-                                            ? Colors.amber[700]
+                                            ? CvSwatch.warning
                                             : Theme.of(context)
                                                 .colorScheme
                                                 .onSurfaceVariant,
@@ -1069,7 +1070,7 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                                     tooltip: l10n.tooltipRemove,
                                     icon: const Icon(
                                         Icons.remove_circle_outline,
-                                        color: Colors.redAccent),
+                                        color: CvSwatch.danger),
                                     onPressed: () {
                                       setState(() {
                                         _bankControllers[index].label.dispose();

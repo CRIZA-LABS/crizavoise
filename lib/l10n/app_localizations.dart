@@ -10069,6 +10069,193 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This file is larger than {max} MB. Please choose a smaller image.'**
   String imageImportFileTooLargeMessage(String max);
+
+  /// No description provided for @customNumbersSettingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom invoice numbers'**
+  String get customNumbersSettingTitle;
+
+  /// No description provided for @customNumbersSettingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice numbers are automatic. Allow typing your own number, for example to match a paper bill book or an existing series.'**
+  String get customNumbersSettingSubtitle;
+
+  /// No description provided for @customNumbersAccessOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get customNumbersAccessOff;
+
+  /// No description provided for @customNumbersAccessAdmins.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins only'**
+  String get customNumbersAccessAdmins;
+
+  /// No description provided for @customNumbersAccessEveryone.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins and staff'**
+  String get customNumbersAccessEveryone;
+
+  /// No description provided for @customNumbersSafeguards.
+  ///
+  /// In en, this message translates to:
+  /// **'Safeguards: numbers must be unique and use up to 16 letters, digits, \"-\" or \"/\" (GST rule). Changing the number of an existing invoice is admin-only and needs a reason and your password. Every change is recorded.'**
+  String get customNumbersSafeguards;
+
+  /// No description provided for @invoiceNumberEditTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your own number'**
+  String get invoiceNumberEditTooltip;
+
+  /// No description provided for @invoiceNumberDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice number'**
+  String get invoiceNumberDialogTitle;
+
+  /// No description provided for @invoiceNumberAutoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic number: {number}'**
+  String invoiceNumberAutoLabel(String number);
+
+  /// No description provided for @invoiceNumberCustomFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your number'**
+  String get invoiceNumberCustomFieldLabel;
+
+  /// No description provided for @invoiceNumberFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters, numbers, - or /'**
+  String get invoiceNumberFieldHint;
+
+  /// No description provided for @invoiceNumberUseAutoAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Use automatic'**
+  String get invoiceNumberUseAutoAction;
+
+  /// No description provided for @invoiceNumberUseThisAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this number'**
+  String get invoiceNumberUseThisAction;
+
+  /// No description provided for @invoiceNumberManualBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get invoiceNumberManualBadge;
+
+  /// No description provided for @invoiceNumberIssueEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a number.'**
+  String get invoiceNumberIssueEmpty;
+
+  /// No description provided for @invoiceNumberIssueInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use only letters, numbers, \"-\" or \"/\".'**
+  String get invoiceNumberIssueInvalid;
+
+  /// No description provided for @invoiceNumberIssueTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Too long — with the prefix it must be 16 characters or fewer (GST rule).'**
+  String get invoiceNumberIssueTooLong;
+
+  /// No description provided for @invoiceNumberIssueDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'This number is already used. Each number must be unique.'**
+  String get invoiceNumberIssueDuplicate;
+
+  /// No description provided for @invoiceNumberChangeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Change invoice number'**
+  String get invoiceNumberChangeAction;
+
+  /// No description provided for @invoiceNumberChangeWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Only change a number to fix a mistake or to match your paper records. The change is recorded with your name and reason.'**
+  String get invoiceNumberChangeWarning;
+
+  /// No description provided for @invoiceNumberCurrentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current number: {number}'**
+  String invoiceNumberCurrentLabel(String number);
+
+  /// No description provided for @invoiceNumberNewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New number'**
+  String get invoiceNumberNewLabel;
+
+  /// No description provided for @invoiceNumberReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (required)'**
+  String get invoiceNumberReasonLabel;
+
+  /// No description provided for @invoiceNumberPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password'**
+  String get invoiceNumberPasswordLabel;
+
+  /// No description provided for @invoiceNumberReasonMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Please write a short reason.'**
+  String get invoiceNumberReasonMissing;
+
+  /// No description provided for @invoiceNumberPasswordWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password.'**
+  String get invoiceNumberPasswordWrong;
+
+  /// No description provided for @invoiceNumberNoPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to change invoice numbers.'**
+  String get invoiceNumberNoPermission;
+
+  /// No description provided for @invoiceNumberChangedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice number changed to {number}.'**
+  String invoiceNumberChangedMessage(String number);
+
+  /// No description provided for @invoiceNumberHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change history'**
+  String get invoiceNumberHistoryTitle;
+
+  /// No description provided for @invoiceNumberHistoryEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'{oldNumber} → {newNumber} · {user} · {date}'**
+  String invoiceNumberHistoryEntry(
+      String oldNumber, String newNumber, String user, String date);
+
+  /// No description provided for @invoiceNumberHistoryNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No changes yet.'**
+  String get invoiceNumberHistoryNone;
 }
 
 class _AppLocalizationsDelegate

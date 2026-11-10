@@ -6,6 +6,7 @@ import 'package:crizavoise/database/company_registry_service.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/models/backup_info.dart';
 import 'package:crizavoise/widgets/restart_required_dialog.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class BackupManagementScreen extends StatefulWidget {
   const BackupManagementScreen({super.key});
@@ -265,7 +266,7 @@ class _BackupManagementScreenState extends State<BackupManagementScreen> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor:
-              backup.type == BackupType.database ? Colors.blue : Colors.green,
+              backup.type == BackupType.database ? CvSwatch.neutral : CvSwatch.success,
           child: Icon(
             backup.type == BackupType.database ? Icons.storage : Icons.code,
             color: Colors.white,

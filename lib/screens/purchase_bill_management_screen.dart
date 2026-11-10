@@ -24,6 +24,7 @@ import 'package:crizavoise/utils/error_handler.dart';
 import 'package:crizavoise/widgets/product_form.dart';
 import 'package:uuid/uuid.dart';
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 // ─────────────────────────────────────────────
 // Top-level screen — owns the list<->form toggle. No new dashboard index
@@ -124,10 +125,10 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
 
   static const List<Map<String, dynamic>> _statusFilterOptionsV2 = [
     {'value': 'all', 'color': Colors.grey},
-    {'value': 'paid', 'color': Colors.green},
-    {'value': 'partial', 'color': Colors.orange},
-    {'value': 'unpaid', 'color': Colors.red},
-    {'value': 'draft', 'color': Colors.blueGrey},
+    {'value': 'paid', 'color': CvSwatch.success},
+    {'value': 'partial', 'color': CvSwatch.warning},
+    {'value': 'unpaid', 'color': CvSwatch.danger},
+    {'value': 'draft', 'color': CvSwatch.neutral},
   ];
 
   static const List<(String, bool, IconData)> _sortOptionsV2 = [
@@ -305,7 +306,7 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       title: l10n.invoiceMgmtMoveToTrashTitle,
       message: l10n.purchaseBillMgmtMoveToTrashBody(bill.billNumber ?? bill.id),
       confirmLabel: l10n.invoiceMgmtMoveToTrashTitle,
-      confirmColor: Colors.orange,
+      confirmColor: CvSwatch.warning,
     );
     if (!confirmed) return;
 
@@ -342,12 +343,12 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
   List<PopupMenuEntry<String>> _rowActionMenuItemsV2(PurchaseBill bill) {
     final l10n = AppLocalizations.of(context)!;
     return [
-      PopupMenuItem(value: 'view', child: _MenuRow(Icons.visibility_outlined, l10n.actionView, Colors.green)),
-      PopupMenuItem(value: 'edit', child: _MenuRow(Icons.edit_outlined, l10n.actionEdit, Colors.blue)),
+      PopupMenuItem(value: 'view', child: _MenuRow(Icons.visibility_outlined, l10n.actionView, CvSwatch.success)),
+      PopupMenuItem(value: 'edit', child: _MenuRow(Icons.edit_outlined, l10n.actionEdit, CvSwatch.neutral)),
       if (!bill.isDraft)
-        PopupMenuItem(value: 'pay', child: _MenuRow(Icons.payments_outlined, l10n.actionApplyPayment, Colors.purple)),
+        PopupMenuItem(value: 'pay', child: _MenuRow(Icons.payments_outlined, l10n.actionApplyPayment, CvSwatch.neutral)),
       if (widget.user.isAdmin())
-        PopupMenuItem(value: 'delete', child: _MenuRow(Icons.delete_outline, l10n.invoiceMgmtMoveToTrashTitle, Colors.red)),
+        PopupMenuItem(value: 'delete', child: _MenuRow(Icons.delete_outline, l10n.invoiceMgmtMoveToTrashTitle, CvSwatch.danger)),
     ];
   }
 
@@ -386,14 +387,14 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _buildActionButton(Icons.visibility_outlined, Colors.green, l10n.actionView, () => _viewBill(bill)),
-        _buildActionButton(Icons.edit_outlined, Colors.blue, l10n.actionEdit, () => _editBill(bill)),
+        _buildActionButton(Icons.visibility_outlined, CvSwatch.success, l10n.actionView, () => _viewBill(bill)),
+        _buildActionButton(Icons.edit_outlined, CvSwatch.neutral, l10n.actionEdit, () => _editBill(bill)),
         if (!bill.isDraft)
           _buildActionButton(Icons.payments_outlined,
-              status == PaymentStatus.paid ? Colors.green : Colors.purple,
+              status == PaymentStatus.paid ? CvSwatch.success : CvSwatch.neutral,
               l10n.actionApplyPayment, () => _showApplyPaymentDialog(bill)),
         if (widget.user.isAdmin())
-          _buildActionButton(Icons.delete_outline, Colors.red, l10n.actionDelete, () => _softDelete(bill)),
+          _buildActionButton(Icons.delete_outline, CvSwatch.danger, l10n.actionDelete, () => _softDelete(bill)),
       ],
     );
   }
@@ -404,17 +405,17 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
     String label;
     switch (status) {
       case PaymentStatus.paid:
-        color = Colors.green;
+        color = CvSwatch.success;
         label = l10n.paymentStatusPaid;
       case PaymentStatus.partial:
-        color = Colors.orange;
+        color = CvSwatch.warning;
         label = l10n.paymentStatusPartial;
       case PaymentStatus.unpaid:
-        color = Colors.red;
+        color = CvSwatch.danger;
         label = l10n.paymentStatusUnpaid;
     }
     if (isDraft) {
-      color = Colors.blueGrey;
+      color = CvSwatch.neutral;
       label = l10n.quotationStatusDraft;
     }
     return Container(
@@ -540,7 +541,7 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                       _loadPage();
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor, foregroundColor: Colors.white),
+                        backgroundColor: Theme.of(context).primaryColor, foregroundColor: Theme.of(context).colorScheme.onPrimary),
                     child: Text(l10n.actionApply),
                   ),
                 ],
@@ -760,7 +761,7 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
           Expanded(
             child: Text('$_currencySymbol ${AmountFormat.money(bill.total)}',
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: Colors.green)),
+                style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold, color: CvSwatch.success)),
           ),
           SizedBox(width: 76, child: Align(alignment: Alignment.centerLeft, child: _buildStatusChip(status, isDraft: bill.isDraft))),
           if (isWide)
@@ -773,7 +774,7 @@ class _PurchaseBillListViewState extends ConsumerState<_PurchaseBillListView> {
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: status == PaymentStatus.partial ? Colors.orange[700] : Colors.red[700]),
+                          color: status == PaymentStatus.partial ? CvSwatch.warning : CvSwatch.danger),
                     ),
             ),
           SizedBox(width: isWide ? 180 : 48, child: _rowActionsV2(bill, status, isWide)),
@@ -1013,7 +1014,7 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
     widget.onRestored();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.purchaseBillMgmtRestoredMessage), backgroundColor: Colors.green),
+        SnackBar(content: Text(l10n.purchaseBillMgmtRestoredMessage), backgroundColor: CvSwatch.success),
       );
     }
   }
@@ -1035,10 +1036,10 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.1),
+                    color: CvSwatch.danger.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.delete_sweep, color: Colors.red),
+                  child: const Icon(Icons.delete_sweep, color: CvSwatch.danger),
                 ),
                 const SizedBox(width: 12),
                 Text(l10n.invoiceMgmtTrashLabel, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -1072,7 +1073,7 @@ class _PurchaseBillTrashDialogState extends ConsumerState<_PurchaseBillTrashDial
                         onPressed: () => _restore(b),
                         icon: const Icon(Icons.restore, size: 16),
                         label: Text(l10n.actionRestore),
-                        style: TextButton.styleFrom(foregroundColor: Colors.green),
+                        style: TextButton.styleFrom(foregroundColor: CvSwatch.success),
                       ),
                     );
                   },
@@ -1228,14 +1229,14 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        PaymentSummaryTile(label: l10n.fieldTotalLabel, value: '$sym ${AmountFormat.money(bill.total)}', color: Colors.blue),
+                        PaymentSummaryTile(label: l10n.fieldTotalLabel, value: '$sym ${AmountFormat.money(bill.total)}', color: CvSwatch.neutral),
                         const SizedBox(width: 12),
-                        PaymentSummaryTile(label: l10n.paymentDialogAmountPaidLabel, value: '$sym ${AmountFormat.money(_totalPaid)}', color: Colors.green),
+                        PaymentSummaryTile(label: l10n.paymentDialogAmountPaidLabel, value: '$sym ${AmountFormat.money(_totalPaid)}', color: CvSwatch.success),
                         const SizedBox(width: 12),
                         PaymentSummaryTile(
                           label: l10n.invoiceMgmtColOutstanding,
                           value: '$sym ${AmountFormat.money(_outstanding)}',
-                          color: _outstanding <= 0 ? Colors.green : Colors.orange,
+                          color: _outstanding <= 0 ? CvSwatch.success : CvSwatch.warning,
                         ),
                       ],
                     ),
@@ -1275,7 +1276,7 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
                       onPressed: _showRecordPaymentDialog,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
@@ -1345,7 +1346,7 @@ class _BillDetailDialogState extends ConsumerState<_BillDetailDialog> {
           SizedBox(width: 90, child: Text(AppDate.format(p.datePaid), style: const TextStyle(fontSize: 13))),
           Expanded(
             child: Text('$sym ${AmountFormat.money(p.amountPaid)}',
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.green)),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: CvSwatch.success)),
           ),
           Expanded(
             child: Text(p.paymentMethod ?? '—',
@@ -1961,7 +1962,7 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: Row(
             children: [
-              const Icon(Icons.add_box, color: Colors.deepPurple),
+              const Icon(Icons.add_box, color: CvSwatch.neutral),
               const SizedBox(width: 12),
               Text(l10n.purchaseBillMgmtAddCustomItemTitle),
             ],
@@ -2029,7 +2030,7 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
           actions: [
             TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.actionCancel)),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+              style: ElevatedButton.styleFrom(backgroundColor: CvSwatch.neutral),
               onPressed: () {
                 if (!formKey.currentState!.validate()) return;
                 _addItem(PurchaseBillItem(
@@ -2643,7 +2644,7 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                             title: Text(product.name),
                             subtitle: Text(l10n.purchaseBillMgmtLastCostLabel(
                                 '$_currencySymbol${AmountFormat.money(product.purchasePrice)}')),
-                            trailing: const Icon(Icons.add_circle, color: Colors.green),
+                            trailing: const Icon(Icons.add_circle, color: CvSwatch.success),
                             onTap: () => _addProductItemDialog(product),
                           );
                         },
@@ -2754,13 +2755,13 @@ class _PurchaseBillFormScreenState extends ConsumerState<_PurchaseBillFormScreen
                                 l10n.fieldTaxLabel,
                                 l10n.purchaseBillMgmtTaxInclusiveLabel(item.taxRate
                                     .toStringAsFixed(item.taxRate == item.taxRate.roundToDouble() ? 0 : 1)),
-                                color: Colors.teal[700])
+                                color: CvSwatch.success)
                             : _buildItemDetail(l10n.fieldTaxLabel,
                                 '${item.taxRate.toStringAsFixed(item.taxRate == item.taxRate.roundToDouble() ? 0 : 1)}%'),
                         if (item.costIncludesTax)
                           _buildItemDetail(l10n.purchaseBillMgmtNetCostDetailLabel,
                               '$_currencySymbol${AmountFormat.money(item.netCostPerUnit)}',
-                              color: Colors.teal[700]),
+                              color: CvSwatch.success),
                       ],
                     ],
                   ),

@@ -10,6 +10,7 @@ import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/providers/app_config_provider.dart';
 import 'package:crizavoise/services/update_service.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class AppInfoScreen extends ConsumerStatefulWidget {
   final UpdateInfo? updateInfo;
@@ -238,15 +239,15 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
       statusBadge = Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.orange.shade50,
+          color: CvSwatch.warningTint,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.orange.shade300),
+          border: Border.all(color: CvSwatch.warningSoft),
         ),
         child: Text(
           l10n.appInfoUpdateAvailableLabel,
           style: TextStyle(
               fontSize: AppFontSize.xsmall,
-              color: Colors.orange.shade800,
+              color: CvSwatch.warning,
               fontWeight: FontWeight.w600),
         ),
       );
@@ -254,15 +255,15 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
       statusBadge = Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.green.shade50,
+          color: CvSwatch.successTint,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.green.shade300),
+          border: Border.all(color: CvSwatch.successSoft),
         ),
         child: Text(
           l10n.appInfoUpToDateLabel,
           style: TextStyle(
               fontSize: AppFontSize.xsmall,
-              color: Colors.green.shade700,
+              color: CvSwatch.success,
               fontWeight: FontWeight.w600),
         ),
       );
@@ -270,15 +271,15 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
       statusBadge = Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.red.shade50,
+          color: CvSwatch.dangerTint,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.red.shade200),
+          border: Border.all(color: CvSwatch.dangerSoft),
         ),
         child: Text(
           l10n.appInfoCheckFailedLabel,
           style: TextStyle(
               fontSize: AppFontSize.xsmall,
-              color: Colors.red.shade600,
+              color: CvSwatch.danger,
               fontWeight: FontWeight.w600),
         ),
       );
@@ -314,7 +315,7 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
               ],
             ),
             const SizedBox(height: 16),
-            const Divider(height: 1, color: Color(0xFFF5F5F5)),
+            const Divider(height: 1, color: CvSwatch.neutralTint),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -348,7 +349,7 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                         Icon(Icons.new_releases_outlined,
                             size: 18,
                             color: hasUpdate
-                                ? Colors.orange.shade400
+                                ? CvSwatch.warning
                                 : Theme.of(context)
                                     .colorScheme
                                     .onSurfaceVariant),
@@ -370,8 +371,8 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                                 fontSize: AppFontSize.medium,
                                 fontWeight: FontWeight.w600,
                                 color: hasUpdate
-                                    ? Colors.orange.shade700
-                                    : Colors.green.shade700,
+                                    ? CvSwatch.warning
+                                    : CvSwatch.success,
                               ),
                             ),
                           ],

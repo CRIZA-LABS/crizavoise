@@ -19,7 +19,7 @@ class DatabaseHelper {
   static String? get path => _path;
   static Database? _database;
   static String _dbFileName = 'invoice_manager.db';
-  final dbVersion = 57;
+  final dbVersion = 58;
 
   /// Startup only, before anything has opened a connection yet — just points
   /// at the right file for the first `_initDB()` call. No close/reopen, so
@@ -172,7 +172,8 @@ class DatabaseHelper {
         original_invoice_date TEXT,
         return_reason TEXT,
         credit_settlement TEXT,
-        is_draft INTEGER DEFAULT 0
+        is_draft INTEGER DEFAULT 0,
+        manual_number INTEGER DEFAULT 0
       )
     ''');
 
@@ -398,6 +399,9 @@ class DatabaseHelper {
     await db.execute('CREATE INDEX idx_inv_type_del_id ON invoices(type, deleted_at, id)');
     await db.execute('CREATE INDEX idx_inv_customer_id ON invoices(customer_id, type, date)');
     await db.execute('CREATE INDEX idx_inv_type_num ON invoices(type, invoice_number)');
+    await db.execute(invoiceNumberLogTable);
+    await db.execute(
+        'CREATE INDEX IF NOT EXISTS idx_inv_num_log ON invoice_number_log(invoice_id)');
     await db.execute('CREATE INDEX idx_inv_type_due ON invoices(type, due_date)');
     await db.execute('CREATE INDEX idx_products_name_nc ON products(name COLLATE NOCASE)');
     await db.execute('CREATE INDEX idx_customers_name_nc ON customers(name COLLATE NOCASE)');
@@ -1335,7 +1339,40 @@ class DatabaseHelper {
         });
       }
     }
+
+    if (oldVersion < 58) {
+      // Custom invoice numbers: rows typed by a person are flagged so the
+      // auto sequence ignores them, and every set/change is audited.
+      final hasManual = (await db.rawQuery('PRAGMA table_info(invoices)'))
+          .any((c) => c['name'] == 'manual_number');
+      if (!hasManual) {
+        await _runMigrationStep(db, 58, 'add_manual_number_to_invoices', () async {
+          await db.execute(
+              'ALTER TABLE invoices ADD COLUMN manual_number INTEGER DEFAULT 0');
+        });
+      }
+      await _runMigrationStep(db, 58, 'create_invoice_number_log', () async {
+        await db.execute(invoiceNumberLogTable);
+        await db.execute(
+            'CREATE INDEX IF NOT EXISTS idx_inv_num_log ON invoice_number_log(invoice_id)');
+      });
+    }
   }
+
+  /// Audit trail for invoice numbers typed by a person instead of generated.
+  static const invoiceNumberLogTable = '''
+    CREATE TABLE IF NOT EXISTS invoice_number_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      invoice_id TEXT NOT NULL,
+      doc_type TEXT NOT NULL,
+      action TEXT NOT NULL,
+      old_number TEXT,
+      new_number TEXT NOT NULL,
+      changed_by TEXT NOT NULL,
+      reason TEXT,
+      changed_at TEXT NOT NULL
+    )
+  ''';
 
   // v48 performance indexes (Issues.md #37); re-run idempotently by v57.
   static const _performanceIndexes = [

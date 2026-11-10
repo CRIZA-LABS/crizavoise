@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/database/invoice_number_service.dart';
 import 'package:crizavoise/providers/cash_exchange_settings_provider.dart';
 import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
 import 'package:crizavoise/providers/repositories.dart';
@@ -22,6 +23,7 @@ class _AccessibilityScreenState extends ConsumerState<AccessibilityScreen> {
   bool _cashExchangeEnabled = false;
   bool _reportsAdminOnly = false;
   bool _purchaseBillsAdminOnly = false;
+  CustomNumberAccess _numberAccess = CustomNumberAccess.off;
 
   @override
   void initState() {
@@ -29,6 +31,71 @@ class _AccessibilityScreenState extends ConsumerState<AccessibilityScreen> {
     _loadCashExchangeEnabled();
     _loadReportsAdminOnly();
     _loadPurchaseBillsAdminOnly();
+    InvoiceNumberService.access().then((a) {
+      if (mounted) setState(() => _numberAccess = a);
+    });
+  }
+
+  Future<void> _setNumberAccess(CustomNumberAccess a) async {
+    await InvoiceNumberService.setAccess(a);
+    if (mounted) setState(() => _numberAccess = a);
+  }
+
+  /// Admin-only (the Settings area is admin-only): who may type their own
+  /// invoice number. Safeguards are listed so the choice is informed.
+  Widget _customNumbersCard(AppLocalizations l10n) {
+    final scheme = Theme.of(context).colorScheme;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              const Icon(Icons.pin_outlined),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(l10n.customNumbersSettingTitle,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+              ),
+            ]),
+            const SizedBox(height: 6),
+            Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(l10n.customNumbersSettingSubtitle,
+                      style: TextStyle(fontSize: AppFontSize.xsmall, color: scheme.onSurfaceVariant)),
+                  const SizedBox(height: 14),
+                  SegmentedButton<CustomNumberAccess>(
+                    segments: [
+                      ButtonSegment(value: CustomNumberAccess.off,
+                          icon: const Icon(Icons.auto_mode_outlined), label: Text(l10n.customNumbersAccessOff)),
+                      ButtonSegment(value: CustomNumberAccess.admins,
+                          icon: const Icon(Icons.admin_panel_settings_outlined), label: Text(l10n.customNumbersAccessAdmins)),
+                      ButtonSegment(value: CustomNumberAccess.everyone,
+                          icon: const Icon(Icons.groups_outlined), label: Text(l10n.customNumbersAccessEveryone)),
+                    ],
+                    selected: {_numberAccess},
+                    onSelectionChanged: (v) => _setNumberAccess(v.first),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Icon(Icons.verified_user_outlined, size: 18, color: scheme.onSurfaceVariant),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(l10n.customNumbersSafeguards,
+                          style: TextStyle(fontSize: AppFontSize.xsmall, color: scheme.onSurfaceVariant)),
+                    ),
+                  ]),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Saved immediately and pushed to the provider so the dashboard sidebar
@@ -261,6 +328,8 @@ class _AccessibilityScreenState extends ConsumerState<AccessibilityScreen> {
                     onChanged: _setReturnsEnabled,
                   ),
                 ),
+                const SizedBox(height: 16),
+                _customNumbersCard(l10n),
                 const SizedBox(height: 24),
                 if (!Platform.isAndroid) ...[
                   Text(l10n.dashboardKeyboardShortcutsTitle,

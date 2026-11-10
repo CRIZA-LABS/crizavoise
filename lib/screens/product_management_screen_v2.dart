@@ -22,6 +22,7 @@ import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/utils/formatters.dart';
 import 'package:crizavoise/screens/settings/product_columns_settings_screen.dart';
 import 'package:crizavoise/widgets/product_form.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class ProductManagementScreenV2 extends ConsumerStatefulWidget {
   final User user;
@@ -280,13 +281,13 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
               margin: const EdgeInsets.only(bottom: 16),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: const Color(0xFFEFF6FF),
+                color: CvSwatch.neutralTint,
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: const Color(0xFFBFDBFE)),
+                border: Border.all(color: CvSwatch.neutralSoft),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.tune, color: Color(0xFF2563EB), size: 20),
+                  const Icon(Icons.tune, color: CvSwatch.neutral, size: 20),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -297,13 +298,13 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
-                            color: Color(0xFF1E40AF),
+                            color: CvSwatch.neutral,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           AppLocalizations.of(context)!.productMgmtColumnsBannerSubtitle,
-                          style: const TextStyle(fontSize: 12, color: Color(0xFF3B82F6)),
+                          style: const TextStyle(fontSize: 12, color: CvSwatch.neutral),
                         ),
                       ],
                     ),
@@ -316,7 +317,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                       _loadColumnsConfig();
                     },
                     style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF2563EB),
+                      foregroundColor: CvSwatch.neutral,
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
@@ -325,7 +326,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                   ),
                   IconButton(
                     icon: const Icon(Icons.close, size: 16),
-                    color: const Color(0xFF93C5FD),
+                    color: CvSwatch.neutralSoft,
                     onPressed: _dismissColumnsBanner,
                     tooltip: AppLocalizations.of(context)!.actionDismiss,
                     padding: EdgeInsets.zero,
@@ -429,7 +430,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
             Expanded(child: Text(message)),
           ],
         ),
-        backgroundColor: isError ? Colors.red.shade600 : Colors.green.shade600,
+        backgroundColor: isError ? CvSwatch.danger : CvSwatch.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppBorderRadius.xsmall)),
@@ -531,7 +532,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
               borderRadius: BorderRadius.circular(4),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                child: Icon(Icons.info_outline, size: 18, color: Colors.indigo[400]),
+                child: Icon(Icons.info_outline, size: 18, color: CvSwatch.neutral),
               ),
             ),
           ) : null
@@ -565,7 +566,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            const Icon(Icons.warning_amber_rounded, color: Colors.orange),
+            const Icon(Icons.warning_amber_rounded, color: CvSwatch.warning),
             const SizedBox(width: 8),
             Text(l10n.customerMgmtConfirmDeleteTitle),
           ],
@@ -577,7 +578,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
             child: Text(l10n.actionCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: CvSwatch.danger),
             onPressed: () => Navigator.pop(context, true),
             child: Text(l10n.actionDelete),
           ),
@@ -738,7 +739,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: required ? Colors.red.shade700 : Theme.of(context).colorScheme.onSurfaceVariant,
+              color: required ? CvSwatch.danger : Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
         ),
@@ -756,7 +757,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 15, color: Colors.blueGrey),
+          Icon(icon, size: 15, color: CvSwatch.neutral),
           const SizedBox(width: 6),
           Expanded(
               child: Text(text,
@@ -1000,18 +1001,18 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                       children: [
                         Chip(
                           label: Text(l10n.customerMgmtNewCountChip(newProducts.length)),
-                          backgroundColor: Colors.green.shade100,
+                          backgroundColor: CvSwatch.successTint,
                           avatar: const Icon(Icons.add_box_outlined, size: 16),
                         ),
                         Chip(
                           label: Text(l10n.customerMgmtDuplicatesCountChip(duplicates.length)),
-                          backgroundColor: Colors.orange.shade100,
+                          backgroundColor: CvSwatch.warningTint,
                           avatar: const Icon(Icons.warning_amber, size: 16),
                         ),
                         if (errors.isNotEmpty)
                           Chip(
                             label: Text(l10n.customerMgmtErrorsCountChip(errors.length)),
-                            backgroundColor: Colors.red.shade100,
+                            backgroundColor: CvSwatch.dangerTint,
                             avatar: const Icon(Icons.error_outline, size: 16),
                           ),
                       ],
@@ -1074,13 +1075,13 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                       const SizedBox(height: 16),
                       Text(l10n.customerMgmtSkippedRowsLabel,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.red)),
+                              fontWeight: FontWeight.bold, color: CvSwatch.danger)),
                       const SizedBox(height: 8),
                       ...errors.map((e) => Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: Text(l10n.customerMgmtErrorBulletLabel(e),
                                 style: const TextStyle(
-                                    fontSize: 12, color: Colors.red)),
+                                    fontSize: 12, color: CvSwatch.danger)),
                           )),
                     ],
                     const SizedBox(height: 12),
@@ -1170,7 +1171,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
             child: Text(l10n.actionCancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: CvSwatch.danger),
             onPressed: () => Navigator.pop(ctx, true),
             child: Text(l10n.customerMgmtDeleteAllButton),
           ),
@@ -1663,13 +1664,13 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
         if (isExpired)
           const Padding(
             padding: EdgeInsets.only(right: 4),
-            child: Icon(Icons.error_outline, size: 14, color: Colors.red),
+            child: Icon(Icons.error_outline, size: 14, color: CvSwatch.danger),
           ),
         Text(DateFormat(_datePattern).format(expiryDate),
             style: TextStyle(
                 fontWeight: isExpired ? FontWeight.bold : FontWeight.normal,
                 color: isExpired
-                    ? Colors.red
+                    ? CvSwatch.danger
                     : Theme.of(context).colorScheme.onSurface)),
       ],
     );
@@ -1760,21 +1761,21 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
         value: '$_productsCountV2',
         subtitle: l10n.productMgmtTangibleProductsSubtitle,
         icon: Icons.widgets_outlined,
-        accent: Colors.green,
+        accent: CvSwatch.success,
       ),
       _statCardV2(
         label: l10n.productMgmtServicesTabLabel,
         value: '$_servicesCountV2',
         subtitle: l10n.productMgmtNonTangibleServicesSubtitle,
         icon: Icons.design_services_outlined,
-        accent: Colors.orange,
+        accent: CvSwatch.warning,
       ),
       _statCardV2(
         label: l10n.productMgmtLowStockTabLabel,
         value: '$_lowStockCountV2',
         subtitle: l10n.productMgmtNeedAttentionSubtitle,
         icon: Icons.warning_amber_rounded,
-        accent: Colors.red,
+        accent: CvSwatch.danger,
       ),
     ];
 
@@ -1870,10 +1871,10 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                     value: 'delete_all',
                     child: Row(
                       children: [
-                        const Icon(Icons.delete_sweep, color: Colors.red, size: 18),
+                        const Icon(Icons.delete_sweep, color: CvSwatch.danger, size: 18),
                         const SizedBox(width: 8),
                         Text(AppLocalizations.of(context)!.productMgmtDeleteAllTitle,
-                            style: const TextStyle(color: Colors.red)),
+                            style: const TextStyle(color: CvSwatch.danger)),
                       ],
                     ),
                   ),
@@ -2083,7 +2084,8 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
 
   Widget _typeTagV2(String type) {
     final isService = type == 'service';
-    final color = isService ? Colors.orange : Colors.green;
+    // A type label, not a status: neutral for products, clay for services.
+    final color = isService ? CvSwatch.avatars[1] : CvSwatch.neutral;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
@@ -2093,7 +2095,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
       child: Text(
         isService ? AppLocalizations.of(context)!.labelService : AppLocalizations.of(context)!.labelProduct,
         style: TextStyle(
-            fontSize: 11, fontWeight: FontWeight.w700, color: color.shade700),
+            fontSize: 11, fontWeight: FontWeight.w700, color: color),
       ),
     );
   }
@@ -2105,8 +2107,8 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
     final color = p.stock > (p.lowStockLimit ?? 10)
         ? null
         : p.stock > 0
-            ? Colors.orange[700]
-            : Colors.red[700];
+            ? CvSwatch.warning
+            : CvSwatch.danger;
     return Text('${p.stock}',
         style: TextStyle(color: color, fontWeight: FontWeight.w600));
   }
@@ -2924,17 +2926,17 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                               Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: Colors.amber.withValues(alpha: 0.08),
+                                  color: CvSwatch.warning.withValues(alpha: 0.08),
                                   borderRadius:
                                       BorderRadius.circular(AppBorderRadius.xsmall),
                                   border: Border.all(
-                                      color: Colors.amber.withValues(alpha: 0.3)),
+                                      color: CvSwatch.warning.withValues(alpha: 0.3)),
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Icon(Icons.lightbulb_outline,
-                                        size: 16, color: Colors.amber),
+                                        size: 16, color: CvSwatch.warning),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Text(
@@ -2971,11 +2973,11 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                               await _deleteProductV2(product);
                             },
                             icon: const Icon(Icons.delete_outline,
-                                size: 18, color: Colors.red),
+                                size: 18, color: CvSwatch.danger),
                             label: Text(l10n.productMgmtDeleteProductButton,
-                                style: const TextStyle(color: Colors.red)),
+                                style: const TextStyle(color: CvSwatch.danger)),
                             style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: Colors.red),
+                              side: const BorderSide(color: CvSwatch.danger),
                             ),
                           ),
                         const Spacer(),

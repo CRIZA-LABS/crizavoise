@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/database/invoice_item_service.dart';
+import 'package:crizavoise/database/invoice_number_service.dart';
 import 'package:crizavoise/database/settings_service.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
@@ -69,6 +70,7 @@ class InvoiceService {
         'invoice_discount_value': invoice.invoiceDiscountValue,
         'hide_invoice_number': invoice.hideInvoiceNumber ? 1 : 0,
         'custom_invoice_number': invoice.customInvoiceNumber,
+        'manual_number': invoice.manualNumber ? 1 : 0,
         'custom_fields': CustomFieldValue.listToJson(invoice.customFields),
         'original_invoice_id': invoice.originalInvoiceId,
         'original_invoice_number': invoice.originalInvoiceNumber,
@@ -239,6 +241,8 @@ class InvoiceService {
           'invoice_discount_value': invoice.invoiceDiscountValue,
           'hide_invoice_number': invoice.hideInvoiceNumber ? 1 : 0,
           'custom_invoice_number': invoice.customInvoiceNumber,
+          'manual_number': invoice.manualNumber ? 1 : 0,
+        'manual_number': invoice.manualNumber ? 1 : 0,
           'custom_fields': CustomFieldValue.listToJson(invoice.customFields),
           'original_invoice_id': invoice.originalInvoiceId,
           'original_invoice_number': invoice.originalInvoiceNumber,
@@ -568,6 +572,7 @@ class InvoiceService {
           (i['invoice_discount_value'] as num?)?.toDouble() ?? 0.0,
       hideInvoiceNumber: (i['hide_invoice_number'] as int?) == 1,
       customInvoiceNumber: i['custom_invoice_number'] as String?,
+      manualNumber: (i['manual_number'] as int?) == 1,
       customFields: CustomFieldValue.listFromJson(i['custom_fields'] as String?),
       status: i['status'] as String?,
       convertedToInvoiceId: i['converted_to_invoice_id'] as String?,
@@ -1162,6 +1167,7 @@ class InvoiceService {
               (map['invoice_discount_value'] as num?)?.toDouble() ?? 0.0,
           hideInvoiceNumber: (map['hide_invoice_number'] as int?) == 1,
           customInvoiceNumber: map['custom_invoice_number'] as String?,
+          manualNumber: (map['manual_number'] as int?) == 1,
           customFields:
               CustomFieldValue.listFromJson(map['custom_fields'] as String?),
           originalInvoiceId: map['original_invoice_id'] as String?,
@@ -1541,7 +1547,9 @@ class InvoiceService {
         "SELECT id FROM invoices WHERE type = ? AND is_draft = 0 ORDER BY id DESC LIMIT 1",
         [type]);
     final numResult = await db.rawQuery(
-        "SELECT invoice_number FROM invoices WHERE type = ? AND invoice_number IS NOT NULL ORDER BY invoice_number DESC LIMIT 1",
+        // Manual (typed) numbers are ignored so a custom "INV/2026/9" can't
+        // throw the automatic sequence off; only generated numbers count.
+        "SELECT invoice_number FROM invoices WHERE type = ? AND invoice_number IS NOT NULL AND COALESCE(manual_number, 0) = 0 ORDER BY invoice_number DESC LIMIT 1",
         [type]);
 
     int fromId = 0;
@@ -1572,6 +1580,12 @@ class InvoiceService {
       nextNumber = 1;
     }
 
-    return nextNumber.toString().padLeft(8, '0');
+    // Skip any number a person already used manually (e.g. typed "105").
+    var candidate = nextNumber.toString().padLeft(8, '0');
+    while (await InvoiceNumberService.isTaken(type, candidate)) {
+      nextNumber++;
+      candidate = nextNumber.toString().padLeft(8, '0');
+    }
+    return candidate;
   }
 }

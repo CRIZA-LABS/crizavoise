@@ -14,6 +14,7 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/returns_settings_provider.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class InvoiceSettingsScreenV2 extends ConsumerStatefulWidget {
   final VoidCallback? onNavigateToCustomization;
@@ -716,22 +717,22 @@ class _InvoiceSettingsScreenV2State
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 decoration: BoxDecoration(
-                  color: Colors.orange[50],
+                  color: CvSwatch.warningTint,
                   borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-                  border: Border.all(color: Colors.orange[200]!),
+                  border: Border.all(color: CvSwatch.warningSoft),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.lock_outline,
-                        size: 16, color: Colors.orange[700]),
+                        size: 16, color: CvSwatch.warning),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         l10n.invoiceSettingsStartingNumberLockedMessage,
                         style: TextStyle(
                             fontSize: 12,
-                            color: Colors.orange[800],
+                            color: CvSwatch.warning,
                             height: 1.4),
                       ),
                     ),
@@ -1203,9 +1204,9 @@ class _InvoiceSettingsScreenV2State
                     TextButton.icon(
                       onPressed: _clearSignature,
                       icon: const Icon(Icons.delete_outline,
-                          size: 16, color: Colors.red),
+                          size: 16, color: CvSwatch.danger),
                       label: Text(l10n.tooltipRemove,
-                          style: const TextStyle(color: Colors.red)),
+                          style: const TextStyle(color: CvSwatch.danger)),
                     ),
                   ],
                 ],
@@ -1307,9 +1308,9 @@ class _InvoiceSettingsScreenV2State
                     TextButton.icon(
                       onPressed: _clearWatermark,
                       icon: const Icon(Icons.delete_outline,
-                          size: 16, color: Colors.red),
+                          size: 16, color: CvSwatch.danger),
                       label: Text(l10n.tooltipRemove,
-                          style: const TextStyle(color: Colors.red)),
+                          style: const TextStyle(color: CvSwatch.danger)),
                     ),
                   ],
                 ],
@@ -1523,21 +1524,21 @@ class _InvoiceSettingsScreenV2State
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.orange[50],
+                color: CvSwatch.warningTint,
                 borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-                border: Border.all(color: Colors.orange[200]!),
+                border: Border.all(color: CvSwatch.warningSoft),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(Icons.warning_amber_rounded,
-                      size: 16, color: Colors.orange[700]),
+                      size: 16, color: CvSwatch.warning),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(l10n.pdfSettingsMetadataColumnsWarning,
                         style: TextStyle(
                             fontSize: 12,
-                            color: Colors.orange[800],
+                            color: CvSwatch.warning,
                             height: 1.4)),
                   ),
                 ],
@@ -2040,7 +2041,7 @@ class _InvoiceSettingsScreenV2State
             : AppLocalizations.of(context)!.actionSave),
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppBorderRadius.small)),

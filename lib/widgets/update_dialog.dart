@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/services/update_service.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class UpdateDialog extends StatelessWidget {
   final UpdateInfo info;
@@ -19,7 +20,7 @@ class UpdateDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primary = const Color(0xFF002E78);
+    final primary = CvSwatch.neutral;
     final l10n = AppLocalizations.of(context)!;
 
     return AlertDialog(
@@ -48,7 +49,7 @@ class UpdateDialog extends StatelessWidget {
               Theme.of(context).colorScheme.onSurfaceVariant),
           const SizedBox(height: 6),
           _versionRow(context, l10n.appInfoLatestVersionLabel,
-              info.latestVersion, Colors.green.shade700),
+              info.latestVersion, CvSwatch.success),
           const SizedBox(height: 16),
           Text(
             l10n.updateDialogBodyMessage,

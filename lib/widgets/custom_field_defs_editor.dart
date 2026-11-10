@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/models/custom_field_def.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// Add / rename / reorder / delete list of [CustomFieldDef]s. Shared by the
 /// invoice custom fields and customer custom fields settings. Every change
@@ -130,7 +131,7 @@ class _CustomFieldDefsEditorState extends State<CustomFieldDefsEditor> {
                   onPressed: () => _togglePdf(index),
                 ),
               IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.red),
+                icon: const Icon(Icons.delete_outline, color: CvSwatch.danger),
                 tooltip: 'Delete field',
                 onPressed: () => _remove(index),
               ),

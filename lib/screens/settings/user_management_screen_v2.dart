@@ -5,6 +5,7 @@ import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/utils/password_utils.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 class UserManagementScreenV2 extends ConsumerStatefulWidget {
   final User currentUser;
@@ -73,7 +74,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
     } catch (e) {
       setState(() => _isLoading = false);
       if (!mounted) return;
-      _showSnackBar(AppLocalizations.of(context)!.userMgmtLoadErrorMessage(e.toString()), Colors.red);
+      _showSnackBar(AppLocalizations.of(context)!.userMgmtLoadErrorMessage(e.toString()), CvSwatch.danger);
     }
   }
 
@@ -106,14 +107,14 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
         );
         final roleChanged = _userTypeController.text != original.userType;
         if (roleChanged && _editingUserId == widget.currentUser.id) {
-          _showSnackBar(l10n.userMgmtCantChangeOwnRoleMessage, Colors.red);
+          _showSnackBar(l10n.userMgmtCantChangeOwnRoleMessage, CvSwatch.danger);
           return;
         }
         if (roleChanged &&
             original.userType == 'admin' &&
             _userTypeController.text != 'admin' &&
             _adminCountV2 <= 1) {
-          _showSnackBar(l10n.userMgmtCantDemoteLastAdminMessage, Colors.red);
+          _showSnackBar(l10n.userMgmtCantDemoteLastAdminMessage, CvSwatch.danger);
           return;
         }
       }
@@ -125,7 +126,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
           await ref.read(authRepositoryProvider).getUserByUsername(trimmedName);
       if (existing != null && existing.id != _editingUserId) {
         if (!mounted) return;
-        _showSnackBar(l10n.userMgmtUsernameTakenMessage, Colors.red);
+        _showSnackBar(l10n.userMgmtUsernameTakenMessage, CvSwatch.danger);
         return;
       }
 
@@ -142,7 +143,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
         if (_editingUserId == null) {
           await ref.read(authRepositoryProvider).insertUser(user);
           if (!mounted) return;
-          _showSnackBar(l10n.userMgmtAddedMessage, Colors.green);
+          _showSnackBar(l10n.userMgmtAddedMessage, CvSwatch.success);
         } else {
           await ref.read(authRepositoryProvider).updateUser(user);
           if (!mounted) return;
@@ -156,7 +157,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
         final msg = e.toString().toLowerCase().contains('unique')
             ? l10n.userMgmtUsernameTakenMessage
             : l10n.userMgmtSaveErrorMessage(e.toString());
-        _showSnackBar(msg, Colors.red);
+        _showSnackBar(msg, CvSwatch.danger);
       }
     }
   }
@@ -237,19 +238,19 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade50,
+                            color: CvSwatch.neutralTint,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.blue.shade200),
+                            border: Border.all(color: CvSwatch.neutralSoft),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.person, color: Colors.blue.shade700),
+                              Icon(Icons.person, color: CvSwatch.neutral),
                               const SizedBox(width: 8),
                               Text(
                                 l10n.userMgmtUserColonLabel(username),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.blue.shade700,
+                                  color: CvSwatch.neutral,
                                   fontSize: 15,
                                 ),
                               ),
@@ -378,7 +379,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(
@@ -397,12 +398,12 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                         if (!context.mounted) return;
                         Navigator.of(context).pop();
                         _showSnackBar(
-                            l10n.userMgmtPasswordChangedMessage, Colors.green);
+                            l10n.userMgmtPasswordChangedMessage, CvSwatch.success);
                         _loadUsers();
                       } else {
                         if (!context.mounted) return;
                         _showSnackBar(
-                            l10n.userMgmtCurrentPasswordIncorrectMessage, Colors.red);
+                            l10n.userMgmtCurrentPasswordIncorrectMessage, CvSwatch.danger);
                       }
                     }
                   },
@@ -467,7 +468,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.person, color: Colors.blue),
+                    const Icon(Icons.person, color: CvSwatch.neutral),
                     const SizedBox(width: 8),
                     Text(
                       user.username,
@@ -483,7 +484,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
               Text(
                 l10n.userMgmtActionCannotBeUndoneMessage,
                 style: TextStyle(
-                  color: Colors.red[700],
+                  color: CvSwatch.danger,
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
@@ -503,7 +504,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: CvSwatch.danger,
                 foregroundColor: Colors.white,
                 padding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -517,7 +518,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                 await ref.read(authRepositoryProvider).deleteUserSafely(user.id);
                 if (!context.mounted) return;
                 Navigator.of(context).pop();
-                _showSnackBar(l10n.userMgmtDeletedMessage, Colors.orange);
+                _showSnackBar(l10n.userMgmtDeletedMessage, CvSwatch.warning);
                 _loadUsers();
               },
             ),
@@ -533,9 +534,9 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
         content: Row(
           children: [
             Icon(
-              color == Colors.green
+              color == CvSwatch.success
                   ? Icons.check_circle
-                  : color == Colors.red
+                  : color == CvSwatch.danger
                   ? Icons.error
                   : Icons.info,
               color: Colors.white,
@@ -556,7 +557,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
 
   Widget _buildUserTypeChip(String userType) {
     final isAdmin = userType == 'admin';
-    final color = isAdmin ? Colors.purple : Colors.blue;
+    final color = isAdmin ? CvSwatch.neutral : CvSwatch.neutral;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
@@ -682,7 +683,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
     if (user.id == widget.currentUser.id) {
       _showSnackBar(
           AppLocalizations.of(context)!.userMgmtCantDeleteOwnAccountMessage,
-          Colors.red);
+          CvSwatch.danger);
       return;
     }
     await _confirmDeleteUser(user);
@@ -697,12 +698,12 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundColor: (user.userType == 'admin' ? Colors.purple : Colors.blue)
+              backgroundColor: (user.userType == 'admin' ? CvSwatch.neutral : CvSwatch.neutral)
                   .withValues(alpha: 0.12),
               child: Text(
                 user.username.isNotEmpty ? user.username[0].toUpperCase() : '?',
                 style: TextStyle(
-                    color: user.userType == 'admin' ? Colors.purple : Colors.blue,
+                    color: user.userType == 'admin' ? CvSwatch.neutral : CvSwatch.neutral,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -744,7 +745,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
     final ids = _selectedIdsV2.where((id) => id != widget.currentUser.id).toList();
     if (ids.isEmpty) {
       if (includesSelf) {
-        _showSnackBar(l10n.userMgmtCantDeleteOwnAccountMessage, Colors.red);
+        _showSnackBar(l10n.userMgmtCantDeleteOwnAccountMessage, CvSwatch.danger);
       }
       return;
     }
@@ -774,7 +775,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
               child: Text(l10n.actionCancel)),
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, foregroundColor: Colors.white),
+                backgroundColor: CvSwatch.danger, foregroundColor: Colors.white),
             onPressed: () => Navigator.of(ctx).pop(true),
             icon: const Icon(Icons.delete_forever, size: 18),
             label: Text(l10n.actionDelete),
@@ -788,12 +789,12 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
       for (final id in ids) {
         await ref.read(authRepositoryProvider).deleteUserSafely(id);
       }
-      _showSnackBar(l10n.userMgmtBulkDeletedMessage(ids.length), Colors.orange);
+      _showSnackBar(l10n.userMgmtBulkDeletedMessage(ids.length), CvSwatch.warning);
       _selectedIdsV2.clear();
       await _loadUsers();
     } catch (e) {
       setState(() => _isLoading = false);
-      _showSnackBar(l10n.userMgmtBulkDeleteErrorMessage(e.toString()), Colors.red);
+      _showSnackBar(l10n.userMgmtBulkDeleteErrorMessage(e.toString()), CvSwatch.danger);
     }
   }
 
@@ -892,7 +893,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
           value: '$_adminCountV2',
           subtitle: 'Full access',
           icon: Icons.admin_panel_settings_outlined,
-          accent: Colors.purple,
+          accent: CvSwatch.neutral,
         ),
         const SizedBox(width: 12),
         _statCardV2(
@@ -900,7 +901,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
           value: '$_regularCountV2',
           subtitle: 'Standard access',
           icon: Icons.person_outline,
-          accent: Colors.blue,
+          accent: CvSwatch.neutral,
         ),
       ],
     );
@@ -1068,7 +1069,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
 
   Widget _tableRowV2(User user) {
     final isAdmin = user.userType == 'admin';
-    final avatarColor = isAdmin ? Colors.purple : Colors.blue;
+    final avatarColor = isAdmin ? CvSwatch.neutral : CvSwatch.neutral;
     final isYou = user.id == widget.currentUser.id;
     final selected = _selectedIdsV2.contains(user.id);
     return Container(
@@ -1155,21 +1156,21 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
               children: [
                 _buildActionButton(
                   icon: Icons.visibility_outlined,
-                  color: Colors.green,
+                  color: CvSwatch.success,
                   tooltip: AppLocalizations.of(context)!.actionView,
                   onPressed: () => _showViewUserDialogV2(user),
                 ),
                 const SizedBox(width: 6),
                 _buildActionButton(
                   icon: Icons.edit_outlined,
-                  color: Colors.blue,
+                  color: CvSwatch.neutral,
                   tooltip: AppLocalizations.of(context)!.actionEdit,
                   onPressed: () => _editUserV2(user),
                 ),
                 const SizedBox(width: 6),
                 _buildActionButton(
                   icon: Icons.lock_reset,
-                  color: Colors.orange,
+                  color: CvSwatch.warning,
                   tooltip: AppLocalizations.of(context)!.userMgmtChangePasswordTitle,
                   onPressed: () =>
                       _showChangePasswordDialog(user.id, user.username),
@@ -1178,7 +1179,7 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                   const SizedBox(width: 6),
                   _buildActionButton(
                     icon: Icons.delete_outline,
-                    color: Colors.red,
+                    color: CvSwatch.danger,
                     tooltip: AppLocalizations.of(context)!.actionDelete,
                     onPressed: () => _deleteUserV2(user),
                   ),
@@ -1230,10 +1231,10 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                       enabled: _selectedIdsV2.isNotEmpty,
                       child: Row(
                         children: [
-                          const Icon(Icons.delete_outline, color: Colors.red, size: 18),
+                          const Icon(Icons.delete_outline, color: CvSwatch.danger, size: 18),
                           const SizedBox(width: 8),
                           Text(l10n.userMgmtDeleteSelectedMenuLabel,
-                              style: const TextStyle(color: Colors.red)),
+                              style: const TextStyle(color: CvSwatch.danger)),
                         ],
                       ),
                     ),
@@ -1528,11 +1529,11 @@ class _UserManagementScreenV2State extends ConsumerState<UserManagementScreenV2>
                 children: [
                   CircleAvatar(
                     radius: 24,
-                    backgroundColor: Colors.blue.withValues(alpha: 0.12),
+                    backgroundColor: CvSwatch.neutral.withValues(alpha: 0.12),
                     child: Text(
                       user.username.isNotEmpty ? user.username[0].toUpperCase() : '?',
                       style: const TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18),
+                          color: CvSwatch.neutral, fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                   const SizedBox(width: 14),

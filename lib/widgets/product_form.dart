@@ -10,6 +10,7 @@ import 'package:crizavoise/models/product.dart';
 import 'package:crizavoise/models/user.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/utils/formatters.dart';
+import 'package:crizavoise/theme/swatch.dart';
 
 /// The "add product" form, shared by Product Management (side panel) and the
 /// "New product" dialog on the Create Invoice / Purchase Bill pages, so every
@@ -247,7 +248,7 @@ class ProductFormState extends ConsumerState<ProductForm> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(l10n.productMgmtAddErrorMessage(e.toString())),
-          backgroundColor: Colors.red.shade600,
+          backgroundColor: CvSwatch.danger,
           behavior: SnackBarBehavior.floating,
         ));
       }
@@ -501,14 +502,14 @@ class ProductFormState extends ConsumerState<ProductForm> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.amber.withValues(alpha: 0.08),
+              color: CvSwatch.warning.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-              border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
+              border: Border.all(color: CvSwatch.warning.withValues(alpha: 0.3)),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.lightbulb_outline, size: 16, color: Colors.amber),
+                const Icon(Icons.lightbulb_outline, size: 16, color: CvSwatch.warning),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(l10n.productMgmtTipEnableCustomFieldsMessage,
