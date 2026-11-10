@@ -1559,5 +1559,13 @@
   "whatsAppStepSend": "भेजें दबाएँ।",
   "whatsAppShowFile": "PDF फिर दिखाएँ",
   "whatsAppDone": "हो गया",
-  "whatsAppShareFailed": "इनवॉइस भेजने के लिए तैयार नहीं हो सका। कृपया फिर कोशिश करें।"
+  "whatsAppShareFailed": "इनवॉइस भेजने के लिए तैयार नहीं हो सका। कृपया फिर कोशिश करें।",
+  "speakReadAloud": "पढ़कर सुनाएँ",
+  "speakStop": "सुनाना बंद करें",
+  "speakRupees": "रुपये",
+  "speakInvoiceIntro": "{customer} का इनवॉइस {number}।",
+  "speakInvoiceTotal": "कुल {amount} {currency}।",
+  "speakInvoicePaid": "पूरा भुगतान हो गया है।",
+  "speakInvoicePartlyPaid": "अभी {amount} बाक़ी है।",
+  "speakInvoiceDue": "भुगतान की तारीख़ {date}।"
 }

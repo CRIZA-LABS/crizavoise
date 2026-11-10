@@ -3577,5 +3577,47 @@
   "whatsAppStepSend": "Press Send.",
   "whatsAppShowFile": "Show PDF again",
   "whatsAppDone": "Done",
-  "whatsAppShareFailed": "Couldn't prepare the invoice for sharing. Please try again."
+  "whatsAppShareFailed": "Couldn't prepare the invoice for sharing. Please try again.",
+  "speakReadAloud": "Read aloud",
+  "speakStop": "Stop reading",
+  "speakRupees": "rupees",
+  "speakInvoiceIntro": "Invoice {number} for {customer}.",
+  "@speakInvoiceIntro": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "customer": {
+        "type": "String"
+      }
+    }
+  },
+  "speakInvoiceTotal": "Total {amount} {currency}.",
+  "@speakInvoiceTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "speakInvoicePaid": "Fully paid.",
+  "speakInvoicePartlyPaid": "{amount} still to pay.",
+  "@speakInvoicePartlyPaid": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "speakInvoiceDue": "Due on {date}.",
+  "@speakInvoiceDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

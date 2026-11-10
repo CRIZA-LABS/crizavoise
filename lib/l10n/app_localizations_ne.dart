@@ -6204,4 +6204,36 @@ class AppLocalizationsNe extends AppLocalizations {
   @override
   String get whatsAppShareFailed =>
       'Couldn\'t prepare the invoice for sharing. Please try again.';
+
+  @override
+  String get speakReadAloud => 'Read aloud';
+
+  @override
+  String get speakStop => 'Stop reading';
+
+  @override
+  String get speakRupees => 'rupees';
+
+  @override
+  String speakInvoiceIntro(String number, String customer) {
+    return 'Invoice $number for $customer.';
+  }
+
+  @override
+  String speakInvoiceTotal(String amount, String currency) {
+    return 'Total $amount $currency.';
+  }
+
+  @override
+  String get speakInvoicePaid => 'Fully paid.';
+
+  @override
+  String speakInvoicePartlyPaid(String amount) {
+    return '$amount still to pay.';
+  }
+
+  @override
+  String speakInvoiceDue(String date) {
+    return 'Due on $date.';
+  }
 }

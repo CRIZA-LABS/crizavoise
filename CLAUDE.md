@@ -17,7 +17,7 @@ flutter pub get
 flutter gen-l10n                       # after editing ARB files
 flutter analyze                        # baseline: 64 infos, 0 errors/warnings
 flutter test                           # 439 tests; product_form_test has one known flaky case
-flutter build windows                  # needs Windows Developer Mode ON
+flutter build windows                  # needs Developer Mode ON, Smart App Control OFF, and nuget.exe on PATH (winget install Microsoft.NuGet; required by flutter_tts)
 dart run flutter_launcher_icons        # regenerate icons from assets/brand/icons/icon-1024.png
 ```
 

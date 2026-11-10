@@ -12,6 +12,7 @@ import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/speech_service.dart';
 import 'package:crizavoise/services/whatsapp_share_service.dart';
 import 'package:crizavoise/widgets/quick_code_field.dart';
 import 'package:crizavoise/services/pdf/pdf_service.dart';
@@ -3821,6 +3822,16 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
+        if (isTotal)
+          ReadAloudButton(
+            size: 18,
+            text: () {
+              final l10n = AppLocalizations.of(context)!;
+              return l10n.speakInvoiceTotal(
+                  AmountFormat.money(amount).replaceAll(RegExp(r'\.00$'), ''),
+                  _currencyCode == 'INR' ? l10n.speakRupees : _currencyCode);
+            },
+          ),
         const SizedBox(width: 8),
         Flexible(
           child: Text(

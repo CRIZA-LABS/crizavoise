@@ -7,6 +7,7 @@ import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/theme/screen_colors.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/speech_service.dart';
 import 'package:crizavoise/services/whatsapp_share_service.dart';
 import 'package:crizavoise/services/pdf/pdf_service.dart';
 import 'package:crizavoise/database/invoice_number_service.dart';
@@ -147,6 +148,18 @@ class _InvoiceManagementScreenV2State
   }
 
   CustomNumberAccess _numberAccess = CustomNumberAccess.off;
+
+  Future<void> _readAloud(Invoice invoice) async {
+    final prefix = await InvoiceNumberService.prefixFor(invoice.type);
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
+    await SpeechService.speak(
+        SpeechService.invoiceSentence(l10n, invoice,
+            numberText: '$prefix${invoice.invoiceNumber ?? invoice.id}',
+            localeName: locale.toLanguageTag()),
+        locale);
+  }
 
   /// Admin-only, audited change of a finalized document's number.
   Future<void> _changeNumber(Invoice invoice) async {
@@ -1964,6 +1977,9 @@ class _InvoiceManagementScreenV2State
         const PopupMenuDivider(),
       ],
       if (!_isReturnType)
+        PopupMenuItem(
+            value: 'read_aloud',
+            child: _MenuRow(Icons.volume_up_outlined, l10n.speakReadAloud, CvSwatch.neutral)),
         if (!isDraft && !isDeclined)
           PopupMenuItem(
               value: 'whatsapp',
@@ -2038,6 +2054,8 @@ class _InvoiceManagementScreenV2State
     switch (action) {
       case 'whatsapp':
         WhatsAppShareService.share(context, invoice);
+      case 'read_aloud':
+        _readAloud(invoice);
       case 'change_number':
         _changeNumber(invoice);
       case 'view':

@@ -6175,4 +6175,36 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get whatsAppShareFailed =>
       'इनवॉइस भेजने के लिए तैयार नहीं हो सका। कृपया फिर कोशिश करें।';
+
+  @override
+  String get speakReadAloud => 'पढ़कर सुनाएँ';
+
+  @override
+  String get speakStop => 'सुनाना बंद करें';
+
+  @override
+  String get speakRupees => 'रुपये';
+
+  @override
+  String speakInvoiceIntro(String number, String customer) {
+    return '$customer का इनवॉइस $number।';
+  }
+
+  @override
+  String speakInvoiceTotal(String amount, String currency) {
+    return 'कुल $amount $currency।';
+  }
+
+  @override
+  String get speakInvoicePaid => 'पूरा भुगतान हो गया है।';
+
+  @override
+  String speakInvoicePartlyPaid(String amount) {
+    return 'अभी $amount बाक़ी है।';
+  }
+
+  @override
+  String speakInvoiceDue(String date) {
+    return 'भुगतान की तारीख़ $date।';
+  }
 }

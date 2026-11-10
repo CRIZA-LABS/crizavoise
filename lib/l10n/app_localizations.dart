@@ -10479,6 +10479,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t prepare the invoice for sharing. Please try again.'**
   String get whatsAppShareFailed;
+
+  /// No description provided for @speakReadAloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Read aloud'**
+  String get speakReadAloud;
+
+  /// No description provided for @speakStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop reading'**
+  String get speakStop;
+
+  /// No description provided for @speakRupees.
+  ///
+  /// In en, this message translates to:
+  /// **'rupees'**
+  String get speakRupees;
+
+  /// No description provided for @speakInvoiceIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice {number} for {customer}.'**
+  String speakInvoiceIntro(String number, String customer);
+
+  /// No description provided for @speakInvoiceTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total {amount} {currency}.'**
+  String speakInvoiceTotal(String amount, String currency);
+
+  /// No description provided for @speakInvoicePaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Fully paid.'**
+  String get speakInvoicePaid;
+
+  /// No description provided for @speakInvoicePartlyPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} still to pay.'**
+  String speakInvoicePartlyPaid(String amount);
+
+  /// No description provided for @speakInvoiceDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due on {date}.'**
+  String speakInvoiceDue(String date);
 }
 
 class _AppLocalizationsDelegate
