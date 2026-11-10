@@ -8,6 +8,6 @@ display_name: CrizaVoise
 create_desktop_icon: true
 output_base_filename: CrizaVoiseSetup
 # This path is relative to the root directory of your project; must be .ico
-setup_icon_file: windowsunneresourcesapp_icon.ico
+setup_icon_file: windows\runner\resources\app_icon.ico
 locales:
   - en

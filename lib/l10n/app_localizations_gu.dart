@@ -5868,7 +5868,7 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String aboutRightsReserved(int year, String maker) {
-    return '© $year $maker. All rights reserved.';
+    return '© $year $maker. Apache License 2.0 હેઠળ ઓપન સોર્સ.';
   }
 
   @override

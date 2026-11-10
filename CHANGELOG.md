@@ -1,17 +1,18 @@
 # Changelog
 
-## 1.0.0 — unreleased (in development)
+## 1.0.0 — 2026-11-10
 
 First release of **CrizaVoise by Criza Labs**.
 
 ### Identity
-- New name, app ID (`dev.criza.crizavoise`), proprietary licence, Terms of Use and Privacy Policy (accepted on first launch).
+- New name, app ID (`dev.criza.crizavoise`), Terms of Use and Privacy Policy (accepted on first launch).
+- **Free and open source** under the Apache License 2.0, with a NOTICE file that forks must keep ("Based on CrizaVoise by Criza Labs"). Brand names and logos are covered by TRADEMARKS.md.
 - Brand "Ink · Paper · Stamp" (no blue). The app icon is a bill being printed, with dark and light versions. The full logo is "CRIZA VOISE.", built like the Criza Labs logo.
 - Light and dark themes from one token set. All text passes WCAG AA, enforced by tests.
 - Existing data is moved automatically from the old install (backup zip, copy, verified open, then the old folder is removed).
 
 ### New
-- **Free 30-day trial, then a licence** (6 months, 1 year or lifetime), fully offline. Licence keys are signed by Criza Labs and tied to one computer. When a trial or licence ends, everything stays viewable, printable and exportable; only saving new documents waits for activation. Reminder banner in the last 7 days. See Settings → Licence.
+- **Optional licence-key system, switched off** (`AppConfig.licensingEnabled = false`): the app is free, with no trial, licence screen or device code. When turned on: a 30-day trial, then a licence (6 months, 1 year or lifetime), fully offline. Licence keys are signed by Criza Labs and tied to one computer. When a trial or licence ends, everything stays viewable, printable and exportable; only saving new documents waits for activation. Reminder banner in the last 7 days. See Settings → Licence.
 - **Create your account** on first run: owners choose their own username and password. The built-in default login is no longer shown.
 - **Recovery codes.** Each admin gets a one-time recovery code to reset a forgotten password offline. Existing admins are offered one at sign-in.
 - **Forgot password** has two ways back in: your recovery code, or a one-time code from Criza Labs support. The old reset key from the original project no longer works.

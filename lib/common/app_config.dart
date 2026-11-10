@@ -29,7 +29,13 @@ class AppConfig {
   /// us", and licensing / commercial-use permission requests.
   static const businessEmail = "connect@criza.dev";
 
-  static const license = "Proprietary";
+  static const license = "Apache-2.0";
+  static const sourceUrl = "https://github.com/CRIZA-LABS/crizavoise";
+
+  /// Trial / licence-key enforcement. false = free edition: no trial, no
+  /// licence screen, nothing is ever blocked and no device code is made.
+  /// The licensing code stays in place so a paid edition can return later.
+  static const licensingEnabled = false;
   static const description =
       "CrizaVoise is simple invoicing and billing for small businesses.";
 
@@ -49,7 +55,7 @@ class AppConfig {
   /// when either changes materially: users are asked to accept again.
   static const termsAsset = "TERMS.md";
   static const privacyAsset = "PRIVACY.md";
-  static const termsVersion = "2026-11-10.3";
+  static const termsVersion = "2026-11-10.4";
 
   /// Online licence check (tool/license-admin `/api/v1/status`). null = off:
   /// the app makes no licence network calls. Set to the hosted URL (e.g.

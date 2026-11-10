@@ -1,6 +1,6 @@
 # CrizaVoise Privacy Policy
 
-Version 2026-11-10.2 · Effective 10 November 2026
+Version 2026-11-10.3 · Effective 10 November 2026
 
 This policy explains how **CrizaVoise by Criza Labs** (the "**Software**") handles information. In short: **your business data stays on your device. We do not collect, see, sell or share it.**
 
@@ -18,9 +18,8 @@ When you store your customers' or suppliers' details (names, phone numbers, addr
 
 Criza Labs does not process this data on your behalf.
 
-## 3. Trial, licence and sign-in information
-- **Device code.** For the trial and licence, the Software calculates a short device code from your operating system's computer ID. The code is a one-way fingerprint: it does not reveal the computer ID or anything about you. It, the trial start date and your licence key are stored only on your computer (in the Software's settings, data folder and, on Windows, your user registry).
-- **When you buy or renew,** you send us your device code, name and email so we can issue a key. We keep a record of keys we issue (key number, plan, name, email, device code, dates) to support and verify licences. We do not use it for marketing without your consent.
+## 3. Sign-in information
+- **No trial or licence data.** This edition is free. It does not make a device code, record a trial start or ask for a licence key.
 - **Passwords and recovery codes** are stored only on your computer, and only as salted hashes, never in readable form. We cannot see them or recover them.
 
 ## 4. When information reaches us

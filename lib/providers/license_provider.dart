@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:crizavoise/common/app_config.dart';
 import 'package:crizavoise/licensing/license_service.dart';
 
 /// Current trial / licence state. Loaded once at start-up and after every
@@ -7,6 +8,15 @@ import 'package:crizavoise/licensing/license_service.dart';
 class LicenseNotifier extends AsyncNotifier<LicenseState> {
   @override
   Future<LicenseState> build() async {
+    // Free edition: always allowed, no reminders, no device code or storage.
+    if (!AppConfig.licensingEnabled) {
+      return LicenseState(
+        kind: LicenseKind.licensed,
+        deviceCode: '',
+        trialStart: DateTime.now(),
+        daysLeft: null,
+      );
+    }
     final s = await LicenseService.instance.load();
     // Online licence check (dormant until AppConfig.licenseCheckUrl is set).
     // Runs in the background and never delays start-up.

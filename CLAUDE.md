@@ -36,13 +36,19 @@ dart run flutter_launcher_icons        # regenerate icons from assets/brand/icon
   - `SplashScreen` calls `finalizeAfterSuccessfulOpen()` after the DB opens, which deletes the old dir.
   - The log is `migration.log` and the marker is `.cv_migration.json`, both in the data dir.
   - `LegacyAppPaths` (with its test) is the **only** place old-product names may appear in code.
-- **License:** a proprietary `LICENSE` (Criza Labs + AbrarAli S). The upstream MIT notice is kept word for word in `THIRD_PARTY_NOTICES.md`. Both are bundled as Flutter assets and installed next to the exe via CMake.
+- **License: open source, Apache-2.0** (since 2026-11-10; was proprietary). Copyright Criza Labs + AbrarAli S.
+  - `NOTICE` carries the required credit ("Based on CrizaVoise by Criza Labs (https://criza.dev)"), which forks must keep (Apache §4(d)).
+  - `TRADEMARKS.md`: the names and logos are not licensed for forks (Apache §6). `CONTRIBUTING.md` holds the contribution rules.
+  - The upstream MIT notice is kept word for word in `THIRD_PARTY_NOTICES.md`.
+  - LICENSE, NOTICE, TRADEMARKS.md and THIRD_PARTY_NOTICES.md are bundled as Flutter assets and installed next to the exe via CMake.
   - In the app: Settings → About → Open-source licenses (`lib/screens/settings/licenses_screen.dart`).
+  - Goal: attract people to Criza Labs (criza.dev). Keep the credit visible.
 - **Emails only in `lib/common/app_config.dart`:**
   - `supportEmail` contact@ (support), `infoEmail` info@ (general/legal), `businessEmail` connect@ (business/licensing).
   - Open them via `lib/utils/contact_links.dart` (mailto + subject; support also gets version/OS/installation ID).
   - Packaging metadata (deb maintainer) is the one unavoidable exception.
-- **Licensing (offline):** 30-day trial, then 6m / 1y / lifetime keys. Code in `lib/licensing/` (codec, service, machine_id, license_keys).
+- **Licensing is OFF (free edition):** `AppConfig.licensingEnabled = false`. `licenseProvider` returns an always-allowed state (no device code, no storage), and the Settings → Licence tab is hidden. Flip the flag to bring paid editions back.
+- **Licensing (when enabled, offline):** 30-day trial, then 6m / 1y / lifetime keys. Code in `lib/licensing/` (codec, service, machine_id, license_keys).
   - Keys are Ed25519-signed; private keys are in gitignored `.secrets/` (NEVER commit). Issue keys with `dart run tool/license/generate.dart` (see docs/licensing.md).
   - On expiry the app is view-only: `ensureCanCreateDocuments` (lib/widgets/license_banner.dart) gates invoice, draft and purchase-bill saves. `LicenseStrip` sits above the dashboard.
   - Tests use an in-memory store automatically (FLUTTER_TEST), never the registry.
@@ -65,7 +71,7 @@ The owner plans an **online backup option**, a **web version** and a private **l
 - Package imports: `package:crizavoise/...`.
 - New UI strings go to `lib/l10n/app_en.arb` (with `@key` metadata when placeholders are used), then run `flutter gen-l10n`.
 - Keep business logic (invoice math, tax, numbering, storage, exports) unchanged during redesign work.
-- Git: work on branch `crizavoise`, which tracks `origin/main`. `origin` is the **private** repo github.com/CRIZA-LABS/crizavoise; push with `git push origin crizavoise:main`. Never push tags (153 old tags from the original project). The `upstream` remote is the original project, so **never push to it**. Never make the repo public: the code is proprietary.
+- Git: work on branch `crizavoise`, which tracks `origin/main`. `origin` is the **private** repo github.com/CRIZA-LABS/crizavoise; push with `git push origin crizavoise:main`. Never push tags (153 old tags from the original project). The `upstream` remote is the original project, so **never push to it**. The code is now open source (Apache-2.0), so the repo can be public. Before it goes public, check that `.secrets/`, `CrizaVoise_Prompt.md` and other private files were never committed.
 
 ## Phase status (2026-11-10)
 - **Phase 1 (identity, theme, rebrand):** done. Migration verified on real data.

@@ -278,5 +278,6 @@
   "a11yIncrease": "વધારો",
   "a11yFavourite": "મનપસંદ બનાવો",
   "a11yPickColour": "રંગ પસંદ કરો",
-  "a11ySend": "મોકલો"
+  "a11ySend": "મોકલો",
+  "aboutRightsReserved": "© {year} {maker}. Apache License 2.0 હેઠળ ઓપન સોર્સ."
 }

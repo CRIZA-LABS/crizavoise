@@ -15,7 +15,7 @@ jobs:
   # Windows — build .exe installer
   # ─────────────────────────────────────────────────────────────
   build-windows:
-    if: ${{ vars.BUILD_WINDOWS == 'true' }}
+    if: ${{ vars.BUILD_WINDOWS != 'false' }}
     runs-on: windows-2022
 
     steps:
@@ -85,7 +85,7 @@ jobs:
   # Linux — build .deb package
   # ─────────────────────────────────────────────────────────────
   build-linux:
-    if: ${{ vars.BUILD_LINUX_DEB22 == 'true' }}
+    if: ${{ vars.BUILD_LINUX_DEB22 != 'false' }}
     runs-on: ubuntu-22.04
 
     steps:
@@ -146,7 +146,7 @@ jobs:
   # Ryzen 7000 series) running Ubuntu 24.04 (Noble).
   # ─────────────────────────────────────────────────────────────
   build-linux-ubuntu24:
-    if: ${{ vars.BUILD_LINUX_DEB24 == 'true' }}
+    if: ${{ vars.BUILD_LINUX_DEB24 != 'false' }}
     runs-on: ubuntu-24.04
 
     steps:
@@ -323,7 +323,7 @@ jobs:
   # which are standard on Ubuntu 24.04.
   # ─────────────────────────────────────────────────────────────
   build-appimage-ubuntu24:
-    if: ${{ vars.BUILD_APPIMAGE24 == 'true' }}
+    if: ${{ vars.BUILD_APPIMAGE24 != 'false' }}
     runs-on: ubuntu-24.04
 
     steps:
@@ -437,7 +437,7 @@ jobs:
   # SquashFS. Compiled on 22.04 (glibc 2.35) for older distros.
   # ─────────────────────────────────────────────────────────────
   build-appimage:
-    if: ${{ vars.BUILD_APPIMAGE22 == 'true' }}
+    if: ${{ vars.BUILD_APPIMAGE22 != 'false' }}
     runs-on: ubuntu-22.04
 
     steps:
@@ -549,7 +549,7 @@ jobs:
   # macOS — build .dmg installer
   # ─────────────────────────────────────────────────────────────
   build-macos:
-    if: ${{ vars.BUILD_MACOS == 'true' }}
+    if: ${{ vars.BUILD_MACOS != 'false' }}
     runs-on: macos-latest
 
     steps:
@@ -633,7 +633,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────
   create-release:
     needs: [build-windows, build-linux, build-linux-ubuntu24, build-appimage, build-appimage-ubuntu24, build-macos]
-    if: always() && vars.CRIZAVOISE_RELEASE == 'true' # Run even if some builds are skipped; skip entirely if CRIZAVOISE_RELEASE is not 'true'
+    if: ${{ !cancelled() && vars.CRIZAVOISE_RELEASE != 'false' }} # on by default; set the repo variable to 'false' to skip
     runs-on: ubuntu-latest
 
     steps:
@@ -689,7 +689,22 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: CrizaVoise ${{ github.ref_name }}
           draft: false
-          prerelease: false
+          prerelease: ${{ startsWith(github.ref_name, 'test-') }}
           files: release-assets/**
+          fail_on_unmatched_files: false
+          body: |
+            **CrizaVoise by Criza Labs**: free, open-source, offline invoicing and billing for small businesses. https://criza.dev
+
+            ### Downloads
+            - **Windows:** `crizavoise-*-windows-setup.exe`
+            - **Linux:** `.deb` for Ubuntu 22.04 / 24.04, or the AppImage
+            - **macOS:** `crizavoise-*-macos.dmg`
+
+            The installers are not code-signed yet. Windows SmartScreen may warn you: choose **More info → Run anyway**. On macOS, if it says the app cannot be opened, go to **System Settings → Privacy & Security** and click **Open Anyway**.
+
+            ### Licence
+            Apache License 2.0. You may fork it and use it, also commercially. Keep `LICENSE` and `NOTICE`, credit **"Based on CrizaVoise by Criza Labs (https://criza.dev)"**, and use your own name and logo (see `TRADEMARKS.md`).
+
+            Changes: see [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md).
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

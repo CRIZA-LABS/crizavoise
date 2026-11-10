@@ -5,7 +5,7 @@ enum EscAlign { left, center, right }
 
 /// Minimal ESC/POS byte encoder for CrizaVoise receipts, written from the
 /// public ESC/POS command set (Epson-compatible). Replaces an LGPL encoder so
-/// the app can stay closed source. Only what receipts need: aligned/bold/
+/// the app keeps a permissive licence. Only what receipts need: aligned/bold/
 /// sized text, rules, reverse feed and cut.
 ///
 /// Unlike the old library it never emits `FS .` (Cancel Kanji), so no stray

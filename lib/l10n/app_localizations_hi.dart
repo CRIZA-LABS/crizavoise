@@ -5892,7 +5892,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String aboutRightsReserved(int year, String maker) {
-    return '© $year $maker। सर्वाधिकार सुरक्षित।';
+    return '© $year $maker। Apache License 2.0 के तहत ओपन सोर्स।';
   }
 
   @override

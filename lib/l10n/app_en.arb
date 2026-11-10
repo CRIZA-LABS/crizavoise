@@ -3403,7 +3403,7 @@
   "aboutOpenSourceLicensesTitle": "Open-source licenses",
   "aboutOpenSourceLicensesSubtitle": "Notices for the software and fonts CrizaVoise is built on",
   "aboutPackageLicensesButton": "Flutter package licenses",
-  "aboutRightsReserved": "© {year} {maker}. All rights reserved.",
+  "aboutRightsReserved": "© {year} {maker}. Open source under the Apache License 2.0.",
   "@aboutRightsReserved": {
     "placeholders": {
       "year": {

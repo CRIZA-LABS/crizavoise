@@ -3,12 +3,13 @@
 
   <p><strong>CrizaVoise by Criza Labs</strong> — simple, offline invoicing and billing for small businesses.</p>
   <p>Windows · Linux · macOS</p>
+  <p><strong>Free and open source</strong> · <a href="LICENSE">Apache License 2.0</a> · <a href="https://criza.dev">criza.dev</a></p>
 </div>
 
 ---
 
-> **Proprietary software.** © 2026 Criza Labs. All rights reserved. See [LICENSE](LICENSE).
-> Portions are based on open-source software; their notices are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and in the app under **Settings → About → Open-source licenses**.
+> **Free and open source.** © 2026 Criza Labs. Licensed under the [Apache License 2.0](LICENSE): use it, change it and share it, for personal or commercial work.
+> **If you fork or redistribute it, give credit:** keep [LICENSE](LICENSE) and [NOTICE](NOTICE), and show **"Based on CrizaVoise by Criza Labs (https://criza.dev)"** in your README and About screen. Use your own name and logo ([TRADEMARKS.md](TRADEMARKS.md)).
 
 ## What it does
 - **Bills in seconds:** a "Quick bill" for walk-in customers, product quick codes (type `R5` + Enter), product photos, and voice typing.
@@ -18,7 +19,7 @@
 - **Stock and suppliers:** customers, products, stock, purchase bills, suppliers and returns.
 - **Team and security:** multiple companies, admin and standard users, quick PIN sign-in, recovery codes and session timeout.
 - **For everyone:** 8 languages, including Hindi and Gujarati; read-aloud; large number pad; reduce motion; and screen-reader labels.
-- **Licensing:** a free 30-day trial, then 6-month, 1-year or lifetime licences. Data is never locked: viewing, printing and export always work.
+- **Free:** no trial, no subscription, no licence key, no ads.
 - **100% offline:** data stays in a local SQLite database, with built-in backup and restore. No tracking.
 
 ## Screenshots
@@ -27,10 +28,8 @@
 | ![Dashboard](docs/screenshots/dashboard_light.png) | ![Dashboard, dark](docs/screenshots/dashboard_dark.png) |
 | **New invoice** | **Invoices** |
 | ![New invoice](docs/screenshots/new_invoice_light.png) | ![Invoices](docs/screenshots/invoices_light.png) |
-| **Products (dark)** | **Licence** |
-| ![Products](docs/screenshots/products_dark.png) | ![Licence](docs/screenshots/license_light.png) |
-| **First run: create your account** | |
-| ![Create account](docs/screenshots/create_account_light.png) | |
+| **Products (dark)** | **First run: create your account** |
+| ![Products](docs/screenshots/products_dark.png) | ![Create account](docs/screenshots/create_account_light.png) |
 
 Regenerate them with `SCREENSHOTS=1 flutter test test/screenshots/app_screenshots_test.dart` (written to `build/screenshots`).
 
@@ -59,10 +58,22 @@ dart run flutter_launcher_icons   # after changing assets/brand/icons/icon-1024.
 
 **More docs**
 - Brand guidelines: [docs/brand.md](docs/brand.md)
-- Licensing and the licence admin app: [docs/licensing.md](docs/licensing.md), [tool/license-admin](tool/license-admin/README.md)
+- Optional licence-key system (switched off; `AppConfig.licensingEnabled`): [docs/licensing.md](docs/licensing.md), [tool/license-admin](tool/license-admin/README.md)
 - Performance baseline: [docs/performance.md](docs/performance.md)
 - Design tokens: `lib/theme/tokens.dart`
 - Contributor and AI-session notes: [CLAUDE.md](CLAUDE.md)
 
+## Contributing
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License and credit
+CrizaVoise is licensed under the [Apache License 2.0](LICENSE). Under that licence, anyone who redistributes this code or a version based on it must keep the [NOTICE](NOTICE) file. We ask that forks show this line in their README and About screen:
+
+> Based on CrizaVoise by Criza Labs (https://criza.dev)
+
+The CrizaVoise and Criza Labs names and logos are not covered by the code licence. See [TRADEMARKS.md](TRADEMARKS.md).
+
+CrizaVoise started from [Invoiso](https://github.com/Anooppandikashala/invoiso) (MIT). Its notice and every other third-party licence are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and in the app under **Settings → About → Open-source licenses**.
+
 ## Credits
-Made by **Criza Labs** — https://criza.dev
+Made by **Criza Labs** — https://criza.dev. Need a custom build or help for your business? Write to connect@criza.dev.

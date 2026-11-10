@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:crizavoise/common/app_config.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
@@ -100,7 +101,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       _idProductColumns,
       _idCustomize,
       _idAccessibility,
-      if (!cfg.isCloud) _idLicense,
+      if (!cfg.isCloud && AppConfig.licensingEnabled) _idLicense,
       _idSoftwareInfo,
     ];
   }
@@ -306,7 +307,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 icon: const Icon(Icons.accessibility_new_rounded),
                 label: Text(l10n.settingsNavAccessibilityLabel),
               ),
-              if (!cfg.isCloud)
+              if (!cfg.isCloud && AppConfig.licensingEnabled)
                 NavigationRailDestination(
                   icon: const Icon(Icons.workspace_premium_outlined),
                   label: Text(l10n.licenseTitle),

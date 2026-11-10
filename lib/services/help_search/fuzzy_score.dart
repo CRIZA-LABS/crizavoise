@@ -3,7 +3,7 @@ import 'dart:math' as math;
 /// Fuzzy string similarity (0–100), written for CrizaVoise from the standard
 /// published techniques (Levenshtein similarity, best-substring matching and
 /// token sort/set comparison). It replaces a GPL-licensed package so the app
-/// can stay closed source.
+/// keeps a permissive licence.
 class FuzzyScore {
   /// Lower-case, keep letters/digits (any script), collapse whitespace.
   static String normalize(String s) => s

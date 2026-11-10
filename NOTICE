@@ -1,0 +1,23 @@
+CrizaVoise by Criza Labs
+Copyright 2026 Criza Labs (https://criza.dev) and AbrarAli S
+
+This product includes software developed by Criza Labs (https://criza.dev).
+Source code: https://github.com/CRIZA-LABS/crizavoise
+
+Portions of this software are based on Invoiso, Copyright (c) 2025 ANOOP P,
+used under the MIT License. That notice is kept in THIRD_PARTY_NOTICES.md.
+
+-------------------------------------------------------------------------------
+Credit when you fork, modify or redistribute
+-------------------------------------------------------------------------------
+Under section 4(d) of the Apache License 2.0, anyone who distributes this
+software or a work based on it must keep this NOTICE file (or its contents)
+with that distribution. Please show the credit line
+
+    Based on CrizaVoise by Criza Labs (https://criza.dev)
+
+in your README and in your app's About or credits screen.
+
+The names "CrizaVoise" and "Criza Labs" and their logos are trademarks of
+Criza Labs. The Apache License does not grant permission to use them
+(section 6). A fork must use its own name and logo; see TRADEMARKS.md.

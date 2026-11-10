@@ -65,6 +65,8 @@ flutter:
    - TERMS.md
    - PRIVACY.md
    - LICENSE
+   - NOTICE
+   - TRADEMARKS.md
   fonts:
     - family: Inter
       fonts:
@@ -112,7 +114,7 @@ package_rename_config:
   windows:
     app_name: CrizaVoise
     organization: Criza Labs
-    copyright_notice: Copyright Â© 2026 Criza Labs. All rights reserved.
+    copyright_notice: Copyright © 2026 Criza Labs. Apache License 2.0.
     exe_name: crizavoise
 
   web:

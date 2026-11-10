@@ -10015,7 +10015,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutRightsReserved.
   ///
   /// In en, this message translates to:
-  /// **'© {year} {maker}. All rights reserved.'**
+  /// **'© {year} {maker}. Open source under the Apache License 2.0.'**
   String aboutRightsReserved(int year, String maker);
 
   /// No description provided for @aboutLicensesLoadError.

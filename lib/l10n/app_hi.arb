@@ -1482,7 +1482,7 @@
   "aboutOpenSourceLicensesTitle": "ओपन-सोर्स लाइसेंस",
   "aboutOpenSourceLicensesSubtitle": "CrizaVoise में इस्तेमाल सॉफ़्टवेयर और फ़ॉन्ट की सूचनाएं",
   "aboutPackageLicensesButton": "Flutter पैकेज लाइसेंस",
-  "aboutRightsReserved": "© {year} {maker}। सर्वाधिकार सुरक्षित।",
+  "aboutRightsReserved": "© {year} {maker}। Apache License 2.0 के तहत ओपन सोर्स।",
   "aboutLicensesLoadError": "सूचनाएं लोड नहीं हो सकीं। कृपया CrizaVoise फिर से इंस्टॉल करें।",
   "imageImportLogoHint": "कोई भी साइज़ चलेगा — हम इसे अपने-आप ठीक कर देंगे।\nसबसे अच्छा: पारदर्शी बैकग्राउंड वाला चौकोर PNG, कम से कम 600 × 600 px।",
   "imageImportSignatureHint": "कोई भी साइज़ चलेगा — हम इसे अपने-आप ठीक कर देंगे। सबसे अच्छा: पारदर्शी बैकग्राउंड और गहरी स्याही वाला PNG, लगभग 600 × 200 px।",

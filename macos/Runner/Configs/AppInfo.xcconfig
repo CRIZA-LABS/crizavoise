@@ -11,4 +11,4 @@ PRODUCT_NAME = CrizaVoise
 PRODUCT_BUNDLE_IDENTIFIER = dev.criza.crizavoise
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 Criza Labs. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 Criza Labs. Apache License 2.0.

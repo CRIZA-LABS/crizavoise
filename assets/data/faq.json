@@ -28,7 +28,7 @@
       "id": "faq_free",
       "category": "general",
       "question": "How do I get CrizaVoise?",
-      "answer": "CrizaVoise is made by **Criza Labs** and is available from Criza Labs or an authorised reseller.\n\nFor pricing, licences and reseller details, open **Settings → About** and tap **Business**.",
+      "answer": "CrizaVoise is **free** and open source, made by **Criza Labs** (https://criza.dev). There is no trial and no subscription. Download it or build it from the source code at https://github.com/CRIZA-LABS/crizavoise.\n\nFor custom builds, white-label versions or support for your business, open **Settings → About** and tap **Business**.",
       "keywords": [
         "free",
         "subscription",
@@ -317,7 +317,7 @@
       "id": "faq_source",
       "category": "technical",
       "question": "Is the source code available?",
-      "answer": "No. CrizaVoise is closed-source software by **Criza Labs**. Open-source parts it is built on are listed under **Settings → About → Open-source licenses**.\n\nFor custom builds or white-label versions, open **Settings → About** and tap **Business**.",
+      "answer": "Yes. CrizaVoise is free and open source under the **Apache License 2.0**: https://github.com/CRIZA-LABS/crizavoise. You may use, change and share it. If you publish a fork or a modified version, keep the LICENSE and NOTICE files, credit **\"Based on CrizaVoise by Criza Labs (https://criza.dev)\"**, and use your own name and logo. Open-source parts it is built on are listed under **Settings → About → Open-source licenses**.\n\nFor custom builds or white-label versions, open **Settings → About** and tap **Business**.",
       "keywords": [
         "source code",
         "open source",

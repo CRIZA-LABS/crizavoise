@@ -5663,7 +5663,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String aboutRightsReserved(int year, String maker) {
-    return '© $year $maker. All rights reserved.';
+    return '© $year $maker. Open source under the Apache License 2.0.';
   }
 
   @override

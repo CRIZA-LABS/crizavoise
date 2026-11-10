@@ -10,7 +10,7 @@ Updated 2026-11-10 from pubspec.lock. Re-run with `node tool/license_scan.js`.
 | MPL-2.0 | 2 (dbus, nm: Linux only, used unmodified; noted in THIRD_PARTY_NOTICES.md) |
 | Flutter/Dart SDK | 5 |
 
-**No commercial, GPL or LGPL dependencies.** The app can be sold as closed source.
+**No commercial, GPL or LGPL dependencies.** All of them are compatible with the project's Apache-2.0 licence.
 
 ## Resolved
 - **fuzzywuzzy (GPL-2.0):** replaced by our own `lib/services/help_search/fuzzy_score.dart`.
