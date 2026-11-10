@@ -1591,5 +1591,9 @@
   "pinUsePassword": "पासवर्ड से साइन इन करें",
   "pinQuickSignIn": "क्विक साइन-इन",
   "pinOrPassword": "या अपना पासवर्ड इस्तेमाल करें",
-  "myAccountTitle": "मेरा अकाउंट"
+  "myAccountTitle": "मेरा अकाउंट",
+  "productPhotoLabel": "उत्पाद फ़ोटो",
+  "productPhotoAdd": "फ़ोटो जोड़ें",
+  "productPhotoChange": "फ़ोटो बदलें",
+  "productPhotoRemove": "हटाएँ"
 }

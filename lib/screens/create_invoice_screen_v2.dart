@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/widgets/product_photo.dart';
 import 'package:crizavoise/widgets/license_banner.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
@@ -1465,6 +1466,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
 
   Future<bool> _createInvoice() async {
     if (!await ensureCanCreateDocuments(context, ref)) return false;
+    if (!mounted) return false;
     await _ensureDraftLinkLoaded();
     if (!mounted) return false;
     if (nameController.text.isEmpty) {
@@ -1862,6 +1864,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   /// save (insert) and re-saving an already-existing draft (update).
   Future<bool> _saveDraft() async {
     if (!await ensureCanCreateDocuments(context, ref)) return false;
+    if (!mounted) return false;
     await _ensureDraftLinkLoaded();
     if (!mounted) return false;
     if (nameController.text.isEmpty) {
@@ -4082,6 +4085,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
   Future<bool> _updateInvoice({bool finalize = false}) async {
     if (_invoice == null) return false;
     if (!await ensureCanCreateDocuments(context, ref)) return false;
+    if (!mounted) return false;
 
     if (nameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -6193,9 +6197,18 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       tileColor: isHighlighted
                           ? Theme.of(context).primaryColor.withValues(alpha: 0.08)
                           : null,
-                      leading: (product.quickCode ?? '').isNotEmpty
-                          ? QuickCodeBadge(product.quickCode!)
-                          : null,
+                      leading: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ProductThumb(
+                              productId: product.id,
+                              size: 36,
+                              fallback: const SizedBox.shrink(),
+                              trailingGap: 8),
+                          if ((product.quickCode ?? '').isNotEmpty)
+                            QuickCodeBadge(product.quickCode!),
+                        ],
+                      ),
                       title: Text(
                         product.name,
                         overflow: TextOverflow.ellipsis,

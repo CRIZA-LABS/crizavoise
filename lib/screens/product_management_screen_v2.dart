@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/common/app_config.dart';
+import 'package:crizavoise/widgets/product_photo.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:uuid/uuid.dart';
@@ -2118,6 +2119,11 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
+                  ProductThumb(
+                      productId: p.id,
+                      size: 32,
+                      fallback: const SizedBox.shrink(),
+                      trailingGap: 8),
                   if ((p.quickCode ?? '').isNotEmpty) ...[
                     QuickCodeBadge(p.quickCode!),
                     const SizedBox(width: 8),
@@ -2743,6 +2749,7 @@ class _ProductManagementScreenV2State extends ConsumerState<ProductManagementScr
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            ProductPhotoEditor(productId: product.id, readOnly: !isEdit),
                             sectionLabel(l10n.productMgmtSectionGeneral),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,

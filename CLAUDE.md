@@ -18,7 +18,7 @@ flutter gen-l10n                       # after editing ARB files
 flutter analyze                        # baseline: 61 infos, 0 errors/warnings
 flutter test                           # 465 tests; product_form_test has one known flaky case
 flutter build windows                  # needs Developer Mode ON, Smart App Control OFF, and nuget.exe on PATH (winget install Microsoft.NuGet; required by flutter_tts)
-ISCC.exe installer.iss                 # Windows installer -> dist/CrizaVoise-Setup-1.0.0.exe (Inno Setup 6 in %LOCALAPPDATA%Programs)
+ISCC.exe installer.iss                 # Windows installer -> dist/CrizaVoise-Setup-1.0.0.exe (Inno Setup 6 in %LOCALAPPDATA%\Programs)
 dart run flutter_launcher_icons        # regenerate icons from assets/brand/icons/icon-1024.png
 ```
 

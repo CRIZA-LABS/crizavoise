@@ -6829,4 +6829,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get myAccountConfirmPassword => 'Confirm your password';
+
+  @override
+  String get productPhotoLabel => 'Product photo';
+
+  @override
+  String get productPhotoAdd => 'Add photo';
+
+  @override
+  String get productPhotoChange => 'Change photo';
+
+  @override
+  String get productPhotoRemove => 'Remove';
+
+  @override
+  String get productPhotoHint =>
+      'Optional. Helps staff pick the right item. Any photo works; it\'s resized automatically (best: square, 400 × 400 px or larger).';
 }

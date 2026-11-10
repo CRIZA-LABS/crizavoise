@@ -6711,4 +6711,20 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get myAccountConfirmPassword => 'Confirm your password';
+
+  @override
+  String get productPhotoLabel => 'ઉત્પાદનનો ફોટો';
+
+  @override
+  String get productPhotoAdd => 'ફોટો ઉમેરો';
+
+  @override
+  String get productPhotoChange => 'ફોટો બદલો';
+
+  @override
+  String get productPhotoRemove => 'દૂર કરો';
+
+  @override
+  String get productPhotoHint =>
+      'Optional. Helps staff pick the right item. Any photo works; it\'s resized automatically (best: square, 400 × 400 px or larger).';
 }

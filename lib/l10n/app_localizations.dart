@@ -11400,6 +11400,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm your password'**
   String get myAccountConfirmPassword;
+
+  /// No description provided for @productPhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product photo'**
+  String get productPhotoLabel;
+
+  /// No description provided for @productPhotoAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get productPhotoAdd;
+
+  /// No description provided for @productPhotoChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get productPhotoChange;
+
+  /// No description provided for @productPhotoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get productPhotoRemove;
+
+  /// No description provided for @productPhotoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Helps staff pick the right item. Any photo works; it\'s resized automatically (best: square, 400 × 400 px or larger).'**
+  String get productPhotoHint;
 }
 
 class _AppLocalizationsDelegate

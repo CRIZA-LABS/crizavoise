@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:crizavoise/database/product_photo_service.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -19,7 +20,7 @@ class DatabaseHelper {
   static String? get path => _path;
   static Database? _database;
   static String _dbFileName = 'invoice_manager.db';
-  final dbVersion = 61;
+  final dbVersion = 62;
 
   /// Startup only, before anything has opened a connection yet — just points
   /// at the right file for the first `_initDB()` call. No close/reopen, so
@@ -33,6 +34,7 @@ class DatabaseHelper {
   /// Call this when switching the active company on an already-running app.
   Future<Database> switchToFile(String fileName) async {
     _dbFileName = fileName;
+    ProductPhotoService.clearCache();
     return reinitialize();
   }
 
@@ -61,7 +63,10 @@ class DatabaseHelper {
   /// sqflite_common_ffi one) so service classes can be exercised in unit tests
   /// without path_provider. Pass null in tearDown to clear it.
   @visibleForTesting
-  static void setTestDatabase(Database? db) => _database = db;
+  static void setTestDatabase(Database? db) {
+    ProductPhotoService.clearCache();
+    _database = db;
+  }
 
   @visibleForTesting
   Future<void> upgradeDbForTest(Database db, int oldVersion, int newVersion) =>
@@ -408,6 +413,7 @@ class DatabaseHelper {
     await db.execute('CREATE INDEX idx_inv_customer_id ON invoices(customer_id, type, date)');
     await db.execute('CREATE INDEX idx_inv_type_num ON invoices(type, invoice_number)');
     await db.execute(invoiceNumberLogTable);
+    await db.execute(productPhotosTable);
     await db.execute(
         'CREATE INDEX IF NOT EXISTS idx_inv_num_log ON invoice_number_log(invoice_id)');
     await db.execute('CREATE INDEX idx_inv_type_due ON invoices(type, due_date)');
@@ -1404,7 +1410,24 @@ class DatabaseHelper {
         });
       }
     }
+
+    if (oldVersion < 62) {
+      // Product photos, kept apart from products so lists stay light.
+      await _runMigrationStep(db, 62, 'create_product_photos', () async {
+        await db.execute(productPhotosTable);
+      });
+    }
   }
+
+  /// One small photo per product (base64 JPEG/PNG, about 400 px). Separate
+  /// table so product queries never load image data.
+  static const productPhotosTable = '''
+    CREATE TABLE IF NOT EXISTS product_photos (
+      product_id TEXT PRIMARY KEY,
+      photo TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )
+  ''';
 
   /// Audit trail for invoice numbers typed by a person instead of generated.
   static const invoiceNumberLogTable = '''
@@ -1525,6 +1548,7 @@ class DatabaseHelper {
   }
 
   Future<void> close() async {
+    ProductPhotoService.clearCache();
     final db = _database;
     if (db != null) {
       await db.close();

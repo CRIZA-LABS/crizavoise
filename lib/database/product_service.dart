@@ -2,6 +2,7 @@ import 'package:crizavoise/models/product.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:crizavoise/models/product_list_stats.dart';
 import 'database_helper.dart';
+import 'product_photo_service.dart';
 
 class ProductService {
   static final dbHelper = DatabaseHelper();
@@ -280,6 +281,8 @@ class ProductService {
     final db = await dbHelper.database;
     await db.delete('products', where: 'id = ?', whereArgs: [id]);
     await db.delete('product_metadata', where: 'product_id = ?', whereArgs: [id]);
+    await db.delete('product_photos', where: 'product_id = ?', whereArgs: [id]);
+    ProductPhotoService.clearCache();
   }
 
   // ─────────────────────────────────────────────

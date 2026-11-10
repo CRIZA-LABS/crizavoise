@@ -139,5 +139,9 @@
   "pinUsePassword": "પાસવર્ડથી સાઇન ઇન કરો",
   "pinQuickSignIn": "ઝડપી સાઇન-ઇન",
   "pinOrPassword": "અથવા તમારો પાસવર્ડ વાપરો",
-  "myAccountTitle": "મારું એકાઉન્ટ"
+  "myAccountTitle": "મારું એકાઉન્ટ",
+  "productPhotoLabel": "ઉત્પાદનનો ફોટો",
+  "productPhotoAdd": "ફોટો ઉમેરો",
+  "productPhotoChange": "ફોટો બદલો",
+  "productPhotoRemove": "દૂર કરો"
 }

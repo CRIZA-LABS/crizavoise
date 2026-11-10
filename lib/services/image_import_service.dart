@@ -19,9 +19,14 @@ import 'package:crizavoise/l10n/app_localizations.dart';
 enum ImageKind {
   logo(maxSide: 1024, recommendedMin: 600),
   signature(maxSide: 1000, recommendedMin: 400),
-  watermark(maxSide: 1600, recommendedMin: 1200);
+  watermark(maxSide: 1600, recommendedMin: 1200),
+  productPhoto(maxSide: 400, recommendedMin: 300, jpegQuality: 80);
 
-  const ImageKind({required this.maxSide, required this.recommendedMin});
+  const ImageKind({required this.maxSide, required this.recommendedMin, this.jpegQuality});
+
+  /// When set, photos without transparency are always stored as JPEG at this
+  /// quality (small files; product photos are not printed large).
+  final int? jpegQuality;
 
   /// Longest side, in pixels, the stored image is resized down to.
   final int maxSide;
@@ -80,16 +85,17 @@ class ImageImportService {
     if (bytes.length > maxFileBytes) {
       throw const ImageImportException(ImageImportError.fileTooLarge);
     }
-    final result = await Isolate.run(() => _process(bytes, kind.maxSide));
+    final maxSide = kind.maxSide, q = kind.jpegQuality;
+    final result = await Isolate.run(() => _process(bytes, maxSide, jpegQuality: q));
     if (result == null) throw const ImageImportException(ImageImportError.unreadable);
     return result;
   }
 
   /// Synchronous core, exposed for tests.
   static ImageImportResult? processSync(Uint8List bytes, ImageKind kind) =>
-      _process(bytes, kind.maxSide);
+      _process(bytes, kind.maxSide, jpegQuality: kind.jpegQuality);
 
-  static ImageImportResult? _process(Uint8List bytes, int maxSide) {
+  static ImageImportResult? _process(Uint8List bytes, int maxSide, {int? jpegQuality}) {
     img.Image? decoded;
     try {
       decoded = img.decodeImage(bytes);
@@ -115,7 +121,9 @@ class ImageImportService {
 
     final transparent = _hasTransparency(image);
     Uint8List out = img.encodePng(image, level: 6);
-    if (!transparent && out.length > _pngBudgetBytes) {
+    if (!transparent && jpegQuality != null) {
+      out = img.encodeJpg(image, quality: jpegQuality);
+    } else if (!transparent && out.length > _pngBudgetBytes) {
       out = img.encodeJpg(image, quality: 90);
     }
     return ImageImportResult(
@@ -145,6 +153,7 @@ class ImageImportService {
         ImageKind.logo => l10n.imageImportLogoHint,
         ImageKind.signature => l10n.imageImportSignatureHint,
         ImageKind.watermark => l10n.imageImportWatermarkHint,
+        ImageKind.productPhoto => l10n.productPhotoHint,
       };
 
   /// Opens the file picker, prepares the image and tells the user what

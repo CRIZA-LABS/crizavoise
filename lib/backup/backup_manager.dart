@@ -27,6 +27,7 @@ class BackupManager {
   static const List<String> _restoreTableOrder = [
     'customers',
     'products',
+    'product_photos',
     'company_info',
     'settings',
     'invoices',

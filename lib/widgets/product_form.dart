@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:crizavoise/common/common.dart';
+import 'package:crizavoise/widgets/product_photo.dart';
+import 'package:crizavoise/database/product_photo_service.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/widgets/quick_code_field.dart';
@@ -67,6 +71,7 @@ class ProductFormState extends ConsumerState<ProductForm> {
   final _hsnCodeController = TextEditingController();
   final _quickCodeController = TextEditingController();
   String? _quickCodeError;
+  Uint8List? _pendingPhoto; // saved after the product is created
   final _taxRateController = TextEditingController(text: '18');
   final _customUnitController = TextEditingController();
   final _storageLocationController = TextEditingController();
@@ -242,6 +247,9 @@ class ProductFormState extends ConsumerState<ProductForm> {
             : int.tryParse(_lowStockLimitController.text.trim()),
       );
       await productRepo.insertProduct(product);
+      if (_pendingPhoto != null) {
+        await ProductPhotoService.set(product.id, _pendingPhoto!);
+      }
       await productRepo.upsertProductMetadata(
         ProductMetadata(
           productId: product.id,
@@ -341,6 +349,7 @@ class ProductFormState extends ConsumerState<ProductForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionLabel(l10n.productMgmtSectionGeneral),
+          ProductPhotoEditor(onPendingChanged: (b) => _pendingPhoto = b),
           _buildFormField(_nameController, l10n.fieldNameLabel, Icons.inventory_2,
               maxLength: 100, onSubmitted: widget.onSubmitted),
           const SizedBox(height: 16),

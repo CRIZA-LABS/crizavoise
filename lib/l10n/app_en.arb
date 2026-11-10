@@ -3857,5 +3857,10 @@
   "myAccountChangePassword": "Change password",
   "myAccountNewRecoveryCode": "New recovery code",
   "myAccountNewRecoveryCodeHelp": "Lost your code? Make a new one; the old one stops working.",
-  "myAccountConfirmPassword": "Confirm your password"
+  "myAccountConfirmPassword": "Confirm your password",
+  "productPhotoLabel": "Product photo",
+  "productPhotoAdd": "Add photo",
+  "productPhotoChange": "Change photo",
+  "productPhotoRemove": "Remove",
+  "productPhotoHint": "Optional. Helps staff pick the right item. Any photo works; it's resized automatically (best: square, 400 × 400 px or larger)."
 }
