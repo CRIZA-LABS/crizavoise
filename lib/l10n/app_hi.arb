@@ -1584,5 +1584,12 @@
   "paymentReminderThanks": "अगर आप भुगतान कर चुके हैं तो कृपया इसे अनदेखा करें। धन्यवाद!",
   "paymentReminderSendWhatsApp": "WhatsApp पर भेजें",
   "paymentReminderCopy": "SMS के लिए कॉपी करें",
-  "paymentReminderCopied": "संदेश कॉपी हो गया। इसे SMS में पेस्ट करें।"
+  "paymentReminderCopied": "संदेश कॉपी हो गया। इसे SMS में पेस्ट करें।",
+  "pinTitle": "क्विक साइन-इन PIN",
+  "pinSet": "PIN सेट करें",
+  "pinEnterPrompt": "अपना PIN डालें",
+  "pinUsePassword": "पासवर्ड से साइन इन करें",
+  "pinQuickSignIn": "क्विक साइन-इन",
+  "pinOrPassword": "या अपना पासवर्ड इस्तेमाल करें",
+  "myAccountTitle": "मेरा अकाउंट"
 }

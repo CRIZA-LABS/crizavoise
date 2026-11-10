@@ -132,5 +132,12 @@
   "paymentReminderThanks": "જો તમે ચુકવણી કરી દીધી હોય તો કૃપા કરીને અવગણો. આભાર!",
   "paymentReminderSendWhatsApp": "WhatsApp પર મોકલો",
   "paymentReminderCopy": "SMS માટે કૉપી કરો",
-  "paymentReminderCopied": "સંદેશ કૉપી થયો. તેને SMS માં પેસ્ટ કરો."
+  "paymentReminderCopied": "સંદેશ કૉપી થયો. તેને SMS માં પેસ્ટ કરો.",
+  "pinTitle": "ઝડપી સાઇન-ઇન PIN",
+  "pinSet": "PIN સેટ કરો",
+  "pinEnterPrompt": "તમારો PIN દાખલ કરો",
+  "pinUsePassword": "પાસવર્ડથી સાઇન ઇન કરો",
+  "pinQuickSignIn": "ઝડપી સાઇન-ઇન",
+  "pinOrPassword": "અથવા તમારો પાસવર્ડ વાપરો",
+  "myAccountTitle": "મારું એકાઉન્ટ"
 }

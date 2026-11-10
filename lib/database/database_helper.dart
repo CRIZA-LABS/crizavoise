@@ -19,7 +19,7 @@ class DatabaseHelper {
   static String? get path => _path;
   static Database? _database;
   static String _dbFileName = 'invoice_manager.db';
-  final dbVersion = 60;
+  final dbVersion = 61;
 
   /// Startup only, before anything has opened a connection yet — just points
   /// at the right file for the first `_initDB()` call. No close/reopen, so
@@ -218,7 +218,10 @@ class DatabaseHelper {
         salt TEXT,
         password_changed INTEGER NOT NULL DEFAULT 1,
         recovery_hash TEXT,
-        recovery_salt TEXT
+        recovery_salt TEXT,
+        pin_hash TEXT,
+        pin_salt TEXT,
+        pin_failures INTEGER NOT NULL DEFAULT 0
       )
     ''');
 
@@ -1386,6 +1389,18 @@ class DatabaseHelper {
         await _runMigrationStep(db, 60, 'add_recovery_code_to_users', () async {
           await db.execute('ALTER TABLE users ADD COLUMN recovery_hash TEXT');
           await db.execute('ALTER TABLE users ADD COLUMN recovery_salt TEXT');
+        });
+      }
+    }
+
+    if (oldVersion < 61) {
+      // Quick PIN sign-in (hashed) with a wrong-attempt counter.
+      final cols = (await db.rawQuery('PRAGMA table_info(users)')).map((c) => c['name']);
+      if (!cols.contains('pin_hash')) {
+        await _runMigrationStep(db, 61, 'add_pin_to_users', () async {
+          await db.execute('ALTER TABLE users ADD COLUMN pin_hash TEXT');
+          await db.execute('ALTER TABLE users ADD COLUMN pin_salt TEXT');
+          await db.execute('ALTER TABLE users ADD COLUMN pin_failures INTEGER NOT NULL DEFAULT 0');
         });
       }
     }

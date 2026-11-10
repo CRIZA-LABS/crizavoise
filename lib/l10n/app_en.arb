@@ -3815,5 +3815,47 @@
   "paymentReminderThanks": "Please ignore this if you've already paid. Thank you!",
   "paymentReminderSendWhatsApp": "Send on WhatsApp",
   "paymentReminderCopy": "Copy for SMS",
-  "paymentReminderCopied": "Message copied. Paste it into an SMS."
+  "paymentReminderCopied": "Message copied. Paste it into an SMS.",
+  "numberPadDelete": "Delete",
+  "pinTitle": "Quick sign-in PIN",
+  "pinOnHelp": "On: tap your picture on the sign-in screen and enter your PIN.",
+  "pinOffHelp": "Sign in faster with a 4–6 digit PIN instead of typing your password.",
+  "pinSet": "Set PIN",
+  "pinChange": "Change",
+  "pinRemove": "Remove",
+  "pinSaved": "PIN saved. Next time, tap your picture on the sign-in screen.",
+  "pinRemoved": "PIN removed.",
+  "pinSetTitle": "Set your PIN",
+  "pinSetPasswordPrompt": "First, type your password to confirm it's you.",
+  "pinSetChoose": "Choose a 4–6 digit PIN.",
+  "pinSetConfirm": "Enter the same PIN again.",
+  "pinTooSimple": "That PIN is too easy to guess. Avoid 1111 or 1234.",
+  "pinMismatch": "The PINs didn't match. Please choose again.",
+  "pinPasswordWrong": "That password isn't right.",
+  "pinEnterPrompt": "Enter your PIN",
+  "pinWrong": "{left, plural, =1{Wrong PIN. 1 try left.} other{Wrong PIN. {left} tries left.}}",
+  "@pinWrong": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "pinLocked": "Too many wrong PINs. Sign in with your password once to unlock the PIN.",
+  "pinUsePassword": "Use password",
+  "pinQuickSignIn": "Quick sign-in",
+  "pinSignInAs": "Sign in as {name} with PIN",
+  "@pinSignInAs": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pinOrPassword": "or use your password",
+  "myAccountTitle": "My account",
+  "myAccountChangePassword": "Change password",
+  "myAccountNewRecoveryCode": "New recovery code",
+  "myAccountNewRecoveryCodeHelp": "Lost your code? Make a new one; the old one stops working.",
+  "myAccountConfirmPassword": "Confirm your password"
 }

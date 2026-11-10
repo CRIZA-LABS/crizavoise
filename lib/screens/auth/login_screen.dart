@@ -16,6 +16,8 @@ import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/theme_provider.dart';
 import 'package:crizavoise/screens/auth/forgot_password_screen.dart';
 import 'package:crizavoise/screens/auth/create_account_screen.dart';
+import 'package:crizavoise/screens/auth/pin_dialogs.dart';
+import 'package:crizavoise/database/pin_service.dart';
 import 'package:crizavoise/screens/auth/change_password_screen.dart';
 import 'package:crizavoise/screens/help/help_search_screen.dart';
 import 'package:crizavoise/screens/legal/legal_document_screen.dart';
@@ -43,6 +45,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _obscurePassword = true;
   /// Built-in admin/admin account still unclaimed: show "Create your account".
   User? _defaultAdmin;
+  List<User> _pinUsers = [];
   bool _autoOpenedSetup = false;
   List<CompanyProfile> _companies = [];
   String? _activeCompanyId;
@@ -110,6 +113,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   // anyone the default password. Cloud edition has no seeded account.
   Future<void> _checkFirstTimeUser() async {
     if (ref.read(appEditionConfigProvider).isCloud) return;
+    _loadPinUsers();
     final user =
         await ref.read(authRepositoryProvider).getUser('admin', 'admin');
     if (!mounted) return;
@@ -118,6 +122,74 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       _autoOpenedSetup = true;
       _openCreateAccount();
     }
+  }
+
+  Future<void> _loadPinUsers() async {
+    try {
+      final users = await PinService.usersWithPin();
+      if (mounted) setState(() => _pinUsers = users);
+    } catch (_) {/* quick sign-in is optional */}
+  }
+
+  Future<void> _pinSignIn(AppEditionConfig cfg, User u) async {
+    if (!await showPinSignIn(context, u)) return;
+    final fresh = await ref.read(authRepositoryProvider).getUserById(u.id);
+    if (!mounted || fresh == null) return;
+    _afterLoginNavigate(cfg, fresh);
+  }
+
+  Widget _buildQuickSignIn(AppEditionConfig cfg) {
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.pinQuickSignIn,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(color: scheme.onSurfaceVariant)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 12,
+          runSpacing: 8,
+          children: [
+            for (final u in _pinUsers)
+              Semantics(
+                button: true,
+                label: l10n.pinSignInAs(u.username),
+                excludeSemantics: true,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => _pinSignIn(cfg, u),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: SizedBox(
+                      width: 72,
+                      child: Column(
+                        children: [
+                          UserAvatar(name: u.username, radius: 26),
+                          const SizedBox(height: 6),
+                          Text(u.username,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 12)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(children: [
+          const Expanded(child: Divider()),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(l10n.pinOrPassword, style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12)),
+          ),
+          const Expanded(child: Divider()),
+        ]),
+      ],
+    );
   }
 
   void _openCreateAccount() {
@@ -200,6 +272,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
+    // A password sign-in unlocks a PIN that was locked by wrong tries.
+    PinService.resetFailures(user.id).ignore();
     _afterLoginNavigate(cfg, user);
   }
 
@@ -332,6 +406,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ],
                             onChanged: _onCompanySelected,
                           ),
+                          AppSpacing.hMedium,
+                        ],
+                        if (!cfg.isCloud && _pinUsers.isNotEmpty) ...[
+                          _buildQuickSignIn(cfg),
                           AppSpacing.hMedium,
                         ],
                         TextField(

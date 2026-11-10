@@ -6637,4 +6637,105 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get paymentReminderCopied =>
       'संदेश कॉपी हो गया। इसे SMS में पेस्ट करें।';
+
+  @override
+  String get numberPadDelete => 'Delete';
+
+  @override
+  String get pinTitle => 'क्विक साइन-इन PIN';
+
+  @override
+  String get pinOnHelp =>
+      'On: tap your picture on the sign-in screen and enter your PIN.';
+
+  @override
+  String get pinOffHelp =>
+      'Sign in faster with a 4–6 digit PIN instead of typing your password.';
+
+  @override
+  String get pinSet => 'PIN सेट करें';
+
+  @override
+  String get pinChange => 'Change';
+
+  @override
+  String get pinRemove => 'Remove';
+
+  @override
+  String get pinSaved =>
+      'PIN saved. Next time, tap your picture on the sign-in screen.';
+
+  @override
+  String get pinRemoved => 'PIN removed.';
+
+  @override
+  String get pinSetTitle => 'Set your PIN';
+
+  @override
+  String get pinSetPasswordPrompt =>
+      'First, type your password to confirm it\'s you.';
+
+  @override
+  String get pinSetChoose => 'Choose a 4–6 digit PIN.';
+
+  @override
+  String get pinSetConfirm => 'Enter the same PIN again.';
+
+  @override
+  String get pinTooSimple =>
+      'That PIN is too easy to guess. Avoid 1111 or 1234.';
+
+  @override
+  String get pinMismatch => 'The PINs didn\'t match. Please choose again.';
+
+  @override
+  String get pinPasswordWrong => 'That password isn\'t right.';
+
+  @override
+  String get pinEnterPrompt => 'अपना PIN डालें';
+
+  @override
+  String pinWrong(int left) {
+    String _temp0 = intl.Intl.pluralLogic(
+      left,
+      locale: localeName,
+      other: 'Wrong PIN. $left tries left.',
+      one: 'Wrong PIN. 1 try left.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pinLocked =>
+      'Too many wrong PINs. Sign in with your password once to unlock the PIN.';
+
+  @override
+  String get pinUsePassword => 'पासवर्ड से साइन इन करें';
+
+  @override
+  String get pinQuickSignIn => 'क्विक साइन-इन';
+
+  @override
+  String pinSignInAs(String name) {
+    return 'Sign in as $name with PIN';
+  }
+
+  @override
+  String get pinOrPassword => 'या अपना पासवर्ड इस्तेमाल करें';
+
+  @override
+  String get myAccountTitle => 'मेरा अकाउंट';
+
+  @override
+  String get myAccountChangePassword => 'Change password';
+
+  @override
+  String get myAccountNewRecoveryCode => 'New recovery code';
+
+  @override
+  String get myAccountNewRecoveryCodeHelp =>
+      'Lost your code? Make a new one; the old one stops working.';
+
+  @override
+  String get myAccountConfirmPassword => 'Confirm your password';
 }

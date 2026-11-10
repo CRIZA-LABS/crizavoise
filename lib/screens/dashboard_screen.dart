@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:crizavoise/l10n/app_localizations.dart';
 import 'package:crizavoise/widgets/license_banner.dart';
+import 'package:crizavoise/screens/auth/my_account_dialog.dart';
 import 'package:crizavoise/services/pdf/pdf_font_service.dart';
 import 'package:crizavoise/widgets/discovery_banner.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -297,9 +298,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             onEditInvoice: editInvoice,
             onCloneInvoice: cloneInvoice,
             onQuickAction: (a) => switch (a) {
-                  DashboardAction.newInvoice => _createDocumentOfType('Invoice'),
-                  DashboardAction.newQuotation => _createDocumentOfType('Quotation'),
-                  DashboardAction.newReceipt => _createDocumentOfType('Receipt'),
+                  DashboardAction.newInvoice =>
+                    _createDocumentOfType('Invoice'),
+                  DashboardAction.newQuotation =>
+                    _createDocumentOfType('Quotation'),
+                  DashboardAction.newReceipt =>
+                    _createDocumentOfType('Receipt'),
                   DashboardAction.invoices => _selectTab(2),
                   DashboardAction.customers => _selectTab(5),
                   DashboardAction.products => _selectTab(6),
@@ -589,162 +593,163 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   SizedBox(
                     height: 76,
                     child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                            left: 16,
-                            right: 36,
-                            child: Image.asset(
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? BrandAssets.lockupDark
-                                  : BrandAssets.lockupLight,
-                              height: 36, // Criza lockup minimum
-                              fit: BoxFit.contain,
-                              alignment: Alignment.centerLeft,
-                              filterQuality: FilterQuality.medium,
-                              semanticLabel: AppConfig.name,
-                            ),
+                      alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          left: 16,
+                          right: 36,
+                          child: Image.asset(
+                            Theme.of(context).brightness == Brightness.dark
+                                ? BrandAssets.lockupDark
+                                : BrandAssets.lockupLight,
+                            height: 36, // Criza lockup minimum
+                            fit: BoxFit.contain,
+                            alignment: Alignment.centerLeft,
+                            filterQuality: FilterQuality.medium,
+                            semanticLabel: AppConfig.name,
                           ),
-                          Positioned(
-                            right: 6,
-                            child: Tooltip(
-                              message: AppLocalizations.of(context)!
-                                  .dashboardCollapseSidebarTooltip,
-                              child: InkWell(
-                                onTap: () {
-                                  if (!mounted) return;
-                                  setState(() => _sidebarExpanded = false);
-                                },
-                                borderRadius: BorderRadius.circular(6),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: Icon(Icons.chevron_left_rounded,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      size: 20),
-                                ),
+                        ),
+                        Positioned(
+                          right: 6,
+                          child: Tooltip(
+                            message: AppLocalizations.of(context)!
+                                .dashboardCollapseSidebarTooltip,
+                            child: InkWell(
+                              onTap: () {
+                                if (!mounted) return;
+                                setState(() => _sidebarExpanded = false);
+                              },
+                              borderRadius: BorderRadius.circular(6),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6),
+                                child: Icon(Icons.chevron_left_rounded,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    size: 20),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    if (_companyName?.isNotEmpty == true)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
-                        child: PopupMenuButton<String>(
-                          tooltip: '',
-                          padding: EdgeInsets.zero,
-                          offset: const Offset(0, 40),
-                          itemBuilder: (context) => [
-                            for (final company in _companies)
-                              PopupMenuItem<String>(
-                                value: company.id,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      company.id == _activeCompanyId
-                                          ? Icons.check_circle
-                                          : Icons.circle_outlined,
-                                      size: 18,
-                                      color: company.id == _activeCompanyId
-                                          ? CvSwatch.success
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Flexible(
-                                        child: Text(company.name,
-                                            overflow: TextOverflow.ellipsis)),
-                                  ],
-                                ),
-                              ),
-                            const PopupMenuDivider(),
+                  ),
+                  if (_companyName?.isNotEmpty == true)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+                      child: PopupMenuButton<String>(
+                        tooltip: '',
+                        padding: EdgeInsets.zero,
+                        offset: const Offset(0, 40),
+                        itemBuilder: (context) => [
+                          for (final company in _companies)
                             PopupMenuItem<String>(
-                              value: '__manage__',
+                              value: company.id,
                               child: Row(
                                 children: [
-                                  Icon(Icons.settings_outlined,
-                                      size: 18,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant),
+                                  Icon(
+                                    company.id == _activeCompanyId
+                                        ? Icons.check_circle
+                                        : Icons.circle_outlined,
+                                    size: 18,
+                                    color: company.id == _activeCompanyId
+                                        ? CvSwatch.success
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                  ),
                                   const SizedBox(width: 10),
-                                  Text(AppLocalizations.of(context)!
-                                      .companyMgmtTitle),
+                                  Flexible(
+                                      child: Text(company.name,
+                                          overflow: TextOverflow.ellipsis)),
                                 ],
                               ),
                             ),
-                          ],
-                          onSelected: (value) {
-                            if (value == '__manage__') {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => CompanyManagementScreen(
-                                    currentUser: _currentUser),
-                              ));
-                            } else if (value != _activeCompanyId) {
-                              final company = _companies
-                                  .where((c) => c.id == value)
-                                  .firstOrNull;
-                              if (company != null) _switchCompany(company);
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
+                          const PopupMenuDivider(),
+                          PopupMenuItem<String>(
+                            value: '__manage__',
+                            child: Row(
+                              children: [
+                                Icon(Icons.settings_outlined,
+                                    size: 18,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                                const SizedBox(width: 10),
+                                Text(AppLocalizations.of(context)!
+                                    .companyMgmtTitle),
+                              ],
                             ),
-                            // `expanded` flips true while the sidebar is still ~64px
-                            // wide mid-animation; give the row a minimum width and
-                            // clip the excess instead of overflowing.
-                            child: LayoutBuilder(
-                              builder: (context, constraints) => UnconstrainedBox(
-                                constrainedAxis: Axis.vertical,
-                                alignment: Alignment.centerLeft,
-                                clipBehavior: Clip.hardEdge,
-                                child: SizedBox(
-                                  width: constraints.maxWidth < 60
-                                      ? 60
-                                      : constraints.maxWidth,
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 11,
-                                        backgroundColor: primary,
-                                        child: Text(
-                                          _companyName!.trim()[0].toUpperCase(),
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          if (value == '__manage__') {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => CompanyManagementScreen(
+                                  currentUser: _currentUser),
+                            ));
+                          } else if (value != _activeCompanyId) {
+                            final company = _companies
+                                .where((c) => c.id == value)
+                                .firstOrNull;
+                            if (company != null) _switchCompany(company);
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          // `expanded` flips true while the sidebar is still ~64px
+                          // wide mid-animation; give the row a minimum width and
+                          // clip the excess instead of overflowing.
+                          child: LayoutBuilder(
+                            builder: (context, constraints) => UnconstrainedBox(
+                              constrainedAxis: Axis.vertical,
+                              alignment: Alignment.centerLeft,
+                              clipBehavior: Clip.hardEdge,
+                              child: SizedBox(
+                                width: constraints.maxWidth < 60
+                                    ? 60
+                                    : constraints.maxWidth,
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 11,
+                                      backgroundColor: primary,
+                                      child: Text(
+                                        _companyName!.trim()[0].toUpperCase(),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        _companyName!,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 12.5,
+                                          fontWeight: FontWeight.w600,
+                                          color: primary,
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          _companyName!,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 12.5,
-                                            fontWeight: FontWeight.w600,
-                                            color: primary,
-                                          ),
-                                        ),
-                                      ),
-                                      Icon(Icons.expand_more, size: 16, color: primary),
-                                    ],
-                                  ),
+                                    ),
+                                    Icon(Icons.expand_more,
+                                        size: 16, color: primary),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
+                    ),
                 ],
               )
             else
@@ -758,7 +763,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SvgPicture.asset(
-                          BrandAssets.markFor(Theme.of(context).brightness, size: 38),
+                          BrandAssets.markFor(Theme.of(context).brightness,
+                              size: 38),
                           width: 38,
                           height: 38,
                           semanticsLabel: AppConfig.name,
@@ -819,28 +825,61 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         AppLocalizations.of(context)!.navProducts),
                     // ── Everything else, one tap away ─────────
                     _buildMoreGroup([
-                      (3, Icons.request_quote_outlined, Icons.request_quote,
-                          AppLocalizations.of(context)!.navQuotations),
-                      (4, Icons.point_of_sale_outlined, Icons.point_of_sale,
-                          AppLocalizations.of(context)!.navReceipts),
+                      (
+                        3,
+                        Icons.request_quote_outlined,
+                        Icons.request_quote,
+                        AppLocalizations.of(context)!.navQuotations
+                      ),
+                      (
+                        4,
+                        Icons.point_of_sale_outlined,
+                        Icons.point_of_sale,
+                        AppLocalizations.of(context)!.navReceipts
+                      ),
                       if (ref.watch(returnsEnabledProvider)) ...[
-                        (12, Icons.assignment_return_outlined, Icons.assignment_return,
-                            AppLocalizations.of(context)!.navCreditNotes),
-                        (13, Icons.assignment_late_outlined, Icons.assignment_late,
-                            AppLocalizations.of(context)!.navDebitNotes),
+                        (
+                          12,
+                          Icons.assignment_return_outlined,
+                          Icons.assignment_return,
+                          AppLocalizations.of(context)!.navCreditNotes
+                        ),
+                        (
+                          13,
+                          Icons.assignment_late_outlined,
+                          Icons.assignment_late,
+                          AppLocalizations.of(context)!.navDebitNotes
+                        ),
                       ],
                       if (ref.watch(cashUpiExchangeEnabledProvider))
-                        (9, Icons.currency_exchange, Icons.currency_exchange,
-                            AppLocalizations.of(context)!.navServices),
-                      if (showPurchaseBillsAndSuppliers && !_purchaseBillsLocked) ...[
-                        (10, Icons.shopping_cart_outlined, Icons.shopping_cart,
-                            AppLocalizations.of(context)!.navPurchaseBills),
-                        (11, Icons.local_shipping_outlined, Icons.local_shipping,
-                            AppLocalizations.of(context)!.navSuppliers),
+                        (
+                          9,
+                          Icons.currency_exchange,
+                          Icons.currency_exchange,
+                          AppLocalizations.of(context)!.navServices
+                        ),
+                      if (showPurchaseBillsAndSuppliers &&
+                          !_purchaseBillsLocked) ...[
+                        (
+                          10,
+                          Icons.shopping_cart_outlined,
+                          Icons.shopping_cart,
+                          AppLocalizations.of(context)!.navPurchaseBills
+                        ),
+                        (
+                          11,
+                          Icons.local_shipping_outlined,
+                          Icons.local_shipping,
+                          AppLocalizations.of(context)!.navSuppliers
+                        ),
                       ],
                       if (!_reportsLocked)
-                        (7, Icons.bar_chart_outlined, Icons.bar_chart,
-                            AppLocalizations.of(context)!.navReports),
+                        (
+                          7,
+                          Icons.bar_chart_outlined,
+                          Icons.bar_chart,
+                          AppLocalizations.of(context)!.navReports
+                        ),
                     ]),
                     _buildNavItem(8, Icons.settings_outlined, Icons.settings,
                         AppLocalizations.of(context)!.navSettings,
@@ -915,6 +954,23 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         fontSize: 11),
                                   ),
                                 ],
+                              ),
+                            ),
+                            Tooltip(
+                              message:
+                                  AppLocalizations.of(context)!.myAccountTitle,
+                              child: InkWell(
+                                onTap: () =>
+                                    showMyAccountDialog(context, _currentUser),
+                                borderRadius: BorderRadius.circular(6),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6),
+                                  child: Icon(Icons.manage_accounts_outlined,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                      size: 18),
+                                ),
                               ),
                             ),
                             Tooltip(
@@ -997,17 +1053,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       Center(
                         child: Tooltip(
                           message: _currentUser.username,
-                          child: CircleAvatar(
-                            radius: 15,
-                            backgroundColor: primary.withValues(alpha: 0.12),
-                            child: Text(
-                              _currentUser.username.isNotEmpty
-                                  ? _currentUser.username[0].toUpperCase()
-                                  : '?',
-                              style: TextStyle(
-                                  color: primary,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold),
+                          child: InkWell(
+                            customBorder: const CircleBorder(),
+                            onTap: () =>
+                                showMyAccountDialog(context, _currentUser),
+                            child: CircleAvatar(
+                              radius: 15,
+                              backgroundColor: primary.withValues(alpha: 0.12),
+                              child: Text(
+                                _currentUser.username.isNotEmpty
+                                    ? _currentUser.username[0].toUpperCase()
+                                    : '?',
+                                style: TextStyle(
+                                    color: primary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ),
@@ -1185,12 +1246,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         LayoutBuilder(builder: (context, constraints) {
           final wide = constraints.maxWidth > 110;
           final header = InkWell(
-            onTap: containsSelected ? null : () => setState(() => _moreExpanded = !_moreExpanded),
+            onTap: containsSelected
+                ? null
+                : () => setState(() => _moreExpanded = !_moreExpanded),
             borderRadius: BorderRadius.circular(8),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: wide ? 12 : 0, vertical: 11),
+              padding:
+                  EdgeInsets.symmetric(horizontal: wide ? 12 : 0, vertical: 11),
               child: Row(
-                mainAxisAlignment: wide ? MainAxisAlignment.start : MainAxisAlignment.center,
+                mainAxisAlignment:
+                    wide ? MainAxisAlignment.start : MainAxisAlignment.center,
                 children: [
                   Icon(open ? Icons.expand_less : Icons.apps_outlined,
                       size: 20, color: scheme.onSurfaceVariant),
@@ -1198,18 +1263,28 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(l10n.navMore,
-                          style: TextStyle(color: scheme.onSurfaceVariant, fontWeight: FontWeight.w600)),
+                          style: TextStyle(
+                              color: scheme.onSurfaceVariant,
+                              fontWeight: FontWeight.w600)),
                     ),
-                    Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                        size: 18, color: scheme.onSurfaceVariant),
+                    Icon(
+                        open
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 18,
+                        color: scheme.onSurfaceVariant),
                   ],
                 ],
               ),
             ),
           );
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: wide ? 10 : 8, vertical: 2),
-            child: Tooltip(message: l10n.navMore, child: Material(type: MaterialType.transparency, child: header)),
+            padding:
+                EdgeInsets.symmetric(horizontal: wide ? 10 : 8, vertical: 2),
+            child: Tooltip(
+                message: l10n.navMore,
+                child:
+                    Material(type: MaterialType.transparency, child: header)),
           );
         }),
         AnimatedSize(
@@ -1400,7 +1475,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   hoverColor: primary.withValues(alpha: 0.06),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Icon(Icons.search, color: onSurfaceVariant, size: 20),
+                    child:
+                        Icon(Icons.search, color: onSurfaceVariant, size: 20),
                   ),
                 ),
               ),
@@ -1419,7 +1495,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               hoverColor: primary.withValues(alpha: 0.06),
               splashColor: primary.withValues(alpha: 0.1),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
                 child: Row(
                   children: [
                     Icon(Icons.search, color: onSurfaceVariant, size: 18),
@@ -1446,7 +1523,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 }
 
 /// Big shortcut tiles on the dashboard home.
-enum DashboardAction { newInvoice, newQuotation, newReceipt, invoices, customers, products }
+enum DashboardAction {
+  newInvoice,
+  newQuotation,
+  newReceipt,
+  invoices,
+  customers,
+  products
+}
 
 class DashboardHome extends ConsumerStatefulWidget {
   final Function(Invoice) onEditInvoice;
@@ -1698,9 +1782,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       title: Text(
         AppLocalizations.of(context)!.dashboardShortcutsBannerTitle,
         style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-            color: CvSwatch.success),
+            fontWeight: FontWeight.w600, fontSize: 13, color: CvSwatch.success),
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardShortcutsBannerSubtitle,
@@ -1728,9 +1810,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       title: Text(
         AppLocalizations.of(context)!.dashboardPurchaseBannerTitle,
         style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-            color: CvSwatch.neutral),
+            fontWeight: FontWeight.w600, fontSize: 13, color: CvSwatch.neutral),
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardPurchaseBannerSubtitle,
@@ -1754,9 +1834,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       title: Text(
         AppLocalizations.of(context)!.dashboardLayoutBannerTitle,
         style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-            color: CvSwatch.neutral),
+            fontWeight: FontWeight.w600, fontSize: 13, color: CvSwatch.neutral),
       ),
       subtitle: Text(
         AppLocalizations.of(context)!.dashboardLayoutBannerSubtitle,
@@ -1785,9 +1863,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
         AppLocalizations.of(context)!
             .dashboardSupportBannerTitle(_supportMilestone),
         style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-            color: CvSwatch.warning),
+            fontWeight: FontWeight.w600, fontSize: 13, color: CvSwatch.warning),
       ),
       subtitle: Text(
         isReviewMilestone
@@ -2139,14 +2215,14 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                 borderRadius:
                                                     BorderRadius.circular(6),
                                                 border: Border.all(
-                                                  color:
-                                                      invoice.type == 'Invoice'
-                                                          ? CvSwatch.neutral
-                                                              .withValues(
-                                                                  alpha: 0.35)
-                                                          : CvSwatch.warning
-                                                              .withValues(
-                                                                  alpha: 0.35),
+                                                  color: invoice.type ==
+                                                          'Invoice'
+                                                      ? CvSwatch.neutral
+                                                          .withValues(
+                                                              alpha: 0.35)
+                                                      : CvSwatch.warning
+                                                          .withValues(
+                                                              alpha: 0.35),
                                                 ),
                                               ),
                                               child: Text(
@@ -2341,21 +2417,21 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                                                   InvoicePdfServices.previewPDF(
                                                       context, invoice)),
                                           if (!invoice.isDraft) ...[
-                                          _buildActionButton(
-                                              Icons.download_outlined,
-                                              CvSwatch.neutral,
-                                              AppLocalizations.of(context)!
-                                                  .actionDownloadPdf,
-                                              () => PDFService.downloadPDF(
-                                                  context, invoice)),
-                                          _buildActionButton(
-                                              Icons.print_outlined,
-                                              CvSwatch.neutral,
-                                              AppLocalizations.of(context)!
-                                                  .actionPrint,
-                                              () => InvoicePdfServices
-                                                  .generatePDF(
-                                                      context, invoice)),
+                                            _buildActionButton(
+                                                Icons.download_outlined,
+                                                CvSwatch.neutral,
+                                                AppLocalizations.of(context)!
+                                                    .actionDownloadPdf,
+                                                () => PDFService.downloadPDF(
+                                                    context, invoice)),
+                                            _buildActionButton(
+                                                Icons.print_outlined,
+                                                CvSwatch.neutral,
+                                                AppLocalizations.of(context)!
+                                                    .actionPrint,
+                                                () => InvoicePdfServices
+                                                    .generatePDF(
+                                                        context, invoice)),
                                           ],
                                           _buildActionButton(
                                               Icons.payments_outlined,
@@ -2431,12 +2507,42 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
     if (cb == null) return const SizedBox.shrink();
     final l10n = AppLocalizations.of(context)!;
     final tiles = <(IconData, String, String?, DashboardAction)>[
-      (Icons.receipt_long_rounded, l10n.quickActionNewInvoice, 'Ctrl+Q', DashboardAction.newInvoice),
-      (Icons.request_quote_outlined, l10n.quickActionNewQuotation, null, DashboardAction.newQuotation),
-      (Icons.payments_outlined, l10n.quickActionNewReceipt, null, DashboardAction.newReceipt),
-      (Icons.folder_open_rounded, l10n.quickActionInvoices, null, DashboardAction.invoices),
-      (Icons.person_add_alt_1_outlined, l10n.quickActionCustomers, null, DashboardAction.customers),
-      (Icons.inventory_2_outlined, l10n.quickActionProducts, null, DashboardAction.products),
+      (
+        Icons.receipt_long_rounded,
+        l10n.quickActionNewInvoice,
+        'Ctrl+Q',
+        DashboardAction.newInvoice
+      ),
+      (
+        Icons.request_quote_outlined,
+        l10n.quickActionNewQuotation,
+        null,
+        DashboardAction.newQuotation
+      ),
+      (
+        Icons.payments_outlined,
+        l10n.quickActionNewReceipt,
+        null,
+        DashboardAction.newReceipt
+      ),
+      (
+        Icons.folder_open_rounded,
+        l10n.quickActionInvoices,
+        null,
+        DashboardAction.invoices
+      ),
+      (
+        Icons.person_add_alt_1_outlined,
+        l10n.quickActionCustomers,
+        null,
+        DashboardAction.customers
+      ),
+      (
+        Icons.inventory_2_outlined,
+        l10n.quickActionProducts,
+        null,
+        DashboardAction.products
+      ),
     ];
     return Padding(
       padding: const EdgeInsets.only(top: 20),
@@ -2557,7 +2663,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               decoration: BoxDecoration(
                 color: CvSwatch.warning.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: CvSwatch.warning.withValues(alpha: 0.4)),
+                border:
+                    Border.all(color: CvSwatch.warning.withValues(alpha: 0.4)),
               ),
               child: Text(
                 AppLocalizations.of(context)!
@@ -2738,7 +2845,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               decoration: BoxDecoration(
                 color: CvSwatch.danger.withValues(alpha: 0.10),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: CvSwatch.danger.withValues(alpha: 0.4)),
+                border:
+                    Border.all(color: CvSwatch.danger.withValues(alpha: 0.4)),
               ),
               child: Text(
                 AppLocalizations.of(context)!
@@ -2958,7 +3066,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             Text(
               low
                   ? AppLocalizations.of(context)!.productMgmtLowStockTabLabel
-                  : AppLocalizations.of(context)!.dashboardOutOfStockSectionTitle,
+                  : AppLocalizations.of(context)!
+                      .dashboardOutOfStockSectionTitle,
               style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -2976,9 +3085,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 AppLocalizations.of(context)!
                     .dashboardItemCountLabel(products.length),
                 style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: alert),
+                    fontSize: 12, fontWeight: FontWeight.w600, color: alert),
               ),
             ),
             const Spacer(),
@@ -2997,8 +3104,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppBorderRadius.xsmall),
-                  side: BorderSide(
-                      color: alert.withValues(alpha: 0.3), width: 1),
+                  side:
+                      BorderSide(color: alert.withValues(alpha: 0.3), width: 1),
                 ),
                 child: Padding(
                   padding:
@@ -3012,8 +3119,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           color: alert.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(Icons.inventory_2,
-                            color: alert, size: 20),
+                        child: Icon(Icons.inventory_2, color: alert, size: 20),
                       ),
                       const SizedBox(width: 16),
                       // Name & type
@@ -3057,8 +3163,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                         decoration: BoxDecoration(
                           color: alert.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                              color: alert.withValues(alpha: 0.4)),
+                          border:
+                              Border.all(color: alert.withValues(alpha: 0.4)),
                         ),
                         child: Text(
                           AppLocalizations.of(context)!
@@ -3070,14 +3176,14 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                         ),
                       ),
                       if (!_stockLocked) ...[
-                      const SizedBox(width: 12),
-                      // Update stock button
-                      _buildActionButton(
-                        Icons.add_box_outlined,
-                        CvSwatch.success,
-                        AppLocalizations.of(context)!.actionUpdateStock,
-                        () => _showUpdateStockDialog(product),
-                      ),
+                        const SizedBox(width: 12),
+                        // Update stock button
+                        _buildActionButton(
+                          Icons.add_box_outlined,
+                          CvSwatch.success,
+                          AppLocalizations.of(context)!.actionUpdateStock,
+                          () => _showUpdateStockDialog(product),
+                        ),
                       ],
                     ],
                   ),
@@ -3159,8 +3265,10 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                     value,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: 18, color: scheme.onSurface),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(fontSize: 18, color: scheme.onSurface),
                   ),
                 ],
               ),
@@ -3281,7 +3389,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
               decoration: BoxDecoration(
                   color: CvSwatch.danger.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8)),
-              child: const Icon(Icons.warning_amber_rounded, color: CvSwatch.danger),
+              child: const Icon(Icons.warning_amber_rounded,
+                  color: CvSwatch.danger),
             ),
             const SizedBox(width: 12),
             Text(l10n.dashboardDeleteInvoiceTitle),
@@ -4075,8 +4184,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
         default:
           final isOver = InvoiceCalculator.isOverdue(
               dueDate: inv.dueDate, outstanding: inv.outstandingBalance);
-          statusColor =
-              isOver ? CvSwatch.danger : CvSwatch.neutral;
+          statusColor = isOver ? CvSwatch.danger : CvSwatch.neutral;
           statusLabel = isOver
               ? l10n.dashboardOverdueSectionTitle
               : l10n.paymentStatusUnpaid;
@@ -4154,19 +4262,19 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
           ],
           // Drafts have no number yet — no PDF, like the invoice list.
           if (!inv.isDraft)
-          Tooltip(
-            message: 'Download PDF',
-            child: InkWell(
-              onTap: () => PDFService.downloadPDF(context, inv),
-              borderRadius: BorderRadius.circular(6),
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Icon(Icons.download_outlined,
-                    size: 15,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant),
+            Tooltip(
+              message: 'Download PDF',
+              child: InkWell(
+                onTap: () => PDFService.downloadPDF(context, inv),
+                borderRadius: BorderRadius.circular(6),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Icon(Icons.download_outlined,
+                      size: 15,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -4274,14 +4382,15 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 decoration: BoxDecoration(
                     color: alert.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8)),
-                child: Icon(Icons.inventory_2_outlined,
-                    color: alert, size: 15),
+                child: Icon(Icons.inventory_2_outlined, color: alert, size: 15),
               ),
               const SizedBox(width: 8),
               Text(
                   low
-                      ? AppLocalizations.of(context)!.productMgmtLowStockTabLabel
-                      : AppLocalizations.of(context)!.dashboardOutOfStockSectionTitle,
+                      ? AppLocalizations.of(context)!
+                          .productMgmtLowStockTabLabel
+                      : AppLocalizations.of(context)!
+                          .dashboardOutOfStockSectionTitle,
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -4314,41 +4423,43 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                         low
                             ? AppLocalizations.of(context)!
                                 .dashboardStockLabel(p.stock)
-                            : AppLocalizations.of(context)!.dashboardZeroLeftLabel,
+                            : AppLocalizations.of(context)!
+                                .dashboardZeroLeftLabel,
                         style: TextStyle(
                             fontSize: 12,
                             color: alert,
                             fontWeight: FontWeight.w600)),
                     if (!_stockLocked) ...[
-                    const SizedBox(width: 6),
-                    Tooltip(
-                      message: AppLocalizations.of(context)!.actionUpdateStock,
-                      child: InkWell(
-                        onTap: () => _showUpdateStockDialog(p),
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: CvSwatch.success.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.add_box_outlined,
-                                  size: 13, color: CvSwatch.success),
-                              const SizedBox(width: 4),
-                              Text(AppLocalizations.of(context)!.labelStock,
-                                  style: const TextStyle(
-                                      fontSize: 11,
-                                      color: CvSwatch.success,
-                                      fontWeight: FontWeight.w600)),
-                            ],
+                      const SizedBox(width: 6),
+                      Tooltip(
+                        message:
+                            AppLocalizations.of(context)!.actionUpdateStock,
+                        child: InkWell(
+                          onTap: () => _showUpdateStockDialog(p),
+                          borderRadius: BorderRadius.circular(7),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: CvSwatch.success.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.add_box_outlined,
+                                    size: 13, color: CvSwatch.success),
+                                const SizedBox(width: 4),
+                                Text(AppLocalizations.of(context)!.labelStock,
+                                    style: const TextStyle(
+                                        fontSize: 11,
+                                        color: CvSwatch.success,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     ],
                   ],
                 ),
@@ -4366,8 +4477,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-            color: CvSwatch.danger.withValues(alpha: 0.2), width: 1),
+        border:
+            Border.all(color: CvSwatch.danger.withValues(alpha: 0.2), width: 1),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -4442,8 +4553,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 5),
                           decoration: BoxDecoration(
-                            color:
-                                CvSwatch.neutral.withValues(alpha: 0.1),
+                            color: CvSwatch.neutral.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(7),
                           ),
                           child: Row(
@@ -4511,10 +4621,8 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
             });
           }),
           const SizedBox(height: 4),
-          _buildQuickActionRow(
-              Icons.person_add_outlined,
-              AppLocalizations.of(context)!.navCustomers,
-              CvSwatch.neutral, () {
+          _buildQuickActionRow(Icons.person_add_outlined,
+              AppLocalizations.of(context)!.navCustomers, CvSwatch.neutral, () {
             if (!mounted) return;
             context
                 .findAncestorStateOfType<_DashboardScreenState>()
@@ -4528,20 +4636,18 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                   .findAncestorStateOfType<_DashboardScreenState>()
                   ?._reportsLocked !=
               true) ...[
-          const SizedBox(height: 4),
-          _buildQuickActionRow(
-              Icons.bar_chart_outlined,
-              AppLocalizations.of(context)!.navReports,
-              CvSwatch.success, () {
-            if (!mounted) return;
-            context
-                .findAncestorStateOfType<_DashboardScreenState>()
-                ?.setState(() {
+            const SizedBox(height: 4),
+            _buildQuickActionRow(Icons.bar_chart_outlined,
+                AppLocalizations.of(context)!.navReports, CvSwatch.success, () {
+              if (!mounted) return;
               context
                   .findAncestorStateOfType<_DashboardScreenState>()
-                  ?._selectedIndex = 7;
-            });
-          }),
+                  ?.setState(() {
+                context
+                    .findAncestorStateOfType<_DashboardScreenState>()
+                    ?._selectedIndex = 7;
+              });
+            }),
           ],
         ],
       ),
@@ -4897,8 +5003,7 @@ class _DashboardHomeState extends ConsumerState<DashboardHome> {
                 children: [
                   CircleAvatar(
                     radius: 13,
-                    backgroundColor:
-                        CvSwatch.neutral.withValues(alpha: 0.1),
+                    backgroundColor: CvSwatch.neutral.withValues(alpha: 0.1),
                     child: Text(
                       name.isNotEmpty ? name[0].toUpperCase() : '?',
                       style: const TextStyle(
@@ -5033,7 +5138,9 @@ class _QuickActionTile extends StatelessWidget {
         color: bg,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(CvRadius.md),
-          side: primary ? BorderSide.none : BorderSide(color: scheme.outlineVariant),
+          side: primary
+              ? BorderSide.none
+              : BorderSide(color: scheme.outlineVariant),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
@@ -5055,7 +5162,8 @@ class _QuickActionTile extends StatelessWidget {
                   if (shortcut != null) ...[
                     const SizedBox(height: 2),
                     Text(shortcut!,
-                        style: TextStyle(color: fg.withValues(alpha: 0.75), fontSize: 11)),
+                        style: TextStyle(
+                            color: fg.withValues(alpha: 0.75), fontSize: 11)),
                   ],
                 ],
               ),

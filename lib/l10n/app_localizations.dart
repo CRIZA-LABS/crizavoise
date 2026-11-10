@@ -11232,6 +11232,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message copied. Paste it into an SMS.'**
   String get paymentReminderCopied;
+
+  /// No description provided for @numberPadDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get numberPadDelete;
+
+  /// No description provided for @pinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick sign-in PIN'**
+  String get pinTitle;
+
+  /// No description provided for @pinOnHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'On: tap your picture on the sign-in screen and enter your PIN.'**
+  String get pinOnHelp;
+
+  /// No description provided for @pinOffHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in faster with a 4–6 digit PIN instead of typing your password.'**
+  String get pinOffHelp;
+
+  /// No description provided for @pinSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Set PIN'**
+  String get pinSet;
+
+  /// No description provided for @pinChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get pinChange;
+
+  /// No description provided for @pinRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get pinRemove;
+
+  /// No description provided for @pinSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN saved. Next time, tap your picture on the sign-in screen.'**
+  String get pinSaved;
+
+  /// No description provided for @pinRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN removed.'**
+  String get pinRemoved;
+
+  /// No description provided for @pinSetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your PIN'**
+  String get pinSetTitle;
+
+  /// No description provided for @pinSetPasswordPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'First, type your password to confirm it\'s you.'**
+  String get pinSetPasswordPrompt;
+
+  /// No description provided for @pinSetChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a 4–6 digit PIN.'**
+  String get pinSetChoose;
+
+  /// No description provided for @pinSetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the same PIN again.'**
+  String get pinSetConfirm;
+
+  /// No description provided for @pinTooSimple.
+  ///
+  /// In en, this message translates to:
+  /// **'That PIN is too easy to guess. Avoid 1111 or 1234.'**
+  String get pinTooSimple;
+
+  /// No description provided for @pinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The PINs didn\'t match. Please choose again.'**
+  String get pinMismatch;
+
+  /// No description provided for @pinPasswordWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'That password isn\'t right.'**
+  String get pinPasswordWrong;
+
+  /// No description provided for @pinEnterPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN'**
+  String get pinEnterPrompt;
+
+  /// No description provided for @pinWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'{left, plural, =1{Wrong PIN. 1 try left.} other{Wrong PIN. {left} tries left.}}'**
+  String pinWrong(int left);
+
+  /// No description provided for @pinLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong PINs. Sign in with your password once to unlock the PIN.'**
+  String get pinLocked;
+
+  /// No description provided for @pinUsePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Use password'**
+  String get pinUsePassword;
+
+  /// No description provided for @pinQuickSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick sign-in'**
+  String get pinQuickSignIn;
+
+  /// No description provided for @pinSignInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in as {name} with PIN'**
+  String pinSignInAs(String name);
+
+  /// No description provided for @pinOrPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'or use your password'**
+  String get pinOrPassword;
+
+  /// No description provided for @myAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get myAccountTitle;
+
+  /// No description provided for @myAccountChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get myAccountChangePassword;
+
+  /// No description provided for @myAccountNewRecoveryCode.
+  ///
+  /// In en, this message translates to:
+  /// **'New recovery code'**
+  String get myAccountNewRecoveryCode;
+
+  /// No description provided for @myAccountNewRecoveryCodeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost your code? Make a new one; the old one stops working.'**
+  String get myAccountNewRecoveryCodeHelp;
+
+  /// No description provided for @myAccountConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your password'**
+  String get myAccountConfirmPassword;
 }
 
 class _AppLocalizationsDelegate
