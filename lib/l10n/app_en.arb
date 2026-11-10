@@ -3540,5 +3540,7 @@
   "productQuickCodeTaken": "This code is already used by another item.",
   "productMgmtCsvDescQuickCode": "Optional short code for fast search (letters, numbers, -; unique). Codes already used by another item are skipped.",
   "productSearchByCodeHint": "Name, quick code or HSN",
-  "navMore": "More"
+  "navMore": "More",
+  "reduceMotionTitle": "Reduce motion",
+  "reduceMotionSubtitle": "Turn animations down to simple fades. Also follows your computer's setting."
 }

@@ -10394,6 +10394,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More'**
   String get navMore;
+
+  /// No description provided for @reduceMotionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get reduceMotionTitle;
+
+  /// No description provided for @reduceMotionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn animations down to simple fades. Also follows your computer\'s setting.'**
+  String get reduceMotionSubtitle;
 }
 
 class _AppLocalizationsDelegate

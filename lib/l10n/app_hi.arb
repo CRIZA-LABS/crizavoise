@@ -1545,5 +1545,7 @@
   "productQuickCodeTaken": "यह कोड किसी दूसरे आइटम में इस्तेमाल हो चुका है।",
   "productMgmtCsvDescQuickCode": "जल्दी खोजने का वैकल्पिक छोटा कोड (अक्षर, अंक, -; अलग-अलग)। दूसरे आइटम में इस्तेमाल हो चुके कोड छोड़ दिए जाते हैं।",
   "productSearchByCodeHint": "नाम, क्विक कोड या HSN",
-  "navMore": "और"
+  "navMore": "और",
+  "reduceMotionTitle": "एनिमेशन कम करें",
+  "reduceMotionSubtitle": "एनिमेशन को साधारण फ़ेड तक कम करें। आपके कंप्यूटर की सेटिंग भी मानी जाती है।"
 }

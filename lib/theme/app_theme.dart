@@ -234,12 +234,29 @@ class AppTheme {
             s.contains(WidgetState.selected) ? p.primary : p.surface3),
       ),
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
-        TargetPlatform.windows: FadeForwardsPageTransitionsBuilder(),
-        TargetPlatform.linux: FadeForwardsPageTransitionsBuilder(),
-        TargetPlatform.macOS: FadeForwardsPageTransitionsBuilder(),
-        TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
-        TargetPlatform.iOS: FadeForwardsPageTransitionsBuilder(),
+        TargetPlatform.windows: CvPageTransitionsBuilder(),
+        TargetPlatform.linux: CvPageTransitionsBuilder(),
+        TargetPlatform.macOS: CvPageTransitionsBuilder(),
+        TargetPlatform.android: CvPageTransitionsBuilder(),
+        TargetPlatform.iOS: CvPageTransitionsBuilder(),
       }),
     );
+  }
+}
+
+
+/// Page transition: a short fade-forward; with reduced motion, a plain fade
+/// only (no movement), per the motion rules in docs/brand.md.
+class CvPageTransitionsBuilder extends PageTransitionsBuilder {
+  const CvPageTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(PageRoute<T> route, BuildContext context,
+      Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    if (MediaQuery.maybeDisableAnimationsOf(context) == true) {
+      return FadeTransition(opacity: animation, child: child);
+    }
+    return const FadeForwardsPageTransitionsBuilder()
+        .buildTransitions(route, context, animation, secondaryAnimation, child);
   }
 }

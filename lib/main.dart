@@ -14,6 +14,7 @@ import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
 import 'package:crizavoise/providers/repositories.dart';
 import 'package:crizavoise/providers/sqlite_repository_overrides.dart';
 import 'package:crizavoise/providers/theme_provider.dart';
+import 'package:crizavoise/providers/motion_provider.dart';
 import 'package:crizavoise/theme/app_theme.dart';
 import 'package:crizavoise/theme/tokens.dart';
 import 'package:crizavoise/migration/legacy_data_migration.dart';
@@ -154,6 +155,13 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
     _loadAppLocale();
     _loadPurchaseBillsAndSuppliersEnabled();
+    _loadReduceMotion();
+  }
+
+  Future<void> _loadReduceMotion() async {
+    final v = await ref.read(settingsRepositoryProvider).getSetting(SettingKey.reduceMotion);
+    if (!mounted) return;
+    ref.read(reduceMotionProvider.notifier).state = v == 'true';
   }
 
 
@@ -190,6 +198,13 @@ class _MyAppState extends ConsumerState<MyApp> {
         FallbackLocalizationsDelegate<WidgetsLocalizations>(GlobalWidgetsLocalizations.delegate),
         FallbackLocalizationsDelegate<CupertinoLocalizations>(GlobalCupertinoLocalizations.delegate),
       ],
+      // Reduce motion: the in-app setting OR the OS preference turns
+      // animations down everywhere (widgets read MediaQuery.disableAnimations).
+      builder: (context, child) {
+        final mq = MediaQuery.of(context);
+        final reduce = ref.watch(reduceMotionProvider) || mq.disableAnimations;
+        return MediaQuery(data: mq.copyWith(disableAnimations: reduce), child: child!);
+      },
       home: const SplashScreen(),
     );
   }

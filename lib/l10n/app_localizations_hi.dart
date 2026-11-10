@@ -6123,4 +6123,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get navMore => 'और';
+
+  @override
+  String get reduceMotionTitle => 'एनिमेशन कम करें';
+
+  @override
+  String get reduceMotionSubtitle =>
+      'एनिमेशन को साधारण फ़ेड तक कम करें। आपके कंप्यूटर की सेटिंग भी मानी जाती है।';
 }

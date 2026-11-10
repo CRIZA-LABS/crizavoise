@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/providers/motion_provider.dart';
 import 'package:crizavoise/database/invoice_number_service.dart';
 import 'package:crizavoise/providers/cash_exchange_settings_provider.dart';
 import 'package:crizavoise/providers/purchase_bills_settings_provider.dart';
@@ -326,6 +327,25 @@ class _AccessibilityScreenState extends ConsumerState<AccessibilityScreen> {
                                 .onSurfaceVariant)),
                     value: ref.watch(returnsEnabledProvider),
                     onChanged: _setReturnsEnabled,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  child: SwitchListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    secondary: const Icon(Icons.motion_photos_off_outlined),
+                    title: Text(l10n.reduceMotionTitle,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                    subtitle: Text(l10n.reduceMotionSubtitle,
+                        style: TextStyle(
+                            fontSize: AppFontSize.xsmall,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                    value: ref.watch(reduceMotionProvider),
+                    onChanged: (v) async {
+                      await ref.read(settingsRepositoryProvider)
+                          .setSetting(SettingKey.reduceMotion, v.toString());
+                      ref.read(reduceMotionProvider.notifier).state = v;
+                    },
                   ),
                 ),
                 const SizedBox(height: 16),

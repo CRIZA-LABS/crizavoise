@@ -6227,4 +6227,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get navMore => 'Plus';
+
+  @override
+  String get reduceMotionTitle => 'Reduce motion';
+
+  @override
+  String get reduceMotionSubtitle =>
+      'Turn animations down to simple fades. Also follows your computer\'s setting.';
 }

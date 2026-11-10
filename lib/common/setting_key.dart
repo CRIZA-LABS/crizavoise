@@ -117,6 +117,7 @@ enum SettingKey {
   returnsBannerDismissed, // '1' once user dismisses the product-returns notice on the Invoices list
   amountSeparator, // AmountSeparator.key: 'none' | 'international' | 'indian'
   customInvoiceNumberAccess, // who may type invoice numbers: 'off' | 'admins' | 'everyone' (CustomNumberAccess)
+  reduceMotion, // 'true' = turn animations down (accessibility)
 }
 
 extension SettingKeyExtension on SettingKey {
@@ -266,6 +267,8 @@ extension SettingKeyExtension on SettingKey {
         return 'hide_invoice_number_by_default';
       case SettingKey.customInvoiceNumberAccess:
         return 'custom_invoice_number_access';
+      case SettingKey.reduceMotion:
+        return 'reduce_motion';
       case SettingKey.showDescriptionInPdf:
         return 'show_description_in_pdf';
       case SettingKey.descriptionNewLineInPdf:
