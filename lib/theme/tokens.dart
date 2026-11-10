@@ -6,19 +6,22 @@
 import 'package:flutter/material.dart';
 
 /// Raw brand hues. Use for the logo and accents, not body text.
-/// The logo ("Ribbon V") uses Criza Labs' red and blue ribbons on the Criza
-/// navy plate; magenta appears only at the fold seam.
+/// Sampled from the Criza Labs master logo: the red folded-ribbon "A", the
+/// blue of the "C", the magenta seam and the app-icon navy. The CrizaVoise
+/// mark (the Criza "A" turned into a V) uses exactly these.
 class CvBrand {
   static const red = Color(0xFFFD352A);
   static const pink = Color(0xFFF51E91);
   static const blue = Color(0xFF019FFB);
 
-  static const ribbonRed = Color(0xFFE2231A);
-  static const ribbonRedLight = Color(0xFFFF5A3C);
-  static const ribbonBlue = Color(0xFF0A8EF0);
-  static const ribbonBlueLight = Color(0xFF3CC8FF);
-  static const navy = Color(0xFF071426);
-  static const navyTop = Color(0xFF122A4C);
+  static const ribbonRed = Color(0xFFF61B15);
+  static const ribbonRedLight = Color(0xFFFD533A);
+  static const ribbonBlue = Color(0xFF00A6F5);
+  static const ribbonBlueLight = Color(0xFF0AD3FF);
+  static const ribbonBlueDeep = Color(0xFF0046BC);
+  static const magenta = Color(0xFFF50FA5);
+  static const navy = Color(0xFF031326);
+  static const navyTop = Color(0xFF0A2240);
 
   /// The two-ribbon pairing (red → blue) for accent strokes and highlights.
   static const ribbonGradient = LinearGradient(

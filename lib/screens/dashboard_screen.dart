@@ -573,13 +573,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           Positioned(
                             left: 16,
                             right: 36,
-                            child: SvgPicture.asset(
+                            child: Image.asset(
                               Theme.of(context).brightness == Brightness.dark
-                                  ? BrandAssets.lockupCompactDark
-                                  : BrandAssets.lockupCompactLight,
-                              height: 32,
-                              fit: BoxFit.fitHeight,
-                              semanticsLabel: AppConfig.name,
+                                  ? BrandAssets.lockupDark
+                                  : BrandAssets.lockupLight,
+                              height: 36, // Criza lockup minimum
+                              fit: BoxFit.contain,
+                              alignment: Alignment.centerLeft,
+                              filterQuality: FilterQuality.medium,
+                              semanticLabel: AppConfig.name,
                             ),
                           ),
                           Positioned(

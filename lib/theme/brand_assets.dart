@@ -1,24 +1,21 @@
 /// Paths of the CrizaVoise brand assets (see docs/brand.md).
+///
+/// The family follows Criza Labs: the app mark is the Criza "A" ribbon turned
+/// into a V (vector), and the lockup "CRIZA VOISE." is built from the Criza
+/// master lettering exactly like "CRIZA LABS." (raster, as the parent's is).
 class BrandAssets {
-  /// App-icon mark: Ribbon V on the navy plate. Use at 48px and up.
+  /// App-icon mark (Criza V on the navy plate). Use at 48px and up.
   static const mark = 'assets/brand/mark.svg';
 
-  /// Same mark without the fold seam, for 16–47px.
+  /// Same mark, simplified and enlarged for 16–47px.
   static const markSmall = 'assets/brand/mark-small.svg';
-  static const markMono = 'assets/brand/mark-mono.svg';
 
-  /// Unplated Ribbon V (transparent background).
+  /// Criza V without the plate; mono version uses currentColor.
   static const symbol = 'assets/brand/symbol.svg';
   static const symbolMono = 'assets/brand/symbol-mono.svg';
 
-  static const wordmarkLight = 'assets/brand/wordmark-light.svg';
-  static const wordmarkDark = 'assets/brand/wordmark-dark.svg';
-
-  /// Endorsed lockup (mark + wordmark + "BY CRIZA LABS"). Min height 48px.
-  static const lockupLight = 'assets/brand/lockup-light.svg';
-  static const lockupDark = 'assets/brand/lockup-dark.svg';
-
-  /// Compact lockup (mark + wordmark), for headers under 48px tall.
-  static const lockupCompactLight = 'assets/brand/lockup-compact-light.svg';
-  static const lockupCompactDark = 'assets/brand/lockup-compact-dark.svg';
+  /// "CRIZA VOISE." lockup (PNG, 216px tall). Minimum display height 36px;
+  /// below that use [mark] alone.
+  static const lockupLight = 'assets/brand/lockup-light.png';
+  static const lockupDark = 'assets/brand/lockup-dark.png';
 }

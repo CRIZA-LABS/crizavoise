@@ -1,276 +1,260 @@
-// CrizaVoise brand v2 — "Ribbon V".
-// A V/check built from Criza Labs' two ribbons (red short arm, blue long arm
-// folding over it), on the Criza navy plate. Wordmark in Bricolage Grotesque,
-// endorsement line in Inter. Usage:
-//   node build-brand-v2.js <repoRoot> <fontsDir> <outPreviewDir> [--preview-only]
+// CrizaVoise brand builder (v3) — consistent with the Criza Labs identity.
+//
+// 1. The mark ("Criza V"): the folded-ribbon "A" from the Criza master logo,
+//    rebuilt as vectors from its own geometry (flat cap, parallel legs,
+//    horizontal feet, highlight streak, dark crease) and turned upside down.
+//    Left leg = Criza red (the A), right leg = Criza blue (the C), fold cap =
+//    the C's magenta seam. On the Criza app-icon navy (#031326).
+// 2. The lockup "CRIZA VOISE.": built exactly like Criza's "CRIZA LABS."
+//    (scripts/build-logo.mjs in the Criza site): the master CRIZA lettering
+//    without its big dot, then the product word in Inter SemiBold at 0.25em
+//    tracking on the letters' baseline, ending in a small copy of the dot.
+//
+// Usage: node build-brand.js <repoRoot> <crizaSiteRoot> <previewDir> [--preview-only]
 const fs = require('fs');
 const path = require('path');
 const fontkit = require('fontkit');
 const sharp = require('sharp');
 
-const [, , repo, fontsDir, previewDir, flag] = process.argv;
+const [, , repo, crizaRoot, previewDir, flag] = process.argv;
 const previewOnly = flag === '--preview-only';
+const FONTS = path.join(repo, 'assets', 'fonts');
+const MASTER = path.join(crizaRoot, 'logo', 'logo no tag.png');
 
-// ---- Palette (from Criza Labs: logo ribbons, site tokens, app-icon plate) ----
-const P = {
-  navy: '#071426', navyTop: '#122a4c', // plate (Criza app icon background)
-  red1: '#ff5a3c', red2: '#e2231a', red3: '#a5121b', // red ribbon (tip → fold)
-  blue1: '#3cc8ff', blue2: '#0a8ef0', blue3: '#0a4fb3', // blue ribbon (tip → fold)
-  seam: '#f51e91', // Criza magenta, only at the fold seam
-  inkLight: '#12131a', inkDark: '#f6f2ea',
-  voiseLight: '#0a5ea8', voiseDark: '#5cc0ff', // = app primary tokens (AA text)
-  mutedLight: '#4a4e59', mutedDark: '#b3b7c2',
+// Colours sampled from the Criza master logo and app icon.
+const C = {
+  plate: '#031326', plateTop: '#0a2240',
+  capLight: '#fd533a', redHi: '#fd2526', red: '#f61b15', redDeep: '#de0017', redLow: '#d91306',
+  blueHi: '#0ad3ff', blue: '#00a6f5', blueDeep: '#0046bc', blueCrease: '#00297a',
+  magenta: '#f50fa5', shadow: '#70021f',
+  silverTop: '#fdfeff', silverLow: '#e3eaf2', inkDark: '#f6f2ea', inkLight: '#12131a',
 };
 
-// ---- Geometry on a 64 grid ------------------------------------------------------
-// Centre-lines A (left tip) → V (vertex) → B (right tip), ribbon thickness T.
-// Mitred vertex; both tips cut HORIZONTALLY, like the feet of the Criza "A"
-// (this V is that A turned upside down). The result is centred in the plate.
-const T = 9.6;
-const A0 = [1, 17], V0 = [10, 36.5], B0 = [31, 4];
-const sub = (a, b) => [a[0] - b[0], a[1] - b[1]], add = (a, b) => [a[0] + b[0], a[1] + b[1]];
-const mul = (a, k) => [a[0] * k, a[1] * k], norm = (a) => { const l = Math.hypot(a[0], a[1]); return [a[0] / l, a[1] / l]; };
-const perp = (d) => [d[1], -d[0]];
-function meet(p1, d1, p2, d2) { // intersection of p1+s*d1 and p2+u*d2
-  const den = d1[0] * d2[1] - d1[1] * d2[0];
-  const s2 = ((p2[0] - p1[0]) * d2[1] - (p2[1] - p1[1]) * d2[0]) / den;
-  return add(p1, mul(d1, s2));
-}
-const atY = (p, d, y) => add(p, mul(d, (y - p[1]) / d[1]));
-const dL = norm(sub(V0, A0)), dR = norm(sub(B0, V0));
-const nL = perp(dL), nR = perp(dR); // nL points up-right (inner), nR points down-right (outer)
-const h = T / 2;
-const Lin = add(A0, mul(nL, h)), Lout = add(A0, mul(nL, -h));
-const Rout = add(V0, mul(nR, h)), Rin = add(V0, mul(nR, -h));
-const miterIn = meet(Lin, dL, Rin, dR), miterOut = meet(Lout, dL, Rout, dR);
-const yTopL = A0[1] - 2, yTopR = B0[1];
-let LEFT_PTS = [atY(Lout, dL, yTopL), atY(Lin, dL, yTopL), miterIn, miterOut];
-let RIGHT_PTS = [miterIn, atY(Rin, dR, yTopR), atY(Rout, dR, yTopR), miterOut];
-// seam: sliver of the red arm along the blue arm's inner edge
-let SEAM_PTS = [miterIn, miterOut, add(miterOut, mul(dL, -3.2)), add(miterIn, mul(dL, -3.2))];
-// centre in the 64 plate (optical: nudge 1 unit down so the mass sits centred)
-const all = [...LEFT_PTS, ...RIGHT_PTS];
-const minX = Math.min(...all.map((p) => p[0])), maxX = Math.max(...all.map((p) => p[0]));
-const minY = Math.min(...all.map((p) => p[1])), maxY = Math.max(...all.map((p) => p[1]));
-const off = [32 - (minX + maxX) / 2, 33 - (minY + maxY) / 2];
-const fix = (pts) => pts.map((p) => add(p, off).map((v) => +v.toFixed(2)));
-LEFT_PTS = fix(LEFT_PTS); RIGHT_PTS = fix(RIGHT_PTS); SEAM_PTS = fix(SEAM_PTS);
-const poly = (pts) => 'M' + pts.map((p) => p.join(' ')).join('L') + 'Z';
-const LEFT = poly(LEFT_PTS), RIGHT = poly(RIGHT_PTS), SEAM = poly(SEAM_PTS);
-const M_in = LEFT_PTS[2], M_out = LEFT_PTS[3], A_out = LEFT_PTS[0], B_out = RIGHT_PTS[2];
-const SYM_VB = `${(minX + off[0] - 2).toFixed(1)} ${(minY + off[1] - 2).toFixed(1)} ${(maxX - minX + 4).toFixed(1)} ${(maxY - minY + 4).toFixed(1)}`;
-console.error('V bbox w,h =', (maxX-minX).toFixed(1), (maxY-minY).toFixed(1));
+// ---- Geometry of the Criza "A" (units from a 3x crop of the master) -------------
+// Feet at y=630, flat top at y=45; outer slopes ±0.58; legs meet at (478,240).
+const A = {
+  left: [[378, 45], [591, 45], [251, 630], [38, 630]],
+  right: [[375, 45], [588, 45], [930, 630], [706, 630]],
+  cap: [[378, 45], [588, 45], [478, 240]],
+  crease: [[478, 240], [706, 630], [795, 630], [522, 272]],
+  streak: [[408, 60], [446, 60], [128, 612], [92, 612]],
+  // thin shadow where the cap folds over each leg
+  capShadowL: [[478, 240], [378, 45], [366, 66], [466, 262]],
+  capShadowR: [[478, 240], [588, 45], [600, 66], [490, 262]],
+};
+// Flip vertically (A → V) and normalise to a 0..W x 0..H box.
+const minX = 38, maxX = 930, minY = 45, maxY = 630;
+const VW = maxX - minX, VH = maxY - minY; // 892 x 585
+const flip = (pts) => pts.map(([x, y]) => [+(x - minX).toFixed(1), +(maxY - y).toFixed(1)]);
+const d = (pts) => 'M' + flip(pts).map((p) => p.join(' ')).join('L') + 'Z';
 
 const lin = (id, x1, y1, x2, y2, stops) =>
   `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">` +
   stops.map(([o, c, a]) => `<stop offset="${o}" stop-color="${c}"${a !== undefined ? ` stop-opacity="${a}"` : ''}/>`).join('') +
-  `</linearGradient>`;
+  '</linearGradient>';
 
-function ribbonDefs(s) {
-  return lin(`${s}r`, A_out[0], A_out[1], M_out[0], M_out[1], [[0, P.red1], [0.6, P.red2], [1, P.red3]]) +
-    lin(`${s}b`, B_out[0], B_out[1], M_in[0], M_out[1], [[0, P.blue1], [0.55, P.blue2], [1, P.blue3]]) +
-    lin(`${s}s`, M_in[0], M_in[1], M_in[0] - 3.2, M_in[1] + 6, [[0, P.seam, 0.95], [1, P.seam, 0]]);
+// V in its own coordinate box (0..892 x 0..585). `p` prefixes gradient ids.
+function vDefs(p) {
+  return lin(`${p}L`, 0, 0, 440, VH, [[0, C.redHi], [0.45, C.red], [1, C.redDeep]]) +
+    lin(`${p}R`, VW, 0, 440, VH, [[0, C.blueHi], [0.5, C.blue], [1, C.blueDeep]]) +
+    lin(`${p}K`, 340, 0, 520, VH, [[0, C.blueCrease, 0.0], [0.45, C.blueCrease, 0.55], [1, C.blueCrease, 0.9]]) +
+    lin(`${p}C`, 340, VH, 550, VH, [[0, C.capLight], [0.55, '#ff3a6e'], [1, C.magenta]]) +
+    lin(`${p}S`, 0, 0, 300, VH, [[0, '#ffffff', 0.32], [1, '#ffffff', 0]]) +
+    lin(`${p}D`, 0, VH - 200, 0, VH, [[0, C.shadow, 0], [1, C.shadow, 0.55]]);
 }
-const ribbons = (s, detail = true) =>
-  `<path d="${LEFT}" fill="url(#${s}r)"/>` +
-  (detail ? `<path d="${SEAM}" fill="url(#${s}s)"/>` : '') +
-  `<path d="${RIGHT}" fill="url(#${s}b)"/>`;
-
-const plate = (s) =>
-  `<rect width="64" height="64" rx="14" fill="url(#${s}p)"/>` +
-  `<rect x=".5" y=".5" width="63" height="63" rx="13.5" fill="none" stroke="#ffffff" stroke-opacity=".08"/>`;
-const plateDef = (s) => lin(`${s}p`, 0, 0, 0, 64, [[0, P.navyTop], [1, P.navy]]);
+function vBody(p, detail = true) {
+  return `<path d="${d(A.left)}" fill="url(#${p}L)"/>` +
+    (detail ? `<path d="${d(A.streak)}" fill="url(#${p}S)"/>` : '') +
+    `<path d="${d(A.right)}" fill="url(#${p}R)"/>` +
+    (detail ? `<path d="${d(A.crease)}" fill="url(#${p}K)"/>` : '') +
+    (detail ? `<path d="${d(A.capShadowL)}" fill="url(#${p}D)"/><path d="${d(A.capShadowR)}" fill="url(#${p}D)"/>` : '') +
+    `<path d="${d(A.cap)}" fill="url(#${p}C)"/>`;
+}
 
 const svg = (vb, body, label = 'CrizaVoise') =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" role="img" aria-label="${label}">${body}</svg>`;
 
-// App icon (plated) — full detail, and a small-size version without the seam.
-const markSvg = svg('0 0 64 64', `<defs>${plateDef('m')}${ribbonDefs('m')}</defs>${plate('m')}${ribbons('m')}`);
-const markSmallSvg = svg('0 0 64 64', `<defs>${plateDef('k')}${ribbonDefs('k')}</defs>${plate('k')}${ribbons('k', false)}`);
-// Unplated symbol (transparent) — for in-app use and Windows unplated assets.
-const symbolSvg = svg(SYM_VB, `<defs>${ribbonDefs('y')}</defs>${ribbons('y')}`);
-// Monochrome symbol (currentColor) with a hairline gap so the fold still reads.
-const monoSvg = svg(SYM_VB,
-  `<defs><mask id="g"><rect x="0" y="0" width="64" height="64" fill="#fff"/>` +
-  `<path d="M${M_in.join(' ')}L${M_out.join(' ')}" stroke="#000" stroke-width="1.6"/></mask></defs>` +
-  `<g fill="currentColor" mask="url(#g)"><path d="${LEFT}"/><path d="${RIGHT}"/></g>`);
-const markMonoSvg = svg('0 0 64 64',
-  `<defs><mask id="mm"><rect width="64" height="64" rx="14" fill="#fff"/>` +
-  `<path d="${LEFT}" fill="#000"/><path d="${RIGHT}" fill="#000"/></mask></defs>` +
-  `<rect width="64" height="64" rx="14" fill="currentColor" mask="url(#mm)"/>`);
-
-// ---- Type outlining ------------------------------------------------------------
-const brico = fontkit.openSync(path.join(fontsDir, 'BricolageGrotesque-Variable.ttf')).getVariation({ wght: 760, opsz: 48, wdth: 100 });
-const inter = fontkit.openSync(path.join(fontsDir, 'Inter-Variable.ttf')).getVariation({ wght: 600, opsz: 14 });
-
-function outline(font, text, size, startX = 0, trackingEm = 0) {
-  const scale = size / font.unitsPerEm;
-  const run = font.layout(text);
-  let x = startX / scale;
-  const parts = [];
-  run.glyphs.forEach((g, i) => {
-    parts.push(g.path.scale(scale, -scale).translate(x * scale, font.ascent * scale).toSVG());
-    x += run.positions[i].xAdvance + trackingEm * font.unitsPerEm;
-  });
-  return { d: parts.join(''), width: x * scale, ascent: font.ascent * scale, capH: font.capHeight * scale, descent: -font.descent * scale };
-}
-
-const WM = 100; // wordmark size
-const criza = outline(brico, 'Criza', WM, 0, -0.025);
-const voise = outline(brico, 'Voise', WM, criza.width, -0.025);
-const wmW = Math.ceil(voise.width) + 2;
-const wmTop = criza.ascent - criza.capH - 2; // crop to cap height
-const wmH = Math.ceil(criza.capH + criza.descent * 0.35 + 4);
-const wordmark = (cInk, vInk) =>
-  svg(`0 ${wmTop.toFixed(1)} ${wmW} ${wmH}`, `<path d="${criza.d}" fill="${cInk}"/><path d="${voise.d}" fill="${vInk}"/>`);
-
-// Endorsed lockup: mark | wordmark over "by Criza Labs".
-function lockup(theme, endorse = true, plated = true) {
-  const cInk = theme === 'dark' ? P.inkDark : P.inkLight;
-  const vInk = theme === 'dark' ? P.voiseDark : P.voiseLight;
-  const muted = theme === 'dark' ? P.mutedDark : P.mutedLight;
-  const capH = criza.capH;
-  const by = outline(inter, 'BY CRIZA LABS', capH * 0.30, 0, 0.16);
-  const markSize = endorse ? capH * 1.62 : capH * 1.3;
-  const gap = markSize * 0.3;
-  const textX = markSize + gap;
-  const totalH = markSize;
-  const textBlockH = capH + (endorse ? capH * 0.30 + capH * 0.30 : 0);
-  const textTop = (totalH - textBlockH) / 2;
-  const w = Math.ceil(textX + Math.max(voise.width, by.width)) + 2;
-  const s = markSize / 64;
-  const markBody = plated
-    ? `<defs>${plateDef('lp')}${ribbonDefs('lp')}</defs><g transform="scale(${s})">${plate('lp')}${ribbons('lp')}</g>`
-    : `<defs>${ribbonDefs('lp')}</defs><g transform="scale(${s})">${ribbons('lp')}</g>`;
-  const wmY = textTop - (criza.ascent - capH);
-  let body = markBody +
-    `<g transform="translate(${textX} ${wmY})"><path d="${criza.d}" fill="${cInk}"/><path d="${voise.d}" fill="${vInk}"/></g>`;
-  if (endorse) {
-    const byY = textTop + capH + capH * 0.30 - (by.ascent - by.capH);
-    body += `<g transform="translate(${textX + 2} ${byY})"><path d="${by.d}" fill="${muted}"/></g>`;
-  }
-  return svg(`0 0 ${w} ${Math.ceil(totalH)}`, body);
+// Plated app icon on a 1024 canvas; the V fills 70% of the width (80% in the
+// small-size variant), optically centred.
+function iconSvg(p, detail = true, rounded = true, fill = 0.70) {
+  const S = 1024, vw = S * fill, k = vw / VW, vh = VH * k;
+  const tx = (S - vw) / 2, ty = (S - vh) / 2 + S * 0.01;
+  const plate = rounded
+    ? `<rect width="${S}" height="${S}" rx="${S * 0.22}" fill="url(#${p}P)"/>` +
+      `<rect x="6" y="6" width="${S - 12}" height="${S - 12}" rx="${S * 0.22 - 6}" fill="none" stroke="#ffffff" stroke-opacity=".07" stroke-width="6"/>`
+    : `<rect width="${S}" height="${S}" fill="url(#${p}P)"/>`;
+  return svg(`0 0 ${S} ${S}`,
+    `<defs>${lin(`${p}P`, 0, 0, 0, S, [[0, C.plateTop], [1, C.plate]])}${vDefs(p)}</defs>${plate}` +
+    `<g transform="translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${k.toFixed(5)})">${vBody(p, detail)}</g>`);
 }
 
 const files = {
-  'mark.svg': markSvg,
-  'mark-small.svg': markSmallSvg,
-  'symbol.svg': symbolSvg,
-  'symbol-mono.svg': monoSvg,
-  'mark-mono.svg': markMonoSvg,
-  'wordmark-light.svg': wordmark(P.inkLight, P.voiseLight),
-  'wordmark-dark.svg': wordmark(P.inkDark, P.voiseDark),
-  'wordmark-mono.svg': wordmark('currentColor', 'currentColor'),
-  'lockup-light.svg': lockup('light'),
-  'lockup-dark.svg': lockup('dark'),
-  'lockup-compact-light.svg': lockup('light', false),
-  'lockup-compact-dark.svg': lockup('dark', false),
+  'mark.svg': iconSvg('m'),
+  'mark-small.svg': iconSvg('s', false, true, 0.80),
+  'symbol.svg': svg(`-20 -20 ${VW + 40} ${VH + 40}`, `<defs>${vDefs('y')}</defs>${vBody('y')}`),
+  'symbol-mono.svg': svg(`-20 -20 ${VW + 40} ${VH + 40}`,
+    `<g fill="currentColor"><path d="${d(A.left)}"/><path d="${d(A.right)}"/></g>` +
+    `<path d="${d(A.cap)}" fill="none" stroke="#fff" stroke-opacity="0" />`),
 };
 
-async function png(svgStr, w, h) {
-  return sharp(Buffer.from(svgStr), { density: 1600 }).resize(w, h ?? w, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+// ---- Lockup: "CRIZA VOISE." (mirrors Criza's build-logo.mjs) --------------------
+async function buildLockup(height, theme) {
+  const ink = theme === 'dark' ? C.inkDark : C.inkLight;
+  const FONT_SIZE = Math.round(height * 0.32);
+  const GAP = Math.round(height * 0.14);
+
+  const master = await sharp(MASTER).trim({ threshold: 10 }).png().toBuffer({ resolveWithObject: true });
+  const raw = await sharp(master.data).raw().toBuffer({ resolveWithObject: true });
+  const inkInColumn = (x) => {
+    for (let y = 0; y < raw.info.height; y++) if (raw.data[(y * raw.info.width + x) * raw.info.channels + 3] > 40) return true;
+    return false;
+  };
+  let split = raw.info.width - 1;
+  while (split > 0 && inkInColumn(split)) split--;
+  const lettersWidth = split;
+  while (lettersWidth > 0 && !inkInColumn(split)) split--;
+
+  let criza = await sharp(master.data).extract({ left: 0, top: 0, width: split + 1, height: master.info.height })
+    .resize({ height, kernel: 'lanczos3' }).png().toBuffer({ resolveWithObject: true });
+  let dotSrc = await sharp(master.data)
+    .extract({ left: lettersWidth + 1, top: 0, width: master.info.width - lettersWidth - 1, height: master.info.height })
+    .trim({ threshold: 10 }).png().toBuffer();
+
+  // Light backgrounds: the silver letters/dot become ink; the red A and the
+  // C keep their colours (only low-saturation, bright pixels are recoloured).
+  if (theme === 'light') {
+    const recolor = async (buf) => {
+      const r = await sharp(buf).raw().toBuffer({ resolveWithObject: true });
+      const [ir, ig, ib] = [1, 3, 5].map((i) => parseInt(C.inkLight.slice(i, i + 2), 16));
+      for (let i = 0; i < r.data.length; i += r.info.channels) {
+        const [R, G, B] = [r.data[i], r.data[i + 1], r.data[i + 2]];
+        const max = Math.max(R, G, B), min = Math.min(R, G, B);
+        const sat = max === 0 ? 0 : (max - min) / max;
+        if (sat < 0.16 && max > 150) { r.data[i] = ir; r.data[i + 1] = ig; r.data[i + 2] = ib; }
+      }
+      return sharp(r.data, { raw: r.info }).png().toBuffer({ resolveWithObject: true });
+    };
+    criza = await recolor(criza.data);
+    dotSrc = (await recolor(dotSrc)).data;
+  }
+
+  // "VOISE" in Inter SemiBold, 0.25em tracking, outlined with fontkit.
+  const inter = fontkit.openSync(path.join(FONTS, 'Inter-Variable.ttf')).getVariation({ wght: 600, opsz: 32 });
+  const sc = FONT_SIZE / inter.unitsPerEm;
+  const run = inter.layout('VOISE');
+  let x = 0; const parts = [];
+  run.glyphs.forEach((g, i) => {
+    parts.push(g.path.scale(sc, -sc).translate(x * sc, inter.ascent * sc).toSVG());
+    x += run.positions[i].xAdvance + (i < run.glyphs.length - 1 ? 0.25 * inter.unitsPerEm : 0);
+  });
+  const wW = Math.ceil(x * sc) + 4, wH = Math.ceil((inter.ascent - inter.descent) * sc);
+  const word = await sharp(Buffer.from(svg(`0 0 ${wW} ${wH}`, `<path d="${parts.join('')}" fill="${ink}"/>`)), { density: 300 })
+    .resize({ width: wW * 2 }).resize({ width: wW }).trim({ threshold: 0 }).png().toBuffer({ resolveWithObject: true });
+
+  // Baseline: lowest solid row across "RIZ".
+  const { data, info } = await sharp(criza.data).raw().toBuffer({ resolveWithObject: true });
+  const solid = (y) => { let c = 0; for (let xx = Math.round(info.width * 0.25); xx < Math.round(info.width * 0.6); xx++) if (data[(y * info.width + xx) * info.channels + 3] > 128) c++; return c; };
+  let baseline = info.height - 1;
+  while (baseline > 0 && solid(baseline) < 5) baseline--;
+
+  const DOT = Math.round(word.info.height * 0.5);
+  const dot = await sharp(dotSrc).resize({ width: DOT, height: DOT, fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+  const DOT_GAP = Math.round(FONT_SIZE * 0.12);
+  const width = criza.info.width + GAP + word.info.width + DOT_GAP + DOT;
+  return sharp({ create: { width, height, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+    .composite([
+      { input: criza.data, left: 0, top: 0 },
+      { input: word.data, left: criza.info.width + GAP, top: baseline + 1 - word.info.height },
+      { input: dot, left: criza.info.width + GAP + word.info.width + DOT_GAP, top: baseline + 1 - DOT },
+    ]).png({ compressionLevel: 9 }).toBuffer();
 }
 
-// ICO writer: PNG-compressed entries (supported since Windows Vista).
+const png = (s, w) => sharp(Buffer.from(s), { density: 300 }).resize(w, w, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
+
 function ico(entries) {
   const header = Buffer.alloc(6); header.writeUInt16LE(0, 0); header.writeUInt16LE(1, 2); header.writeUInt16LE(entries.length, 4);
-  const dir = Buffer.alloc(16 * entries.length);
-  let offset = 6 + dir.length;
+  const dir = Buffer.alloc(16 * entries.length); let off = 6 + dir.length;
   entries.forEach(({ size, data }, i) => {
-    const o = i * 16;
-    dir.writeUInt8(size >= 256 ? 0 : size, o); dir.writeUInt8(size >= 256 ? 0 : size, o + 1);
-    dir.writeUInt8(0, o + 2); dir.writeUInt8(0, o + 3); dir.writeUInt16LE(1, o + 4); dir.writeUInt16LE(32, o + 6);
-    dir.writeUInt32LE(data.length, o + 8); dir.writeUInt32LE(offset, o + 12); offset += data.length;
+    const o = i * 16; dir.writeUInt8(size >= 256 ? 0 : size, o); dir.writeUInt8(size >= 256 ? 0 : size, o + 1);
+    dir.writeUInt16LE(1, o + 4); dir.writeUInt16LE(32, o + 6); dir.writeUInt32LE(data.length, o + 8); dir.writeUInt32LE(off, o + 12); off += data.length;
   });
   return Buffer.concat([header, dir, ...entries.map((e) => e.data)]);
 }
 
 (async () => {
   fs.mkdirSync(previewDir, { recursive: true });
+  const lockDark = await buildLockup(216, 'dark');
+  const lockLight = await buildLockup(216, 'light');
 
-  // ---- Small-size + background test sheet: current vs new ----
-  const current = fs.readFileSync(path.join(repo, 'assets', 'brand', 'mark.svg'), 'utf8');
-  const sizes = [16, 24, 32, 48, 96];
-  const rows = [['Current', current, current], ['New', markSvg, markSmallSvg]];
-  const bgs = [['#f3f3f3', 'light taskbar'], ['#202020', 'dark taskbar']];
-  const comps = []; let y = 20;
-  const labels = [];
-  for (const [bg] of bgs) {
-    for (const [name, big, small] of rows) {
-      let x = 150;
-      for (const s of sizes) {
-        comps.push({ input: await png(s <= 32 ? small : big, s), left: x, top: y + Math.round((96 - s) / 2) });
-        x += s + 40;
-      }
-      labels.push({ name, y: y + 54, bg });
-      y += 116;
-    }
-  }
-  const sheetW = 150 + sizes.reduce((a, s) => a + s + 40, 0), sheetH = y + 10;
-  const half = sheetH / 2;
-  const bgSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${sheetW}" height="${sheetH}">` +
-    `<rect width="${sheetW}" height="${half}" fill="${bgs[0][0]}"/><rect y="${half}" width="${sheetW}" height="${half}" fill="${bgs[1][0]}"/>` +
-    labels.map((l) => `<text x="20" y="${l.y}" font-family="Segoe UI,Arial" font-size="22" font-weight="600" fill="${l.bg === '#202020' ? '#eee' : '#222'}">${l.name}</text>`).join('') +
-    `</svg>`;
-  await sharp(Buffer.from(bgSvg)).composite(comps).png().toFile(path.join(previewDir, 'size-test.png'));
+  // ---- Family sheet: Criza Labs next to CrizaVoise -------------------------------
+  const W = 1500, H = 980;
+  const crizaIcon = await sharp(path.join(crizaRoot, 'public', 'brand', 'icon-512.png')).resize(200).png().toBuffer();
+  const crizaLabs = await sharp(path.join(crizaRoot, 'public', 'brand', 'logo-labs.png')).resize({ height: 72 }).png().toBuffer();
+  const ld = await sharp(lockDark).resize({ height: 72 }).png().toBuffer();
+  const ll = await sharp(lockLight).resize({ height: 72 }).png().toBuffer();
+  const ourIcon = await png(files['mark.svg'], 200);
+  const sizes = [16, 24, 32, 48];
+  const smalls = []; let sx = 760;
+  for (const s of sizes) { smalls.push({ input: await png(s < 48 ? files['mark-small.svg'] : files['mark.svg'], s), left: sx, top: 905 - s }); sx += s + 30; }
+  const smallsLight = []; sx = 1060;
+  for (const s of sizes) { smallsLight.push({ input: await png(s < 48 ? files['mark-small.svg'] : files['mark.svg'], s), left: sx, top: 905 - s }); sx += s + 30; }
+  const bg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">` +
+    `<rect width="${W}" height="${H}" fill="#08090d"/><rect x="0" y="560" width="${W}" height="${H - 560}" fill="#08090d"/>` +
+    `<rect x="40" y="580" width="680" height="360" rx="16" fill="#f4efe6"/>` +
+    `<rect x="1040" y="840" width="${W - 1080}" height="100" rx="12" fill="#f3f3f3"/>` +
+    `<g font-family="Segoe UI, Arial" fill="#b3b7c2" font-size="22" font-weight="600">` +
+    `<text x="40" y="44">PARENT · Criza Labs</text><text x="760" y="44">PRODUCT · CrizaVoise</text>` +
+    `<text x="760" y="820">16 · 24 · 32 · 48 px (dark / light taskbar)</text></g></svg>`;
+  await sharp(Buffer.from(bg)).composite([
+    { input: crizaIcon, left: 40, top: 80 }, { input: crizaLabs, left: 40, top: 330 },
+    { input: ourIcon, left: 760, top: 80 }, { input: ld, left: 760, top: 330 },
+    { input: ll, left: 80, top: 640 },
+    { input: await sharp(lockLight).resize({ height: 44 }).png().toBuffer(), left: 80, top: 760 },
+    { input: await png(files['symbol.svg'], 160), left: 520, top: 690 },
+    ...smalls, ...smallsLight,
+  ]).png().toFile(path.join(previewDir, 'family.png'));
+  if (previewOnly) { console.log('preview written'); return; }
 
-  // ---- Lockup sheet ----
-  const lw = 900;
-  const lockL = await sharp(Buffer.from(files['lockup-light.svg']), { density: 900 }).resize({ width: 640 }).png().toBuffer();
-  const lockD = await sharp(Buffer.from(files['lockup-dark.svg']), { density: 900 }).resize({ width: 640 }).png().toBuffer();
-  const monoL = await sharp(Buffer.from(files['symbol-mono.svg'].replace(/currentColor/g, '#12131a')), { density: 900 }).resize(120).png().toBuffer();
-  const big = await png(markSvg, 220);
-  const sheet2 = `<svg xmlns="http://www.w3.org/2000/svg" width="${lw}" height="720"><rect width="${lw}" height="360" fill="#f4efe6"/><rect y="360" width="${lw}" height="360" fill="#08090d"/></svg>`;
-  await sharp(Buffer.from(sheet2)).composite([
-    { input: lockL, left: 40, top: 60 }, { input: monoL, left: 740, top: 200 },
-    { input: lockD, left: 40, top: 420 }, { input: big, left: 660, top: 470 },
-  ]).png().toFile(path.join(previewDir, 'lockups.png'));
-
-  if (previewOnly) { console.log('preview written', previewDir); return; }
-
-  // ---- Write assets ----
+  // ---- Write assets ---------------------------------------------------------------
   const outBrand = path.join(repo, 'assets', 'brand');
   const outDocs = path.join(repo, 'docs', 'brand');
-  for (const d of [outBrand, outDocs]) {
-    for (const f of fs.readdirSync(d)) if (f.endsWith('.svg')) fs.unlinkSync(path.join(d, f));
-    for (const [n, s] of Object.entries(files)) fs.writeFileSync(path.join(d, n), s);
+  for (const dir of [outBrand, outDocs]) {
+    fs.mkdirSync(dir, { recursive: true });
+    for (const f of fs.readdirSync(dir)) if (/\.(svg|png)$/.test(f)) fs.unlinkSync(path.join(dir, f));
+    for (const [n, s] of Object.entries(files)) fs.writeFileSync(path.join(dir, n), s);
+    fs.writeFileSync(path.join(dir, 'lockup-dark.png'), lockDark);
+    fs.writeFileSync(path.join(dir, 'lockup-light.png'), lockLight);
   }
-  const icons = path.join(outBrand, 'icons');
-  fs.mkdirSync(icons, { recursive: true });
-  fs.writeFileSync(path.join(icons, 'icon-1024.png'), await png(markSvg, 1024));
-  // Android adaptive: ribbons centred in the 66% safe zone on a navy layer.
-  const fg = svg('-14 -12 92 92', `<defs>${ribbonDefs('a')}</defs>${ribbons('a')}`);
-  fs.writeFileSync(path.join(icons, 'android-foreground.png'), await png(fg, 1024));
-  const bgL = svg('0 0 64 64', `<defs>${plateDef('b')}</defs><rect width="64" height="64" fill="url(#bp)"/>`);
-  fs.writeFileSync(path.join(icons, 'android-background.png'), await png(bgL, 1024));
-  // Windows ICO: Microsoft's minimum set plus common scale steps; the
-  // seam-less small mark below 48px keeps the silhouette crisp.
+  fs.copyFileSync(path.join(previewDir, 'family.png'), path.join(outDocs, 'family.png'));
+
+  const icons = path.join(outBrand, 'icons'); fs.mkdirSync(icons, { recursive: true });
+  for (const f of fs.readdirSync(icons)) fs.unlinkSync(path.join(icons, f));
+  fs.writeFileSync(path.join(icons, 'icon-1024.png'), await png(files['mark.svg'], 1024));
+  // Android adaptive: V inside the 66% safe zone on a navy layer.
+  const fgVb = `${-VW * 0.62} ${-VH * 0.62 - VW * 0.31} ${VW * 2.24} ${VW * 2.24}`;
+  fs.writeFileSync(path.join(icons, 'android-foreground.png'), await png(svg(fgVb, `<defs>${vDefs('a')}</defs>${vBody('a')}`), 1024));
+  fs.writeFileSync(path.join(icons, 'android-background.png'),
+    await png(svg('0 0 64 64', `<defs>${lin('b', 0, 0, 0, 64, [[0, C.plateTop], [1, C.plate]])}</defs><rect width="64" height="64" fill="url(#b)"/>`), 1024));
   const icoSizes = [16, 20, 24, 30, 32, 36, 40, 48, 60, 64, 72, 80, 96, 256];
   const entries = [];
-  for (const s of icoSizes) entries.push({ size: s, data: await png(s < 48 ? markSmallSvg : markSvg, s) });
+  for (const s of icoSizes) entries.push({ size: s, data: await png(s < 48 ? files['mark-small.svg'] : files['mark.svg'], s) });
   fs.writeFileSync(path.join(repo, 'windows', 'runner', 'resources', 'app_icon.ico'), ico(entries));
-  // Linux/deb + web favicon
-  fs.writeFileSync(path.join(repo, 'web', 'favicon.png'), await png(markSmallSvg, 32));
+  fs.writeFileSync(path.join(repo, 'web', 'favicon.png'), await png(files['mark-small.svg'], 32));
   for (const s of [192, 512]) {
-    fs.writeFileSync(path.join(repo, 'web', 'icons', `Icon-${s}.png`), await png(markSvg, s));
-    fs.writeFileSync(path.join(repo, 'web', 'icons', `Icon-maskable-${s}.png`),
-      await png(svg('-8 -8 80 80', `<defs>${plateDef('w')}${ribbonDefs('w')}</defs><rect x="-8" y="-8" width="80" height="80" fill="url(#wp)"/>${ribbons('w')}`), s));
+    fs.writeFileSync(path.join(repo, 'web', 'icons', `Icon-${s}.png`), await png(files['mark.svg'], s));
+    fs.writeFileSync(path.join(repo, 'web', 'icons', `Icon-maskable-${s}.png`), await png(iconSvg('w', true, false, 0.56), s));
   }
-  // In-app PNG fallbacks
-  fs.writeFileSync(path.join(icons, 'lockup-light@2x.png'), await sharp(Buffer.from(files['lockup-light.svg']), { density: 600 }).resize({ height: 160 }).png().toBuffer());
-  fs.writeFileSync(path.join(icons, 'lockup-dark@2x.png'), await sharp(Buffer.from(files['lockup-dark.svg']), { density: 600 }).resize({ height: 160 }).png().toBuffer());
-
-  // OG image 1200x630 on Criza navy with ribbon glow
-  const ogLock = await sharp(Buffer.from(files['lockup-dark.svg']), { density: 900 }).resize({ width: 820 }).png().toBuffer();
-  const ogMeta = await sharp(ogLock).metadata();
+  // OG image
   const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs>` +
-    `<radialGradient id="r1" cx="8%" cy="0%" r="65%"><stop offset="0" stop-color="${P.red2}" stop-opacity=".28"/><stop offset="1" stop-color="#08090d" stop-opacity="0"/></radialGradient>` +
-    `<radialGradient id="r2" cx="96%" cy="100%" r="70%"><stop offset="0" stop-color="${P.blue2}" stop-opacity=".26"/><stop offset="1" stop-color="#08090d" stop-opacity="0"/></radialGradient></defs>` +
+    `<radialGradient id="r1" cx="10%" cy="0%" r="65%"><stop offset="0" stop-color="${C.red}" stop-opacity=".22"/><stop offset="1" stop-color="${C.plate}" stop-opacity="0"/></radialGradient>` +
+    `<radialGradient id="r2" cx="95%" cy="100%" r="70%"><stop offset="0" stop-color="${C.blue}" stop-opacity=".22"/><stop offset="1" stop-color="${C.plate}" stop-opacity="0"/></radialGradient></defs>` +
     `<rect width="1200" height="630" fill="#08090d"/><rect width="1200" height="630" fill="url(#r1)"/><rect width="1200" height="630" fill="url(#r2)"/>` +
-    `<text x="600" y="500" text-anchor="middle" font-family="Segoe UI, Arial" font-size="32" fill="#b3b7c2">Invoices made simple · criza.dev</text></svg>`;
-  await sharp(Buffer.from(og)).composite([{ input: ogLock, left: Math.round(600 - ogMeta.width / 2), top: Math.round(270 - ogMeta.height / 2) }]).png().toFile(path.join(repo, 'web', 'og.png'));
-  fs.copyFileSync(path.join(previewDir, 'size-test.png'), path.join(outDocs, 'size-test.png'));
-  fs.copyFileSync(path.join(previewDir, 'lockups.png'), path.join(outDocs, 'lockups.png'));
-  fs.writeFileSync(path.join(outDocs, 'preview-icon.png'), await png(markSvg, 512));
+    `<text x="600" y="520" text-anchor="middle" font-family="Segoe UI, Arial" font-size="30" fill="#b3b7c2">Invoices made simple · criza.dev</text></svg>`;
+  const ogLock = await sharp(lockDark).resize({ width: 760 }).png().toBuffer();
+  const ogMeta = await sharp(ogLock).metadata();
+  await sharp(Buffer.from(og)).composite([
+    { input: await png(files['mark.svg'], 170), left: 515, top: 110 },
+    { input: ogLock, left: Math.round(600 - ogMeta.width / 2), top: 330 },
+  ]).png().toFile(path.join(repo, 'web', 'og.png'));
   console.log('assets written');
 })();

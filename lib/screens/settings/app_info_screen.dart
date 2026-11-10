@@ -82,12 +82,13 @@ class _AppInfoScreenState extends ConsumerState<AppInfoScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SvgPicture.asset(
+                              Image.asset(
                                 Theme.of(context).brightness == Brightness.dark
-                                    ? BrandAssets.wordmarkDark
-                                    : BrandAssets.wordmarkLight,
-                                height: 30,
-                                semanticsLabel: cfg.name,
+                                    ? BrandAssets.lockupDark
+                                    : BrandAssets.lockupLight,
+                                height: 40,
+                                filterQuality: FilterQuality.medium,
+                                semanticLabel: cfg.name,
                               ),
                               const SizedBox(height: 6),
                               Text(

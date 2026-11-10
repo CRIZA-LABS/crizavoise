@@ -86,10 +86,14 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
+              SvgPicture.asset(BrandAssets.mark,
+                  width: 96, height: 96, semanticsLabel: AppConfig.name),
+              const SizedBox(height: CvSpace.lg),
+              Image.asset(
                 isDark ? BrandAssets.lockupDark : BrandAssets.lockupLight,
-                height: 72,
-                semanticsLabel: AppConfig.name,
+                height: 48,
+                filterQuality: FilterQuality.medium,
+                semanticLabel: AppConfig.name,
               ),
               const SizedBox(height: CvSpace.xl),
               Text(AppLocalizations.of(context)!.splashInitializingMessage,

@@ -20,7 +20,6 @@ import 'package:crizavoise/screens/help/help_search_screen.dart';
 import 'package:crizavoise/screens/settings/company_management_screen.dart';
 import 'package:crizavoise/screens/test_gate_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crizavoise/theme/brand_assets.dart';
 
 import 'package:crizavoise/providers/app_config_provider.dart';
@@ -253,14 +252,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SvgPicture.asset(
+                        Image.asset(
                           isDark
                               ? BrandAssets.lockupDark
                               : BrandAssets.lockupLight,
                           width: logoWidth,
-                          height: 64,
+                          height: 56,
                           fit: BoxFit.contain,
-                          semanticsLabel: AppConfig.name,
+                          filterQuality: FilterQuality.medium,
+                          semanticLabel: AppConfig.name,
                         ),
                         AppSpacing.hSmall,
                         if (!cfg.isCloud && _showDefaultCredsHint) ...[
