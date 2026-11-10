@@ -6190,289 +6190,285 @@ class AppLocalizationsGu extends AppLocalizations {
       'જૂના ઇન્વૉઇસનું ચિહ્ન બદલાતું નથી. થર્મલ રસીદ પર હંમેશા \"Rs.\" છપાય છે કારણ કે રસીદ પ્રિન્ટરમાં ₹ ચિહ્ન નથી.';
 
   @override
-  String get actionCopy => 'Copy';
+  String get actionCopy => 'કૉપી કરો';
 
   @override
-  String get actionContinue => 'Continue';
+  String get actionContinue => 'આગળ વધો';
 
   @override
-  String get authShowPassword => 'Show password';
+  String get authShowPassword => 'પાસવર્ડ બતાવો';
 
   @override
-  String get authHidePassword => 'Hide password';
+  String get authHidePassword => 'પાસવર્ડ છુપાવો';
 
   @override
-  String get authPasswordTooShort =>
-      'Use at least 8 characters for the password.';
+  String get authPasswordTooShort => 'પાસવર્ડમાં ઓછામાં ઓછા 8 અક્ષર રાખો.';
 
   @override
-  String get authPasswordIsUsername =>
-      'The password can\'t be the same as the username.';
+  String get authPasswordIsUsername => 'પાસવર્ડ અને યુઝરનેમ એકસરખા ન હોઈ શકે.';
 
   @override
-  String get authPasswordsDontMatch => 'The two passwords don\'t match.';
+  String get authPasswordsDontMatch => 'બંને પાસવર્ડ મેળ ખાતા નથી.';
 
   @override
-  String get authUsernameLabel => 'Username';
+  String get authUsernameLabel => 'યુઝરનેમ';
 
   @override
   String get authUsernameHelp =>
-      'You\'ll type this to sign in. Letters, numbers and . _ - @ (3–32 characters).';
+      'સાઇન ઇન કરવા તમે આ લખશો. અક્ષર, અંક અને . _ - @ (3–32 અક્ષર).';
 
   @override
   String get authUsernameRule =>
-      'Use 3–32 letters, numbers or . _ - @ for the username (no spaces).';
+      'યુઝરનેમમાં 3–32 અક્ષર, અંક અથવા . _ - @ વાપરો (સ્પેસ નહીં).';
 
   @override
-  String get authUsernameTaken =>
-      'That username is already used in this company.';
+  String get authUsernameTaken => 'આ યુઝરનેમ આ કંપનીમાં પહેલેથી વપરાય છે.';
 
   @override
-  String get authPasswordLabel => 'Password';
+  String get authPasswordLabel => 'પાસવર્ડ';
 
   @override
   String get authPasswordHelp =>
-      'At least 8 characters. A short sentence is easy to remember and hard to guess.';
+      'ઓછામાં ઓછા 8 અક્ષર. નાનું વાક્ય યાદ રાખવું સહેલું અને ધારવું મુશ્કેલ હોય છે.';
 
   @override
-  String get authConfirmPasswordLabel => 'Type the password again';
+  String get authConfirmPasswordLabel => 'પાસવર્ડ ફરીથી લખો';
 
   @override
-  String get authNewPasswordLabel => 'New password';
+  String get authNewPasswordLabel => 'નવો પાસવર્ડ';
 
   @override
   String get authSomethingWentWrong =>
-      'Something went wrong. Please try again.';
+      'કંઈક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો.';
 
   @override
-  String get createAccountTitle => 'Create your account';
+  String get createAccountTitle => 'તમારું એકાઉન્ટ બનાવો';
 
   @override
   String get createAccountIntro =>
-      'Choose the username and password you\'ll use to open CrizaVoise. You\'ll be the admin of this company.';
+      'CrizaVoise ખોલવા માટે યુઝરનેમ અને પાસવર્ડ પસંદ કરો. તમે આ કંપનીના એડમિન હશો.';
 
   @override
-  String get createAccountButton => 'Create account';
+  String get createAccountButton => 'એકાઉન્ટ બનાવો';
 
   @override
   String get createAccountPrivacyNote =>
-      'Your account stays on this computer. Nothing is sent online.';
+      'તમારું એકાઉન્ટ આ જ કમ્પ્યુટર પર રહે છે. કંઈ પણ ઓનલાઇન મોકલાતું નથી.';
 
   @override
-  String get recoveryCodeTitle => 'Recovery code';
+  String get recoveryCodeTitle => 'રિકવરી કોડ';
 
   @override
   String get recoveryCodeIntro =>
-      'If you ever forget your password, this code lets you set a new one. It\'s shown only now, so keep it somewhere safe.';
+      'જો તમે ક્યારેય પાસવર્ડ ભૂલી જાઓ, તો આ કોડથી નવો પાસવર્ડ બનાવી શકો છો. તે ફક્ત અત્યારે જ દેખાશે, તેથી તેને સાચવીને રાખો.';
 
   @override
-  String get recoveryCodeCopied => 'Recovery code copied.';
+  String get recoveryCodeCopied => 'રિકવરી કોડ કૉપી થયો.';
 
   @override
-  String get recoveryCodeSave => 'Save as file';
+  String get recoveryCodeSave => 'ફાઇલમાં સાચવો';
 
   @override
   String recoveryCodeSavedTo(String path) {
-    return 'Saved to $path';
+    return '$path માં સાચવ્યું';
   }
 
   @override
   String get recoveryCodeFileHelp =>
-      'Keep this file private. On the sign-in screen choose \"Forgot password?\" and enter this code to set a new password. Each code works once; a new one is shown after use.';
+      'આ ફાઇલ કોઈને બતાવશો નહીં. સાઇન-ઇન સ્ક્રીન પર \"પાસવર્ડ ભૂલી ગયા?\" પસંદ કરો અને નવો પાસવર્ડ બનાવવા આ કોડ દાખલ કરો. દરેક કોડ એક જ વાર ચાલે છે; વાપર્યા પછી નવો કોડ મળે છે.';
 
   @override
   String get recoveryCodeTipWrite =>
-      'Write it down, or save the file on a pen drive or phone.';
+      'તેને લખી લો, અથવા ફાઇલ પેન ડ્રાઇવ કે ફોનમાં સાચવો.';
 
   @override
   String get recoveryCodeTipPrivate =>
-      'Anyone with this code can reset your password, so keep it private.';
+      'જેની પાસે આ કોડ હશે તે તમારો પાસવર્ડ બદલી શકે છે, તેથી તે કોઈને આપશો નહીં.';
 
   @override
   String get recoveryCodeTipOnce =>
-      'Each code works once. After using it you\'ll get a new one.';
+      'દરેક કોડ એક જ વાર ચાલે છે. વાપર્યા પછી તમને નવો કોડ મળશે.';
 
   @override
-  String get recoveryCodeConfirm => 'I\'ve saved my recovery code';
+  String get recoveryCodeConfirm => 'મેં મારો રિકવરી કોડ સાચવી લીધો છે';
 
   @override
-  String get recoveryCodeLater => 'Later';
+  String get recoveryCodeLater => 'પછીથી';
 
   @override
-  String get forgotTitle => 'Forgot your password?';
+  String get forgotTitle => 'પાસવર્ડ ભૂલી ગયા?';
 
   @override
-  String get forgotIntro =>
-      'No problem. Choose how you\'d like to get back in.';
+  String get forgotIntro => 'કોઈ વાંધો નહીં. પાછા આવવાની રીત પસંદ કરો.';
 
   @override
   String forgotIntroCompany(String company) {
-    return 'No problem. Choose how you\'d like to get back in to $company.';
+    return 'કોઈ વાંધો નહીં. $company માં પાછા આવવાની રીત પસંદ કરો.';
   }
 
   @override
-  String get forgotUseRecoveryCode => 'Use my recovery code';
+  String get forgotUseRecoveryCode => 'મારો રિકવરી કોડ વાપરો';
 
   @override
   String get forgotUseRecoveryCodeHelp =>
-      'The code you saved when you created your account.';
+      'એકાઉન્ટ બનાવતી વખતે તમે જે કોડ સાચવ્યો હતો.';
 
   @override
-  String get forgotAskSupport => 'Get a code from Criza Labs';
+  String get forgotAskSupport => 'Criza Labs પાસેથી કોડ મેળવો';
 
   @override
   String get forgotAskSupportHelp =>
-      'If you lost your recovery code. We\'ll check it\'s you first.';
+      'જો રિકવરી કોડ ખોવાઈ ગયો હોય. પહેલાં અમે ખાતરી કરીશું કે તે તમે જ છો.';
 
   @override
   String get forgotAskAdmin =>
-      'Not the admin? Ask your admin to reset your password in Settings → Users.';
+      'એડમિન નથી? તમારા એડમિનને સેટિંગ્સ → યુઝર્સમાં પાસવર્ડ રીસેટ કરવા કહો.';
 
   @override
-  String get forgotBackToLogin => 'Back to sign in';
+  String get forgotBackToLogin => 'સાઇન ઇન પર પાછા જાઓ';
 
   @override
   String get forgotRecoveryCodeIntro =>
-      'Enter your username and recovery code. Spaces, dashes and capitals don\'t matter.';
+      'તમારું યુઝરનેમ અને રિકવરી કોડ દાખલ કરો. સ્પેસ, ડૅશ અને નાના-મોટા અક્ષરથી ફરક પડતો નથી.';
 
   @override
   String get forgotSupportIntro =>
-      'Email us this installation ID. After we confirm you own this business, we\'ll send a one-time code that works for about 3 days on this computer only.';
+      'આ ઇન્સ્ટોલેશન ID અમને ઇમેઇલ કરો. વ્યવસાય તમારો છે તેની ખાતરી પછી, અમે એક વાર ચાલતો કોડ મોકલીશું જે લગભગ 3 દિવસ સુધી ફક્ત આ કમ્પ્યુટર પર ચાલશે.';
 
   @override
-  String get forgotEmailSupport => 'Email support';
+  String get forgotEmailSupport => 'સપોર્ટને ઇમેઇલ કરો';
 
   @override
-  String get forgotSupportCodeLabel => 'Code from Criza Labs';
+  String get forgotSupportCodeLabel => 'Criza Labs તરફથી મળેલો કોડ';
 
   @override
-  String get forgotVerify => 'Check code';
+  String get forgotVerify => 'કોડ તપાસો';
 
   @override
-  String get forgotEnterUsernameAndCode => 'Enter your username and the code.';
+  String get forgotEnterUsernameAndCode => 'તમારું યુઝરનેમ અને કોડ દાખલ કરો.';
 
   @override
   String get forgotCodeInvalid =>
-      'That username and code don\'t match, or the code has expired.';
+      'યુઝરનેમ અને કોડ મેળ ખાતા નથી, અથવા કોડની મુદત પૂરી થઈ ગઈ છે.';
 
   @override
-  String get forgotNewPasswordTitle => 'Choose a new password';
+  String get forgotNewPasswordTitle => 'નવો પાસવર્ડ પસંદ કરો';
 
   @override
   String forgotNewPasswordFor(String username) {
-    return 'For $username';
+    return '$username માટે';
   }
 
   @override
-  String get forgotSetPassword => 'Save new password';
+  String get forgotSetPassword => 'નવો પાસવર્ડ સાચવો';
 
   @override
   String get forgotPasswordDone =>
-      'Password changed. Sign in with your new password.';
+      'પાસવર્ડ બદલાઈ ગયો. નવા પાસવર્ડથી સાઇન ઇન કરો.';
 
   @override
-  String get forgotInstallationIdLabel => 'Installation ID';
+  String get forgotInstallationIdLabel => 'ઇન્સ્ટોલેશન ID';
 
   @override
-  String get forgotInstallationIdCopied => 'Installation ID copied.';
+  String get forgotInstallationIdCopied => 'ઇન્સ્ટોલેશન ID કૉપી થયો.';
 
   @override
-  String get loginSetupTitle => 'Welcome to CrizaVoise';
+  String get loginSetupTitle => 'CrizaVoise માં આપનું સ્વાગત છે';
 
   @override
   String get loginSetupBody =>
-      'First, create the account you\'ll sign in with. It takes a minute.';
+      'સૌથી પહેલાં, સાઇન ઇન માટે તમારું એકાઉન્ટ બનાવો. તેમાં એક મિનિટ લાગે છે.';
 
   @override
-  String get loginForgotPassword => 'Forgot password?';
+  String get loginForgotPassword => 'પાસવર્ડ ભૂલી ગયા?';
 
   @override
-  String get loginInvalidCredentials => 'Wrong username or password.';
+  String get loginInvalidCredentials => 'યુઝરનેમ અથવા પાસવર્ડ ખોટો છે.';
 
   @override
-  String get licenseTitle => 'Licence';
+  String get licenseTitle => 'લાઇસન્સ';
 
   @override
-  String get licensePlanSixMonths => '6 months';
+  String get licensePlanSixMonths => '6 મહિના';
 
   @override
-  String get licensePlanOneYear => '1 year';
+  String get licensePlanOneYear => '1 વર્ષ';
 
   @override
-  String get licensePlanLifetime => 'Lifetime';
+  String get licensePlanLifetime => 'લાઇફટાઇમ';
 
   @override
-  String get licensePlanSixMonthsHelp => 'Try it for a season.';
+  String get licensePlanSixMonthsHelp => 'એક સીઝન માટે અજમાવો.';
 
   @override
-  String get licensePlanOneYearHelp => 'Best for most shops.';
+  String get licensePlanOneYearHelp => 'મોટા ભાગની દુકાનો માટે શ્રેષ્ઠ.';
 
   @override
-  String get licensePlanLifetimeHelp => 'Pay once, use for good.';
+  String get licensePlanLifetimeHelp => 'એક વાર ચુકવણી, કાયમ ઉપયોગ.';
 
   @override
   String get licenseActivated =>
-      'Licence activated. Thank you for supporting CrizaVoise!';
+      'લાઇસન્સ ચાલુ થયું. CrizaVoise ને સાથ આપવા બદલ આભાર!';
 
   @override
   String get licenseErrorInvalid =>
-      'This key isn\'t valid. Check that you copied all of it, starting with CV1.';
+      'આ કી માન્ય નથી. ખાતરી કરો કે તમે CV1 થી શરૂ થતી આખી કી કૉપી કરી છે.';
 
   @override
   String get licenseErrorOtherDevice =>
-      'This key is for a different computer. Send us the device code shown above.';
+      'આ કી બીજા કમ્પ્યુટર માટે છે. ઉપર બતાવેલો ડિવાઇસ કોડ અમને મોકલો.';
 
   @override
   String get licenseErrorExpired =>
-      'This key has already expired. Contact us to renew.';
+      'આ કીની મુદત પહેલેથી પૂરી થઈ ગઈ છે. રિન્યૂ કરવા અમારો સંપર્ક કરો.';
 
   @override
-  String get licenseRemove => 'Remove licence from this computer';
+  String get licenseRemove => 'આ કમ્પ્યુટર પરથી લાઇસન્સ દૂર કરો';
 
   @override
   String get licenseRemoveConfirm =>
-      'Remove the licence from this computer? Your data isn\'t touched, and you can enter the same key again later.';
+      'આ કમ્પ્યુટર પરથી લાઇસન્સ દૂર કરવું છે? તમારો ડેટા બદલાશે નહીં, અને પછીથી આ જ કી ફરી દાખલ કરી શકો છો.';
 
   @override
   String get licenseClockWrong =>
-      'Your computer\'s date looks earlier than before. Please set the correct date and time.';
+      'તમારા કમ્પ્યુટરની તારીખ પહેલાં કરતાં પાછળ લાગે છે. કૃપા કરીને સાચી તારીખ અને સમય સેટ કરો.';
 
   @override
-  String get licenseDeviceCodeLabel => 'This computer\'s device code';
+  String get licenseDeviceCodeLabel => 'આ કમ્પ્યુટરનો ડિવાઇસ કોડ';
 
   @override
   String get licenseDeviceCodeHelp =>
-      'Send this code when you buy or renew. A licence works on this computer.';
+      'ખરીદતી કે રિન્યૂ કરતી વખતે આ કોડ મોકલો. લાઇસન્સ આ જ કમ્પ્યુટર પર ચાલે છે.';
 
   @override
-  String get licenseDeviceCodeCopied => 'Device code copied.';
+  String get licenseDeviceCodeCopied => 'ડિવાઇસ કોડ કૉપી થયો.';
 
   @override
-  String get licensePlansTitle => 'Plans';
+  String get licensePlansTitle => 'પ્લાન';
 
   @override
   String get licensePlansHelp =>
-      'Every plan includes everything in CrizaVoise.';
+      'દરેક પ્લાનમાં CrizaVoise ની બધી સુવિધાઓ શામેલ છે.';
 
   @override
-  String get licenseEnterKeyTitle => 'Enter licence key';
+  String get licenseEnterKeyTitle => 'લાઇસન્સ કી દાખલ કરો';
 
   @override
-  String get licenseEnterKeyLabel => 'Licence key';
+  String get licenseEnterKeyLabel => 'લાઇસન્સ કી';
 
   @override
   String get licenseEnterKeyHint =>
-      'Paste the key you received (it starts with CV1.)';
+      'તમને મળેલી કી પેસ્ટ કરો (તે CV1. થી શરૂ થાય છે)';
 
   @override
-  String get licenseActivate => 'Activate';
+  String get licenseActivate => 'ચાલુ કરો';
 
   @override
-  String get licenseBuy => 'Buy or renew';
+  String get licenseBuy => 'ખરીદો અથવા રિન્યૂ કરો';
 
   @override
   String licenseNoMailApp(String email) {
-    return 'No email app found. Write to $email with your device code.';
+    return 'કોઈ ઇમેઇલ એપ મળી નથી. તમારા ડિવાઇસ કોડ સાથે $email પર લખો.';
   }
 
   @override
@@ -6480,56 +6476,57 @@ class AppLocalizationsGu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: 'Free trial: $days days left',
-      one: 'Free trial: 1 day left',
+      other: 'મફત ટ્રાયલ: $days દિવસ બાકી',
+      one: 'મફત ટ્રાયલ: 1 દિવસ બાકી',
     );
     return '$_temp0';
   }
 
   @override
   String get licenseTrialBody =>
-      'Everything is unlocked during the 30-day trial. When it ends your data stays safe: you can still view, print, export and back up. Creating new documents then needs a licence.';
+      '30 દિવસના ટ્રાયલમાં બધું ખુલ્લું છે. તે પૂરું થાય ત્યારે તમારો ડેટા સુરક્ષિત રહે છે: તમે જોઈ, પ્રિન્ટ, એક્સપોર્ટ અને બેકઅપ કરી શકો છો. નવા દસ્તાવેજ બનાવવા માટે ત્યારે લાઇસન્સ જોઈશે.';
 
   @override
-  String get licenseStatusTrialEnded => 'Your free trial has ended';
+  String get licenseStatusTrialEnded => 'તમારો મફત ટ્રાયલ પૂરો થયો છે';
 
   @override
   String get licenseEndedBody =>
-      'Your data is safe. You can still view, print, share, export and back up everything. To create and save documents, activate a licence.';
+      'તમારો ડેટા સુરક્ષિત છે. તમે બધું જોઈ, પ્રિન્ટ, શેર, એક્સપોર્ટ અને બેકઅપ કરી શકો છો. દસ્તાવેજ બનાવવા અને સાચવવા માટે લાઇસન્સ ચાલુ કરો.';
 
   @override
-  String get licenseStatusLicensed => 'Licensed';
+  String get licenseStatusLicensed => 'લાઇસન્સ ચાલુ છે';
 
   @override
-  String get licenseNeverExpires => 'Lifetime licence: it never expires.';
+  String get licenseNeverExpires =>
+      'લાઇફટાઇમ લાઇસન્સ: તેની મુદત ક્યારેય પૂરી થતી નથી.';
 
   @override
   String licenseValidUntil(String date) {
-    return 'Valid until $date.';
+    return '$date સુધી માન્ય.';
   }
 
   @override
-  String get licenseStatusExpired => 'Your licence has expired';
+  String get licenseStatusExpired => 'તમારા લાઇસન્સની મુદત પૂરી થઈ ગઈ છે';
 
   @override
-  String get licenseLicensedTo => 'Licensed to';
+  String get licenseLicensedTo => 'લાઇસન્સધારક';
 
   @override
-  String get licensePlanLabel => 'Plan';
+  String get licensePlanLabel => 'પ્લાન';
 
   @override
-  String get licenseNumberLabel => 'Licence number';
+  String get licenseNumberLabel => 'લાઇસન્સ નંબર';
 
   @override
-  String get licenseIssuedLabel => 'Issued';
+  String get licenseIssuedLabel => 'જારી થયું';
 
   @override
   String licenseBannerTrial(int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days days left in your free trial.',
-      one: '1 day left in your free trial.',
+      other: 'તમારા મફત ટ્રાયલમાં $days દિવસ બાકી છે.',
+      one: 'તમારા મફત ટ્રાયલમાં 1 દિવસ બાકી છે.',
     );
     return '$_temp0';
   }
@@ -6539,25 +6536,25 @@ class AppLocalizationsGu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: 'Your licence ends in $days days.',
-      one: 'Your licence ends tomorrow.',
+      other: 'તમારું લાઇસન્સ $days દિવસમાં પૂરું થશે.',
+      one: 'તમારું લાઇસન્સ કાલે પૂરું થશે.',
     );
     return '$_temp0';
   }
 
   @override
   String get licenseBannerEnded =>
-      'View-only: you can still view, print and export. Activate a licence to create new documents.';
+      'ફક્ત જોવા માટે: તમે જોઈ, પ્રિન્ટ અને એક્સપોર્ટ કરી શકો છો. નવા દસ્તાવેજ બનાવવા લાઇસન્સ ચાલુ કરો.';
 
   @override
-  String get licenseGateTitle => 'Activate CrizaVoise to save';
+  String get licenseGateTitle => 'સાચવવા માટે CrizaVoise ચાલુ કરો';
 
   @override
   String get licenseGateBody =>
-      'Your free trial or licence has ended. Your data is safe, and you can still view, print, export and back up. To save documents, activate a licence.';
+      'તમારો મફત ટ્રાયલ અથવા લાઇસન્સ પૂરું થયું છે. તમારો ડેટા સુરક્ષિત છે, અને તમે જોઈ, પ્રિન્ટ, એક્સપોર્ટ અને બેકઅપ કરી શકો છો. દસ્તાવેજ સાચવવા લાઇસન્સ ચાલુ કરો.';
 
   @override
-  String get licenseGateAction => 'Activate licence';
+  String get licenseGateAction => 'લાઇસન્સ ચાલુ કરો';
 
   @override
   String get quickActionNewInvoice => 'નવું ઇન્વૉઇસ';
@@ -6612,57 +6609,57 @@ class AppLocalizationsGu extends AppLocalizations {
   String get paymentReminderCopied => 'સંદેશ કૉપી થયો. તેને SMS માં પેસ્ટ કરો.';
 
   @override
-  String get numberPadDelete => 'Delete';
+  String get numberPadDelete => 'ભૂંસો';
 
   @override
   String get pinTitle => 'ઝડપી સાઇન-ઇન PIN';
 
   @override
   String get pinOnHelp =>
-      'On: tap your picture on the sign-in screen and enter your PIN.';
+      'ચાલુ: સાઇન-ઇન સ્ક્રીન પર તમારા ફોટો પર ટૅપ કરો અને PIN દાખલ કરો.';
 
   @override
   String get pinOffHelp =>
-      'Sign in faster with a 4–6 digit PIN instead of typing your password.';
+      'પાસવર્ડ લખવાને બદલે 4–6 અંકના PIN થી ઝડપથી સાઇન ઇન કરો.';
 
   @override
   String get pinSet => 'PIN સેટ કરો';
 
   @override
-  String get pinChange => 'Change';
+  String get pinChange => 'બદલો';
 
   @override
-  String get pinRemove => 'Remove';
+  String get pinRemove => 'દૂર કરો';
 
   @override
   String get pinSaved =>
-      'PIN saved. Next time, tap your picture on the sign-in screen.';
+      'PIN સાચવાયો. હવે પછી સાઇન-ઇન સ્ક્રીન પર તમારા ફોટો પર ટૅપ કરો.';
 
   @override
-  String get pinRemoved => 'PIN removed.';
+  String get pinRemoved => 'PIN દૂર કર્યો.';
 
   @override
-  String get pinSetTitle => 'Set your PIN';
+  String get pinSetTitle => 'તમારો PIN સેટ કરો';
 
   @override
   String get pinSetPasswordPrompt =>
-      'First, type your password to confirm it\'s you.';
+      'પહેલાં, તે તમે જ છો તેની ખાતરી માટે તમારો પાસવર્ડ લખો.';
 
   @override
-  String get pinSetChoose => 'Choose a 4–6 digit PIN.';
+  String get pinSetChoose => '4–6 અંકનો PIN પસંદ કરો.';
 
   @override
-  String get pinSetConfirm => 'Enter the same PIN again.';
+  String get pinSetConfirm => 'એ જ PIN ફરીથી દાખલ કરો.';
 
   @override
   String get pinTooSimple =>
-      'That PIN is too easy to guess. Avoid 1111 or 1234.';
+      'આ PIN ધારવો બહુ સહેલો છે. 1111 કે 1234 જેવા PIN ટાળો.';
 
   @override
-  String get pinMismatch => 'The PINs didn\'t match. Please choose again.';
+  String get pinMismatch => 'PIN મેળ ખાતા નથી. કૃપા કરીને ફરી પસંદ કરો.';
 
   @override
-  String get pinPasswordWrong => 'That password isn\'t right.';
+  String get pinPasswordWrong => 'આ પાસવર્ડ સાચો નથી.';
 
   @override
   String get pinEnterPrompt => 'તમારો PIN દાખલ કરો';
@@ -6672,15 +6669,15 @@ class AppLocalizationsGu extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       left,
       locale: localeName,
-      other: 'Wrong PIN. $left tries left.',
-      one: 'Wrong PIN. 1 try left.',
+      other: 'ખોટો PIN. $left પ્રયાસ બાકી.',
+      one: 'ખોટો PIN. 1 પ્રયાસ બાકી.',
     );
     return '$_temp0';
   }
 
   @override
   String get pinLocked =>
-      'Too many wrong PINs. Sign in with your password once to unlock the PIN.';
+      'ઘણી વાર ખોટો PIN દાખલ થયો. PIN ફરી ચાલુ કરવા એક વાર પાસવર્ડથી સાઇન ઇન કરો.';
 
   @override
   String get pinUsePassword => 'પાસવર્ડથી સાઇન ઇન કરો';
@@ -6690,7 +6687,7 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String pinSignInAs(String name) {
-    return 'Sign in as $name with PIN';
+    return '$name તરીકે PIN થી સાઇન ઇન કરો';
   }
 
   @override
@@ -6700,17 +6697,17 @@ class AppLocalizationsGu extends AppLocalizations {
   String get myAccountTitle => 'મારું એકાઉન્ટ';
 
   @override
-  String get myAccountChangePassword => 'Change password';
+  String get myAccountChangePassword => 'પાસવર્ડ બદલો';
 
   @override
-  String get myAccountNewRecoveryCode => 'New recovery code';
+  String get myAccountNewRecoveryCode => 'નવો રિકવરી કોડ';
 
   @override
   String get myAccountNewRecoveryCodeHelp =>
-      'Lost your code? Make a new one; the old one stops working.';
+      'કોડ ખોવાઈ ગયો? નવો બનાવો; જૂનો કામ કરવાનું બંધ કરશે.';
 
   @override
-  String get myAccountConfirmPassword => 'Confirm your password';
+  String get myAccountConfirmPassword => 'તમારો પાસવર્ડ ખાતરી કરો';
 
   @override
   String get productPhotoLabel => 'ઉત્પાદનનો ફોટો';
@@ -6726,13 +6723,12 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get productPhotoHint =>
-      'Optional. Helps staff pick the right item. Any photo works; it\'s resized automatically (best: square, 400 × 400 px or larger).';
+      'વૈકલ્પિક. સ્ટાફને સાચી વસ્તુ પસંદ કરવામાં મદદ કરે છે. કોઈપણ ફોટો ચાલશે; તેની સાઇઝ જાતે ગોઠવાઈ જાય છે (શ્રેષ્ઠ: ચોરસ, 400 × 400 px અથવા મોટો).';
 
   @override
-  String get licenseStatusRevoked =>
-      'This licence is no longer active on this computer';
+  String get licenseStatusRevoked => 'આ લાઇસન્સ હવે આ કમ્પ્યુટર પર ચાલુ નથી';
 
   @override
   String get licenseRevokedBody =>
-      'Criza Labs records show this licence was moved to another computer or cancelled. Your data is safe and you can still view, print, export and back up. Contact us if this is a mistake.';
+      'Criza Labs ના રેકોર્ડ મુજબ આ લાઇસન્સ બીજા કમ્પ્યુટર પર ખસેડાયું છે અથવા રદ થયું છે. તમારો ડેટા સુરક્ષિત છે અને તમે જોઈ, પ્રિન્ટ, એક્સપોર્ટ અને બેકઅપ કરી શકો છો. જો આ ભૂલ હોય તો અમારો સંપર્ક કરો.';
 }
