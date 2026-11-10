@@ -31,7 +31,7 @@ Get the latest version from **[Releases](https://github.com/CRIZA-LABS/crizavois
 
 | Platform | File |
 |---|---|
-| Windows 10 / 11 | `crizavoise-<version>-windows-setup.exe` |
+| Windows 10 / 11 | `CrizaVoise-Setup-<version>.exe` |
 | Ubuntu / Debian | `.deb` for Ubuntu 22.04 or 24.04 |
 | Any Linux | AppImage |
 | macOS | `crizavoise-<version>-macos.dmg` |

@@ -47,39 +47,29 @@ jobs:
           sed -i "s|__IS_TEST_BUILD__|$IS_TEST_BUILD|g" lib/common/constants.dart
           sed -i "s|__BUILD_TIMESTAMP__|$(date +%s)|g" lib/common/constants.dart
 
-      - name: Install FastForge
-        run: dart pub global activate fastforge
-
       - name: Flutter Pub Get
         run: flutter pub get
 
-      #      - name: Build Flutter Windows Release
-      #        run: flutter build windows --release
-      #        env:
-      #          CMAKE_GENERATOR: "Visual Studio 17 2022"
+      - name: Build Flutter Windows Release
+        run: flutter build windows --release
 
-      - name: Build Windows Installer with FastForge
-        run: fastforge package --platform windows --targets exe
-        env:
-          CMAKE_GENERATOR: "Visual Studio 17 2022"
-
-      - name: Verify installer exists
+      # The same installer.iss as local builds: one AppId, per-user install,
+      # VC++ runtime included, data kept on uninstall.
+      - name: Build Windows Installer (Inno Setup)
         shell: bash
         run: |
-          count=$(find dist -name "crizavoise-*-windows-setup.exe" | wc -l)
-          if [ "$count" -eq 0 ]; then
-            echo "ERROR: No installer found in dist/"
-            find dist -type f
-            exit 1
-          fi
-          echo "Found installer(s):"
-          find dist -name "crizavoise-*-windows-setup.exe"
+          VERSION="${GITHUB_REF#refs/tags/}"; VERSION="${VERSION#test-v}"; VERSION="${VERSION#v}"
+          ISCC="/c/Program Files (x86)/Inno Setup 6/ISCC.exe"
+          if [ ! -f "$ISCC" ]; then choco install innosetup -y --no-progress; fi
+          "$ISCC" //Q "//DAppVersion=$VERSION" installer.iss
+          ls -la dist/
+          test -f "dist/CrizaVoise-Setup-$VERSION.exe"
 
       - name: Upload Windows Installer
         uses: actions/upload-artifact@v4
         with:
           name: CrizaVoise-Windows-Installer
-          path: dist/*/crizavoise-*-windows-setup.exe
+          path: dist/CrizaVoise-Setup-*.exe
 
   # ─────────────────────────────────────────────────────────────
   # Linux — build .deb package
@@ -702,7 +692,7 @@ jobs:
             **CrizaVoise by Criza Labs**: free, open-source, offline invoicing and billing for small businesses. https://criza.dev
 
             ### Downloads
-            - **Windows:** `crizavoise-*-windows-setup.exe`
+            - **Windows:** `CrizaVoise-Setup-*.exe`
             - **Linux:** `.deb` for Ubuntu 22.04 / 24.04, or the AppImage
             - **macOS:** `crizavoise-*-macos.dmg`
 

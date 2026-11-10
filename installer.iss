@@ -9,7 +9,10 @@
 ; %APPDATA%\Criza Labs\CrizaVoise.
 
 #define AppName "CrizaVoise"
-#define AppVersion "1.0.0"
+; CI passes the tag's version: ISCC /DAppVersion=1.2.3 installer.iss
+#ifndef AppVersion
+  #define AppVersion "1.0.0"
+#endif
 #define AppExe "crizavoise.exe"
 #define BuildDir "build\windows\x64\runner\Release"
 
