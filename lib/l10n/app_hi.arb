@@ -1575,5 +1575,14 @@
   "quickActionNewReceipt": "नई रसीद",
   "quickActionInvoices": "इनवॉइस खोजें",
   "quickActionCustomers": "ग्राहक",
-  "quickActionProducts": "उत्पाद और स्टॉक"
+  "quickActionProducts": "उत्पाद और स्टॉक",
+  "paymentReminderAction": "भुगतान रिमाइंडर भेजें",
+  "paymentReminderTitle": "भुगतान रिमाइंडर",
+  "paymentReminderHelp": "संदेश जाँचें, फिर WhatsApp पर भेजें या SMS के लिए कॉपी करें।",
+  "paymentReminderMessage": "नमस्ते {customer}, {company} की ओर से याद दिलाना: इनवॉइस {number} के {amount} अभी बाकी हैं।",
+  "paymentReminderDue": "भुगतान की तारीख {date} थी।",
+  "paymentReminderThanks": "अगर आप भुगतान कर चुके हैं तो कृपया इसे अनदेखा करें। धन्यवाद!",
+  "paymentReminderSendWhatsApp": "WhatsApp पर भेजें",
+  "paymentReminderCopy": "SMS के लिए कॉपी करें",
+  "paymentReminderCopied": "संदेश कॉपी हो गया। इसे SMS में पेस्ट करें।"
 }

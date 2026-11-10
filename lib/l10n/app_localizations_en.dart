@@ -6578,4 +6578,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quickActionProducts => 'Products & stock';
+
+  @override
+  String get paymentReminderAction => 'Send payment reminder';
+
+  @override
+  String get paymentReminderTitle => 'Payment reminder';
+
+  @override
+  String get paymentReminderHelp =>
+      'Check the message, then send it on WhatsApp or copy it for an SMS.';
+
+  @override
+  String paymentReminderMessage(
+      String customer, String company, String number, String amount) {
+    return 'Hello $customer, a friendly reminder from $company: invoice $number has $amount still to pay.';
+  }
+
+  @override
+  String paymentReminderDue(String date) {
+    return 'It was due on $date.';
+  }
+
+  @override
+  String get paymentReminderThanks =>
+      'Please ignore this if you\'ve already paid. Thank you!';
+
+  @override
+  String get paymentReminderSendWhatsApp => 'Send on WhatsApp';
+
+  @override
+  String get paymentReminderCopy => 'Copy for SMS';
+
+  @override
+  String get paymentReminderCopied => 'Message copied. Paste it into an SMS.';
 }

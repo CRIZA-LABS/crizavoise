@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show Clipboard, ClipboardData;
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -111,6 +113,95 @@ class WhatsAppShareService {
         content: Text(l10n.whatsAppShareFailed),
       ));
     }
+  }
+}
+
+/// Friendly payment reminder for an unpaid invoice: text only (no PDF), so
+/// it works the same on WhatsApp or as an SMS.
+class PaymentReminder {
+  static bool canRemind(Invoice invoice) =>
+      invoice.type == 'Invoice' && !invoice.isDraft && invoice.outstandingBalance > 0.005;
+
+  static String buildMessage(AppLocalizations l10n, Invoice invoice,
+      {required String companyName,
+      required String numberText,
+      String? dueText,
+      String? upiId}) {
+    final amount = '${invoice.currencySymbol}${AmountFormat.money(invoice.outstandingBalance)}';
+    final lines = [
+      l10n.paymentReminderMessage(invoice.customer.name.trim(), companyName, numberText, amount),
+      if (dueText != null) l10n.paymentReminderDue(dueText),
+      if (upiId != null && upiId.trim().isNotEmpty) l10n.whatsAppMessageUpi(upiId.trim()),
+      l10n.paymentReminderThanks,
+    ];
+    return lines.join('\n');
+  }
+
+  static Future<void> show(BuildContext context, Invoice invoice) async {
+    final l10n = AppLocalizations.of(context)!;
+    final company = await BackendServices.companyInfo.getCompanyInfo();
+    final prefix = await InvoiceNumberService.prefixFor(invoice.type);
+    final dateFmt = await BackendServices.settings.getDateFormat();
+    String? due;
+    if (invoice.dueDate != null) {
+      try {
+        due = DateFormat(dateFmt.key).format(invoice.dueDate!);
+      } catch (_) {
+        due = DateFormat.yMMMd().format(invoice.dueDate!);
+      }
+    }
+    if (!context.mounted) return;
+    final controller = TextEditingController(
+        text: buildMessage(l10n, invoice,
+            companyName: company?.name ?? '',
+            numberText: '$prefix${invoice.invoiceNumber ?? invoice.id}',
+            dueText: due,
+            upiId: invoice.upiId));
+    final phone = WhatsAppShareService.normalizePhone(invoice.customer.phone,
+        currencyCode: invoice.currencyCode);
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        icon: const Icon(Icons.notifications_active_outlined),
+        title: Text(l10n.paymentReminderTitle),
+        content: SizedBox(
+          width: 480,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.paymentReminderHelp),
+              const SizedBox(height: 12),
+              TextField(controller: controller, minLines: 4, maxLines: 8),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(l10n.actionCancel)),
+          OutlinedButton.icon(
+            icon: const Icon(Icons.sms_outlined, size: 18),
+            label: Text(l10n.paymentReminderCopy),
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: controller.text));
+              if (!ctx.mounted) return;
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(l10n.paymentReminderCopied)));
+            },
+          ),
+          FilledButton.icon(
+            icon: const Icon(Icons.chat_outlined, size: 18),
+            label: Text(l10n.paymentReminderSendWhatsApp),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              await launchUrl(WhatsAppShareService.whatsAppUri(phone, controller.text),
+                  mode: LaunchMode.externalApplication);
+            },
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
   }
 }
 

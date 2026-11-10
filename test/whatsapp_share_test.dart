@@ -65,4 +65,39 @@ void main() {
     expect(msg, contains('Sharma General Store'));
     expect(msg, contains('sharma@okhdfc'));
   });
+
+  testWidgets('payment reminder: unpaid invoices only; shows balance and due date', (tester) async {
+    late AppLocalizations l10n;
+    await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Builder(builder: (c) {
+        l10n = AppLocalizations.of(c)!;
+        return const SizedBox();
+      }),
+    ));
+    Invoice make({bool draft = false, String type = 'Invoice'}) => Invoice(
+          id: 'i2',
+          invoiceNumber: '9',
+          customer: Customer(id: 'c', name: 'Ravi', email: '', phone: '', address: '', gstin: ''),
+          items: [
+            InvoiceItem(
+                product: Product(id: 'p', name: 'Tea', description: '', price: 300, stock: 5, hsncode: '', tax_rate: 0),
+                quantity: 1)
+          ],
+          date: DateTime(2026, 11, 1),
+          type: type,
+          isDraft: draft,
+        );
+    expect(PaymentReminder.canRemind(make()), isTrue);
+    expect(PaymentReminder.canRemind(make(draft: true)), isFalse);
+    expect(PaymentReminder.canRemind(make(type: 'Quotation')), isFalse);
+    final msg = PaymentReminder.buildMessage(l10n, make(),
+        companyName: 'Shop', numberText: 'INV-9', dueText: '15/11/2026', upiId: 'shop@upi');
+    expect(msg, contains('300'));
+    expect(msg, contains('INV-9'));
+    expect(msg, contains('15/11/2026'));
+    expect(msg, contains('shop@upi'));
+    expect(msg.split('\n').length, 4);
+  });
 }

@@ -123,5 +123,14 @@
   "quickActionNewReceipt": "નવી રસીદ",
   "quickActionInvoices": "ઇન્વૉઇસ શોધો",
   "quickActionCustomers": "ગ્રાહકો",
-  "quickActionProducts": "ઉત્પાદનો અને સ્ટોક"
+  "quickActionProducts": "ઉત્પાદનો અને સ્ટોક",
+  "paymentReminderAction": "ચુકવણી રિમાઇન્ડર મોકલો",
+  "paymentReminderTitle": "ચુકવણી રિમાઇન્ડર",
+  "paymentReminderHelp": "સંદેશ તપાસો, પછી WhatsApp પર મોકલો અથવા SMS માટે કૉપી કરો.",
+  "paymentReminderMessage": "નમસ્તે {customer}, {company} તરફથી યાદ અપાવીએ છીએ: ઇન્વૉઇસ {number} ના {amount} હજુ બાકી છે.",
+  "paymentReminderDue": "ચુકવણીની તારીખ {date} હતી.",
+  "paymentReminderThanks": "જો તમે ચુકવણી કરી દીધી હોય તો કૃપા કરીને અવગણો. આભાર!",
+  "paymentReminderSendWhatsApp": "WhatsApp પર મોકલો",
+  "paymentReminderCopy": "SMS માટે કૉપી કરો",
+  "paymentReminderCopied": "સંદેશ કૉપી થયો. તેને SMS માં પેસ્ટ કરો."
 }

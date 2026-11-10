@@ -1978,6 +1978,11 @@ class _InvoiceManagementScreenV2State
         PopupMenuItem(
             value: 'read_aloud',
             child: _MenuRow(Icons.volume_up_outlined, l10n.speakReadAloud, CvSwatch.neutral)),
+        if (!isDeclined && PaymentReminder.canRemind(invoice))
+          PopupMenuItem(
+              value: 'remind',
+              child: _MenuRow(Icons.notifications_active_outlined,
+                  l10n.paymentReminderAction, CvSwatch.warning)),
         if (!isDraft && !isDeclined)
           PopupMenuItem(
               value: 'whatsapp',
@@ -2052,6 +2057,8 @@ class _InvoiceManagementScreenV2State
     switch (action) {
       case 'whatsapp':
         WhatsAppShareService.share(context, invoice);
+      case 'remind':
+        PaymentReminder.show(context, invoice);
       case 'read_aloud':
         _readAloud(invoice);
       case 'change_number':

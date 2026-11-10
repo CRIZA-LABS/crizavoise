@@ -11177,6 +11177,61 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Products & stock'**
   String get quickActionProducts;
+
+  /// No description provided for @paymentReminderAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send payment reminder'**
+  String get paymentReminderAction;
+
+  /// No description provided for @paymentReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment reminder'**
+  String get paymentReminderTitle;
+
+  /// No description provided for @paymentReminderHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the message, then send it on WhatsApp or copy it for an SMS.'**
+  String get paymentReminderHelp;
+
+  /// No description provided for @paymentReminderMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello {customer}, a friendly reminder from {company}: invoice {number} has {amount} still to pay.'**
+  String paymentReminderMessage(
+      String customer, String company, String number, String amount);
+
+  /// No description provided for @paymentReminderDue.
+  ///
+  /// In en, this message translates to:
+  /// **'It was due on {date}.'**
+  String paymentReminderDue(String date);
+
+  /// No description provided for @paymentReminderThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'Please ignore this if you\'ve already paid. Thank you!'**
+  String get paymentReminderThanks;
+
+  /// No description provided for @paymentReminderSendWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send on WhatsApp'**
+  String get paymentReminderSendWhatsApp;
+
+  /// No description provided for @paymentReminderCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy for SMS'**
+  String get paymentReminderCopy;
+
+  /// No description provided for @paymentReminderCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Message copied. Paste it into an SMS.'**
+  String get paymentReminderCopied;
 }
 
 class _AppLocalizationsDelegate

@@ -3783,5 +3783,37 @@
   "quickActionNewReceipt": "New receipt",
   "quickActionInvoices": "Find an invoice",
   "quickActionCustomers": "Customers",
-  "quickActionProducts": "Products & stock"
+  "quickActionProducts": "Products & stock",
+  "paymentReminderAction": "Send payment reminder",
+  "paymentReminderTitle": "Payment reminder",
+  "paymentReminderHelp": "Check the message, then send it on WhatsApp or copy it for an SMS.",
+  "paymentReminderMessage": "Hello {customer}, a friendly reminder from {company}: invoice {number} has {amount} still to pay.",
+  "@paymentReminderMessage": {
+    "placeholders": {
+      "customer": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentReminderDue": "It was due on {date}.",
+  "@paymentReminderDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentReminderThanks": "Please ignore this if you've already paid. Thank you!",
+  "paymentReminderSendWhatsApp": "Send on WhatsApp",
+  "paymentReminderCopy": "Copy for SMS",
+  "paymentReminderCopied": "Message copied. Paste it into an SMS."
 }

@@ -6602,4 +6602,39 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get quickActionProducts => 'उत्पाद और स्टॉक';
+
+  @override
+  String get paymentReminderAction => 'भुगतान रिमाइंडर भेजें';
+
+  @override
+  String get paymentReminderTitle => 'भुगतान रिमाइंडर';
+
+  @override
+  String get paymentReminderHelp =>
+      'संदेश जाँचें, फिर WhatsApp पर भेजें या SMS के लिए कॉपी करें।';
+
+  @override
+  String paymentReminderMessage(
+      String customer, String company, String number, String amount) {
+    return 'नमस्ते $customer, $company की ओर से याद दिलाना: इनवॉइस $number के $amount अभी बाकी हैं।';
+  }
+
+  @override
+  String paymentReminderDue(String date) {
+    return 'भुगतान की तारीख $date थी।';
+  }
+
+  @override
+  String get paymentReminderThanks =>
+      'अगर आप भुगतान कर चुके हैं तो कृपया इसे अनदेखा करें। धन्यवाद!';
+
+  @override
+  String get paymentReminderSendWhatsApp => 'WhatsApp पर भेजें';
+
+  @override
+  String get paymentReminderCopy => 'SMS के लिए कॉपी करें';
+
+  @override
+  String get paymentReminderCopied =>
+      'संदेश कॉपी हो गया। इसे SMS में पेस्ट करें।';
 }
