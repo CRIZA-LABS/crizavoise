@@ -1567,5 +1567,7 @@
   "speakInvoiceTotal": "कुल {amount} {currency}।",
   "speakInvoicePaid": "पूरा भुगतान हो गया है।",
   "speakInvoicePartlyPaid": "अभी {amount} बाक़ी है।",
-  "speakInvoiceDue": "भुगतान की तारीख़ {date}।"
+  "speakInvoiceDue": "भुगतान की तारीख़ {date}।",
+  "rupeeSymbolLabel": "नए दस्तावेज़ों पर रुपये का चिह्न",
+  "rupeeSymbolHelp": "पुराने इनवॉइस का चिह्न नहीं बदलता। थर्मल रसीदों पर हमेशा \"Rs.\" छपता है क्योंकि रसीद प्रिंटर में ₹ चिह्न नहीं होता।"
 }

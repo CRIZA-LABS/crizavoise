@@ -6181,4 +6181,11 @@ class AppLocalizationsGu extends AppLocalizations {
   String speakInvoiceDue(String date) {
     return 'ચુકવણીની તારીખ $date.';
   }
+
+  @override
+  String get rupeeSymbolLabel => 'નવા દસ્તાવેજો પર રૂપિયાનું ચિહ્ન';
+
+  @override
+  String get rupeeSymbolHelp =>
+      'જૂના ઇન્વૉઇસનું ચિહ્ન બદલાતું નથી. થર્મલ રસીદ પર હંમેશા \"Rs.\" છપાય છે કારણ કે રસીદ પ્રિન્ટરમાં ₹ ચિહ્ન નથી.';
 }

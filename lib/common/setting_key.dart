@@ -118,6 +118,7 @@ enum SettingKey {
   amountSeparator, // AmountSeparator.key: 'none' | 'international' | 'indian'
   customInvoiceNumberAccess, // who may type invoice numbers: 'off' | 'admins' | 'everyone' (CustomNumberAccess)
   reduceMotion, // 'true' = turn animations down (accessibility)
+  rupeeSymbol, // INR display on new documents: 'rs' ("Rs.", default) | 'symbol' ("₹")
 }
 
 extension SettingKeyExtension on SettingKey {
@@ -269,6 +270,8 @@ extension SettingKeyExtension on SettingKey {
         return 'custom_invoice_number_access';
       case SettingKey.reduceMotion:
         return 'reduce_motion';
+      case SettingKey.rupeeSymbol:
+        return 'rupee_symbol';
       case SettingKey.showDescriptionInPdf:
         return 'show_description_in_pdf';
       case SettingKey.descriptionNewLineInPdf:

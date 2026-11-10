@@ -764,6 +764,10 @@ class _InvoiceSettingsScreenV2State
           ),
         ],
         _buildCurrencyField(),
+        if (_selectedCurrencyCode == 'INR') ...[
+          const SizedBox(height: 12),
+          _RupeeSymbolChoice(),
+        ],
         DropdownButtonFormField<DateFormatOption>(
           isExpanded: true,
           value: _selectedDateFormat,
@@ -2386,6 +2390,52 @@ class _InvoiceSettingsScreenV2State
           ),
         );
       },
+    );
+  }
+}
+
+
+/// "Rs." or "₹" on new invoices (saved immediately). Old documents keep
+/// the symbol they were created with; thermal receipts always print "Rs.".
+class _RupeeSymbolChoice extends ConsumerStatefulWidget {
+  @override
+  ConsumerState<_RupeeSymbolChoice> createState() => _RupeeSymbolChoiceState();
+}
+
+class _RupeeSymbolChoiceState extends ConsumerState<_RupeeSymbolChoice> {
+  String _value = 'rs';
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(settingsRepositoryProvider).getSetting(SettingKey.rupeeSymbol).then((v) {
+      if (mounted && v != null) setState(() => _value = v);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.rupeeSymbolLabel, style: const TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(height: 6),
+        SegmentedButton<String>(
+          segments: const [
+            ButtonSegment(value: 'rs', label: Text('Rs. 1,250')),
+            ButtonSegment(value: 'symbol', label: Text('₹ 1,250')),
+          ],
+          selected: {_value},
+          onSelectionChanged: (v) async {
+            setState(() => _value = v.first);
+            await ref.read(settingsRepositoryProvider).setSetting(SettingKey.rupeeSymbol, v.first);
+          },
+        ),
+        const SizedBox(height: 4),
+        Text(l10n.rupeeSymbolHelp,
+            style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant)),
+      ],
     );
   }
 }

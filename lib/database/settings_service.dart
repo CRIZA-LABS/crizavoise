@@ -117,7 +117,13 @@ class SettingsService {
 
   static Future<CurrencyOption> getCurrency() async {
     final code = await getSetting(SettingKey.currency) ?? 'INR';
-    return SupportedCurrencies.fromCode(code);
+    final c = SupportedCurrencies.fromCode(code);
+    // Rupee: "Rs." (default, prints on every printer) or "₹" (Settings).
+    // Saved documents keep the symbol they were created with.
+    if (c.code == 'INR' && await getSetting(SettingKey.rupeeSymbol) == 'symbol') {
+      return CurrencyOption(code: c.code, symbol: '₹', name: c.name);
+    }
+    return c;
   }
 
   /// Returns the list of saved UPI accounts.

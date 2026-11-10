@@ -123,7 +123,8 @@ class ThermalPrinterService {
     final width = (is58 ? 32 : 48) - margin;
     if(kDebugMode)  print(width);
     final enc = EscPosEncoder(lineChars: is58 ? 32 : 48);
-    final currency = invoice.currencySymbol;
+    // Receipt printers' code pages have no ₹ glyph: print "Rs." instead.
+    final currency = invoice.currencySymbol == '₹' ? 'Rs.' : invoice.currencySymbol;
     final company = settings.company;
 
     final showItemTax =

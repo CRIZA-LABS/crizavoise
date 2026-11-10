@@ -3619,5 +3619,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "rupeeSymbolLabel": "Rupee symbol on new documents",
+  "rupeeSymbolHelp": "Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign."
 }

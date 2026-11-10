@@ -10529,6 +10529,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Due on {date}.'**
   String speakInvoiceDue(String date);
+
+  /// No description provided for @rupeeSymbolLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rupee symbol on new documents'**
+  String get rupeeSymbolLabel;
+
+  /// No description provided for @rupeeSymbolHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign.'**
+  String get rupeeSymbolHelp;
 }
 
 class _AppLocalizationsDelegate

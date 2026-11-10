@@ -6183,4 +6183,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String speakInvoiceDue(String date) {
     return 'Due on $date.';
   }
+
+  @override
+  String get rupeeSymbolLabel => 'Rupee symbol on new documents';
+
+  @override
+  String get rupeeSymbolHelp =>
+      'Existing invoices keep their symbol. Thermal receipts always print \"Rs.\" because receipt printers have no ₹ sign.';
 }

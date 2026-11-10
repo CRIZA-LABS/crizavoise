@@ -6207,4 +6207,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String speakInvoiceDue(String date) {
     return 'भुगतान की तारीख़ $date।';
   }
+
+  @override
+  String get rupeeSymbolLabel => 'नए दस्तावेज़ों पर रुपये का चिह्न';
+
+  @override
+  String get rupeeSymbolHelp =>
+      'पुराने इनवॉइस का चिह्न नहीं बदलता। थर्मल रसीदों पर हमेशा \"Rs.\" छपता है क्योंकि रसीद प्रिंटर में ₹ चिह्न नहीं होता।';
 }

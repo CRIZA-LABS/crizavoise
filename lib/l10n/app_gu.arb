@@ -115,5 +115,7 @@
   "invoiceNumberManualBadge": "હાથથી",
   "invoiceNumberChangeAction": "ઇન્વૉઇસ નંબર બદલો",
   "invoiceNumberIssueDuplicate": "આ નંબર પહેલેથી વપરાયેલો છે. દરેક નંબર અલગ હોવો જોઈએ.",
-  "customNumbersSettingTitle": "પોતાનો ઇન્વૉઇસ નંબર"
+  "customNumbersSettingTitle": "પોતાનો ઇન્વૉઇસ નંબર",
+  "rupeeSymbolLabel": "નવા દસ્તાવેજો પર રૂપિયાનું ચિહ્ન",
+  "rupeeSymbolHelp": "જૂના ઇન્વૉઇસનું ચિહ્ન બદલાતું નથી. થર્મલ રસીદ પર હંમેશા \"Rs.\" છપાય છે કારણ કે રસીદ પ્રિન્ટરમાં ₹ ચિહ્ન નથી."
 }
