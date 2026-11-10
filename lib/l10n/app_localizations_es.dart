@@ -6223,4 +6223,48 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get reduceMotionSubtitle =>
       'Turn animations down to simple fades. Also follows your computer\'s setting.';
+
+  @override
+  String get whatsAppShareAction => 'Share on WhatsApp';
+
+  @override
+  String whatsAppMessage(
+      String customer, String number, String amount, String company) {
+    return 'Hello $customer, here is your invoice $number for $amount from $company. Thank you for your business!';
+  }
+
+  @override
+  String whatsAppMessageUpi(String upiId) {
+    return 'Pay by UPI: $upiId';
+  }
+
+  @override
+  String get whatsAppGuideTitle => 'Send the invoice on WhatsApp';
+
+  @override
+  String get whatsAppStepSaved => 'The PDF is saved and shown in its folder.';
+
+  @override
+  String get whatsAppStepChatOpened =>
+      'WhatsApp opened the customer\'s chat with a message ready.';
+
+  @override
+  String get whatsAppStepPickChat =>
+      'WhatsApp opened — choose the customer (no phone number was saved).';
+
+  @override
+  String get whatsAppStepDrag => 'Drag the PDF from the folder into the chat.';
+
+  @override
+  String get whatsAppStepSend => 'Press Send.';
+
+  @override
+  String get whatsAppShowFile => 'Show PDF again';
+
+  @override
+  String get whatsAppDone => 'Done';
+
+  @override
+  String get whatsAppShareFailed =>
+      'Couldn\'t prepare the invoice for sharing. Please try again.';
 }

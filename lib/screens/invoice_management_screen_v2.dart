@@ -7,6 +7,7 @@ import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/theme/screen_colors.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/whatsapp_share_service.dart';
 import 'package:crizavoise/services/pdf/pdf_service.dart';
 import 'package:crizavoise/database/invoice_number_service.dart';
 import 'package:crizavoise/widgets/invoice_number_dialogs.dart';
@@ -1963,6 +1964,10 @@ class _InvoiceManagementScreenV2State
         const PopupMenuDivider(),
       ],
       if (!_isReturnType)
+        if (!isDraft && !isDeclined)
+          PopupMenuItem(
+              value: 'whatsapp',
+              child: _MenuRow(Icons.chat_outlined, l10n.whatsAppShareAction, CvSwatch.neutral)),
         PopupMenuItem(value: 'duplicate', child: _MenuRow(Icons.copy_all_outlined, l10n.actionDuplicate, CvSwatch.success)),
       if ((widget.filterType == 'Invoice' || widget.filterType == 'Receipt') &&
           !isDeclined &&
@@ -2031,6 +2036,8 @@ class _InvoiceManagementScreenV2State
 
   void _handleRowActionV2(String action, Invoice invoice) {
     switch (action) {
+      case 'whatsapp':
+        WhatsAppShareService.share(context, invoice);
       case 'change_number':
         _changeNumber(invoice);
       case 'view':

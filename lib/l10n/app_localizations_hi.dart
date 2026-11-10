@@ -6130,4 +6130,49 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get reduceMotionSubtitle =>
       'एनिमेशन को साधारण फ़ेड तक कम करें। आपके कंप्यूटर की सेटिंग भी मानी जाती है।';
+
+  @override
+  String get whatsAppShareAction => 'WhatsApp पर भेजें';
+
+  @override
+  String whatsAppMessage(
+      String customer, String number, String amount, String company) {
+    return 'नमस्ते $customer, $company की ओर से आपका इनवॉइस $number, रकम $amount। आपके व्यापार के लिए धन्यवाद!';
+  }
+
+  @override
+  String whatsAppMessageUpi(String upiId) {
+    return 'UPI से भुगतान करें: $upiId';
+  }
+
+  @override
+  String get whatsAppGuideTitle => 'इनवॉइस WhatsApp पर भेजें';
+
+  @override
+  String get whatsAppStepSaved =>
+      'PDF सेव हो गई है और उसका फ़ोल्डर खुल गया है।';
+
+  @override
+  String get whatsAppStepChatOpened =>
+      'WhatsApp में ग्राहक की चैट तैयार संदेश के साथ खुल गई है।';
+
+  @override
+  String get whatsAppStepPickChat =>
+      'WhatsApp खुल गया — ग्राहक चुनें (फ़ोन नंबर सेव नहीं था)।';
+
+  @override
+  String get whatsAppStepDrag => 'फ़ोल्डर से PDF खींचकर चैट में डालें।';
+
+  @override
+  String get whatsAppStepSend => 'भेजें दबाएँ।';
+
+  @override
+  String get whatsAppShowFile => 'PDF फिर दिखाएँ';
+
+  @override
+  String get whatsAppDone => 'हो गया';
+
+  @override
+  String get whatsAppShareFailed =>
+      'इनवॉइस भेजने के लिए तैयार नहीं हो सका। कृपया फिर कोशिश करें।';
 }

@@ -10406,6 +10406,79 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turn animations down to simple fades. Also follows your computer\'s setting.'**
   String get reduceMotionSubtitle;
+
+  /// No description provided for @whatsAppShareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Share on WhatsApp'**
+  String get whatsAppShareAction;
+
+  /// No description provided for @whatsAppMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello {customer}, here is your invoice {number} for {amount} from {company}. Thank you for your business!'**
+  String whatsAppMessage(
+      String customer, String number, String amount, String company);
+
+  /// No description provided for @whatsAppMessageUpi.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay by UPI: {upiId}'**
+  String whatsAppMessageUpi(String upiId);
+
+  /// No description provided for @whatsAppGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send the invoice on WhatsApp'**
+  String get whatsAppGuideTitle;
+
+  /// No description provided for @whatsAppStepSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'The PDF is saved and shown in its folder.'**
+  String get whatsAppStepSaved;
+
+  /// No description provided for @whatsAppStepChatOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp opened the customer\'s chat with a message ready.'**
+  String get whatsAppStepChatOpened;
+
+  /// No description provided for @whatsAppStepPickChat.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp opened — choose the customer (no phone number was saved).'**
+  String get whatsAppStepPickChat;
+
+  /// No description provided for @whatsAppStepDrag.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the PDF from the folder into the chat.'**
+  String get whatsAppStepDrag;
+
+  /// No description provided for @whatsAppStepSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Press Send.'**
+  String get whatsAppStepSend;
+
+  /// No description provided for @whatsAppShowFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Show PDF again'**
+  String get whatsAppShowFile;
+
+  /// No description provided for @whatsAppDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get whatsAppDone;
+
+  /// No description provided for @whatsAppShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t prepare the invoice for sharing. Please try again.'**
+  String get whatsAppShareFailed;
 }
 
 class _AppLocalizationsDelegate

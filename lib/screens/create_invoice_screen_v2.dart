@@ -12,6 +12,7 @@ import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/domain/invoice_calculator.dart';
 import 'package:crizavoise/domain/invoice_totals_calculator.dart';
 import 'package:crizavoise/l10n/app_localizations.dart';
+import 'package:crizavoise/services/whatsapp_share_service.dart';
 import 'package:crizavoise/widgets/quick_code_field.dart';
 import 'package:crizavoise/services/pdf/pdf_service.dart';
 import 'package:crizavoise/database/invoice_number_service.dart';
@@ -7342,7 +7343,7 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                     _buildActionButton(
                       icon: Icons.visibility_outlined,
                       label: AppLocalizations.of(context)!.actionView,
-                      color: CvSwatch.success,
+                      color: CvSwatch.neutral,
                       onPressed: _invoice != null
                           ? () => InvoicePdfServices.showInvoiceDetails(
                               context, _invoice!)
@@ -7374,6 +7375,15 @@ class _CreateInvoiceScreenV2State extends ConsumerState<CreateInvoiceScreenV2> {
                       color: CvSwatch.neutral,
                       onPressed: hasSavedRow && !isDraftRow
                           ? () => InvoicePdfServices.generatePDF(context, _invoice!)
+                          : null,
+                    ),
+                    _buildActionButton(
+                      icon: Icons.chat_outlined,
+                      label: 'WhatsApp',
+                      tooltip: AppLocalizations.of(context)!.whatsAppShareAction,
+                      color: CvSwatch.neutral,
+                      onPressed: hasSavedRow && !isDraftRow
+                          ? () => WhatsAppShareService.share(context, _invoice!)
                           : null,
                     ),
                   ],

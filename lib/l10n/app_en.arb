@@ -3542,5 +3542,40 @@
   "productSearchByCodeHint": "Name, quick code or HSN",
   "navMore": "More",
   "reduceMotionTitle": "Reduce motion",
-  "reduceMotionSubtitle": "Turn animations down to simple fades. Also follows your computer's setting."
+  "reduceMotionSubtitle": "Turn animations down to simple fades. Also follows your computer's setting.",
+  "whatsAppShareAction": "Share on WhatsApp",
+  "whatsAppMessage": "Hello {customer}, here is your invoice {number} for {amount} from {company}. Thank you for your business!",
+  "@whatsAppMessage": {
+    "placeholders": {
+      "customer": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "whatsAppMessageUpi": "Pay by UPI: {upiId}",
+  "@whatsAppMessageUpi": {
+    "placeholders": {
+      "upiId": {
+        "type": "String"
+      }
+    }
+  },
+  "whatsAppGuideTitle": "Send the invoice on WhatsApp",
+  "whatsAppStepSaved": "The PDF is saved and shown in its folder.",
+  "whatsAppStepChatOpened": "WhatsApp opened the customer's chat with a message ready.",
+  "whatsAppStepPickChat": "WhatsApp opened — choose the customer (no phone number was saved).",
+  "whatsAppStepDrag": "Drag the PDF from the folder into the chat.",
+  "whatsAppStepSend": "Press Send.",
+  "whatsAppShowFile": "Show PDF again",
+  "whatsAppDone": "Done",
+  "whatsAppShareFailed": "Couldn't prepare the invoice for sharing. Please try again."
 }

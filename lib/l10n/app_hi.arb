@@ -1547,5 +1547,17 @@
   "productSearchByCodeHint": "नाम, क्विक कोड या HSN",
   "navMore": "और",
   "reduceMotionTitle": "एनिमेशन कम करें",
-  "reduceMotionSubtitle": "एनिमेशन को साधारण फ़ेड तक कम करें। आपके कंप्यूटर की सेटिंग भी मानी जाती है।"
+  "reduceMotionSubtitle": "एनिमेशन को साधारण फ़ेड तक कम करें। आपके कंप्यूटर की सेटिंग भी मानी जाती है।",
+  "whatsAppShareAction": "WhatsApp पर भेजें",
+  "whatsAppMessage": "नमस्ते {customer}, {company} की ओर से आपका इनवॉइस {number}, रकम {amount}। आपके व्यापार के लिए धन्यवाद!",
+  "whatsAppMessageUpi": "UPI से भुगतान करें: {upiId}",
+  "whatsAppGuideTitle": "इनवॉइस WhatsApp पर भेजें",
+  "whatsAppStepSaved": "PDF सेव हो गई है और उसका फ़ोल्डर खुल गया है।",
+  "whatsAppStepChatOpened": "WhatsApp में ग्राहक की चैट तैयार संदेश के साथ खुल गई है।",
+  "whatsAppStepPickChat": "WhatsApp खुल गया — ग्राहक चुनें (फ़ोन नंबर सेव नहीं था)।",
+  "whatsAppStepDrag": "फ़ोल्डर से PDF खींचकर चैट में डालें।",
+  "whatsAppStepSend": "भेजें दबाएँ।",
+  "whatsAppShowFile": "PDF फिर दिखाएँ",
+  "whatsAppDone": "हो गया",
+  "whatsAppShareFailed": "इनवॉइस भेजने के लिए तैयार नहीं हो सका। कृपया फिर कोशिश करें।"
 }
