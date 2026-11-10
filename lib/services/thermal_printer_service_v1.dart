@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:crizavoise/common/app_config.dart';
 import 'package:crizavoise/services/backend_services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_esc_pos_utils/flutter_esc_pos_utils.dart';
+import 'package:crizavoise/services/escpos/esc_pos_encoder.dart';
 import 'package:intl/intl.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/models/invoice.dart';
@@ -122,8 +122,7 @@ class ThermalPrinterService {
     if(kDebugMode) print(margin);
     final width = (is58 ? 32 : 48) - margin;
     if(kDebugMode)  print(width);
-    final profile = await CapabilityProfile.load();
-    final generator = Generator(is58 ? PaperSize.mm58 : PaperSize.mm80, profile,spaceBetweenRows: 1);
+    final enc = EscPosEncoder(lineChars: is58 ? 32 : 48);
     final currency = invoice.currencySymbol;
     final company = settings.company;
 
@@ -132,28 +131,23 @@ class ThermalPrinterService {
     final qtyLabel = invoice.quantityLabel?.isNotEmpty == true
         ? invoice.quantityLabel!
         : 'Qty';
-    List<int> bytes = [];
 
     // ESC/POS only has fixed glyph sizes, so map the company-name size
     // setting onto them; 'medium' keeps the previous double-height default.
     final nameSize = thermalCompanyNameSizeFromKey(settings.thermalCompanyNameSize);
     final headHeight = nameSize == ThermalCompanyNameSize.medium ||
             nameSize == ThermalCompanyNameSize.large
-        ? PosTextSize.size2
-        : PosTextSize.size1;
-    final headWidth = nameSize == ThermalCompanyNameSize.large
-        ? PosTextSize.size2
-        : PosTextSize.size1;
-    final headFont = nameSize == ThermalCompanyNameSize.xsmall
-        ? PosFontType.fontB
-        : PosFontType.fontA;
+        ? 2
+        : 1;
+    final headWidth = nameSize == ThermalCompanyNameSize.large ? 2 : 1;
+    final headFontB = nameSize == ThermalCompanyNameSize.xsmall;
 
-    void line(String text, {PosAlign align = PosAlign.left, bool bold = false,bool isHead = false})
+    void line(String text, {EscAlign align = EscAlign.left, bool bold = false,bool isHead = false})
     {
       if(isHead) {
-        bytes += generator.text(text, styles: PosStyles(align: align, bold: bold,height: headHeight,width: headWidth,fontType: headFont,));
+        enc.text(text, align: align, bold: bold, height: headHeight, width: headWidth, fontB: headFontB);
       } else {
-        bytes += generator.text(text, styles: PosStyles(align: align, bold: bold,));
+        enc.text(text, align: align, bold: bold);
       }
     }
 
@@ -163,25 +157,8 @@ class ThermalPrinterService {
       line(text, bold: bold);
     }
 
-    /*
-    void twoCol2(String left, String right, {bool bold = false}) {
-      bytes += generator.row(
-          [
-        PosColumn(
-          text: left,
-          width: 7,
-          styles: PosStyles(align: PosAlign.left, underline: false, bold: bold,fontType: PosFontType.fontB),
-        ),
-        PosColumn(
-          text: right,
-          width: 5,
-          styles: PosStyles(align: PosAlign.right, underline: false, bold: bold,fontType: PosFontType.fontB),
-        ),
-      ]);
-    }
-    */
 
-    void hr() {bytes+=generator.hr();}
+    void hr() => enc.hr();
 
     //void hr2() => line('-' * width);
 
@@ -198,10 +175,10 @@ class ThermalPrinterService {
 
     // ── Business header ──
     if (settings.showCompanyName && (company?.name ?? '').isNotEmpty) {
-      line(company!.name, align: PosAlign.center, bold: true,isHead: true);
+      line(company!.name, align: EscAlign.center, bold: true,isHead: true);
     }
     if (settings.showAddress && (company?.address ?? '').isNotEmpty) {
-      line(company!.address, align: PosAlign.center);
+      line(company!.address, align: EscAlign.center);
     }
     // Items share a centred line joined by ' | '; whole items wrap onto the
     // next line when they don't fit the paper width.
@@ -209,12 +186,12 @@ class ThermalPrinterService {
       var cur = '';
       for (final item in items) {
         if (cur.isNotEmpty && cur.length + 3 + item.length > width) {
-          line(cur, align: PosAlign.center);
+          line(cur, align: EscAlign.center);
           cur = '';
         }
         cur = cur.isEmpty ? item : '$cur | $item';
       }
-      if (cur.isNotEmpty) line(cur, align: PosAlign.center);
+      if (cur.isNotEmpty) line(cur, align: EscAlign.center);
     }
 
     packedLine([
@@ -236,9 +213,9 @@ class ThermalPrinterService {
         'FSSAI: ${company!.fssaiCode}',
     ]);
     hr();
-    line((invoice.invoiceTitle ?? invoice.type).toUpperCase(), align: PosAlign.center, bold: true);
+    line((invoice.invoiceTitle ?? invoice.type).toUpperCase(), align: EscAlign.center, bold: true);
     if (invoice.status == 'declined') {
-      line('*** DECLINED ***', align: PosAlign.center, bold: true);
+      line('*** DECLINED ***', align: EscAlign.center, bold: true);
     }
     hr();
 
@@ -444,7 +421,7 @@ class ThermalPrinterService {
       final isIndia = (company?.country ?? '').isEmpty ||
           company!.country.toLowerCase() == 'india';
       hr();
-      line('=== TAX SUMMARY ===', align: PosAlign.center, bold: true);
+      line('=== TAX SUMMARY ===', align: EscAlign.center, bold: true);
       twoCol('Taxable Amt:', '$currency ${AmountFormat.money(invoice.subtotal)}');
       if (settings.showCgstSgst && isIndia && invoice.isInterState) {
         twoCol('IGST:', '$currency ${AmountFormat.money(invoice.tax)}');
@@ -485,39 +462,20 @@ class ThermalPrinterService {
     // ── Footer ──
     hr();
     if (settings.thankYouNote.isNotEmpty) {
-      line(settings.thankYouNote, align: PosAlign.center, bold: true);
+      line(settings.thankYouNote, align: EscAlign.center, bold: true);
     }
     if (settings.showFooterBranding) {
-      line(AppConfig.pdfCreditAscii, align: PosAlign.center);
+      line(AppConfig.pdfCreditAscii, align: EscAlign.center);
     }
 
-    // generator.cut() forces 5 blank lines internally before cutting, with
-    // no way to configure that. Reverse-feed 3 lines first to shrink the
-    // net visible gap to ~2 lines. Requires printer support for ESC/POS
-    // reverse feed (most auto-cutter printers have it, but not guaranteed).
-    bytes += generator.reverseFeed(3);
-    bytes += generator.cut();
-    return _stripKanjiCancel(bytes);
+    // cut() feeds 5 lines past the cutter; reverse-feed 3 first to shrink
+    // the visible gap to ~2 lines (needs ESC e support — most auto-cutter
+    // printers have it).
+    enc.reverseFeed(3);
+    enc.cut();
+    return enc.bytes;
   }
 
-  /// The ESC/POS library emits `FS .` (bytes 0x1C 0x2E — "Cancel Kanji
-  /// Character Mode") before every single text call, unconditionally, even
-  /// though we never use Kanji mode. Some printers (e.g. WOOSIM WSP-R241)
-  /// don't recognize 0x1C as a command byte, drop it, and print the
-  /// following 0x2E as a literal '.' — showing up as a stray dot at the
-  /// start of every line. Safe to strip: 0x1C never appears in our own
-  /// text content (it's a non-printable control byte).
-  static List<int> _stripKanjiCancel(List<int> bytes) {
-    final result = <int>[];
-    for (var i = 0; i < bytes.length; i++) {
-      if (bytes[i] == 0x1C && i + 1 < bytes.length && bytes[i + 1] == 0x2E) {
-        i++;
-        continue;
-      }
-      result.add(bytes[i]);
-    }
-    return result;
-  }
 }
 
 class _NetworkPrintRow extends StatefulWidget {

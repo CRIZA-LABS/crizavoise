@@ -12,7 +12,7 @@ import 'package:crizavoise/services/pdf_service.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:crizavoise/widgets/pdf_bytes_viewer.dart';
 import 'package:crizavoise/utils/formatters.dart';
 
 /// Single-page "REFUND VOUCHER" — the money-out mirror of a payment receipt.
@@ -67,12 +67,7 @@ class RefundReceiptService {
                   ],
                 ),
                 Expanded(
-                  child: SfPdfViewer.memory(
-                    bytes,
-                    pageLayoutMode: PdfPageLayoutMode.continuous,
-                    canShowPageLoadingIndicator: false,
-                    canShowScrollStatus: false,
-                  ),
+                  child: PdfBytesViewer(bytes),
                 ),
               ],
             ),

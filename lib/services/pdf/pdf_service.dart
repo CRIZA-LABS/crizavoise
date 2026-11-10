@@ -10,7 +10,7 @@ import 'package:open_file/open_file.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:crizavoise/widgets/pdf_bytes_viewer.dart';
 import 'package:crizavoise/common/common.dart';
 import 'package:crizavoise/common/constants.dart';
 import 'package:crizavoise/models/company_info.dart';
@@ -880,12 +880,7 @@ class PDFService {
                 ],
               ),
               Expanded(
-                child: SfPdfViewer.memory(
-                  pdfBytes,
-                  pageLayoutMode: PdfPageLayoutMode.continuous,
-                  canShowPageLoadingIndicator: false,
-                  canShowScrollStatus: false,
-                ),
+                child: PdfBytesViewer(pdfBytes),
               ),
             ],
           ),
