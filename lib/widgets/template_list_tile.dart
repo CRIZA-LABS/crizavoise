@@ -15,11 +15,9 @@ final templateCatalog = [
   },
   {
     "template": InvoiceTemplate.classic,
-    "image": "assets/templates/classic.png",
   },
   {
     "template": InvoiceTemplate.modern,
-    "image": "assets/templates/modern.png",
   },
   {
     "template": InvoiceTemplate.minimal,

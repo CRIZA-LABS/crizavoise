@@ -15,7 +15,7 @@
 export PATH="/c/flutter/bin:$PATH"     # Flutter SDK lives at C:\flutter
 flutter pub get
 flutter gen-l10n                       # after editing ARB files
-flutter analyze                        # baseline: 58 infos, 0 errors/warnings
+flutter analyze                        # baseline: 37 infos, 0 errors/warnings
 flutter test                           # 474 tests; product_form_test has one known flaky case
 flutter build windows                  # needs Developer Mode ON, Smart App Control OFF, and nuget.exe on PATH (winget install Microsoft.NuGet; required by flutter_tts)
 ISCC.exe installer.iss                 # Windows installer -> dist/CrizaVoise-Setup-1.0.0.exe (Inno Setup 6 in %LOCALAPPDATA%\Programs)

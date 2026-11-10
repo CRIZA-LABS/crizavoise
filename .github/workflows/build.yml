@@ -25,7 +25,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: '3.47.9'
           cache: true
 
       #      - name: Setup Visual Studio Build Tools
@@ -93,7 +93,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: '3.47.9'
           cache: true
 
       - name: Setup build dependencies
@@ -154,7 +154,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: '3.47.9'
           cache: true
 
       - name: Setup build dependencies
@@ -251,7 +251,7 @@ jobs:
 #
 #      - uses: subosito/flutter-action@v2
 #        with:
-#          flutter-version: '3.32.8'
+#          flutter-version: '3.47.9'
 #          cache: true
 #
 #      - name: Setup build dependencies
@@ -331,7 +331,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: '3.47.9'
           cache: true
 
       - name: Setup build dependencies
@@ -445,7 +445,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: '3.47.9'
           cache: true
 
       - name: Setup build dependencies
@@ -559,7 +559,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: '3.47.9'
           cache: true
 
       - name: Set version from tag
