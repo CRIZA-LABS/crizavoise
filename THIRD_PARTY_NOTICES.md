@@ -279,3 +279,7 @@ authorization from the Gnome Foundation or Bitstream Inc., respectively.
 ### LKLUG (Sinhala)
 
 Copyright the LK Linux User Group font authors. Distributed under the license supplied by its authors.
+
+## Dart and Flutter packages
+
+The licenses of all Dart and Flutter packages CrizaVoise uses are shown in the app under **Settings → About → Open-source licenses → Flutter package licenses**. Packages under the Mozilla Public License 2.0 (dbus, nm; Linux builds only) are used unmodified; their source is available from pub.dev.

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:fuzzywuzzy/fuzzywuzzy.dart' show extractAllSorted;
+import 'package:crizavoise/services/help_search/fuzzy_score.dart';
 import 'package:crizavoise/services/faq_service.dart';
 import 'package:crizavoise/services/help_search/searchable_item.dart';
 
@@ -132,7 +132,7 @@ class HelpSearchService {
       }
     }
 
-    final fuzzyResults = extractAllSorted(
+    final fuzzyResults = FuzzyScore.extractAllSorted<_Candidate>(
       query: trimmedQuery,
       choices: candidates,
       cutoff: cutoff,
