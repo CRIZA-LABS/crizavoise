@@ -14,17 +14,21 @@ postinstall_scripts:
 postuninstall_scripts:
   - echo "Removed CrizaVoise"
 
-#keywords:
-#  - Hello
-#  - World
-#  - Test
-#  - Application
+keywords:
+  - invoice
+  - billing
+  - GST
+  - receipt
+  - quotation
+  - POS
+  - inventory
+  - accounting
 
-generic_name: Invoice Application
+generic_name: Invoicing and Billing
 
 categories:
-  - Invoice
-  - Accounting
+  - Office
+  - Finance
 
 startup_notify: true
 # You can also specify [metainfo](https://freedesktop.org/software/appstream/docs/chap-Quickstart.html) file

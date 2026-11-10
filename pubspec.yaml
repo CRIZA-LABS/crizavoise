@@ -1,5 +1,5 @@
 name: crizavoise
-description: "CrizaVoise by Criza Labs â€” simple invoicing and billing for small businesses."
+description: "CrizaVoise by Criza Labs: free, open-source offline invoicing and billing app for small businesses."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 environment:

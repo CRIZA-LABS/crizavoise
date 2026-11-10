@@ -406,7 +406,10 @@ jobs:
           Exec=crizavoise
           Icon=logo
           Type=Application
-          Categories=Office;
+          GenericName=Invoicing and Billing
+          Comment=Free, open-source offline invoicing and billing for small businesses
+          Keywords=invoice;billing;GST;receipt;quotation;POS;inventory;accounting;
+          Categories=Office;Finance;
           Terminal=false
           EOF
 
@@ -520,7 +523,10 @@ jobs:
           Exec=crizavoise
           Icon=logo
           Type=Application
-          Categories=Office;
+          GenericName=Invoicing and Billing
+          Comment=Free, open-source offline invoicing and billing for small businesses
+          Keywords=invoice;billing;GST;receipt;quotation;POS;inventory;accounting;
+          Categories=Office;Finance;
           Terminal=false
           EOF
 

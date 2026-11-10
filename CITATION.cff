@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use or build on CrizaVoise, please credit it as below: \"Based on CrizaVoise by Criza Labs (https://criza.dev)\"."
+type: software
+title: "CrizaVoise"
+abstract: "Free, open-source offline invoicing and billing desktop app for small businesses (Windows, Linux, macOS), with GST-ready invoices, thermal receipts, stock and payment tracking. Built with Flutter by Criza Labs."
+authors:
+  - name: "Criza Labs"
+    website: "https://criza.dev"
+  - given-names: "AbrarAli"
+    family-names: "S"
+version: "1.0.0"
+date-released: "2026-11-10"
+license: Apache-2.0
+url: "https://criza.dev"
+repository-code: "https://github.com/CRIZA-LABS/crizavoise"
+keywords:
+  - invoicing
+  - billing software
+  - invoice generator
+  - GST invoice
+  - point of sale
+  - thermal receipt printer
+  - inventory management
+  - small business
+  - offline-first
+  - Flutter desktop
