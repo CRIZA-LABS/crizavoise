@@ -647,7 +647,6 @@ class _InvoiceSettingsScreenV2State
                 if (!mounted) return;
                 onChanged(val);
               },
-        activeColor: Theme.of(context).primaryColor,
       ),
     );
   }

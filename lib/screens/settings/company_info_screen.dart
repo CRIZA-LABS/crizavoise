@@ -827,7 +827,6 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                             value: _showUpiQr,
                             onChanged: (val) =>
                                 setState(() => _showUpiQr = val),
-                            activeColor: primaryColor,
                             secondary: Icon(
                               Icons.payment_rounded,
                               color: _showUpiQr
@@ -956,7 +955,6 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
                             value: _showBankDetails,
                             onChanged: (val) =>
                                 setState(() => _showBankDetails = val),
-                            activeColor: primaryColor,
                             secondary: Icon(
                               Icons.account_balance_outlined,
                               color: _showBankDetails
@@ -1471,7 +1469,6 @@ class _CompanyInfoScreenState extends ConsumerState<CompanyInfoScreen> {
         child: Switch(
           value: value,
           onChanged: onChanged,
-          activeColor: Theme.of(context).primaryColor,
         ),
       ),
     );

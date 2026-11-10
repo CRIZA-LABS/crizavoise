@@ -1458,7 +1458,6 @@ class _InvoiceManagementScreenV2State
                       title: Text(AppLocalizations.of(context)!.invoiceMgmtHideFullyPaidLabel),
                       value: tempHidePaid,
                       onChanged: (v) => setDialogState(() => tempHidePaid = v),
-                      activeColor: Theme.of(dialogContext).primaryColor,
                     ),
                     if (widget.filterType == 'Invoice')
                       SwitchListTile(
@@ -1466,7 +1465,6 @@ class _InvoiceManagementScreenV2State
                         title: Text(AppLocalizations.of(context)!.invoiceMgmtHideDeclinedLabel),
                         value: tempHideDeclined,
                         onChanged: (v) => setDialogState(() => tempHideDeclined = v),
-                        activeColor: Theme.of(dialogContext).primaryColor,
                       ),
                     const SizedBox(height: 8),
                     Text(AppLocalizations.of(context)!.invoiceMgmtPaymentStatusLabel,

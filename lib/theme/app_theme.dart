@@ -227,11 +227,33 @@ class AppTheme {
         textStyle: text.bodySmall?.copyWith(color: p.background),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: p.primary),
+      // Toggles: clearly ON (solid Stamp track, contrasting thumb + check
+      // icon) vs OFF (muted track with an outline) in both themes. Screens
+      // must not override these colours.
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith((s) =>
-            s.contains(WidgetState.selected) ? p.onPrimary : p.textMuted),
-        trackColor: WidgetStateProperty.resolveWith((s) =>
-            s.contains(WidgetState.selected) ? p.primary : p.surface3),
+        thumbColor: WidgetStateProperty.resolveWith((s) {
+          if (s.contains(WidgetState.disabled)) return p.borderStrong;
+          return s.contains(WidgetState.selected) ? p.onPrimary : p.textMuted;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((s) {
+          if (s.contains(WidgetState.disabled)) return p.surface3;
+          return s.contains(WidgetState.selected) ? p.primary : p.surface3;
+        }),
+        trackOutlineColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected) ? p.primary : p.borderStrong),
+        thumbIcon: WidgetStateProperty.resolveWith((s) => s.contains(WidgetState.selected)
+            ? Icon(Icons.check, size: 14, color: p.primary)
+            : null),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected) ? p.primary : Colors.transparent),
+        checkColor: WidgetStatePropertyAll(p.onPrimary),
+        side: BorderSide(color: p.borderStrong, width: 1.5),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected) ? p.primary : p.borderStrong),
       ),
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
         TargetPlatform.windows: CvPageTransitionsBuilder(),

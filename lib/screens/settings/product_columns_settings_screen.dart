@@ -78,7 +78,6 @@ class _ProductColumnsSettingsScreenState
         ),
         value: value,
         onChanged: onChanged,
-        activeColor: Theme.of(context).primaryColor,
       ),
     );
   }
@@ -95,7 +94,6 @@ class _ProductColumnsSettingsScreenState
         title: Text(title, style: const TextStyle(fontSize: AppFontSize.small)),
         value: value,
         onChanged: onChanged,
-        activeColor: Theme.of(context).primaryColor,
         controlAffinity: ListTileControlAffinity.leading,
       ),
     );
